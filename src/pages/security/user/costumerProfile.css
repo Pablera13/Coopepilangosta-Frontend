@@ -1,0 +1,41 @@
+
+.Card {
+    margin-bottom: 20px;
+    border: none;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.list-group-item {
+    border: none;
+}
+
+ul.list-group-flush {
+    padding: 0;
+}
+
+.Card.Title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.Card.Text {
+    font-size: 1rem;
+}
+
+.Card.Header {
+    background-color: #f8f9fa;
+    border: none;
+    font-weight: bold;
+}
+
+.Card.Body {
+    margin: 10px 0;
+}
+
+.Button {
+    margin-left: 10px;
+}
+
+.text-center {
+    text-align: center;
+}

@@ -1,0 +1,54 @@
+.cards-order-producer{
+    justify-content: space-between;
+}
+.cardsinfo,.card-info-title{
+    margin: 10px;
+    font-size: large;
+}
+
+.containerProd{
+    display: grid;
+    padding: 1%;
+    align-items: center;
+    justify-content: center;
+    
+}
+.title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.actions-container{
+    border: 2px;
+    border-color: rgb(219, 219, 219);
+    border-style:  solid;
+    justify-content: center;
+}
+
+.buttonsEntries{
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+
+}
+.btn{
+    padding: 10px;
+}
+
+.button {
+    padding: 10px 20px;
+    background-color: cornflowerblue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .button:hover {
+    background-color: blue;
+  }
+  .button:active {
+    background-color: cornflowerblue;
+  }
