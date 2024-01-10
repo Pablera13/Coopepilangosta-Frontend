@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { Modal, Row, Col, Button, Form } from 'react-bootstrap'
-import { createEmployee } from '../../../../services/employeeService';
-import { createuser } from '../../../../services/userService';
+import { createEmployee, CheckEmployeeCedulaAvailability } from '../../../../services/employeeService';
+import { createuser,checkEmailAvailability } from '../../../../services/userService';
 import { useMutation, useQuery } from 'react-query';
 import { getRoles } from '../../../../services/rolesService';
 import Select from 'react-select';
@@ -76,20 +76,31 @@ export const AddEmployee = () => {
       password: password.current.value,
       idRole: selectedRole.value
     }
-    const createdUser = await addUserMutation.mutateAsync(newUser)
 
-    createdUser != null ? (console.log(createdUser)) : (console.log("E"))
+    let cedulaAvailability = await CheckEmployeeCedulaAvailability(cedula.current.value).then(data => data);
+    let emailAvailability = await checkEmailAvailability(email.current.value).then(data=>data)
 
-    let newEmployee = {
-      cedula: cedula.current.value,
-      name: name.current.value,
-      lastName1: lastName1.current.value,
-      lastName2: lastName2.current.value,
-      department: department.current.value,
-      idUser: createdUser.id
+    if (cedulaAvailability && emailAvailability) {
+      const createdUser = await addUserMutation.mutateAsync(newUser)
+
+      createdUser != null ? (console.log(createdUser)) : (console.log("E"))
+
+      let newEmployee = {
+        cedula: cedula.current.value,
+        name: name.current.value,
+        lastName1: lastName1.current.value,
+        lastName2: lastName2.current.value,
+        department: department.current.value,
+        idUser: createdUser.id
+      }
+
+
+      addEmployeMutation.mutateAsync(newEmployee);
+
+    }else{
+      swal('Advertencia','Ya existe un empleado con este numero de cedula','warning')
     }
-    addEmployeMutation.mutateAsync(newEmployee);
-    console.log(newEmployee)
+
   }
 
   return (

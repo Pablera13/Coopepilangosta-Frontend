@@ -9,9 +9,16 @@ export const getEmployees = async () => {
 export const getEmployeeById = async (id,state) => { 
     let data = await api.get(`employee/${id}`).then(result => result.data);
     state(data)
-    console.log(data)
+    
     return data;
 };
+
+export const CheckEmployeeCedulaAvailability = async (id) => { 
+    let data = await api.get(`employee/CheckEmployeeCedulaAvailability?cedula=${id}`).then(result => result.data);
+    
+    return data;
+};
+
 
 export const createEmployee = async (employee) => { 
     let data = await api.post('employee',employee).then(result => result.data);

@@ -18,6 +18,13 @@ export const getProductById = async(id,state) => {
     return data;
 }
 
+export const checkCodeAvailability = async(id) => {
+    
+    let data = await api.get(`product/CheckCodeAvailability?code=${id}`).then(result => result.data);
+    
+    return data;
+}
+
 export const getProductById2 = async(id) => {
     
     let data = await api.get(`product/${id}`).then(result => result.data);

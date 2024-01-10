@@ -3,7 +3,7 @@ import { QueryClient, useMutation } from 'react-query';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import swal from 'sweetalert';
-import { createWarehouse } from '../../../../services/warehouseService';
+import { createWarehouse,checkWarehouseCodeAvailability } from '../../../../services/warehouseService';
 
 const addWarehouseModal = () => {
     const queryClient = new QueryClient();
@@ -30,7 +30,7 @@ const addWarehouseModal = () => {
       };
 
     const mutation = useMutation('warehouse', createWarehouse, {
-        onSettled: () => queryClient.invalidateQueries('warehouse'),
+        onSettled: () => queryClient.invalidateQueries('Warehouse'),
         mutationKey: 'warehouse',
         onSuccess: () => {
             swal({
@@ -38,11 +38,7 @@ const addWarehouseModal = () => {
                 text: 'Se agregó la bodega',
                 icon: 'success',
             });
-            handleClose()
-
-            setTimeout(function () {
-                window.location.reload();
-            }, 2000)
+            
         },
     });
 
@@ -51,7 +47,8 @@ const addWarehouseModal = () => {
     const address = useRef();
     const state = useRef();
 
-    const saveWarehouse = (event) => {
+    const saveWarehouse = async(event) => {
+        event.preventDefault()
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.preventDefault();
@@ -64,8 +61,23 @@ const addWarehouseModal = () => {
                 address: address.current.value,
                 state: state.current.value,
             };
-            mutation.mutateAsync(newWarehouse);
-            //limpiarInput();
+
+            let codeAvailability = await checkWarehouseCodeAvailability(code.current.value).then(data => data)
+            .finally(
+                setTimeout(() => {
+                window.location.reload()
+            }, 2000));
+
+            
+            if (codeAvailability == true){
+                
+                mutation.mutateAsync(newWarehouse);
+
+            }else{
+                event.preventDefault();
+                swal('Advertencia','Este codigo de bodega se encuentra en uso.','warning')
+            }
+            
         }
     };
 

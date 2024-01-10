@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { QueryClient, useMutation } from 'react-query';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import swal from 'sweetalert';
-import { createProducer } from '../../../../services/producerService';
+import { createProducer,CheckCedulaProducerAvailability } from '../../../../services/producerService';
 
 const addProducerModal = () => {
     const [show, setShow] = useState(false);
@@ -37,11 +37,9 @@ const addProducerModal = () => {
                 text: 'El productor ha sido agregado',
                 icon: 'success',
             });
-            handleClose()
+            
 
-            setTimeout(function () {
-                window.location.reload();
-            }, 2000)
+            
         },
     });
 
@@ -57,8 +55,9 @@ const addProducerModal = () => {
     const address = useRef();
     const bankAccount = useRef();
 
-    const saveProducer = (event) => {
+    const saveProducer = async(event) => {
         const form = event.currentTarget;
+        event.preventDefault();
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
@@ -77,7 +76,17 @@ const addProducerModal = () => {
                 address: address.current.value,
                 bankAccount: bankAccount.current.value,
             };
-            mutation.mutateAsync(newProducer);
+
+            let cedulaAvailability = await CheckCedulaProducerAvailability(cedula.current.value).then(data=>data)
+            console.log(cedulaAvailability)
+            
+            if (cedulaAvailability == true) {              
+                mutation.mutateAsync(newProducer);
+            }else{
+                event.preventDefault()
+                swal('Advertencia','Ya existe un productor con el numero de cedula ingresado.','warning')
+            }
+
         }
     };
 

@@ -7,20 +7,27 @@ const employeeProfile = () => {
   console.log(user)
   return (
     <>
-    <Container className=''>
-      <Card bg='light' text='dark' style={{ width: '18rem' }}>
-        <Card.Body>
-          <Card.Title>Información general</Card.Title>
-          <Card.Text>
-            {user.employee.name + " " + user.employee.lastName1 + " "+user.employee.lastName2}
-          </Card.Text>
-          <ListGroup className="list-group-flush">
-            <ListGroup.Item>Cédula: {user.employee.cedula}</ListGroup.Item>
-            <ListGroup.Item>Correo: {user.email}</ListGroup.Item>
-            <ListGroup.Item>Departamento: {user.employee.department}</ListGroup.Item>
-          </ListGroup>
-        </Card.Body>
-      </Card>
+      <Container className=''>
+        <Row>
+          <Col lg={4}></Col>
+          <Col>
+            <Card bg='light' text='dark' style={{ width: '18rem' }}>
+              <Card.Img variant="top" src="https://icons.veryicon.com/png/o/miscellaneous/two-color-icon-library/user-286.png" />
+              <Card.Body>
+                <Card.Title>Información general</Card.Title>
+                <Card.Text>
+                  {user.employee.name + " " + user.employee.lastName1 + " " + user.employee.lastName2}
+                </Card.Text>
+                <ListGroup className="list-group-flush">
+                  <ListGroup.Item>Cédula: {user.employee.cedula}</ListGroup.Item>
+                  <ListGroup.Item>Correo: {user.email}</ListGroup.Item>
+                  <ListGroup.Item>Departamento: {user.employee.department}</ListGroup.Item>
+                </ListGroup>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+        <Col lg={4}></Col>
       </Container>
     </>
   )

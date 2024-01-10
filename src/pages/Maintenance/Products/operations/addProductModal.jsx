@@ -4,7 +4,7 @@ import { QueryClient, useMutation, useQuery } from 'react-query';
 // import { Container, Row, Col, Button, Form, Modal, InputGroup } from 'react-bootstrap';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 
-import { createProduct } from '../../../../services/productService';
+import { createProduct,checkCodeAvailability } from '../../../../services/productService';
 import { getCategories } from '../../../../services/categoryService';
 import swal from 'sweetalert';
 import './addProductModal.css';
@@ -81,6 +81,9 @@ const addProductModal = () => {
                 window.location.reload();
             }, 2000)
         },
+        onError: ()=>{
+            swal('Error','Algo salio mal...','error')
+        }
     });
 
     const code = useRef();
@@ -92,7 +95,7 @@ const addProductModal = () => {
     const state = useRef();
     const categoryId = useRef();
 
-    const save = (event) => {
+    const save = async(event) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.preventDefault();
@@ -112,8 +115,14 @@ const addProductModal = () => {
                 categoryId: categoryId.current.value,
                 image: imageUrl,
             };
-
-            mutation.mutateAsync(newProduct);
+            let CodeAvailability = await checkCodeAvailability(code.current.value).then(data=>data);
+            console.log(CodeAvailability)
+            if (CodeAvailability == true) {
+                mutation.mutateAsync(newProduct);
+            }else{
+                swal('Advertnecia','El codigo se encuentra en uso, no es posible guardar un registro con el codigo duplicado','warning')
+            }
+            
         }
     };
 

@@ -57,6 +57,7 @@ export const UserProfile = () => {
                 )
             }
             <Row>
+                <Col lg={4}></Col>
                 <Col>
                     <Button onClick={handleLogout} variant='warning'>Cerrar sesión</Button>
                 </Col>

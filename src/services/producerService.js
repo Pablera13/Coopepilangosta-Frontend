@@ -13,6 +13,13 @@ export const getProducerById = async(id,state) => {
     return data;
 }
 
+export const CheckCedulaProducerAvailability = async(id) => {
+    
+    let data = await api.get(`producer/CheckCedulaAvailability?cedula=${id}`).then(result => result.data);
+    
+    return data;
+}
+
 export const createProducer = async (producer) => { 
     let data = await api.post('producer',producer).then(result => result.data);
     return data;

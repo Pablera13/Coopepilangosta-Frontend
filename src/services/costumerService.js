@@ -14,6 +14,13 @@ export const getCostumerById = async(id,state) => {
     return data;
 }
 
+export const checkCedula = async(id) => {
+    
+    let data = await api.get(`costumer/checkCedula?${id}`).then(result => result.data);
+    console.log(data)
+    return data;
+}
+
 export const createCostumer = async (costumer) => { 
     let data = await api.post('Costumer',costumer).then(result => result.data);
     return data;

@@ -2,11 +2,12 @@ import React, { useRef, useState } from 'react'
 import { Form, Row, Col, Button, Container, InputGroup, Collapse } from 'react-bootstrap'
 import { QueryClient } from 'react-query'
 import { createuser } from '../../../services/userService'
-import { createCostumer } from '../../../services/costumerService'
+import { createCostumer,checkCedula } from '../../../services/costumerService'
 import { createContactCostumer } from '../../../services/CostumerContactService'
 import '../costumers/register.css'
 import { useMutation } from 'react-query'
 import { provinces } from '../../../utils/provinces'
+import swal from 'sweetalert'
 const costumerRegister = () => {
     const queryClient = new QueryClient();
     const [validated, setValidated] = useState(false);
@@ -69,20 +70,28 @@ const costumerRegister = () => {
                 idRole: 4
             }
 
-            const createdUser = await addUserMutation.mutateAsync(newCostumerUser)
+            const check = await checkCedula(cedulaJuridica.current.value)
+            
+            if (check == false) {
+                const createdUser = await addUserMutation.mutateAsync(newCostumerUser)
 
-            let newCostumer = {
-                cedulaJuridica: cedulaJuridica.current.value,
-                name: name.current.value,
-                province: province.current.value,
-                canton: canton.current.value,
-                district: district.current.value,
-                address: address.current.value,
-                postalCode: postalCode.current.value,
-                bankAccount: bankAccount.current.value,
-                userId: createdUser.id
+                let newCostumer = {
+                    cedulaJuridica: cedulaJuridica.current.value,
+                    name: name.current.value,
+                    province: province.current.value,
+                    canton: canton.current.value,
+                    district: district.current.value,
+                    address: address.current.value,
+                    postalCode: postalCode.current.value,
+                    bankAccount: bankAccount.current.value,
+                    userId: createdUser.id
+                }
+                await addCostumerMutation.mutateAsync(newCostumer); 
+            }else{
+                swal("Cedula se encuentra registrada","Ya existe un usuario con la cedula ingresada","warning")
             }
-            await addCostumerMutation.mutateAsync(newCostumer);
+
+            
 
         }
     };

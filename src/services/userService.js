@@ -13,6 +13,12 @@ export const getUserById = async (id,state) => {
     return data;
 };
 
+export const checkEmailAvailability = async (cedula) => { 
+    let data = await api.get(`users/CheckEmailAvailability?email=${cedula}`).then(result => result.data);
+    
+    return data;
+};
+
 export const createuser = async (user) => { 
     let data = await api.post('users',user).then(result => result.data);
     return data;
