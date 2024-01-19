@@ -52,6 +52,7 @@ const updateCostumer = (props) => {
                 address: address.current.value,
                 postalCode: postalCode.current.value,
                 bankAccount: bankAccount.current.value,
+                verified: costumer.verified,
                 userId: costumer.userId,
             };
             editCostumerMutation.mutateAsync(editCostumer).then(() => {

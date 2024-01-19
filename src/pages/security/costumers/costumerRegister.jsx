@@ -84,6 +84,7 @@ const costumerRegister = () => {
                     address: address.current.value,
                     postalCode: postalCode.current.value,
                     bankAccount: bankAccount.current.value,
+                    verified: false,
                     userId: createdUser.id
                 }
                 await addCostumerMutation.mutateAsync(newCostumer); 
