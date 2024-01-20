@@ -3,7 +3,7 @@ import { Form, Col, Row, Button, Modal } from 'react-bootstrap'
 import { useMutation, useQuery } from 'react-query';
 import { getRoles } from '../../../../services/rolesService';
 import Select from 'react-select';
-import { editUser } from '../../../../services/userService';
+import { checkEmailAvailability, editUser } from '../../../../services/userService';
 import { QueryClient } from 'react-query';
 import swal from 'sweetalert';
 const updateEmployeeUser = (props) => {
@@ -12,6 +12,7 @@ const updateEmployeeUser = (props) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const [validated, setValidated] = useState(false);
     const [selectedRole, setSelectedRole] = useState();
     const [user, setUser] = useState(null);
     const handleOpen = () => {
@@ -28,13 +29,13 @@ const updateEmployeeUser = (props) => {
             value: role.id,
             label: role.name
         }));
-        if (selectedRole == null ) {
-            let currentRole = rolesOptions.filter((role)=>role.value == 1)
+        if (selectedRole == null) {
+            let currentRole = rolesOptions.filter((role) => role.value == 1)
             console.log(currentRole)
             setSelectedRole(currentRole)
         }
     }
-    
+
     const email = useRef();
     const userName = useRef();
     const password = useRef();
@@ -42,8 +43,8 @@ const updateEmployeeUser = (props) => {
 
     const editUserEmployeeMutation = useMutation('users', editUser,
         {
-            onSettled: () => 
-            queryClient.invalidateQueries('users'),
+            onSettled: () =>
+                queryClient.invalidateQueries('users'),
             mutationKey: 'employee',
             onSuccess: () => {
                 swal({
@@ -55,7 +56,7 @@ const updateEmployeeUser = (props) => {
                     window.location.reload();
                 }, 2000);
             },
-            onError: () =>{
+            onError: () => {
                 swal({
                     title: 'Error!',
                     text: 'Ocurrió un error al actualizar la información',
@@ -64,7 +65,19 @@ const updateEmployeeUser = (props) => {
             }
         })
 
-    const handleUpdateUser = () => {
+    const handleSubmit = (event) => {
+        const form = document.getElementById('form-updateuser');
+        console.log(form)
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        event.preventDefault();
+        handleUpdateUser()
+        setValidated(true);
+    };
+
+    const handleUpdateUser = async () => {
         let toUpdateUser = {
             id: user.id,
             email: email.current.value,
@@ -72,7 +85,19 @@ const updateEmployeeUser = (props) => {
             password: password.current.value,
             idRole: selectRole.current.value
         }
-        editUserEmployeeMutation.mutateAsync(toUpdateUser)
+
+        let emailAvailability = await checkEmailAvailability(email.current.value).then(data => data)
+        if (email.current.value != user.email) {
+            if (emailAvailability) {
+                editUserEmployeeMutation.mutateAsync(toUpdateUser)
+            } else {
+                swal('Advertencia', 'El correo se encuentra en uso', 'warning')
+            }
+        } else {
+            editUserEmployeeMutation.mutateAsync(toUpdateUser)
+        }
+
+
     }
 
     return (
@@ -93,23 +118,23 @@ const updateEmployeeUser = (props) => {
                 <Modal.Body>
                     {
                         user != null ? (
-                            <Form>
+                            <Form noValidate validated={validated} id='form-updateuser'>
                                 <Row><h3>Datos de inicio de sesion</h3></Row>
-                                <Row>
+                                <Row id='form-updateuser'>
                                     <Col>
                                         <Form.Label>Correo</Form.Label>
-                                        <Form.Control defaultValue={user.email} ref={email} />
+                                        <Form.Control required defaultValue={user.email} ref={email} type='email' />
                                     </Col>
 
                                     <Col>
                                         <Form.Label>Nombre de usuario</Form.Label>
-                                        <Form.Control defaultValue={user.userName} ref={userName} />
+                                        <Form.Control required defaultValue={user.userName} ref={userName} />
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col>
                                         <Form.Label>Password</Form.Label>
-                                        <Form.Control defaultValue={user.password} ref={password} />
+                                        <Form.Control required defaultValue={user.password} ref={password} />
                                     </Col>
                                     <Col>
                                         <Form.Label>Elija el rol</Form.Label>
@@ -124,16 +149,18 @@ const updateEmployeeUser = (props) => {
                                         </Row>
                                     </Col>
                                 </Row>
+
                             </Form>
                         ) : ("")
                     }
 
                 </Modal.Body>
                 <Modal.Footer>
+                    <Button variant="primary" size='sm' onClick={handleSubmit}>Guardar</Button>
                     <Button variant="secondary" size='sm' onClick={handleClose}>
                         Cerrar
                     </Button>
-                    <Button variant="primary" size='sm' onClick={handleUpdateUser}>Guardar</Button>
+
                 </Modal.Footer>
             </Modal>
         </>

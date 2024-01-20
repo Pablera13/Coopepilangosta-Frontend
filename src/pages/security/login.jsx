@@ -1,12 +1,12 @@
-import React, { useRef,useState } from 'react'
-import { Row, Col, Container, Form, Button } from 'react-bootstrap'
+import React, { useRef, useState } from 'react'
+import { Row, Col, Container, Form, Button, Spinner } from 'react-bootstrap'
 import { loginUser, getUserInformation } from '../../services/loginService';
 import { NavLink } from 'react-router-dom';
 import './login.css'
 import swal from 'sweetalert';
 
 const login = () => {
-  const [logging, setLogging] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
 
   const email = useRef();
   const password = useRef();
@@ -21,43 +21,44 @@ const login = () => {
     }
     //console.log(userLogin)
     try {
-      token = await loginUser(userLogin).then(data => data);
+
+      token = await loginUser(userLogin).then(data => data).then(setLoginLoading(true)).finally(setLoginLoading(false));
       localStorage.setItem('bearer', token);
       if (token != "") {
-        switch(token){
-          case "Wrong password": swal("Contraseña incorrecta","La clave no coincide","error"); break;
-          case "User not found": swal("Correo no valido","No se encontró un usuario asociado a ese correo electrónico","warning");break;
-          default:  
-          try {
-            let user = await getUserInformation(userLogin)
-            if (user) {
-              localStorage.setItem('user', JSON.stringify(user));
-            window.location = '/';
-            }
-            
-            
-          } catch (error) {
-            console.log(error)
-          }break; 
+        switch (token) {
+          case "Wrong password": swal("Contraseña incorrecta", "La clave no coincide", "error"); break;
+          case "User not found": swal("Correo no valido", "No se encontró un usuario asociado a ese correo electrónico", "warning"); break;
+          default:
+            try {
+              let user = await getUserInformation(userLogin)
+              if (user) {
+                localStorage.setItem('user', JSON.stringify(user));
+                window.location = '/';
+              }
+
+
+            } catch (error) {
+              console.log(error)
+            } break;
         }
-        
+
       }
     } catch (error) {
       console.log(error)
     }
-    
+
 
   }
 
   return (
     <>
-    
-<div class="imagen-de-fondo"></div>
+
+      <div class="imagen-de-fondo"></div>
       <Container className='loginContainer'>
-        
+
         <Row>
           <Col>
-          <br />
+            <br />
             <h3>Bienvenido!</h3>
           </Col>
         </Row>
@@ -84,23 +85,29 @@ const login = () => {
           </Row>
           <Row className='buttonsRow'>
             <Col lg={7} sm={6}>
-              <Button onClick={handleLogin}>Iniciar sesión</Button>
+
+              <Button onClick={handleLogin}>
+                {
+                  loginLoading ? (<Spinner animation="border" variant="light" size='sm' />) : ("")
+                }
+
+                Iniciar sesión</Button>
             </Col>
 
-              <Col lg={5} sm={3}>
-                <NavLink className={'btn btn-info'} to={'/registerCostumer'}>
-                  Registrarme
-                </NavLink>
-              </Col>
-            </Row>
-            <br />
-            <Row>
-              <NavLink className={'btn-btn-secondary'} to={'/forgotPassword'}>
-                ¿Olvido su contraseña?
+            <Col lg={5} sm={3}>
+              <NavLink className={'btn btn-info'} to={'/registerCostumer'}>
+                Registrarme
               </NavLink>
-            </Row>
-            <br />
-          </Form>
+            </Col>
+          </Row>
+          <br />
+          <Row>
+            <NavLink className={'btn-btn-secondary'} to={'/forgotPassword'}>
+              ¿Olvido su contraseña?
+            </NavLink>
+          </Row>
+          <br />
+        </Form>
       </Container>
       <br />
     </>

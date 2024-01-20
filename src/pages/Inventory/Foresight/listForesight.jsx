@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { Container, Col, Row, Button, Card } from 'react-bootstrap'
+import { Container, Col, Row, Button, Card, Stack,Form } from 'react-bootstrap'
 import AddForesight from './actions/addForesight'
 import Select from 'react-select';
 import { useQuery, useMutation } from 'react-query'
@@ -8,7 +8,7 @@ import { getProducts } from '../../../services/productService'
 import { getForesightById } from '../../../services/foresightService';
 import { ListGroup } from 'react-bootstrap';
 import UpdateForesight from './actions/updateForesight';
-import './listForesight.css'
+import styles from './listForesight.css'
 const listForesight = () => {
     const product = useRef()
     //State para el producto seleccionado en el select
@@ -33,7 +33,7 @@ const listForesight = () => {
 
     return (
         <>
-            <Container>
+            <Container className='foresights-container'>
                 <br />
                 <Row className='titleForesight'>
                     <div>
@@ -41,25 +41,15 @@ const listForesight = () => {
                     </div>
                 </Row>
 
-                <Row>
-                    <Col xs={4} sm={6} lg={3}>
-                        <h3 className="text-center">Seleccione un producto</h3><br />
-                    </Col>
-
-                    <Col xs={5} sm={4} md={3} lg={3}>
-                        <Select options={optionsProduct} ref={product} onChange=
+                <Stack direction="horizontal" gap={3}>
+                <h3>Seleccione un producto</h3>
+                    <Select options={optionsProduct} ref={product} onChange=
                             {(selectedOption) => setSelectedProduct(selectedOption)} placeholder='Seleccione...'>
                         </Select>
-                    </Col>
-
-                    <Col sm={2} lg={2}>
-                        <Button variant='secondary' size='sm' onClick={handleConsult} >Consultar previsiones</Button>
-                    </Col>
-
-                    <Col sm={2} lg={2}>
-                        <AddForesight />
-                    </Col>
-                </Row>
+                        <Button variant='info' size='sm' onClick={handleConsult} >Consultar previsiones</Button>
+                    <div className="vr" />
+                    <AddForesight />
+                </Stack>
 
                 {
                     ForesightConsult != null ? (
@@ -67,6 +57,7 @@ const listForesight = () => {
                             {
                                 ForesightConsult.initialDate != "0001-01-01T00:00:00" ? (
                                     <>
+                                    <div className='foresight-details'>
                                         <Row className="justify-content-md-center">
                                             <Card style={{ width: '18rem' }}>
                                                 <Card.Body>
@@ -103,7 +94,7 @@ const listForesight = () => {
                                                 </Card>
                                             </Col>
                                         </Row>
-
+                                        </div>
 
                                     </>
                                 ) : (
