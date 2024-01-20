@@ -8,6 +8,10 @@ import '../costumers/register.css'
 import { useMutation } from 'react-query'
 import { provinces } from '../../../utils/provinces'
 import swal from 'sweetalert'
+import emailjs from 'emailjs-com'
+import { format } from 'date-fns';
+
+
 const costumerRegister = () => {
     const queryClient = new QueryClient();
     const [validated, setValidated] = useState(false);
@@ -48,6 +52,16 @@ const costumerRegister = () => {
                     text: 'Se creo el usuario',
                     icon: 'success',
                 });
+
+                const currentDate = new Date();
+                const formattedDate = format(currentDate, 'yyyy-MM-dd');
+
+                emailjs.send('service_segj454', 'template_0w3fvg4', 
+                {name: name.current.value,
+                 cedulaJuridica: cedulaJuridica.current.value,
+                 date: formattedDate}
+                , 'VLTRXG-aDYJG_QYt-')
+
             },
             onError: () => {
                 console.log("Error creating the costumer")
@@ -73,8 +87,8 @@ const costumerRegister = () => {
             const check = await checkCedula(cedulaJuridica.current.value)
             
             if (check == false) {
-                const createdUser = await addUserMutation.mutateAsync(newCostumerUser)
 
+                const createdUser = await addUserMutation.mutateAsync(newCostumerUser)
                 let newCostumer = {
                     cedulaJuridica: cedulaJuridica.current.value,
                     name: name.current.value,
@@ -91,9 +105,6 @@ const costumerRegister = () => {
             }else{
                 swal("Cedula se encuentra registrada","Ya existe un usuario con la cedula ingresada","warning")
             }
-
-            
-
         }
     };
 

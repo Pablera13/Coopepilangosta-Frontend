@@ -4,6 +4,9 @@ import { useQuery } from 'react-query';
 import { getCostumers } from '../../../services/costumerService';
 import DetailsCostumer from './detailsCostumer';
 import Styles from './listCostumers.css'
+import VerifyCostumer from '../costumers/actions/verifyCostumer';
+
+
 const listCostumers = () => {
     const {data:costumers,isLoading:costumersloading,IsError:costumersError} = useQuery('costumer',getCostumers);
     //if(costumers){console.log(costumers)}
@@ -44,9 +47,10 @@ const listCostumers = () => {
                                 <td>{costumer.canton}</td>
                                 <td>{costumer.district}</td>
                                 <td>{costumer.address}</td>
-                                <td>{costumer.verified? "Verificado": "No verificado"}</td>
+                                <td>{costumer.verified==true? "Verificado": "No verificado"}</td>
                                 <td>
-                                    <DetailsCostumer props={costumer}/>                                 
+                                    <DetailsCostumer props={costumer}/>      
+                                    <VerifyCostumer props={costumer} />                           
                                 </td>
                             </tr>
                         )
