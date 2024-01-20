@@ -138,7 +138,7 @@ const addForesight = () => {
 
   return (
     <>
-      <Button variant="primary" size='sm' onClick={handleShow}>
+      <Button variant="info" size='sm' onClick={handleShow}>
         Agregar prevision
       </Button>
 

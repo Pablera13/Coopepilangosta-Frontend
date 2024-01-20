@@ -1,16 +1,19 @@
 import React, { useRef, useState } from 'react'
 import { Modal, Row, Col, Button, Form } from 'react-bootstrap'
 import { createEmployee, CheckEmployeeCedulaAvailability } from '../../../../services/employeeService';
-import { createuser,checkEmailAvailability } from '../../../../services/userService';
+import { createuser, checkEmailAvailability } from '../../../../services/userService';
 import { useMutation, useQuery } from 'react-query';
 import { getRoles } from '../../../../services/rolesService';
 import Select from 'react-select';
 import { QueryClient } from 'react-query';
+import { checkCedulaFormat } from '../../../../utils/validateCedulaFormat';
 export const AddEmployee = () => {
   const queryClient = new QueryClient();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [validated, setValidated] = useState(false);
 
   const cedula = useRef();
   const name = useRef();
@@ -69,6 +72,17 @@ export const AddEmployee = () => {
       }
     })
 
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    event.preventDefault();
+    handleSave()
+    setValidated(true);
+  };
+
   const handleSave = async () => {
     let newUser = {
       email: email.current.value,
@@ -78,9 +92,10 @@ export const AddEmployee = () => {
     }
 
     let cedulaAvailability = await CheckEmployeeCedulaAvailability(cedula.current.value).then(data => data);
-    let emailAvailability = await checkEmailAvailability(email.current.value).then(data=>data)
-
-    if (cedulaAvailability && emailAvailability) {
+    let emailAvailability = await checkEmailAvailability(email.current.value).then(data => data)
+    let CheckFormatCedula = checkCedulaFormat(cedula.current.value)
+    console.log(CheckFormatCedula)
+    if (cedulaAvailability && emailAvailability && CheckFormatCedula) {
       const createdUser = await addUserMutation.mutateAsync(newUser)
 
       createdUser != null ? (console.log(createdUser)) : (console.log("E"))
@@ -97,17 +112,27 @@ export const AddEmployee = () => {
 
       addEmployeMutation.mutateAsync(newEmployee);
 
-    }else{
-      swal('Advertencia','Ya existe un empleado con este numero de cedula','warning')
+    } else {
+      if (cedulaAvailability == false) {
+        swal('Advertencia', 'Ya existe un empleado con este numero de cedula, o el form', 'warning')
+      }
+      if (emailAvailability == false) {
+        swal('Advertencia', 'Este correo electronico ya se encuentra en uso', 'warning')
+      }
+      if (CheckFormatCedula == false) {
+        swal('Advertencia', 'La cedula no se encuentra en el formato correcto', 'warning')
+      }
     }
 
   }
 
+
   return (
     <>
-      <Button variant="primary" onClick={handleShow} size='sm'>
+      <Button variant="info" onClick={handleShow} size='sm'>
         Agregar nuevo empleado
       </Button>
+      
 
       <Modal
         show={show}
@@ -120,32 +145,32 @@ export const AddEmployee = () => {
         </Modal.Header>
         <Modal.Body>
 
-          <Form>
+          <Form noValidate validated={validated}>
             <Row><h3>Datos personales</h3></Row>
             <Row>
               <Col>
                 <Form.Label>Cédula</Form.Label>
-                <Form.Control placeholder="Ingrese la cédula" ref={cedula} autoFocus type='number' />
+                <Form.Control required placeholder="Ingrese la cédula" ref={cedula} autoFocus type='number' />
               </Col>
               <Col>
                 <Form.Label>Nombre</Form.Label>
-                <Form.Control placeholder="Ingrese el nombre" ref={name} />
+                <Form.Control required placeholder="Ingrese el nombre" ref={name} />
               </Col>
             </Row>
             <Row>
               <Col>
                 <Form.Label>Primer apellido</Form.Label>
-                <Form.Control placeholder="Ingrese el apellido" ref={lastName1} />
+                <Form.Control required placeholder="Ingrese el apellido" ref={lastName1} />
               </Col>
               <Col>
                 <Form.Label>Segundo apellido</Form.Label>
-                <Form.Control placeholder="Ingrese el segundo apellido" ref={lastName2} />
+                <Form.Control required placeholder="Ingrese el segundo apellido" ref={lastName2} />
               </Col>
             </Row>
             <Row>
               <Col>
                 <Form.Label>Departamento</Form.Label>
-                <Form.Control placeholder="Ingrese el departamento" ref={department} />
+                <Form.Control required placeholder="Ingrese el departamento" ref={department} />
               </Col>
             </Row>
             <Row>
@@ -154,21 +179,21 @@ export const AddEmployee = () => {
             <Row>
               <Col>
                 <Form.Label>Correo</Form.Label>
-                <Form.Control placeholder="Ingrese el correo" ref={email} type='email' />
+                <Form.Control required placeholder="Ingrese el correo" ref={email} type='email' />
               </Col>
               <Col>
                 <Form.Label>Nombre de usuario</Form.Label>
-                <Form.Control placeholder="Ingrese el nombre de usuario" ref={userName} type='email' />
+                <Form.Control required placeholder="Ingrese el nombre de usuario" ref={userName} type='text' />
               </Col>
             </Row>
             <Row>
               <Col>
                 <Form.Label>Contraseña</Form.Label>
-                <Form.Control placeholder="Ingrese la contraseña" ref={password} type='password' />
+                <Form.Control required placeholder="Ingrese la contraseña" ref={password} type='password' />
               </Col>
               <Col>
                 <Form.Label>Rol</Form.Label>
-                <Select placeholder="Elija el rol" options={rolesOptions} onChange={(selected) => setSelectedRole(selected)}></Select>
+                <Select required placeholder="Elija el rol" options={rolesOptions} onChange={(selected) => setSelectedRole(selected)}></Select>
               </Col>
             </Row>
           </Form>
@@ -179,7 +204,7 @@ export const AddEmployee = () => {
           <Button variant="secondary" size='sm' onClick={handleClose}>
             Cerrar
           </Button>
-          <Button variant="primary" size='sm' onClick={handleSave}>Guardar</Button>
+          <Button variant="primary" size='sm' onClick={handleSubmit}>Guardar</Button>
         </Modal.Footer>
       </Modal>
     </>

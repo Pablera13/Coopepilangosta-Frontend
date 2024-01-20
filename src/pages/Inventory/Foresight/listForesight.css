@@ -2,3 +2,18 @@
     display: grid;
     justify-content: center;
 }
+
+.foresights-container{
+    display: grid;
+    justify-content: center;
+}
+
+.foresight-details{
+    margin-top: 20px;
+    padding: 5px;
+    border: 4px;
+    border-color: #3c3019;
+    border-style: solid;
+    box-shadow:  4px 4px 8px rgba(0, 0, 0, 0.2);
+    gap: 2px;
+}
