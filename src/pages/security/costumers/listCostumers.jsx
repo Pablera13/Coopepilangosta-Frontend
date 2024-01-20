@@ -26,7 +26,9 @@ const listCostumers = () => {
                         <th>Nombre</th>
                         <th>Provincia</th>
                         <th>Cantón</th>
+                        <th>Distrito</th>
                         <th>Dirección</th>
+                        <th>Verificado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -40,7 +42,9 @@ const listCostumers = () => {
                                 <td>{costumer.name}</td>
                                 <td>{costumer.province}</td>
                                 <td>{costumer.canton}</td>
+                                <td>{costumer.district}</td>
                                 <td>{costumer.address}</td>
+                                <td>{costumer.verified? "Verificado": "No verificado"}</td>
                                 <td>
                                     <DetailsCostumer props={costumer}/>                                 
                                 </td>
