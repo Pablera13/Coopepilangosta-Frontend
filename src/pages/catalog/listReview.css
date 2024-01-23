@@ -1,0 +1,68 @@
+.card-inner{
+    margin-left: 4rem;
+}
+
+  .stars-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .edit-button-container {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+
+   .clasificacion {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+#form {
+    width: 250px;
+    margin: 0 auto;
+    height: 50px;
+}
+
+#form p {
+    text-align: center;
+}
+
+#form .StarR {
+    font-size: 20px;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+.StarR {
+    color: grey;
+}
+
+.clasificacion {
+    direction: rtl;
+    unicode-bidi: bidi-override;
+    display: flex;
+    align-items: center; 
+}
+
+.StarR:hover,
+.StarR:hover~.StarR {
+    color: orange;
+}
+
+input[type="radio"]:checked~.StarR {
+    color: orange;
+}
+
+.float-right btn text-white btn-danger edit-button-container{
+    margin-left: 5px;;
+}
+
+
+
+

@@ -64,7 +64,7 @@ const costumerProfile = () => {
                     <div className='account-settings'>
                       <div className='user-profile'>
                         <div className='user-avatar'>
-                          <img src="https://icons.veryicon.com/png/o/miscellaneous/two-color-icon-library/user-286.png" alt="User Avatar" />
+                          <img src="https://image.ibb.co/jw55Ex/def_face.jpg" alt="User Avatar" />
                         </div>
                         <h5 className='user-name'>{user.costumer.name}</h5>
                         <h6 className='user-email'>{user.email}</h6>

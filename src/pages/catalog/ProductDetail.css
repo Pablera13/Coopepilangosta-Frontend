@@ -1,18 +1,18 @@
 .cardDetails {
 
     position: relative;
-    height: 500px;
-    width: 750px;
+    /* height: 500px;
+    width: 750px; */
+    height: 800px;
+    width: 900px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border: 2px solid rgba(94, 79, 51, 0.6);
+    /* border: 2px solid rgba(94, 79, 51, 0.6); */
     border-radius: 10px;
     padding: 10px;
 
 }
-
-/* En tu archivo ProductDetail.css */
 
 /* Imágenes del Producto */
 .ImgDetails img {
@@ -21,6 +21,7 @@
     height: 300px;
     width: 300px;
     margin: 5%;
+    margin-left: 25%;
     border-radius: 22%;
 }
 
@@ -32,6 +33,7 @@
 .ImgFluid {
     display: flex;
     gap: 10px;
+    margin-left: 10%;
 
 }
 
@@ -138,6 +140,8 @@ input[type="radio"] {
 .clasificacion {
     direction: rtl;
     unicode-bidi: bidi-override;
+    display: flex;
+    align-items: center; 
 }
 
 .Star:hover,
@@ -147,4 +151,10 @@ input[type="radio"] {
 
 input[type="radio"]:checked~.Star {
     color: orange;
+}
+
+
+.Star {
+    color: grey;
+    margin-right: 5px;
 }
