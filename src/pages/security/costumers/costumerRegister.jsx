@@ -8,6 +8,8 @@ import '../costumers/register.css'
 import { useMutation } from 'react-query'
 import { provinces } from '../../../utils/provinces'
 import swal from 'sweetalert'
+import { locations } from '../../../utils/provinces'
+import Select from 'react-select'
 const costumerRegister = () => {
     const queryClient = new QueryClient();
     const [validated, setValidated] = useState(false);
@@ -97,6 +99,55 @@ const costumerRegister = () => {
         }
     };
 
+    const [selectedProvincia,setSelectedProvincia] = useState();
+    const provinciasArray = Object.keys(locations.provincias).map((index) => {
+        
+        const indexNumber = parseInt(index, 10);
+        
+        return {
+          value: indexNumber,
+          label: locations.provincias[index].nombre
+        };
+      });
+    
+    const [selectedCanton,setSelectedCanton] = useState()
+    const [cantonesOptions,setCantonesOptions] = useState();
+    let cantones = []
+    const handleProvinciasSelectChange = (provinceIndex) => {
+       
+        let cantones = locations.provincias[provinceIndex].cantones
+        
+        const cantonesOptions = Object.keys(cantones).map((index) => {           
+            const indexNumber = parseInt(index, 10);
+            
+            return {
+              value: indexNumber,
+              label: cantones[index].nombre
+            };
+          });
+        
+        setCantonesOptions(cantonesOptions)
+    }  
+
+    const [distritosOptions,setDistritosOptions] = useState();
+    let distritos = []
+
+    const handlecantonesSelectChange = (cantonIndex) => {
+        console.log(cantonIndex)
+        let distritos = locations.provincias[selectedProvincia.value].cantones[cantonIndex].distritos
+        console.log(selectedProvincia.value)
+        const distritosOpt = Object.keys(distritos).map((index) => {           
+            const indexNumber = parseInt(index, 10);
+            
+            return {
+              value: indexNumber,
+              label: distritos[index].toString()
+            };
+          });
+        console.log(distritosOpt)
+        setDistritosOptions(distritosOpt)
+    }      
+
     return (
         <>
             <Container className='registerContainer'>
@@ -133,27 +184,28 @@ const costumerRegister = () => {
                     <Row className="mb-3">
                         <Form.Group as={Col} md="4" controlId="validationCustom03">
                             <Form.Label>Provincia</Form.Label>
-                            <Form.Select placeholder="Provincia" required ref={province} >
-                                {
-                                    provinces.map((province) =>
-                                        <option value={province.value} label={province.value}></option>
-                                    )
-                                }
-                            </Form.Select>
+                            <Select placeholder='Provincia' options={provinciasArray}
+                                onChange={(selected)=>{handleProvinciasSelectChange(selected.value);setSelectedProvincia(selected);}}
+                                on
+                            ></Select>
                             <Form.Control.Feedback type="invalid">
                                 Ingrese su provincia
                             </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group as={Col} md="4" controlId="validationCustom04">
                             <Form.Label>Canton</Form.Label>
-                            <Form.Control type="text" placeholder="Ingrese el canton" ref={canton} />
+                            <Select placeholder='Canton' options={cantonesOptions}
+                                onChange={(selected)=>{setSelectedCanton(selected);handlecantonesSelectChange(selected.value);}}
+                            ></Select>
                             <Form.Control.Feedback type="invalid">
                                 Por favor indique el canton
                             </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group as={Col} md="4" controlId="validationCustom05">
                             <Form.Label>Distrito</Form.Label>
-                            <Form.Control type="text" placeholder="Ingrese su distrito" ref={district} />
+                            <Select placeholder='Distrito' options={distritosOptions}
+                                
+                            ></Select>
                             <Form.Control.Feedback type="invalid">
                                 Indique su distrito!.
                             </Form.Control.Feedback>

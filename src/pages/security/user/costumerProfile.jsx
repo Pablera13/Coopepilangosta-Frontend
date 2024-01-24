@@ -23,7 +23,7 @@ const costumerProfile = () => {
     const userStorage = JSON.parse(localStorage.getItem('user'));
     const [user, setUser] = useState(null);
     if (user) {
-
+        console.log(userStorage)
     }
     const { data: customerorderData, isLoading, isError } = useQuery('customerorder', getCostumerOrder);
     let dataFiltered = []
