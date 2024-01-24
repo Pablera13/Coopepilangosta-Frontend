@@ -83,7 +83,7 @@ const costumerRegister = () => {
                 email: email.current.value,
                 userName: userName.current.value,
                 password: password.current.value,
-                idRole: 4
+                idRole: 2
             }
 
             const check = await checkCedula(cedulaJuridica.current.value)
@@ -94,9 +94,9 @@ const costumerRegister = () => {
                 let newCostumer = {
                     cedulaJuridica: cedulaJuridica.current.value,
                     name: name.current.value,
-                    province: province.current.value,
-                    canton: canton.current.value,
-                    district: district.current.value,
+                    province: selectedProvincia.label,
+                    canton: selectedCanton.label,
+                    district: selectedDistrito.label,
                     address: address.current.value,
                     postalCode: postalCode.current.value,
                     bankAccount: bankAccount.current.value,
@@ -111,6 +111,9 @@ const costumerRegister = () => {
     };
 
     const [selectedProvincia,setSelectedProvincia] = useState();
+    const [selectedCanton,setSelectedCanton] = useState()
+    const [selectedDistrito,setSelectedDistrito] = useState(); 
+
     const provinciasArray = Object.keys(locations.provincias).map((index) => {
         
         const indexNumber = parseInt(index, 10);
@@ -121,7 +124,7 @@ const costumerRegister = () => {
         };
       });
     
-    const [selectedCanton,setSelectedCanton] = useState()
+   
     const [cantonesOptions,setCantonesOptions] = useState();
     let cantones = []
     const handleProvinciasSelectChange = (provinceIndex) => {
@@ -142,6 +145,7 @@ const costumerRegister = () => {
 
     const [distritosOptions,setDistritosOptions] = useState();
     let distritos = []
+    
 
     const handlecantonesSelectChange = (cantonIndex) => {
         console.log(cantonIndex)
@@ -158,6 +162,13 @@ const costumerRegister = () => {
         console.log(distritosOpt)
         setDistritosOptions(distritosOpt)
     }      
+
+    const verEleccion = ()=>{
+        console.log(selectedProvincia)
+        console.log(selectedCanton)
+        console.log(selectedDistrito)
+
+    }
 
     return (
         <>
@@ -215,7 +226,7 @@ const costumerRegister = () => {
                         <Form.Group as={Col} md="4" controlId="validationCustom05">
                             <Form.Label>Distrito</Form.Label>
                             <Select placeholder='Distrito' options={distritosOptions}
-                                
+                                onChange={(selected)=>setSelectedDistrito(selected)}
                             ></Select>
                             <Form.Control.Feedback type="invalid">
                                 Indique su distrito!.
