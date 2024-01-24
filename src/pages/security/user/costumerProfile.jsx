@@ -15,171 +15,242 @@ import UpdateCostumer from '../costumers/actions/updateCostumer';
 
 import { getCostumerOrder } from '../../../services/costumerorderService';
 
-import styles from './costumerProfile.css'
-
+import './costumerProfile.css'
 
 const costumerProfile = () => {
-
     const userStorage = JSON.parse(localStorage.getItem('user'));
     const [user, setUser] = useState(null);
-    if (user) {
-        console.log(userStorage)
-    }
     const { data: customerorderData, isLoading, isError } = useQuery('customerorder', getCostumerOrder);
-    let dataFiltered = []
-
+  
     useEffect(() => {
-
-        if (customerorderData) {
-            getUserById(userStorage.id, setUser);
-            dataFiltered = customerorderData.filter((order) => order.costumerId === userStorage.costumer.id)
-            console.log("Los pedidos de este usuario = " + JSON.stringify(dataFiltered))
-        }
+      if (customerorderData) {
+        getUserById(userStorage.id, setUser);
+      }
     }, [customerorderData]);
-
+  
     const deleteContact = (id) => {
-        deleteCostumerContact(id).finally(() => window.location.reload());
+      deleteCostumerContact(id).finally(() => window.location.reload());
     };
-
+  
     const showAlert = (id) => {
-        swal({
-            title: 'Eliminar',
-            text: '¿Está seguro de que desea eliminar este contacto?',
-            icon: 'warning',
-            buttons: ['Cancelar', 'Aceptar'],
-        }).then((answer) => {
-            if (answer) {
-                swal({
-                    title: 'Eliminado!',
-                    text: 'El contacto ha sido eliminado',
-                    icon: 'success',
-                });
-                setTimeout(() => {
-                    deleteContact(id);
-                }, 1500);
-            }
-        });
+      swal({
+        title: 'Eliminar',
+        text: '¿Está seguro de que desea eliminar este contacto?',
+        icon: 'warning',
+        buttons: ['Cancelar', 'Aceptar'],
+      }).then((answer) => {
+        if (answer) {
+          swal({
+            title: 'Eliminado!',
+            text: 'El contacto ha sido eliminado',
+            icon: 'success',
+          });
+          setTimeout(() => {
+            deleteContact(id);
+          }, 1500);
+        }
+      });
     };
-
-
-    if (isLoading)
-        return <div>Loading...</div>
-
-    if (isError)
-        return <div>Error</div>
-
+  
     return (
+      <Container>
+        {user != null && customerorderData != null ? (
+          <>
+            <Row>
+              {/* Columna izquierda */}
+              <Col xl={3} lg={3} md={12} sm={12} xs={12}>
+                <Card className='h-100'>
+                  <Card.Body>
+                    <div className='account-settings'>
+                      <div className='user-profile'>
+                        <div className='user-avatar'>
+                          <img src="https://image.ibb.co/jw55Ex/def_face.jpg" alt="User Avatar" />
+                        </div>
+                        <h5 className='user-name'>{user.costumer.name}</h5>
+                        <h6 className='user-email'>{user.email}</h6>
+                      </div>
+                      <div className='about'>
+                        <h5>{user.costumer.verify == true? 'Verificado' : 'No verificado'}</h5>
+                      </div>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+  
+              {/* Columna derecha */}
+              <Col xl={9} lg={9} md={12} sm={12} xs={12}>
+                <Card className='h-100'>
+                  <Card.Body>
+                    <Row className='gutters'>
 
-        <Container>
-            {user != null && customerorderData != null ? (
-                <>
-                    <Row>
-                        <Col lg={4}>
-                            <Card style={{ width: '20rem' }}>
-                                <Card.Img variant="top" src="https://icons.veryicon.com/png/o/miscellaneous/two-color-icon-library/user-286.png" />
-                                <Card.Body>
-                                    <Card.Title>Información general</Card.Title>
-                                    <Card.Text>{user.costumer.name}</Card.Text>
-                                </Card.Body>
-                                <ul className="list-group list-group-flush">
-                                    <li className="list-group-item">Provincia: {user.costumer.province}</li>
-                                    <li className="list-group-item">Cantón: {user.costumer.canton}</li>
-                                    <li className="list-group-item">Distrito: {user.costumer.district}</li>
-                                    <li className="list-group-item">Cuenta bancaria: {user.costumer.bankAccount}</li>
-                                    <Card.Body>Dirección: {user.costumer.address}</Card.Body>
-                                </ul>
-                                <Card.Body>
+                      <Col xl={12} lg={12} md={12} sm={12} xs={12}>
+                        <h6 className='mb-2 text-primary'>Información general</h6>
+                      </Col>
+                      <Col xl={6} lg={6} md={6} sm={6} xs={12}>
+                        <div className='form-group'>
+                          <label htmlFor='fullName'>Nombre</label>
+                          <input type='text' className='form-control' id='fullName' placeholder={user.costumer.name} readOnly />
+                        </div>
+                      </Col>
+                      <Col xl={6} lg={6} md={6} sm={6} xs={12}>
+                        <div className='form-group'>
+                          <label htmlFor='eMail'>Cédula Juridica</label>
+                          <input type='text' className='form-control' id='eMail' placeholder={user.costumer.cedulaJuridica} readOnly />
+                        </div>
+                      </Col>
+                      <Col xl={6} lg={6} md={6} sm={6} xs={12}>
+                        <div className='form-group'>
+                          <label htmlFor='phone'>Provincia</label>
+                          <input type='text' className='form-control' id='phone' placeholder={user.costumer.province} readOnly />
+                        </div>
+                      </Col>
+                      <Col xl={6} lg={6} md={6} sm={6} xs={12}>
+                        <div className='form-group'>
+                          <label htmlFor='website'>Cantón</label>
+                          <input type='text' className='form-control' id='website' placeholder={user.costumer.canton} readOnly />
+                        </div>
+                      </Col>
+
+                      <Col xl={6} lg={6} md={6} sm={6} xs={12}>
+                        <div className='form-group'>
+                          <label htmlFor='website'>Distrito</label>
+                          <input type='text' className='form-control' id='website' placeholder={user.costumer.district} readOnly />
+                        </div>
+                      </Col>
+
+                      <Col xl={6} lg={6} md={6} sm={6} xs={12}>
+                        <div className='form-group'>
+                          <label htmlFor='website'>Dirección</label>
+                          <input type='text' className='form-control' id='website' placeholder={user.costumer.address} readOnly />
+                        </div>
+                      </Col>
+
+                      <Col xl={6} lg={6} md={6} sm={6} xs={12}>
+                        <div className='form-group'>
+                          <label htmlFor='website'>Código Postal</label>
+                          <input type='text' className='form-control' id='website' placeholder={user.costumer.postalCode} readOnly />
+                        </div>
+                      </Col>
+
+                      <Col xl={6} lg={6} md={6} sm={6} xs={12}>
+                        <div className='form-group'>
+                          <label htmlFor='website'>Número de Cuenta</label>
+                          <input type='text' className='form-control' id='website' placeholder={user.costumer.bankAccount} readOnly />
+                        </div>
+                      </Col>
+  
+                      <Col xl={12} lg={12} md={12} sm={12} xs={12}>
+                        <h6 className='mt-3 mb-2 text-primary'>Información de Usuario</h6>
+                      </Col>
+                      <Col xl={6} lg={6} md={6} sm={6} xs={12}>
+                        <div className='form-group'>
+                          <label htmlFor='Street'>Correo Electrónico</label>
+                          <input type='text' className='form-control' id='Street' placeholder={user.email} readOnly />
+                        </div>
+                      </Col>
+                      <Col xl={6} lg={6} md={6} sm={6} xs={12}>
+                        <div className='form-group'>
+                          <label htmlFor='ciTy'>Nombre de Usuario</label>
+                          <input type='text' className='form-control' id='ciTy' placeholder={user.userName} readOnly />
+                        </div>
+                      </Col>
+
+                      <Card.Body>
                                     <UpdateCostumer costumer={user.costumer} />
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                        <Col lg={3}>
-                            {user.costumer.costumersContacts ? (
-                                <Card>
-                                    <Card.Header>Información de contacto</Card.Header>
-                                    {user.costumer.costumersContacts.map((contact) => (
-                                        <Card.Body key={contact.id}>
-                                            <Card.Title>{contact.name}</Card.Title>
-                                            <Card.Text>Contacto: {contact.contact}</Card.Text>
-                                            <div>
-                                                <UpdateContact props={contact} />
-                                                <Button
-                                                    variant="outline-danger"
-                                                    onClick={() => showAlert(contact.id)}
-                                                    size="sm"
-                                                >
-                                                    Eliminar
-                                                </Button>
-                                            </div>
-                                            <hr />
-                                        </Card.Body>
-                                    ))}
-                                </Card>
-                            ) : (
-                                <Card>
-                                    <Card.Body>Aún no se han agregado contactos</Card.Body>
-                                </Card>
-                            )}
-                            <AddContact props={user.costumer.id} />
-                        </Col>
-
-
-
-                    </Row><Row>
-                        <Col>
-                            <Card>
-                                <br>
-                                </br>
-
-                                <Card.Header>Mis Pedidos</Card.Header>
-                                {customerorderData ? (
-                                    <Table striped bordered hover variant="light">
-                                        <thead>
-                                            <tr>
-                                                <th>Número de pedido</th>
-                                                <th>Fecha del pedido</th>
-                                                <th>Total</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {customerorderData
-                                                .filter((order) => order.costumerId === userStorage.costumer.id)
-                                                .map((order) => (
-                                                    <tr key={order.id}>
-                                                        <td>{order.id}</td>
-                                                        <td>{format(new Date(order.confirmedDate), 'yyyy-MM-dd')}</td>
-                                                        <td>{order.total.toFixed(2)}</td>
-                                                        <td>
-                                                            <NavLink to={`/userOrder/${order.id}`}
-
-                                                                style={{
-                                                                    textDecoration: 'underline',
-                                                                    margin: '0 10px',
-                                                                    border: 'none',
-                                                                    background: 'none',
-                                                                    padding: 0,
-                                                                    color: 'inherit',
-                                                                    cursor: 'pointer'
-                                                                }}
-                                                            >Detalles
-                                                            </NavLink>
-                                                        </td>
-                                                    </tr>
-                                                ))}
-                                        </tbody>
-                                    </Table>
-                                ) : (
-                                    'Cargando'
-                                )}
-                            </Card>
-                        </Col>
-                    </Row></>
-            ) : (
-                <div className="text-center">Cargando...</div>
-            )}
-        </Container>
+                    </Card.Body>
+  
+                    </Row>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+  
+            <Row>
+            <Col xl={3} lg={3} md={12} sm={12} xs={12}>
+              {user.costumer.costumersContacts ? (
+                <div className="d-flex flex-column">
+                  {user.costumer.costumersContacts.map((contact) => (
+                    <Card key={contact.id} className="mb-3">
+                      <Card.Header>Información de contacto</Card.Header>
+                      <Card.Body>
+                        <Card.Title>{contact.name}</Card.Title>
+                        <Card.Text>Contacto: {contact.contact}</Card.Text>
+                        <div className="d-flex justify-content-between">
+                          <Button
+                            variant="outline-danger"
+                            onClick={() => showAlert(contact.id)}
+                            size="sm"
+                          >
+                            Eliminar
+                          </Button>
+                          <UpdateContact props={contact} />
+                        </div>
+                        <hr />
+                      </Card.Body>
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <Card>
+                  <Card.Body>Aún no se han agregado contactos</Card.Body>
+                </Card>
+              )}
+              <AddContact props={user.costumer.id} />
+            </Col>
+  
+              <Col xl={9} lg={9} md={12} sm={12} xs={12}>
+                <Card className='mt-3'>
+                  <Card.Header>Mis Pedidos</Card.Header>
+                  {customerorderData ? (
+                    <Table striped bordered hover variant="light">
+                      <thead>
+                        <tr>
+                          <th>Número de pedido</th>
+                          <th>Fecha del pedido</th>
+                          <th>Total</th>
+                          <th>Acciones</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {customerorderData
+                          .filter((order) => order.costumerId === userStorage.costumer.id)
+                          .map((order) => (
+                            <tr key={order.id}>
+                              <td>{order.id}</td>
+                              <td>{format(new Date(order.confirmedDate), 'yyyy-MM-dd')}</td>
+                              <td>{order.total.toFixed(2)}</td>
+                              <td>
+                                <NavLink
+                                  to={`/userOrder/${order.id}`}
+                                  style={{
+                                    textDecoration: 'underline',
+                                    margin: '0 10px',
+                                    border: 'none',
+                                    background: 'none',
+                                    padding: 0,
+                                    color: 'inherit',
+                                    cursor: 'pointer',
+                                  }}
+                                >
+                                  Detalles
+                                </NavLink>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </Table>
+                  ) : (
+                    'Cargando'
+                  )}
+                </Card>
+              </Col>
+            </Row>
+          </>
+        ) : (
+          <div className="text-center">Cargando...</div>
+        )}
+      </Container>
     );
-};
-
-export default costumerProfile;
+  };
+  
+  export default costumerProfile;

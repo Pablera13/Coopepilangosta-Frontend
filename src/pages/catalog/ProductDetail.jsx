@@ -1,18 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Container, Row, Col, Image, Button, Form } from 'react-bootstrap';
+import { Container, Row, Col, Image, Button, Form, Card } from 'react-bootstrap';
 import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { QueryClient, useMutation, useQuery } from 'react-query';
 import { getProductById } from '../../services/productService';
 import { getProductProducerById } from '../../services/productProducerService';
 import { getCategoryById } from '../../services/categoryService';
 
+import Listreview from './listReview';
+
 import './ProductDetail.css';
 
 const ProductDetail = () => {
 
   const productParams = useParams();
-  console.log("id del producto =" + productParams.idproduct)
-  console.log("id de la categoria =" + productParams.idcategory)
+  //console.log("id del producto =" + productParams.idproduct)
+  //console.log("id de la categoria =" + productParams.idcategory)
 
   const user = JSON.parse(localStorage.getItem('user'));
   //const costumerId = user.costumer.id
@@ -28,7 +30,7 @@ const ProductDetail = () => {
       const UserRole = UserObjet.role.name
       UserRole === 'Cliente' ? setUserRole('Cliente') : setUserRole('No Cliente')
     } else {
-      console.log("No habia usuario")
+      //console.log("No habia usuario")
     }
   }, []);
 
@@ -36,6 +38,9 @@ const ProductDetail = () => {
   const [LocalShopping, setLocalShopping] = useState([]);
   const [productRequest, setProduct] = useState(null);
   const [categoryRequest, setCategory] = useState(null);
+  const [reviewRequest, setReview] = useState(null);
+  const prop=0;
+
 
   const [AveragePrice, setAveragePrice] = useState();
 
@@ -44,7 +49,7 @@ const ProductDetail = () => {
   useEffect(() => {
     if (productRequest) {
       setCurrentImage(productRequest.image);
-      console.log("img" + productRequest.image)
+      //console.log("img" + productRequest.image)
 
       productRequest.image.split(',').map((image, index) => (
 
@@ -67,6 +72,7 @@ const ProductDetail = () => {
 
       await getProductById(productParams.idproduct, setProduct);
       await getCategoryById(productParams.idcategory, setCategory);
+      //await getReviewById(productParams.idproduct, setReview);
     }
 
     MeCagoEnLasRestricciones();
@@ -79,7 +85,7 @@ const ProductDetail = () => {
 
       let averageeprice = await getProductProducerById(productParams.idproduct);
       setAveragePrice(averageeprice)
-      console.log("precio de compra promedio = " + averageeprice);
+      //console.log("precio de compra promedio = " + averageeprice);
     }
 
     MeCagoEnLasRestricciones();
@@ -90,9 +96,9 @@ const ProductDetail = () => {
     const storedCar = localStorage.getItem('ShoppingCar');
     if (storedCar) {
       setLocalShopping(JSON.parse(storedCar));
-      console.log("Carrito recuperado : " + storedCar)
+      //console.log("Carrito recuperado : " + storedCar)
     } else {
-      console.log("No habia carrito")
+      //console.log("No habia carrito")
     }
   }, []);
 
@@ -101,15 +107,16 @@ const ProductDetail = () => {
 
   useEffect(() => {
     localStorage.setItem('ShoppingCar', JSON.stringify(LocalShopping));
-    console.log(JSON.parse(localStorage.getItem('ShoppingCar')))
+    //console.log(JSON.parse(localStorage.getItem('ShoppingCar')))
   }, [LocalShopping]);
 
-
+  // useEffect(() => {
+  //   console.log("reviews=" + reviewRequest)
+  // }, [reviewRequest]);
 
   const toLogin = () => {
     navigate(`/login`)
   }
-
 
   const addToCart = () => {
     if (quantity.current.value !== '0') {
@@ -167,11 +174,11 @@ const ProductDetail = () => {
             <div className="container">
               <div className="row">
                 <div className="col-lg-12">
-                  <div className="cardDetails">
-                    <Col md={12}>
-                      <section className="panel">
-                        <div className="panel-body">
+                  <Card className="cardDetails" style={{ width: '100%', height: 'auto' }}>
+                  <Card.Body>
+                        
                           <Row>
+
                             <Col md={6}>
 
                               <div className="ImgDetails">
@@ -274,12 +281,28 @@ const ProductDetail = () => {
                               </p>
                             </Col>
                           </Row>
-                        </div>
-                      </section>
-                    </Col>
-                  </div>
+
+                          {/* {productParams != null? (
+
+                          <Listreview productid={productParams.idproduct}/>    
+
+                          ) : (
+                            'No hay reviews'
+                          )} */}
+
+
+                    </Card.Body>
+                    </Card>
                 </div>
               </div>
+              {productParams != null? (
+
+<Listreview productid={productParams.idproduct}/>    
+
+) : (
+  'No hay reviews'
+)}
+
             </div>
           </div>
         </Container>

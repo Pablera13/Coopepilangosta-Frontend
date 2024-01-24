@@ -6,11 +6,16 @@ export const getCostumers = async () => {
     return data;
 };
 
-
 export const getCostumerById = async(id,state) => {
     
     let data = await api.get(`costumer/${id}`).then(result => result.data);
     state(data)
+    return data;
+}
+
+export const getCostumerByIdNoState = async(id) => {
+    
+    let data = await api.get(`costumer/${id}`).then(result => result.data);
     return data;
 }
 
