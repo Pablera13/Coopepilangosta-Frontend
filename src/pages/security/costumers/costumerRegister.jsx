@@ -10,7 +10,7 @@ import { provinces } from '../../../utils/provinces'
 import swal from 'sweetalert'
 import emailjs from 'emailjs-com'
 import { format } from 'date-fns';
-
+import { checkEmailAvailability } from '../../../services/userService'
 
 import { locations } from '../../../utils/provinces'
 import Select from 'react-select'
@@ -86,9 +86,10 @@ const costumerRegister = () => {
                 idRole: 2
             }
 
-            const check = await checkCedula(cedulaJuridica.current.value)
-            
-            if (check == false) {
+            const cedulaAvailabiloty = await checkCedula(cedulaJuridica.current.value).then(data=>data)
+            const emailAvailability = checkEmailAvailability(email.current.value).then(data=>data)
+
+            if (cedulaAvailabiloty == true && emailAvailability == true) {
 
                 const createdUser = await addUserMutation.mutateAsync(newCostumerUser)
                 let newCostumer = {
@@ -105,7 +106,13 @@ const costumerRegister = () => {
                 }
                 await addCostumerMutation.mutateAsync(newCostumer); 
             }else{
-                swal("Cedula se encuentra registrada","Ya existe un usuario con la cedula ingresada","warning")
+                if (cedulaAvailabiloty == false) {
+                    swal("Cedula se encuentra registrada","Ya existe un usuario con la cedula ingresada","warning")
+                }
+                if (emailAvailability == false) {
+                    swal("Correo electronico se encuentra registrada","Ya existe un usuario con el correo ingresado","warning")
+
+                }
             }
         }
     };
@@ -251,7 +258,7 @@ const costumerRegister = () => {
                         </Form.Group>
                         <Form.Group as={Col} md="5" controlId="validationCustom08">
                             <Form.Label>Cuenta bancaria</Form.Label>
-                            <Form.Control type="text" placeholder="Ingrese una cuenta bancaria" required ref={bankAccount} />
+                            <Form.Control type="number" placeholder="Ingrese una cuenta bancaria" required ref={bankAccount} />
                             <Form.Control.Feedback type="invalid">
                                 Indique su código postal
                             </Form.Control.Feedback>

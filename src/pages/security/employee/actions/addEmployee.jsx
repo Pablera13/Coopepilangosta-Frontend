@@ -114,7 +114,7 @@ export const AddEmployee = () => {
 
     } else {
       if (cedulaAvailability == false) {
-        swal('Advertencia', 'Ya existe un empleado con este numero de cedula, o el form', 'warning')
+        swal('Advertencia', 'Ya existe un empleado con este numero de cedula', 'warning')
       }
       if (emailAvailability == false) {
         swal('Advertencia', 'Este correo electronico ya se encuentra en uso', 'warning')
