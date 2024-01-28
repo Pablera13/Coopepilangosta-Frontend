@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom'
 import { deleteProduct } from '../../../services/productService';
 import { Table, Container, Col, Row, Button } from 'react-bootstrap';
 import AddProductModal from './operations/addProductModal.jsx'
+import { Form } from 'react-bootstrap';
 import ReactPaginate from 'react-paginate';
 import {useNavigate} from 'react-router-dom';
 
@@ -14,6 +15,8 @@ const listProducts = () => {
 
   const { data: Products, isLoading: ProductsLoading, isError: ProductsError } = useQuery('product', getProducts);
   if (Products) { console.log(Products) }
+
+  const [searchTerm, setSearchTerm] = useState('');
 
   const navigate = useNavigate()
   const buttonStyle = {
@@ -40,10 +43,19 @@ const listProducts = () => {
   if (ProductsError)
     return <div>Error</div>
 
+  const filteredBySearch = Products.filter(
+    (products) =>
+    products.name.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+    products.unit.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+    products.state.toString().toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const offset = currentPage * recordsPerPage;
-  const paginatedProducts = Products.slice(offset, offset + recordsPerPage);
+  const paginatedProducts = filteredBySearch.slice(offset, offset + recordsPerPage);
 
   const pageCount = Math.ceil(Products.length / recordsPerPage);
+
+  //const paginatedFilter = filteredBySearch.slice(offset, offset + recordsPerPage);
 
   const handlePageClick = (data) => {
     setCurrentPage(data.selected);
@@ -86,7 +98,22 @@ const listProducts = () => {
       <div className='buttons'>
         <AddProductModal />
 
+        <Form>
+        <Row className="mb-3">
+          <Col md={3}>
+            <Form.Label>Buscar:</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Por nombre, unidad comercial o estado..."
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </Col>
+        </Row>
+      </Form>
+
       </div>
+
+
       <Col xs={8} md={2} lg={12}>
         {Products ? (
           <Row>
