@@ -46,26 +46,27 @@ const listWarehouse = () => {
     setCurrentPage(data.selected);
   };
 
-  const deletewarehouse = (id) => {
-    console.log('Id de la bodega: ', id);
-    deleteWarehouse(id);
-  };
+  // const deletewarehouse = (id) => {
+  //   console.log('Id de la bodega: ', id);
+  //   deleteWarehouse(id);
+  // };
 
   const showAlert = (id) => {
     swal({
       title: 'Eliminar',
-      text: '¿Está seguro de que desea eliminar esta bodega?',
+      text: '¿Está seguro de que desea eliminar esta valoración?',
       icon: 'warning',
       buttons: ['Cancelar', 'Aceptar'],
     }).then((answer) => {
       if (answer) {
+        deleteWarehouse(id);
         swal({
           title: 'Eliminado',
-          text: 'La bodega ha sido eliminada',
+          text: 'La valoración ha sido eliminada',
           icon: 'success',
         });
         setTimeout(function () {
-          deletewarehouse(id);
+          console.log("Review eliminada" + id)
           window.location.reload();
         }, 2000);
       }

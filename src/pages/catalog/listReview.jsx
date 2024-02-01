@@ -121,7 +121,6 @@ async function star4Checked() {setStarsChecked(4)}
 async function star5Checked() {setStarsChecked(5)}
 
 const showAlert = (id) => {
-
   swal({
     title: 'Eliminar',
     text: '¿Está seguro de que desea eliminar esta valoración?',

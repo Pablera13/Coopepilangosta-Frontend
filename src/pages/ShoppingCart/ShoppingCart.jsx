@@ -3,18 +3,14 @@ import { QueryClient, useMutation, useQuery } from "react-query";
 import swal from 'sweetalert';
 import { format } from 'date-fns';
 import { NavLink, Navigate, useNavigate, useParams  } from 'react-router-dom';
-
-
 import { createCostumerOrder } from '../../services/costumerorderService';
 import { createSale } from '../../services/saleService';
 
 import './ShoppingCart.css'
 
-
 const ShoppingCart = () => {
 
   const [LocalShopping, setLocalShopping] = useState([]);
-
   const queryClient = new QueryClient();
 
   let storedCar;
@@ -74,29 +70,27 @@ const ShoppingCart = () => {
     mutationKey: "sale"
   })
 
-  const DeleteOrder = (Productid) =>{
-
-    const updatedCart = LocalShopping.filter(sale => sale.ProductId !== Productid);
-
+  const DeleteProduct = (ProductId) =>{
+    const updatedCart = LocalShopping.filter(sale => sale.ProductId !== ProductId);
+    setLocalShopping(updatedCart);
+  };
+  const DeleteCotizacion = (CotizacionId) =>{
+    const updatedCart = LocalShopping.filter(sale => sale.CotizacionId !== CotizacionId);
     setLocalShopping(updatedCart);
   };
 
   const saveProducerOrder = async () => {
-    let CostumerId;
-
-    LocalShopping.map((sale) => {
-      CostumerId = sale.CostumerId
-    })
 
     const currentDate = new Date();
     const formattedDate = format(currentDate, 'yyyy-MM-dd');
 
     let OrdersSummed = 0;
+    let CostumerId;
 
     LocalShopping.map((sale) => {
  
       OrdersSummed = OrdersSummed + sale.TotalVenta
-
+      CostumerId = sale.CostumerId
       })
 
     let newCostumerOrder = {
@@ -183,51 +177,67 @@ const ShoppingCart = () => {
                                 </div>
                               </td>
                               <td className="align-middle">
+
                                 <input
                                   className="form-control"
                                   defaultValue={Sale.Quantity}
                                   type="number"
                                   min="1"
                                   onChange={(e) => {
+
                                     const updatedShopping = [...LocalShopping];
                                     updatedShopping[index].Quantity = parseInt(e.target.value);
+
+                                    if (Sale.CotizacionId != 0) {
                                     updatedShopping[index].TotalVenta =  updatedShopping[index].PrecioFinal * parseInt(e.target.value);
-
                                     let newTotal = 0;
-
                                     updatedShopping.map((sale) => (
                                     newTotal = newTotal + sale.TotalVenta
                                     ))
-                                    setLocalShopping(updatedShopping);
                                     setTotalOrder(newTotal);
-                                  }}
+                                    } 
 
-                                />
+                                    setLocalShopping(updatedShopping);
+                                  }}
+                                  />
+
                               </td>
                               <td className="align-middle">
                                 <div className="price-wrap">
+                                  {Sale.CotizacionId != 0?
                                   <var className="price">₡{Sale.PrecioConMargen} x {Sale.ProductUnit}</var>
+                                : <var className="price">Por cotizar</var>}
                                 </div>
                               </td>
                               <td className="align-middle">
                                 <div className="price-wrap">
-                                  <var className="price">{Sale.IVA}%</var>
+                                  <var className="price">{Sale.iva}%</var>
                                 </div>
                               </td>
                               <td className="align-middle">
                                 <div className="price-wrap">
+                                  {Sale.CotizacionId != 0?
                                   <var className="price">₡{Sale.PrecioFinal}</var>
+                                : <var className="price">Por cotizar</var>}
                                 </div>
                               </td>
                               <td className="align-middle">
                                 <div className="price-wrap">
-                                  <var className="price" >₡{(Sale.TotalVenta).toFixed(2)}</var>
+                                  {Sale.CotizacionId != 0?
+                                  <var className="price">₡{(Sale.TotalVenta).toFixed(2)}</var>
+                                : <var className="price">Por cotizar</var>}
                                 </div>
                               </td>
                               <td className="text-right d-none d-md-block align-middle">
                                 <button variant='danger' className="btn btn-light" size='sm'
                                 
-                                onClick={() => DeleteOrder(Sale.ProductId)}
+                                onClick={() => 
+                                  
+                                  {Sale.CotizacionId != 0?
+                                  DeleteCotizacion(Sale.CotizacionId)
+                                  :
+                                  DeleteProduct(Sale.ProductId)}
+                                }   
                                 
                                 >Eliminar</button>
                               </td>
@@ -242,28 +252,12 @@ const ShoppingCart = () => {
                 <div className="col-lg-3">
                   <div className="card">
                     <div className="card-body">
-                      <dl className="dlist-align">
-                        <dt>Aplicar Cupon</dt>
-                      </dl>
-
-                      <p> <input type='text' className="form-control lg" />  <a className="btn btn-primary btn-main btn-square btn-block">Aplicar</a> </p>
-
-                      
-                      <hr />
-
+                     
                       <dl className="dlist-align">
                         <dt>Total:</dt>
-                        <dd className="text-right ml-3" ref={TotalFinal} >  {TotalOrder !== undefined ? `₡${TotalOrder.toFixed(2)}` : 'Sin dato'} </dd>
-                      </dl>
-
-                      <dl className="dlist-align">
-                        <dt>Descuento:</dt>
-                        <dd className="text-right text-danger ml-3">₡-0</dd>
-                      </dl>
-
-                      <dl className="dlist-align">
-                        <dt>Total con Descuento:</dt>
-                        <dd className="text-right text-dark b ml-3"><strong>No aplica</strong></dd>
+                        <dd className="text-right ml-3" ref={TotalFinal} >  
+                        {TotalOrder != undefined  && TotalOrder >0? `₡${TotalOrder.toFixed(2)}` : 'Por cotizar'} 
+                        </dd>
                       </dl>
 
                       <hr />

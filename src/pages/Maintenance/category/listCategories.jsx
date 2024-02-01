@@ -44,27 +44,29 @@ const listCategories = () => {
     setCurrentPage(data.selected);
   };
 
-  const deleteCategoryItem = async (id) => {
-    console.log("Id de la categoría: ", id);
-    await deleteCategory(id);
-    window.location.reload();
-  };
+  // const deleteCategoryItem = async (id) => {
+  //   console.log("Id de la categoría: ", id);
+  //   await deleteCategory(id);
+  //   window.location.reload();
+  // };
 
   const showAlert = (id) => {
     swal({
-      title: "Eliminar",
-      text: "¿Está seguro de que desea eliminar esta categoría?",
-      icon: "warning",
-      buttons: ["Cancelar", "Aceptar"],
+      title: 'Eliminar',
+      text: '¿Está seguro de que desea eliminar esta valoración?',
+      icon: 'warning',
+      buttons: ['Cancelar', 'Aceptar'],
     }).then((answer) => {
       if (answer) {
+        deleteCategory(id);
         swal({
-          title: 'Eliminado!',
-          text: 'La categoría ha sido eliminada',
+          title: 'Eliminado',
+          text: 'La valoración ha sido eliminada',
           icon: 'success',
         });
         setTimeout(function () {
-          deleteCategoryItem(id);
+          console.log("Review eliminada" + id)
+          window.location.reload();
         }, 2000);
       }
     });

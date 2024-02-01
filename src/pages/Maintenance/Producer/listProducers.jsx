@@ -51,20 +51,21 @@ const listProducers = () => {
 
   const showAlert = (id) => {
     swal({
-      title: "Eliminar",
-      text: "¿Está seguro de que desea eliminar este productor?",
-      icon: "warning",
-      buttons: ["Cancelar", "Aceptar"],
+      title: 'Eliminar',
+      text: '¿Está seguro de que desea eliminar esta valoración?',
+      icon: 'warning',
+      buttons: ['Cancelar', 'Aceptar'],
     }).then((answer) => {
       if (answer) {
+        deleteProducerService(id);
         swal({
-          title: 'Eliminado!',
-          text: 'El productor ha sido eliminado',
+          title: 'Eliminado',
+          text: 'La valoración ha sido eliminada',
           icon: 'success',
         });
         setTimeout(function () {
-          deleteProducerService(id).finally(window.location.reload());
-          
+          console.log("Review eliminada" + id)
+          window.location.reload();
         }, 2000);
       }
     });

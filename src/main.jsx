@@ -66,6 +66,9 @@ import StockReport from './pages/reports/stockReport/stockReport.jsx'
 //Componentes del carro de compra
 import ShoppingCart from './pages/ShoppingCart/ShoppingCart'
 
+//Componentes de cotizaciones
+import ListProductCostumer from './pages/Maintenance/ProductCostumer/listProductCostumer'
+
 const queryClient = new QueryClient()
 ReactDOM.createRoot(document.getElementById('root')).render(
   <QueryClientProvider client={queryClient}>
@@ -100,6 +103,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Route path="/productReport/:productId"element={<ProductReport/>}/>
       <Route path="/stockReport/"element={<StockReport/>}/>
 
+      <Route path="/listProductCostumer/:costumername/:costumerid"element={<ListProductCostumer/>}/>
 
 
 

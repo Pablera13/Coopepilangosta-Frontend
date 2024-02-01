@@ -88,32 +88,52 @@ const userOrder = () => {
                 <header className="card-header"> Mis pedidos / Seguimiento </header>
                 <div className="card-body">
                     <h6>Código de Pedido: #{order.orderid}</h6>
+                    
+                    {customerorderRequest.detail != ""? 
+
                     <article className="card">
+
                         <div className="card-body row">
+
                             <div className="col">
                                 <strong>Detalle del pedido:</strong>
-                                <br />{customerorderRequest.detail}
+                                <br /><br />{customerorderRequest.detail}
                             </div>
+                            <br/>
+                        </div>
+
+                    </article>
+
+                    : ""}
+
+                    <article className="card">
+
+                        <div className="card-body row">
                             <div className="col">
                                 <strong>Fecha de pago:</strong>
-                                <br /> 
+                                <br/> 
                                 {customerorderRequest.paidDate === "0001-01-01T00:00:00"
                                 ? "Sin pagar"
                                 : format(new Date(customerorderRequest.paidDate), 'yyyy-MM-dd')}
                                 <i className="fa fa-phone"></i> 
                             </div>
+
                             <div className="col">
                                 <strong>Fecha de entrega:</strong>
                                 <br /> {customerorderRequest.deliveredDate === "0001-01-01T00:00:00"
                                 ? "Sin entregar"
                                 : format(new Date(customerorderRequest.deliveredDate), 'yyyy-MM-dd')}
                             </div>
+
                             <div className="col">
                                 <strong>Total de la compra:</strong>
                                 <br /> ₡{customerorderRequest.total.toFixed(2)}
                             </div>
+
                         </div>
+
                     </article>
+
                     <div className="track">
                         {/* <div className="step active"> */}
                         <div className={

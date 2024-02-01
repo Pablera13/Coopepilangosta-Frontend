@@ -49,35 +49,34 @@ const listProducts = () => {
     setCurrentPage(data.selected);
   };
 
-  const deleteproducto = (id) => {
+  // const deleteproducto = (id) => {
 
-    console.log("Id del producto: ", id);
-    deleteProduct(id);
+  //   console.log("Id del producto: ", id);
+  //   deleteProduct(id);
 
-  }
+  // }
 
   const showAlert = (id) => {
     swal({
-      title: "Eliminar",
-      text: "Esta seguro que desea eliminar este producto?",
-      icon: "warning",
-      buttons: ["Cancelar", "Aceptar"]
-    }).then(answer => {
+      title: 'Eliminar',
+      text: '¿Está seguro de que desea eliminar esta valoración?',
+      icon: 'warning',
+      buttons: ['Cancelar', 'Aceptar'],
+    }).then((answer) => {
       if (answer) {
+        deleteProduct(id);
         swal({
-          title: 'Eliminado!',
-          text: `El producto ha sido eliminada`,
-          icon: "success"
-
-        })
+          title: 'Eliminado',
+          text: 'La valoración ha sido eliminada',
+          icon: 'success',
+        });
         setTimeout(function () {
-          deleteproducto(id);
+          console.log("Review eliminada" + id)
           window.location.reload();
-        }, 2000)
-
+        }, 2000);
       }
-    })
-  }
+    });
+  };
 
   return (
 

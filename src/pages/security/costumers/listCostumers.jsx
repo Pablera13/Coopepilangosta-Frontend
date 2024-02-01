@@ -5,12 +5,14 @@ import { getCostumers } from '../../../services/costumerService';
 import DetailsCostumer from './detailsCostumer';
 import Styles from './listCostumers.css'
 import VerifyCostumer from '../costumers/actions/verifyCostumer';
+import {useNavigate} from 'react-router-dom';
 
 
 const listCostumers = () => {
     const {data:costumers,isLoading:costumersloading,IsError:costumersError} = useQuery('costumer',getCostumers);
     //if(costumers){console.log(costumers)}
-    
+    const navigate = useNavigate()
+
   return (
     <>
     <Container>
@@ -50,7 +52,17 @@ const listCostumers = () => {
                                 <td>{costumer.verified==true? "Verificado": "No verificado"}</td>
                                 <td>
                                     <DetailsCostumer props={costumer}/>      
-                                    <VerifyCostumer props={costumer} />                           
+                                    <VerifyCostumer props={costumer} /> 
+
+                                    {costumer.verified==true? 
+                                    
+                                    <Button
+                                    onClick={() => navigate(`/listProductCostumer/${costumer.name}/${costumer.id}`)}>
+                                    Cotizaciones
+                                   </Button>
+
+                                    :""}
+                                             
                                 </td>
                             </tr>
                         )
