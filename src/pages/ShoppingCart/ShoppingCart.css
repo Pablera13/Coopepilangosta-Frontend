@@ -8,6 +8,14 @@
       font-size: 15px;
     }
 
+    hr.vertical {
+      width: 1px; /* Ancho de la línea vertical */
+      height: 100px; /* Altura de la línea vertical */
+      transform: rotate(90deg); /* Rotar la línea para que sea vertical */
+      margin: 0 auto; /* Opcional: centrar la línea verticalmente */
+    }
+    
+
     table.table-shopping-cart tbody tr:hover {
       background-color: transparent; /* Cambia el color de fondo al valor deseado o 'transparent' para eliminarlo */
     }
@@ -36,3 +44,7 @@
       font-size: 16px;
     }
     
+    /* .form-control{
+
+      width: 50%;
+    } */

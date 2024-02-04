@@ -3,6 +3,7 @@ import { Table, Container, Col, Row, Button, Card, ListGroup } from 'react-boots
 import AddContact from '../costumers/actions/addContact';
 import UpdateContact from '../costumers/actions/updateContact';
 import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
+import PrintCustomerOrder from '../../Maintenance/CustomerOrder/actions/printCustomerOrder.jsx';
 
 import { useEffect, useState } from 'react';
 import { getUserById } from '../../../services/userService';
@@ -218,7 +219,7 @@ const costumerProfile = () => {
                             <tr key={order.id}>
                               <td>{order.id}</td>
                               <td>{format(new Date(order.confirmedDate), 'yyyy-MM-dd')}</td>
-                              <td>{order.total.toFixed(2)}</td>
+                              <td>₡{order.total.toFixed(2)}</td>
                               <td>
                                 <NavLink
                                   to={`/userOrder/${order.id}`}
@@ -234,6 +235,9 @@ const costumerProfile = () => {
                                 >
                                   Detalles
                                 </NavLink>
+
+                                <PrintCustomerOrder props={order.id}/>
+
                               </td>
                             </tr>
                           ))}
