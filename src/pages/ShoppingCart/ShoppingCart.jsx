@@ -231,7 +231,7 @@ const ShoppingCart = () => {
                               }}
                             >Eliminar</button>
                           </td>
-
+                          
                         </tr>
                       ))}
 
@@ -256,6 +256,18 @@ const ShoppingCart = () => {
                         <td><b>Total</b></td>
                         <td>{TotalOrder == 0 ? 'Por cotizar' : '₡' + TotalOrder}</td>
                       </tr>
+
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+
                     </tbody>
                   </table>
                 </div>

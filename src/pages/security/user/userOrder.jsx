@@ -1,47 +1,27 @@
 import { React, useState, useEffect } from 'react'
 import { useParams, NavLink } from 'react-router-dom';
-import { getSale } from '../../../services/saleService';
+import { getProducerOrderSales } from '../../../services/saleService';
 import { getProductById2 } from '../../../services/productService';
-import { getProductProducerById } from '../../../services/productProducerService';
-import { useQuery } from 'react-query';
 import { getCostumerOrderById } from '../../../services/costumerorderService';
 import { format } from 'date-fns';
 
-import styles from './userOrder.css'
+import './userOrder.css'
 
 const userOrder = () => {
 
     const order = useParams();
     const [customerorderRequest, setCustomerorder] = useState(null)
-    const { data: sales, isLoading, isError } = useQuery('sale', getSale);
-
-    let dataFiltered = []
-
     const [MyFilteredData, setMyFilteredData] = useState([]);
     const [MyOrders, setMyOrders] = useState([]);
     const [subTotal, setSubTotal] = useState(0);
 
-
     useEffect(() => {
-        if (sales) {
-            console.log("Sales = " + JSON.stringify(sales))
-            dataFiltered = sales.filter((sale) => sale.costumerOrderId == order.orderid)
-            setMyFilteredData(dataFiltered)
-            console.log("dataFiltered = " + dataFiltered)
+        async function settingSales() {
+            getProducerOrderSales(order.orderid, setMyFilteredData)
             getCostumerOrderById(order.orderid, setCustomerorder);
         }
-    }, [sales]);
-
-    // useEffect(() => {
-    //     if (sales) {
-    //         console.log("Sales = " + JSON.stringify(sales))
-    //         dataFiltered = sales.filter((sale) => sale.costumerOrderId == order.orderid)
-    //         setMyFilteredData(dataFiltered)
-    //         console.log("dataFiltered = " + dataFiltered)
-    //         getCostumerOrderById(order.orderid, setCustomerorder);
-    //     }
-    // }, [sales]);
-
+        settingSales();
+      }, []);
 
     useEffect(() => {
 
@@ -75,25 +55,16 @@ const userOrder = () => {
 
     }, [MyFilteredData]);
 
-    if (isLoading)
-        return <div>Loading...</div>
-
-    if (isError)
-        return <div>Error</div>
 
     return (
 
         <div className="container">
 
-            {/* {Array.isArray(MyOrders) && MyOrders.length > 0 ? ( */}
+            {customerorderRequest != null && MyOrders.length >0 ? (
 
-            {MyOrders != null && customerorderRequest != null ? (
-
-                <article className="card">
-                    <header className="card-header"> Mis pedidos / Seguimiento </header>
+                <><article className="card">
+                    <header className="card-header"><h6>Código de Pedido: #{order.orderid}</h6></header>
                     <div className="card-body">
-                        <h6>Código de Pedido: #{order.orderid}</h6>
-
                         <article className="card">
                             <div className="card-body row">
 
@@ -115,7 +86,7 @@ const userOrder = () => {
 
                                 <div className="col">
                                     <strong>Fecha de entrega</strong>
-                                    <br /> 
+                                    <br />
                                     {customerorderRequest.deliveredDate === "0001-01-01T00:00:00"
                                         ? "Sin entregar"
                                         : format(new Date(customerorderRequest.deliveredDate), 'yyyy-MM-dd')}
@@ -123,11 +94,11 @@ const userOrder = () => {
 
                             </div>
                         </article>
-                        <hr />
+
                         <ul className="row">
 
                             <table className="table table-borderless table-shopping-cart">
-
+                                <br></br>
                                 <thead>
                                     <tr>
                                         <th>Imagen</th>
@@ -140,7 +111,7 @@ const userOrder = () => {
                                         <th>Final</th>
                                     </tr>
                                 </thead>
-                                
+
                                 <tbody>
                                     {MyOrders.map((order, index) => (
                                         <tr key={index}>
@@ -150,16 +121,16 @@ const userOrder = () => {
                                             <td>{order.ProductName}</td>
                                             <td>{order.Quantity}</td>
                                             <td>{order.Unit}</td>
-                                            <td>{order.UnitPrice == 0? 'Por cotizar' : '₡' + order.UnitPrice}</td>
-                                            <td>{order.UnitPrice == 0? 'Por cotizar' : '₡' + order.UnitPrice * order.Quantity}</td>
+                                            <td>{order.UnitPrice == 0 ? 'Por cotizar' : '₡' + order.UnitPrice}</td>
+                                            <td>{order.UnitPrice == 0 ? 'Por cotizar' : '₡' + order.UnitPrice * order.Quantity}</td>
                                             <td>{(order.IVA * 100)}%</td>
-                                            <td>{order.Total == 0? 'Por cotizar' : '₡' + order.Total}</td>
+                                            <td>{order.Total == 0 ? 'Por cotizar' : '₡' + order.Total}</td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
 
-                            <article className="card">
+                            <div className="card">
                                 <div className="card-body row">
 
                                     <div className="col" style={{ marginLeft: "75%" }}>
@@ -167,7 +138,7 @@ const userOrder = () => {
                                     </div>
 
                                     <div className="col">
-                                        {subTotal== 0? 'Por cotizar' : '₡' + subTotal.toFixed(2)}  
+                                        {subTotal == 0 ? 'Por cotizar' : '₡' + subTotal.toFixed(2)}
                                     </div>
 
                                     <div className="col" style={{ marginLeft: "75%" }}>
@@ -175,11 +146,22 @@ const userOrder = () => {
                                     </div>
 
                                     <div className="col">
-                                    {customerorderRequest.total== 0? 'Por cotizar' : '₡' + customerorderRequest.total}
+                                        {customerorderRequest.total == 0 ? 'Por cotizar' : '₡' + customerorderRequest.total}
                                     </div>
 
                                 </div>
-                            </article>
+                            </div>
+                        </ul>
+
+
+
+                    </div>
+                </article><article className="card">
+                        <div className="card-body">
+
+
+
+
 
                             {customerorderRequest.detail != "" ?
 
@@ -200,61 +182,46 @@ const userOrder = () => {
 
                             <div className="track">
                                 {/* <div className="step active"> */}
-                                <div className={
-                                    customerorderRequest.stage === "Confirmado" ||
-                                        customerorderRequest.stage === "En preparación" ||
-                                        customerorderRequest.stage === "En ruta de entrega" ||
-                                        customerorderRequest.stage === "Entregado"
-                                        ? "step active"
-                                        : "step"
-                                }>
+                                <div className={customerorderRequest.stage === "Confirmado" ||
+                                    customerorderRequest.stage === "En preparación" ||
+                                    customerorderRequest.stage === "En ruta de entrega" ||
+                                    customerorderRequest.stage === "Entregado"
+                                    ? "step active"
+                                    : "step"}>
 
                                     <span className="icon"> <i className="fa fa-check"></i> </span>
                                     <span className="text">Pedido confirmado</span>
                                 </div>
-                                <div className={
-                                    customerorderRequest.stage === "En preparación" ||
-                                        customerorderRequest.stage === "En ruta de entrega" ||
-                                        customerorderRequest.stage === "Entregado"
-                                        ? "step active"
-                                        : "step"
-                                }>
+                                <div className={customerorderRequest.stage === "En preparación" ||
+                                    customerorderRequest.stage === "En ruta de entrega" ||
+                                    customerorderRequest.stage === "Entregado"
+                                    ? "step active"
+                                    : "step"}>
                                     <span className="icon"> <i className="fa fa-user"></i> </span>
                                     <span className="text">En preparación</span>
                                 </div>
-                                <div className={
-                                    customerorderRequest.stage === "En ruta de entrega" ||
-                                        customerorderRequest.stage === "Entregado"
-                                        ? "step active"
-                                        : "step"
-                                }>
+                                <div className={customerorderRequest.stage === "En ruta de entrega" ||
+                                    customerorderRequest.stage === "Entregado"
+                                    ? "step active"
+                                    : "step"}>
                                     <span className="icon"> <i className="fa fa-truck"></i> </span>
                                     <span className="text">En ruta de entrega</span>
                                 </div>
-                                <div className={
-                                    customerorderRequest.stage === "Entregado"
-                                        ? "step active"
-                                        : "step"
-                                }>
+                                <div className={customerorderRequest.stage === "Entregado"
+                                    ? "step active"
+                                    : "step"}>
                                     <span className="icon"> <i className="fa fa-box"></i> </span>
                                     <span className="text">Entregado</span>
                                 </div>
                             </div>
 
-                        </ul>
-                        <hr />
+                            <br></br>
+                            <hr />
+                            <NavLink to={`/userProfile`} className="btn btn-warning">Volver a mi perfil</NavLink>
 
-                        {/* <span className="text-muted">Total: ₡{order.Total.toFixed(2)}</span> */}
-
-                        {/* <a href="#" className="btn btn-warning" data-abc="true">
-                        <i className="fa fa-chevron-left"></i> Volver a mi perfil
-                    </a> */}
-
-                        <NavLink to={`/userProfile`} className="btn btn-warning">Volver a mi perfil</NavLink>
-
-
-                    </div>
-                </article>
+                            <br></br>
+                        </div>
+                    </article></>
 
             ) : "Cargando..."}
 

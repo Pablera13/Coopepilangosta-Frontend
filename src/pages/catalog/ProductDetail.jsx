@@ -8,6 +8,7 @@ import { getCategoryById } from '../../services/categoryService';
 import { getProductCostumerById } from '../../services/productCostumerService.js';
 import { getSingleProductCostumerById } from '../../services/productCostumerService.js';
 import { getProductById2 } from '../../services/productService';
+import { getStarsAverage } from '../../services/reviewService';
 
 import Select from 'react-select';
 
@@ -22,6 +23,14 @@ const ProductDetail = () => {
   const navigate = useNavigate()
 
   const [UserRole, setUserRole] = useState('');
+  const [StarsAverage, setStarsAverage] = useState('');
+
+
+  useEffect(() => {
+    if (StarsAverage) {
+console.log("AVG estrellas = " + StarsAverage)    }
+  }, [StarsAverage]);
+
 
   useEffect(() => {
     const User = localStorage.getItem('user');
@@ -42,9 +51,6 @@ const ProductDetail = () => {
   const [MyCotizacion, setMyCotizacion] = useState([]);
   const [FixedCotizacion, setFixedCotizacion] = useState(null);
 
-  const prop = 0;
-
-  const [AveragePrice, setAveragePrice] = useState();
   const [currentImage, setCurrentImage] = useState(null);
 
   useEffect(() => {
@@ -98,6 +104,8 @@ const ProductDetail = () => {
       await getProductById(productParams.idproduct, setProduct);
       await getCategoryById(productParams.idcategory, setCategory);
       await getProductCostumerById(productParams.idproduct, user.costumer.id, setCotizacionRequest)
+      await getStarsAverage(productParams.idproduct, setStarsAverage);
+
     }
     MeCagoEnLasRestricciones();
   }, []);
@@ -121,15 +129,15 @@ const ProductDetail = () => {
     }
   };
 
-  useEffect(() => {
-    async function MeCagoEnLasRestricciones() {
-      let averageeprice = await getProductProducerById(productParams.idproduct);
-      setAveragePrice(averageeprice)
-      //console.log("precio de compra promedio = " + averageeprice);
-    }
-    MeCagoEnLasRestricciones();
+  // useEffect(() => {
+  //   async function MeCagoEnLasRestricciones() {
+  //     let averageeprice = await getProductProducerById(productParams.idproduct);
+  //     setAveragePrice(averageeprice)
+  //     //console.log("precio de compra promedio = " + averageeprice);
+  //   }
+  //   MeCagoEnLasRestricciones();
 
-  }, []);
+  // }, []);
 
   useEffect(() => {
     const storedCar = localStorage.getItem('ShoppingCar');
@@ -213,7 +221,7 @@ const ProductDetail = () => {
             PrecioConMargen: 0,
             iva: productRequest.iva,
             TotalVenta: 0,
-            SubTotal:0,
+            SubTotal: 0,
             ProductUnit: productRequest.unit,
             ProductImage: productRequest.image,
             Quantity: parseInt(quantity.current.value),
@@ -279,7 +287,8 @@ const ProductDetail = () => {
                           </h4>
                           <br />
                           <form>
-                            <p className="clasificacion">
+
+                            {/* <p className="clasificacion">
                               <input id="radio1" type="radio" name="estrellas" value="5" />
                               <label className='Star' htmlFor="radio1">★</label>
                               <input id="radio2" type="radio" name="estrellas" value="4" />
@@ -290,7 +299,14 @@ const ProductDetail = () => {
                               <label className='Star' htmlFor="radio4">★</label>
                               <input id="radio5" type="radio" name="estrellas" value="1" />
                               <label className='Star' htmlFor="radio5">★</label>
-                            </p>
+                            </p> */}
+
+                            {Array.from({ length: StarsAverage.stars }, () => (
+                              <span className="Star">
+                                ★
+                              </span>
+                            ))}
+
                           </form>
 
                           <p>

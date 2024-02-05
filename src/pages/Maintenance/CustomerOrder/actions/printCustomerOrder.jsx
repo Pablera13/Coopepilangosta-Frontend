@@ -7,22 +7,25 @@ import logoCope from '../../../../assets/logoCoopepilangosta.png'
 import { getCostumerOrderById } from '../../../../services/costumerorderService';
 
 
-import { getSale } from '../../../../services/saleService';
+import { getProducerOrderSales } from '../../../../services/saleService';
 
 import jsPDF from 'jspdf';
 import { getProductById } from '../../../../services/productService';
-import { getProductProducerById } from '../../../../services/productProducerService';
 
 const printCustomerOrder = (props) => {
 
-    const { data: sales } = useQuery('sale', getSale);
-    const [ProductProducer, setProduct] = useState(null)
-    var [MySales, setMySales] = useState([])
+    useEffect(() => {
+        async function settingSales() {
+        getProducerOrderSales(props.props, setMySales)
+        }
+        settingSales();
+      }, []);
+
+    const [MySales, setMySales] = useState([])
     const [MyOrders, setMyOrders] = useState([]);
     const [customerorderRequest, setCustomerorder] = useState(null)
     const [customerRequest, setCustomer] = useState(null)
     const [productRequest, setProductRequest] = useState(null)
-
 
     const generatePDF = async (id) => {
 
@@ -30,13 +33,6 @@ const printCustomerOrder = (props) => {
 
             let customerorder = await getCostumerOrderById(id, setCustomerorder)
             let customer = await getCostumerById(customerorder.costumerId, setCustomer)
-
-            if (sales) {
-                MySales = sales.filter(
-                    (sales) => sales.costumerOrderId === id
-                )
-            };
-
 
             async function fetchProductData() {
                 const sales = [];
@@ -193,8 +189,8 @@ const printCustomerOrder = (props) => {
 
             const currentDate = new Date();
             const formattedDate = format(currentDate, 'yyyy-MM-dd');
-            doc.save(`Factura_${customerorder.id}_${customer.name}_${formattedDate}.pdf`);
-           // doc.output('dataurlnewwindow');
+           doc.save(`Factura_${customerorder.id}_${customer.name}_${formattedDate}.pdf`);
+           //doc.output('dataurlnewwindow');
             setMyOrders([])
 
         } catch (error) {

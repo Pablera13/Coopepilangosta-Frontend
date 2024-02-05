@@ -16,8 +16,11 @@ export const menuItemsCostumer = [
     },
     {
         title: 'Carro de compras',
-        // url: '/ShoppingCart/:idcostumer',
         url: '/ShoppingCart',
+    },
+    {
+        title: 'Mis Pedidos',
+        url: '/myCustomerOrders',
     },
     {
         title: 'Perfil',
@@ -165,9 +168,7 @@ export const menuItems = [
             },
         ],
     },
-    {
-        title: 'Carro de compras',
-    },
+    
     {
         title: 'Usuarios',
         submenu: [

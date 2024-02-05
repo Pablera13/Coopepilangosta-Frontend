@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Col, Button, Form, Card } from 'react-bootstrap';
 import { format } from 'date-fns';
 import {useMutation} from 'react-query';
-import {getReviewById} from '../../services/ReviewService';
+import {getReviewById} from '../../services/reviewService';
 import {getCostumerByIdNoState} from '../../services/costumerService';
 
-import {createReview} from '../../services/ReviewService';
-import {deleteReview} from '../../services/ReviewService';
+import {createReview} from '../../services/reviewService';
+import {deleteReview} from '../../services/reviewService';
 import ReviewEdit from './actions/updateReview'
 
 import { es } from 'date-fns/locale';

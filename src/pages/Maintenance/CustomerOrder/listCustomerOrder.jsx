@@ -5,8 +5,6 @@ import { format } from 'date-fns';
 import { Table, Container, Col, Row, Button } from 'react-bootstrap';
 import { deleteCostumerOrder } from '../../../services/costumerorderService';
 import { getCostumerOrder } from '../../../services/costumerorderService';
-
-import { getSale } from '../../../services/saleService';
 import Select from 'react-select';
 import PrintCustomerOrder from './actions/printCustomerOrder.jsx';
 
