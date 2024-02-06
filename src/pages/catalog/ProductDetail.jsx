@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Col, Image, Button, Form, Card } from 'react-bootstrap';
 import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
-import { QueryClient, useMutation, useQuery } from 'react-query';
 import { getProductById } from '../../services/productService';
-import { getProductProducerById } from '../../services/productProducerService';
 import { getCategoryById } from '../../services/categoryService';
 import { getProductCostumerById } from '../../services/productCostumerService.js';
 import { getSingleProductCostumerById } from '../../services/productCostumerService.js';
-import { getProductById2 } from '../../services/productService';
 import { getStarsAverage } from '../../services/reviewService';
 
 import Select from 'react-select';
@@ -23,14 +20,7 @@ const ProductDetail = () => {
   const navigate = useNavigate()
 
   const [UserRole, setUserRole] = useState('');
-  const [StarsAverage, setStarsAverage] = useState('');
-
-
-  useEffect(() => {
-    if (StarsAverage) {
-console.log("AVG estrellas = " + StarsAverage)    }
-  }, [StarsAverage]);
-
+  const [StarsAverage, setStarsAverage] = useState(0);
 
   useEffect(() => {
     const User = localStorage.getItem('user');
@@ -53,29 +43,23 @@ console.log("AVG estrellas = " + StarsAverage)    }
 
   const [currentImage, setCurrentImage] = useState(null);
 
-  useEffect(() => {
-    if (selectedCotizacion) {
-      async function ToSetCotizacion() {
-        await getSingleProductCostumerById(selectedCotizacion.value, setMyCotizacion);
-      } ToSetCotizacion();
-    }
-  }, [selectedCotizacion]);
+  const setCotizacion = async (id) => {
+    await getSingleProductCostumerById(id, setMyCotizacion);
+  }
 
   useEffect(() => {
     async function fetchCotizacion() {
-      if (MyCotizacion != null) {
-
-        const product = await getProductById2(MyCotizacion.productId);
+      if (MyCotizacion != null && productRequest != null) {
 
         const MargenGanancia = MyCotizacion.purchasePrice * (MyCotizacion.margin / 100)
         const PrecioConMargen = MyCotizacion.purchasePrice + MargenGanancia
-        const IVA = PrecioConMargen * (product.iva / 100)
+        const IVA = PrecioConMargen * (productRequest.iva / 100)
         const finalPrice = PrecioConMargen + IVA
 
         const FixedCotizacion = {
           cotizacionId: MyCotizacion.id,
           priceWithMargin: PrecioConMargen,
-          iva: product.iva,
+          iva: productRequest.iva,
           unit: MyCotizacion.unit,
           finalPrice: finalPrice.toFixed(0)
         }
@@ -89,9 +73,9 @@ console.log("AVG estrellas = " + StarsAverage)    }
   useEffect(() => {
     if (productRequest) {
       setCurrentImage(productRequest.image);
-      productRequest.image.split(',').map((image, index) => (
-        console.log("Imagen=" + image + ", index=" + index)
-      ))
+      // productRequest.image.split(',').map((image, index) => (
+      //   // console.log("Imagen=" + image + ", index=" + index)
+      // ))
     }
   }, [productRequest]);
 
@@ -103,9 +87,8 @@ console.log("AVG estrellas = " + StarsAverage)    }
     async function MeCagoEnLasRestricciones() {
       await getProductById(productParams.idproduct, setProduct);
       await getCategoryById(productParams.idcategory, setCategory);
-      await getProductCostumerById(productParams.idproduct, user.costumer.id, setCotizacionRequest)
       await getStarsAverage(productParams.idproduct, setStarsAverage);
-
+      await getProductCostumerById(productParams.idproduct, user.costumer.id, setCotizacionRequest);
     }
     MeCagoEnLasRestricciones();
   }, []);
@@ -226,7 +209,7 @@ console.log("AVG estrellas = " + StarsAverage)    }
             ProductImage: productRequest.image,
             Quantity: parseInt(quantity.current.value),
           };
-          console.log("No encontro el producto y lo seteo")
+          // console.log("No encontro el producto y lo seteo")
 
           setLocalShopping((prevProducts) => [...prevProducts, newProductToCart]);
         }
@@ -280,32 +263,20 @@ console.log("AVG estrellas = " + StarsAverage)    }
                         </Col>
                         <Col md={6}>
 
-                          <h4 className="pro-d-title">
-                            <a href="#" className="TitleProducts">
+                          <h4 className="pro-d-title" >
+                            <a className="TitleProducts" style={{marginRight:'5%'}}>
                               {productRequest.name}
                             </a>
+ 
+                              {Array.from({ length: StarsAverage }, () => (
+                                <span className="Rating">
+                                  ★
+                                </span>
+                              ))}
+
                           </h4>
                           <br />
                           <form>
-
-                            {/* <p className="clasificacion">
-                              <input id="radio1" type="radio" name="estrellas" value="5" />
-                              <label className='Star' htmlFor="radio1">★</label>
-                              <input id="radio2" type="radio" name="estrellas" value="4" />
-                              <label className='Star' htmlFor="radio2">★</label>
-                              <input id="radio3" type="radio" name="estrellas" value="3" />
-                              <label className='Star' htmlFor="radio3">★</label>
-                              <input id="radio4" type="radio" name="estrellas" value="2" />
-                              <label className='Star' htmlFor="radio4">★</label>
-                              <input id="radio5" type="radio" name="estrellas" value="1" />
-                              <label className='Star' htmlFor="radio5">★</label>
-                            </p> */}
-
-                            {Array.from({ length: StarsAverage.stars }, () => (
-                              <span className="Star">
-                                ★
-                              </span>
-                            ))}
 
                           </form>
 
@@ -340,7 +311,7 @@ console.log("AVG estrellas = " + StarsAverage)    }
                                 <Select
                                   options={cotizacionOptions}
                                   placeholder='Mis cotizaciones'
-                                  onChange={(selectedOption) => setSelectedCotizacion(selectedOption)}
+                                  onChange={(selectedOption) => setCotizacion(selectedOption.value)}
                                   className="small-input" />
                               </Col>
 

@@ -1,74 +1,99 @@
-import { React, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
+import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Button } from 'react-bootstrap';
-import { getCostumerById } from '../../../../services/costumerService';
+import { Table, Container, Col, Row, Button } from 'react-bootstrap';
+import { getProducerOrder } from '../../../../services/producerorderService';
+import { getProducerOrderById } from '../../../../services/producerorderService';
+import { getProducerById } from '../../../../services/producerService';
+import { getPurchase } from '../../../../services/purchaseService';
 import logoCope from '../../../../assets/logoCoopepilangosta.png'
-import { getCostumerOrderById } from '../../../../services/costumerorderService';
-
-
-import { getProducerOrderSales } from '../../../../services/saleService';
 
 import jsPDF from 'jspdf';
 import { getProductById } from '../../../../services/productService';
+import { getProductProducer } from '../../../../services/productProducerService';
 
-const printCustomerOrder = (props) => {
+const printProducerOrder = (props) => {
 
-    useEffect(() => {
-        async function settingSales() {
-        getProducerOrderSales(props.props, setMySales)
-        }
-        settingSales();
-      }, []);
+    const params = useParams();
 
-    const [MySales, setMySales] = useState([])
+    const buttonStyle = {
+        borderRadius: '5px',
+        backgroundColor: '#e0e0e0',
+        color: '#333',
+        border: '1px solid #e0e0e0',
+        padding: '8px 12px',
+        cursor: 'pointer',
+        transition: 'background-color 0.3s',
+        minWidth: '100px',
+        fontWeight: 'bold',
+        hover: {
+            backgroundColor: '#c0c0c0',
+        },
+    };
+
+    const { data: producerorderData, isLoading, isError } = useQuery('producerorder', getProducerOrder);
+    let dataFiltered = []
+
+    const { data: purchases } = useQuery('purchase', getPurchase);
+
+    const [ProductProducer, setProduct] = useState(null)
+    var [MyPurchases, setMyPurchases] = useState([])
     const [MyOrders, setMyOrders] = useState([]);
-    const [customerorderRequest, setCustomerorder] = useState(null)
-    const [customerRequest, setCustomer] = useState(null)
+    const [producerorderRequest, setProducerorder] = useState(null)
+    const [producerRequest, setProducer] = useState(null)
     const [productRequest, setProductRequest] = useState(null)
 
     const generatePDF = async (id) => {
 
         try {
 
-            let customerorder = await getCostumerOrderById(id, setCustomerorder)
-            let customer = await getCostumerById(customerorder.costumerId, setCustomer)
+            let producerorder = await getProducerOrderById(id, setProducerorder)
+            let producer = await getProducerById(producerorder.producerId, setProducer)
+
+            if (purchases) {
+                MyPurchases = purchases.filter(
+                    (purchases) => purchases.producerOrderId === id
+                )
+            };
 
             async function fetchProductData() {
-                const sales = [];
+                const orders = [];
+                for (const purchase of MyPurchases) {
 
-                for (const sale of MySales) {
+                    const product = await getProductById(purchase.productId, setProductRequest);
+                    const purchaseprice = await getProductProducer(product.id, producer.id);
 
-                    const product = await getProductById(sale.productId, setProductRequest);
-                    const IVA = sale.unitPrice * (product.iva / 100)
-                    const FinalPrice = sale.unitPrice + IVA
+                    const IVA = purchaseprice * (product.iva / 100)
+                    const FinalPrice = purchaseprice + IVA
                     let subtotal = 0
-                    subtotal += sale.unitPrice * sale.quantity
+                    subtotal += purchaseprice * purchase.quantity
 
-                    const Order = {
+                    const order = {
                         ProductCode: product.code,
                         ProductName: product.name,
-                        UnitPrice: sale.unitPrice,
+                        UnitPrice: purchaseprice,
                         IVA: product.iva,
                         SubTotal: subtotal,
                         FinalPrice: FinalPrice,
-                        Quantity: sale.quantity,
-                        Unit: sale.unit,
-                        Total: sale.purchaseTotal,
+                        Quantity: purchase.quantity,
+                        Unit: product.unit,
+                        Total: purchase.purchaseTotal,
                     };
-                    sales.push(Order)
+                    orders.push(order);
                 }
-                return sales;
+                return orders;
             }
 
-            const MyOrders = await fetchProductData()
+            const MyOrders = await fetchProductData();
+
 
             const doc = new jsPDF();
 
-            const imgWidth = 65; 
-            const imgHeight = 20; 
-            const x = 10; 
-            const y = 10; 
+            const imgWidth = 65;
+            const imgHeight = 20;
+            const x = 10;
+            const y = 10;
             doc.addImage(logoCope, 'JPEG', x, y, imgWidth, imgHeight);
 
             // tamano de fuente y fuente
@@ -76,11 +101,11 @@ const printCustomerOrder = (props) => {
             doc.setFont("Helvetica");
 
             // datos de la organización 
-            //doc.text("Coopepilangosta R.L.", 10, 20);
+            //   doc.text("Coopepilangosta R.L.", 10, 20);
 
             // Texto factura
             doc.setFontSize(14);
-            doc.text(`#${customerorder.id}`, 180, 20);
+            doc.text(`#${producerorder.id}`, 180, 20);
 
             // primera linea
             doc.setLineWidth(0.2);
@@ -93,33 +118,33 @@ const printCustomerOrder = (props) => {
             doc.text("info@coopepilangosta.com", 10, 56);
             doc.text("https://coopepilangosta.com/", 10, 63);
 
-            // Texto Customer
+            // Texto Productor
             doc.setFontSize(14);
-            doc.text("Cliente", 10, 80);
+            doc.text("Productor", 10, 80);
 
             // Texto Factura
             doc.setFontSize(14);
-            doc.text("Factura proforma", 100, 80);
+            doc.text("Factura", 100, 80);
 
             // segunda linea
             doc.setLineWidth(0.2);
             doc.line(10, 85, 200, 85);
 
-            // Datos customer
+            // Datos productor
             doc.setFontSize(10);
-            doc.text(`${customer.name}`, 10, 95);
-            doc.text(`${customer.address}, ${customer.district}, ${customer.canton}`, 10, 102);
-            doc.text(`Cédula Juridica: ${customer.cedulaJuridica}`, 10, 109);
-            doc.text(`Email: ${customer.email}`, 10, 116);
-            doc.text(`Cuenta Bancaria: ${customer.bankAccount}`, 10, 123);
-            doc.text(`Código Postal: ${customer.postalCode}`, 10, 130);
+            doc.text(`${producer.name} ${producer.lastname1} ${producer.lastname2}`, 10, 95);
+            doc.text(`Cédula: ${producer.cedula}`, 10, 102);
+            doc.text(`${producer.address}, ${producer.district}, ${producer.canton}`, 10, 109);
+            doc.text(`Teléfono: ${producer.phoneNumber}`, 10, 116);
+            doc.text(`Email: ${producer.email}`, 10, 123);
+            doc.text(`Cuenta Bancaria: ${producer.bankAccount}`, 10, 130);
 
-            // Datos factura
+            //Datos factura
             doc.text("Fecha de factura:", 100, 116);
-            doc.text(format(new Date(customerorder.confirmedDate),'yyyy-MM-dd'), 150, 116); 
+            doc.text(format(new Date(producerorder.confirmedDate), 'yyyy-MM-dd'), 150, 116);
             doc.text("Fecha de pago:", 100, 123);
             doc.text(
-                customerorder.paidDate === "0001-01-01T00:00:00" ? "Sin pagar" : `${customerorder.paidDate}`,
+                producerorder.paidDate === "0001-01-01T00:00:00" ? "Sin pagar" : `${producerorder.paidDate}`,
                 150, 123
             );
 
@@ -143,7 +168,7 @@ const printCustomerOrder = (props) => {
 
             const totalPedido = MyOrders.reduce((total, order) => total + order.Total, 0);
             tableData.push(["", "", "", "", "", "", "", ""]);
-
+            
             tableData.push(["", "", "", "", "", "", "SubTotal", `${subtotal.toFixed(2)}`]);
             tableData.push(["", "", "", "", "", "", "Total", `${totalPedido.toFixed(2)}`]);
 
@@ -176,9 +201,7 @@ const printCustomerOrder = (props) => {
             doc.setFontSize(14);
             doc.text("Detalle:", 10, doc.autoTable.previous.finalY + 10);
             doc.setFontSize(10);
-            doc.text(customerorder.detail, 20, doc.autoTable.previous.finalY + 25);
-            doc.text(customerorder.address, 20, doc.autoTable.previous.finalY + 32); // Ajusta la posición Y y el margen
-
+            doc.text(producerorder.detail, 20, doc.autoTable.previous.finalY + 25);
 
             //ultima linea
             doc.setLineWidth(0.2);
@@ -187,7 +210,7 @@ const printCustomerOrder = (props) => {
             //Impresion
             const currentDate = new Date();
             const formattedDate = format(currentDate, 'yyyy-MM-dd');
-           doc.save(`Factura_${customerorder.id}_${customer.name}_${formattedDate}.pdf`);
+           doc.save(`Factura_${producerorder.id}_${producer.cedula}_${formattedDate}.pdf`);
            //doc.output('dataurlnewwindow');
             setMyOrders([])
 
@@ -196,6 +219,8 @@ const printCustomerOrder = (props) => {
         }
 
     };
+
+
     return (
         <Button
             onClick={() => generatePDF(props.props)}
@@ -206,4 +231,4 @@ const printCustomerOrder = (props) => {
     );
 };
 
-export default printCustomerOrder;
+export default printProducerOrder;

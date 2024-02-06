@@ -9,6 +9,7 @@ import { getProducerOrderById } from '../../../services/producerorderService';
 import { getProducerById } from '../../../services/producerService';
 import { getPurchase } from '../../../services/purchaseService';
 import Select from 'react-select';
+import PrintProducerOrder from './actions/printProducerOrder.jsx';
 
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -35,7 +36,7 @@ const listProducerOrders = () => {
     minWidth: '100px',
     fontWeight: 'bold',
     hover: {
-      backgroundColor: '#c0c0c0', 
+      backgroundColor: '#c0c0c0',
     },
   };
 
@@ -314,23 +315,23 @@ const listProducerOrders = () => {
       <Col xs={8} md={2} lg={12}>
 
         <span>Seleccione los pedidos que desea ver:</span>
-        <Select onChange={(selected) => setSelectedOption(selected)} options={optionsSelect} /><Col> 
-        <br></br>
+        <Select onChange={(selected) => setSelectedOption(selected)} options={optionsSelect} /><Col>
+          <br></br>
 
-                  <Button
-                  onClick={() => navigate("/addProducerOrder")}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                  Crear Pedido
-                  </Button>
-
-
+          <Button
+            onClick={() => navigate("/addProducerOrder")}
+            size='sm'
+            style={{ ...buttonStyle, marginLeft: '5px', }}
+            onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
+            onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
+          >
+            Crear Pedido
+          </Button>
 
 
-                  
+
+
+
         </Col>
 
         <br></br>
@@ -366,39 +367,39 @@ const listProducerOrders = () => {
                     </td>
                     <td>
 
-                  <Button
-                  onClick={() => navigate(`/editProducerOrder/${ProducerOrder.id}`)}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                  Editar
-                  </Button>
+                      <Button
+                        onClick={() => navigate(`/editProducerOrder/${ProducerOrder.id}`)}
+                        size='sm'
+                        style={{ ...buttonStyle, marginLeft: '5px', }}
+                        onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
+                        onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
+                      >
+                        Editar
+                      </Button>
 
-                {ProducerOrder.deliveredDate != "0001-01-01T00:00:00" ? (
-                  <Button
-                  onClick={() => navigate(`/checkProducerOrder/${ProducerOrder.id}`)}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                  Ingresar
-                  </Button>
-                  ) : null}
+                      {ProducerOrder.deliveredDate != "0001-01-01T00:00:00" ? (
+                        <Button
+                          onClick={() => navigate(`/checkProducerOrder/${ProducerOrder.id}`)}
+                          size='sm'
+                          style={{ ...buttonStyle, marginLeft: '5px', }}
+                          onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
+                          onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
+                        >
+                          Ingresar
+                        </Button>
+                      ) : null}
 
-                  <Button
-                  onClick={() => showAlert(ProducerOrder.id)}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                  Eliminar
-                  </Button>
+                      <Button
+                        onClick={() => showAlert(ProducerOrder.id)}
+                        size='sm'
+                        style={{ ...buttonStyle, marginLeft: '5px', }}
+                        onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
+                        onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
+                      >
+                        Eliminar
+                      </Button>
 
-                  <Button
+                      {/* <Button
                   onClick={() => generatePDF(ProducerOrder.id)}
                   size='sm'
                   style={{...buttonStyle, marginLeft: '5px',}}
@@ -406,7 +407,10 @@ const listProducerOrders = () => {
                   onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
                   >
                   Imprimir
-                  </Button>
+                  </Button> */}
+
+                      <PrintProducerOrder props={ProducerOrder.id} />
+
 
                     </td>
                   </tr>

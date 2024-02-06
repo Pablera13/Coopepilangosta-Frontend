@@ -210,7 +210,7 @@ const showAlert = (id) => {
                   <p className="text-secondary text-center">{review.reviewDate}</p>
                   <div className="stars-container">
                     {Array.from({ length: review.stars }, (_, i) => (
-                      <span key={i} className="text-warning">
+                      <span key={i} className="StarReviewed">
                         ★
                       </span>
                     ))}
