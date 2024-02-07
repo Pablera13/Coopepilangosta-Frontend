@@ -8,8 +8,28 @@ import VerifyCostumer from '../costumers/actions/verifyCostumer';
 
 
 const listCostumers = () => {
-    const {data:costumers,isLoading:costumersloading,IsError:costumersError} = useQuery('costumer',getCostumers);
-    //if(costumers){console.log(costumers)}
+    const {data: costumers,isLoading: costumersloading,IsError: costumersError} = useQuery('costumer',getCostumers);
+    if(costumers){console.log(costumers)}
+
+    const [searchTerm, setSearchTerm] = React.useState('');
+
+     //if (costumersloading) return <div>Loading...</div>;
+
+     //if (costumersError) return <div>Error</div>;
+
+    // const filteredBySearch = costumers.filter(
+    //     (costumer) =>
+    //     costumer.cedulaJuridica.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     costumer.name.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     costumer.province.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     costumer.district.toString().toLowerCase().includes(searchTerm.toLowerCase()) 
+    //   );
+
+    const recordsPerPage = 10;
+    const [currentPage, setCurrentPage] = React.useState(0);
+
+    const offset = currentPage * recordsPerPage;
+    //const paginatedCustomers = filteredBySearch.slice(offset, offset + recordsPerPage);
     
   return (
     <>

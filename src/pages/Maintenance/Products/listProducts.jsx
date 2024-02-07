@@ -17,6 +17,7 @@ const listProducts = () => {
   if (Products) { console.log(Products) }
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [filterState, setFilterState] = useState(null);
 
   const navigate = useNavigate()
   const buttonStyle = {
@@ -43,12 +44,14 @@ const listProducts = () => {
   if (ProductsError)
     return <div>Error</div>
 
-  const filteredBySearch = Products.filter(
-    (products) =>
-    products.name.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-    products.unit.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-    products.state.toString().toLowerCase().includes(searchTerm.toLowerCase())
-  );
+    const filteredBySearch = Products.filter(product => {
+      const matchesSearchTerm = (
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.unit.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      const matchesState = filterState === null || product.state === filterState;
+      return matchesSearchTerm && matchesState;
+    });
 
   const offset = currentPage * recordsPerPage;
   const paginatedProducts = filteredBySearch.slice(offset, offset + recordsPerPage);
@@ -97,20 +100,26 @@ const listProducts = () => {
       <h2 className="text-center">Productos</h2>
       <div className='buttons'>
         <AddProductModal />
-
         <Form>
-        <Row className="mb-3">
-          <Col md={3}>
-            <Form.Label>Buscar:</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Por nombre, unidad comercial o estado..."
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </Col>
-        </Row>
-      </Form>
-
+          <Row className="mb-3">
+            <Col md={3}>
+              <Form.Label>Buscar:</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Por nombre, unidad comercial o estado..."
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </Col>
+            <Col md={3}>
+              <Form.Label>Filtrar por estado:</Form.Label>
+              <Form.Select onChange={(e) => setFilterState(e.target.value === "true" ? true : e.target.value === "false" ? false : null)}>
+                <option value="">Todos</option>
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
+              </Form.Select>
+            </Col>
+          </Row>
+        </Form>
       </div>
 
 
