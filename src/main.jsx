@@ -6,19 +6,15 @@ import { Layout } from './pages/_layout/Layout.jsx'
 
 //Componentes de productos
 import ListProducts from './pages/Maintenance/Products/listProducts'
-import UpdateProduct from './pages/Maintenance/Products/operations/updateProduct'
 
 //Componentes de categorias
 import ListCategories from './pages/Maintenance/category/listCategories'
-import EditCategory from './pages/Maintenance/category/actions/editCategory'
 
 //Componentes de bodegas
 import ListWarehouse from './pages/Maintenance/Warehouse/listWarehouse'
-import EditWarehouse from './pages/Maintenance/Warehouse/actions/editWarehouse'
 
 //Componentes de Productores
 import ListProducers from './pages/Maintenance/Producer/listProducers'
-import EditProducer from './pages/Maintenance/Producer/actions/editProducer'
 
 //Componentes de pedidos al productor
 import ListProducerOrder from './pages/Maintenance/ProducerOrder/listProducerOrder'
@@ -81,11 +77,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Route index element={<Catalog />}/>
       <Route path='/home' element={<Catalog/>}></Route>
       <Route path='/listProducts' element={<ListProducts/>}></Route>
-      <Route path='/editProduct/:product' element={<UpdateProduct/>}></Route>
       <Route path='/listCategories' element={<ListCategories/>}></Route>
-      <Route path='/editCategory/:idCategory' element={<EditCategory />}></Route>
       <Route path="/listWareHouse"element={<ListWarehouse/>}/>
-      <Route path="/editWarehouse/:idWarehouse"element={<EditWarehouse/>}/>
 
       {/* <Route path="/ProductDetail/:idproduct"element={<ProductDetail/>}/> */}
       <Route path="/ProductDetail/:idcategory/:idproduct"element={<ProductDetail/>}/>
@@ -93,7 +86,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Route path="/ShoppingCart"element={<ShoppingCart/>}/>
 
       <Route path="/listProducers"element={<ListProducers/>}/>
-      <Route path='/editProducer/:producer'element={<EditProducer/>}/>
 
       {/* <Route path="/listProducerOrder"element={<ListProducerOrder/>}/> */}
       <Route path="/listProducerOrder/:filter"element={<ListProducerOrder/>}/>

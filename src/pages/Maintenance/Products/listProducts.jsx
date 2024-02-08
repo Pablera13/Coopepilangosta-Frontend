@@ -5,8 +5,10 @@ import { NavLink } from 'react-router-dom'
 import { deleteProduct } from '../../../services/productService';
 import { Table, Container, Col, Row, Button } from 'react-bootstrap';
 import AddProductModal from './operations/addProductModal.jsx'
+import EditProductModal from './operations/editProductModal.jsx'
+
 import ReactPaginate from 'react-paginate';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import './listProducts.css'
 
@@ -27,11 +29,11 @@ const listProducts = () => {
     minWidth: '100px',
     fontWeight: 'bold',
     hover: {
-      backgroundColor: '#c0c0c0', 
+      backgroundColor: '#c0c0c0',
     },
   };
 
-  const recordsPerPage = 10;
+  const recordsPerPage = 3;
   const [currentPage, setCurrentPage] = useState(0);
 
   if (ProductsLoading)
@@ -47,14 +49,9 @@ const listProducts = () => {
 
   const handlePageClick = (data) => {
     setCurrentPage(data.selected);
+    console.log("paginatedProducts = " + paginatedProducts.length)
   };
 
-  // const deleteproducto = (id) => {
-
-  //   console.log("Id del producto: ", id);
-  //   deleteProduct(id);
-
-  // }
 
   const showAlert = (id) => {
     swal({
@@ -89,53 +86,45 @@ const listProducts = () => {
       <Col xs={8} md={2} lg={12}>
         {Products ? (
           <Row>
-            <Table striped bordered hover variant="light">
+            <Table>
               <thead>
                 <tr>
-                  <th>Imagen</th>
+                  {/* <th>Imagen</th> */}
                   <th>Código</th>
                   <th>Nombre</th>
-                  <th>Descripción</th>
-                  <th>Unidad comercial</th>
+                  {/* <th>Descripción</th> */}
+                  <th>Unidad</th>
                   <th>IVA</th>
-                  <th>Margen de ganancia</th>
+                  <th>Margen ganancia</th>
                   <th>Estado</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               {paginatedProducts.map((product) => (
                 <tr key={product.id}>
-                  <td><img className='imgProduct'
+                  {/* <td><img className='imgProduct'
                     src={product.image}
-                  /></td>
+                  /></td> */}
                   <td>{product.code}</td>
                   <td>{product.name}</td>
-                  <td>{product.description}</td>
+                  {/* <td>{product.description}</td> */}
                   <td>{product.unit}</td>
                   <td>{product.iva}%</td>
                   <td>{product.margin}%</td>
                   <td>{product.state === true ? 'Activo' : 'De baja'}</td>
                   <td>
 
-                  <Button
-                  onClick={() => navigate(`/editProduct/${product.id}`)}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                  Editar
-                  </Button>
+                    <EditProductModal props={product}/>
 
-                  <Button
-                  onClick={() => showAlert(product.id)}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                  Eliminar
-                  </Button> 
+                    <Button
+                      onClick={() => showAlert(product.id)}
+                      size='sm'
+                      style={{ ...buttonStyle, marginLeft: '5px', }}
+                      onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
+                      onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
+                    >
+                      Eliminar
+                    </Button>
 
                   </td>
                 </tr>

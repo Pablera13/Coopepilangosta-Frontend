@@ -9,6 +9,8 @@ import ReactPaginate from 'react-paginate';
 import syles from '../ProductCostumer/listProductCostumer.css'
 import {useNavigate, useParams} from 'react-router-dom';
 import UpdateProductCostumer from './actions/updateProductCostumer'
+import ExportProductCostumer from './actions/exportProductCostumer'
+
 import { getProductById2 } from '../../../services/productService';
 
 const listProductCostumer = () => {
@@ -134,7 +136,7 @@ const listProductCostumer = () => {
                   <th>Unidad</th>
                   <th>Precio inicial</th>
                   <th>Margen</th>
-                  <th>Iva</th>
+                  <th>IVA</th>
                   <th>Precio Final</th>
                   <th>Descripción</th>
                   <th>Acciones</th>
@@ -161,6 +163,9 @@ const listProductCostumer = () => {
                   >
                   Eliminar
                   </Button>
+
+                  <ExportProductCostumer props={cotizacion}/>
+
 
                   </td>
                 </tr>

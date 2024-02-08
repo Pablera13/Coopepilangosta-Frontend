@@ -4,10 +4,12 @@ import { getCategories } from '../../../services/categoryService';
 import { NavLink } from 'react-router-dom';
 import { deleteCategory } from '../../../services/categoryService';
 import AddCategoryModal from './actions/addCategoryModal';
+import EditCategoryModal from './actions/editCategoryModal';
+
 import { Table, Button } from 'react-bootstrap';
 import ReactPaginate from 'react-paginate';
 import styles from './listCategories.css'
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const listCategories = () => {
   const { data: Categories, isLoading: CategoriesLoading, isError: CategoriesError } = useQuery('category', getCategories);
@@ -24,7 +26,7 @@ const listCategories = () => {
     minWidth: '100px',
     fontWeight: 'bold',
     hover: {
-      backgroundColor: '#c0c0c0', 
+      backgroundColor: '#c0c0c0',
     },
   };
 
@@ -90,7 +92,7 @@ const listCategories = () => {
             <td>{category.name}</td>
             <td>
 
-              <Button
+              {/* <Button
                   onClick={() => navigate(`/editCategory/${category.id}`)}
                   size='sm'
                   style={{...buttonStyle, marginLeft: '5px',}}
@@ -98,17 +100,20 @@ const listCategories = () => {
                   onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
                   >
                   Editar
-                  </Button>
+                  </Button> */}
 
-                  <Button
-                  onClick={() => showAlert(category.id)}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                  Eliminar
-                  </Button>
+              <EditCategoryModal props={category} />
+
+
+              <Button
+                onClick={() => showAlert(category.id)}
+                size='sm'
+                style={{ ...buttonStyle, marginLeft: '5px', }}
+                onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
+                onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
+              >
+                Eliminar
+              </Button>
 
             </td>
           </tr>

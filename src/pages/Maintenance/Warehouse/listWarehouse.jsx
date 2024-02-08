@@ -6,10 +6,13 @@ import { deleteWarehouse } from '../../../services/warehouseService';
 import swal from 'sweetalert';
 import { Table, Container, Col, Row, Button } from 'react-bootstrap';
 import AddWarehouseModal from './actions/addWarehouseModal';
-import ReactPaginate from 'react-paginate';
-import {useNavigate} from 'react-router-dom';
+import EditWarehouseModal from './actions/editWarehouseModal';
 
-import syles from '../Warehouse/listWarehouse.css'; 
+
+import ReactPaginate from 'react-paginate';
+import { useNavigate } from 'react-router-dom';
+
+import syles from '../Warehouse/listWarehouse.css';
 
 const listWarehouse = () => {
   const { data: Warehouses, isLoading: WarehousesLoading, isError: WarehousesError } = useQuery('warehouse', getWarehouse);
@@ -26,7 +29,7 @@ const listWarehouse = () => {
     minWidth: '100px',
     fontWeight: 'bold',
     hover: {
-      backgroundColor: '#c0c0c0', 
+      backgroundColor: '#c0c0c0',
     },
   };
 
@@ -100,7 +103,7 @@ const listWarehouse = () => {
                   <td>{warehouse.state ? 'Activo' : 'Inactivo'}</td>
                   <td>
 
-                  <Button
+                    {/* <Button
                   onClick={() => navigate(`/editWarehouse/${warehouse.id}`)}
                   size='sm'
                   style={{...buttonStyle, marginLeft: '5px',}}
@@ -108,17 +111,19 @@ const listWarehouse = () => {
                   onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
                   >
                   Editar
-                  </Button>
+                  </Button> */}
 
-                  <Button
-                  onClick={() => showAlert(warehouse.id)}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                  Eliminar
-                  </Button>
+                    <EditWarehouseModal props={warehouse}/>
+
+                    <Button
+                      onClick={() => showAlert(warehouse.id)}
+                      size='sm'
+                      style={{ ...buttonStyle, marginLeft: '5px', }}
+                      onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
+                      onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
+                    >
+                      Eliminar
+                    </Button>
                   </td>
 
                 </tr>

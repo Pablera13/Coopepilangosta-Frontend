@@ -97,8 +97,10 @@ const catalog = () => {
                     <Card.Img variant="top" src={product.image} className="custom-card-img" />
                     <Card.Body>
                       <Card.Title>{product.name }</Card.Title>
-                      <Card.Text>{" (" + product.unit + ")"}</Card.Text>
-                      <Card.Text>{product.description}</Card.Text>
+                      {/* <Card.Text><strong>{product.name}</strong></Card.Text> */}
+                      <Card.Text><strong style={{fontSize:"100%"}}>{product.unit}</strong></Card.Text>
+                      {/* <Card.Text class="text-success"><b>{product.unit}</b></Card.Text> */}
+                      <Card.Text>{product.description.slice(0, 50)}...</Card.Text>
                     </Card.Body>
                     <Card.Footer>
                       
