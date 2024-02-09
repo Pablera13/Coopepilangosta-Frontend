@@ -142,16 +142,12 @@ const addWarehouseModal = () => {
                             </Form.Select>
                         </Form.Group>
 
-                        <Button variant="primary" size="sm" type="submit">
-                            Guardar Bodega
-                        </Button>
-
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    {/* <Button variant="primary" size="sm" onClick={saveWarehouse}>
-                        Guardar bodega
-                    </Button> */}
+                <Button variant="primary" size="sm" onClick={saveWarehouse}>
+                        Editar Bodega
+                    </Button>
                     <Button variant="secondary" size="sm" onClick={handleClose}>
                         Cerrar
                     </Button>

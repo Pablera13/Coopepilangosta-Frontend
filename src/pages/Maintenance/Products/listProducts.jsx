@@ -86,7 +86,7 @@ const listProducts = () => {
       <Col xs={8} md={2} lg={12}>
         {Products ? (
           <Row>
-            <Table>
+            <Table striped bordered hover variant="light">
               <thead>
                 <tr>
                   {/* <th>Imagen</th> */}

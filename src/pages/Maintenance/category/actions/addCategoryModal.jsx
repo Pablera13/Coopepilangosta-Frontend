@@ -2,7 +2,7 @@ import { React, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { InputGroup } from 'react-bootstrap';
+import { Col, InputGroup, Row } from 'react-bootstrap';
 import { QueryClient, useMutation } from 'react-query';
 import { createCategory } from '../../../../services/categoryService';
 import { useRef } from 'react';
@@ -89,26 +89,34 @@ const addCategoryModal = () => {
           <Form validated={validated} onSubmit={save}>
 
             <Form.Group className="mb-3" controlId="validationCustom01">
-              <InputGroup hasValidation>
-                <Form.Label>Nombre categoría</Form.Label>
+              
+                <Row>
+                  <Col>
+                <Form.Label>Nombre</Form.Label>
+                </Col>
+                </Row>
+
+                <Row>
+                <Col md={8}>
                 <Form.Control
                   required
                   type="text"
-                  placeholder=""
+                  placeholder="Ingrese el nombre de la categoría"
                   autoFocus
                   ref={categoryName}
                 />
                 <Form.Control.Feedback>Ingrese el nombre de la categoría</Form.Control.Feedback>
-                </InputGroup>
+                </Col>
+                </Row>
+
             </Form.Group>
             
-
-            <Button variant="primary" size='sm' type='submit'>
-              Guardar categoría
-            </Button>
           </Form>
         </Modal.Body>
         <Modal.Footer>
+        <Button variant="primary" size='sm' onClick={save}>
+              Guardar categoría
+            </Button>
           <Button variant="secondary" size='sm' onClick={handleClose}>
             Cerrar
           </Button>

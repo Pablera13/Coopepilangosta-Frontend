@@ -3,7 +3,7 @@ import { QueryClient, useMutation } from 'react-query';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import swal from 'sweetalert';
-import { updateWarehouse,checkWarehouseCodeAvailability } from '../../../../services/warehouseService';
+import { updateWarehouse, checkWarehouseCodeAvailability } from '../../../../services/warehouseService';
 
 const editWarehouseModal = (props) => {
 
@@ -27,11 +27,11 @@ const editWarehouseModal = (props) => {
         minWidth: '100px',
         fontWeight: 'bold',
         hover: {
-          backgroundColor: '#c0c0c0', 
+            backgroundColor: '#c0c0c0',
         },
-      };
+    };
 
-      const mutation = useMutation('warehouse', updateWarehouse, {
+    const mutation = useMutation('warehouse', updateWarehouse, {
         onSettled: () => queryClient.invalidateQueries('warehouse'),
         mutationKey: 'warehouse',
         onSuccess: () => {
@@ -51,7 +51,7 @@ const editWarehouseModal = (props) => {
     const address = useRef();
     const state = useRef();
 
-    const saveWarehouse = async(event) => {
+    const saveWarehouse = async (event) => {
         event.preventDefault()
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -74,14 +74,14 @@ const editWarehouseModal = (props) => {
             // }, 2000));
 
             // if (codeAvailability == true){
-                
-                mutation.mutateAsync(newWarehouse);
+
+            mutation.mutateAsync(newWarehouse);
 
             // }else{
             //     event.preventDefault();
             //     swal('Advertencia','Este codigo de bodega se encuentra en uso.','warning')
             // }
-            
+
         }
     };
 
@@ -95,14 +95,14 @@ const editWarehouseModal = (props) => {
     return (
         <>
             <Button
-                  onClick={handleShow}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
+                onClick={handleShow}
+                size='sm'
+                style={{ ...buttonStyle, marginLeft: '5px', }}
+                onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
+                onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
+            >
                 Editar
-                  </Button>
+            </Button>
 
 
             <Modal show={show} onHide={handleClose}>
@@ -150,16 +150,12 @@ const editWarehouseModal = (props) => {
                             </Form.Select>
                         </Form.Group>
 
-                        <Button variant="primary" size="sm" type="submit">
-                        Editar Bodega
-                        </Button>
-
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    {/* <Button variant="primary" size="sm" onClick={saveWarehouse}>
-                        Guardar bodega
-                    </Button> */}
+                    <Button variant="primary" size="sm" onClick={saveWarehouse}>
+                        Editar Bodega
+                    </Button>
                     <Button variant="secondary" size="sm" onClick={handleClose}>
                         Cerrar
                     </Button>

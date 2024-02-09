@@ -1,12 +1,10 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import { getCategories } from '../../../services/categoryService';
-import { NavLink } from 'react-router-dom';
+import { Table, Container, Col, Row, Button } from 'react-bootstrap';
 import { deleteCategory } from '../../../services/categoryService';
 import AddCategoryModal from './actions/addCategoryModal';
 import EditCategoryModal from './actions/editCategoryModal';
-
-import { Table, Button } from 'react-bootstrap';
 import ReactPaginate from 'react-paginate';
 import styles from './listCategories.css'
 import { useNavigate } from 'react-router-dom';
@@ -75,37 +73,31 @@ const listCategories = () => {
   };
 
   return (
-    <div>
+
+    <Container>
       <h2 className="text-center">Categorías</h2>
-      <div className="buttons">
+      <div className='buttons'>
         <AddCategoryModal />
+
       </div>
-      <Table striped bordered hover variant="light">
-        <thead>
-          <tr>
-            <th>Nombre de la categoría</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        {paginatedCategories.map((category) => (
-          <tr key={category.id}>
-            <td>{category.name}</td>
-            <td>
+      <Col xs={8} md={2} lg={12}>
+        {Categories ? (
+          <Row>
+            <Table striped bordered hover variant="light">
+              <thead>
+                <tr>
+                  <th>Nombre de la categoría</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              {paginatedCategories.map((category) => (
+                <tr key={category.id}>
+                  <td>{category.name}</td>
+                  <td>
 
-              {/* <Button
-                  onClick={() => navigate(`/editCategory/${category.id}`)}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                  Editar
-                  </Button> */}
+                  <EditCategoryModal props={category} />
 
-              <EditCategoryModal props={category} />
-
-
-              <Button
+                  <Button
                 onClick={() => showAlert(category.id)}
                 size='sm'
                 style={{ ...buttonStyle, marginLeft: '5px', }}
@@ -115,23 +107,29 @@ const listCategories = () => {
                 Eliminar
               </Button>
 
-            </td>
-          </tr>
-        ))}
-      </Table>
-      <ReactPaginate
-        previousLabel={"Anterior"}
-        nextLabel={"Siguiente"}
-        breakLabel={"..."}
-        pageCount={pageCount}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={handlePageClick}
-        containerClassName={"pagination"}
-        subContainerClassName={"pages pagination"}
-        activeClassName={"active"}
-      />
-    </div>
+                  </td>
+                </tr>
+              ))}
+
+            </Table>
+            <ReactPaginate
+              previousLabel={"Anterior"}
+              nextLabel={"Siguiente"}
+              breakLabel={"..."}
+              pageCount={pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={handlePageClick}
+              containerClassName={"pagination"}
+              subContainerClassName={"pages pagination"}
+              activeClassName={"active"}
+            />
+          </Row>
+        ) : (
+          "Cargando"
+        )}
+      </Col>
+    </Container>
   );
 };
 

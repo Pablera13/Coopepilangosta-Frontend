@@ -267,12 +267,12 @@ const editProducerModal = (props) => {
                             />
                         </Form.Group>
 
-                        <Button variant="primary" size="sm" type="submit">
-                            Actualizar productor
-                        </Button>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
+                <Button variant="primary" size="sm" onClick={saveProducer}>
+                            Actualizar productor
+                        </Button>
                     <Button variant="secondary" size="sm" onClick={handleClose}>
                         Cerrar
                     </Button>

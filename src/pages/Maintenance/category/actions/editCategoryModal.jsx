@@ -2,7 +2,7 @@ import { React, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { InputGroup } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import { QueryClient, useMutation } from 'react-query';
 import {updateCategory } from '../../../../services/categoryService';
 import { useRef } from 'react';
@@ -91,9 +91,14 @@ const mutation = useMutation('category', updateCategory, {
           <Form validated={validated} onSubmit={save}>
 
             <Form.Group className="mb-3" controlId="validationCustom01">
-              <InputGroup hasValidation>
-                <Form.Label>Nombre categoría</Form.Label>
-                <Form.Control
+                
+                <Row>
+                  <Col>
+                <Form.Label>Nombre</Form.Label>
+                </Col>
+                </Row>
+
+                {/* <Form.Control
                   required
                   defaultValue={category.name}
                   type="text"
@@ -101,17 +106,33 @@ const mutation = useMutation('category', updateCategory, {
                   autoFocus
                   ref={categoryName}
                 />
-                {/* <Form.Control.Feedback>Ingrese el nombre de la categoría</Form.Control.Feedback> */}
-                </InputGroup>
-            </Form.Group>
+                <Form.Control.Feedback>Ingrese el nombre de la categoría</Form.Control.Feedback>
+             */}
+
+                <Row>
+                <Col md={8}>
+                <Form.Control
+                  required
+                  type="text"
+                  defaultValue={category.name}
+                  placeholder="Ingrese el nombre de la categoría"
+                  autoFocus
+                  ref={categoryName}
+                />
+                <Form.Control.Feedback>Ingrese el nombre de la categoría</Form.Control.Feedback>
+                </Col>
+                </Row>
+                </Form.Group>
+
             
 
-            <Button variant="primary" size='sm' type='submit'>
-             Editar categoría
-            </Button>
+           
           </Form>
         </Modal.Body>
         <Modal.Footer>
+        <Button variant="primary" size='sm' onClick={save}>
+             Editar categoría
+            </Button>
           <Button variant="secondary" size='sm' onClick={handleClose}>
             Cerrar
           </Button>
