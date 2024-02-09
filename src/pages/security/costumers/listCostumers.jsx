@@ -8,8 +8,8 @@ import VerifyCostumer from '../costumers/actions/verifyCostumer';
 
 
 const listCostumers = () => {
-    const {data: costumers,isLoading: costumersloading,IsError: costumersError} = useQuery('costumer',getCostumers);
-    if(costumers){console.log(costumers)}
+    const {data: costumers, isLoading: costumersloading, IsError: costumersError} = useQuery('costumer',getCostumers);
+    //if(costumers){console.log(costumers)}
 
     const [searchTerm, setSearchTerm] = React.useState('');
 
@@ -17,19 +17,25 @@ const listCostumers = () => {
 
      //if (costumersError) return <div>Error</div>;
 
-    // const filteredBySearch = costumers.filter(
-    //     (costumer) =>
-    //     costumer.cedulaJuridica.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-    //     costumer.name.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-    //     costumer.province.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-    //     costumer.district.toString().toLowerCase().includes(searchTerm.toLowerCase()) 
-    //   );
+     const filteredBySearch = costumers?.filter(
+         (costumer) =>
+         costumer.cedulaJuridica.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+         costumer.name.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+         costumer.province.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+         costumer.district.toString().toLowerCase().includes(searchTerm.toLowerCase()) 
+       );
+       
 
+    
     const recordsPerPage = 10;
-    const [currentPage, setCurrentPage] = React.useState(0);
+    const [currentPage] = React.useState(0);
+
+    let paginatedCustomers = [];
+    if (filteredBySearch) {
 
     const offset = currentPage * recordsPerPage;
-    //const paginatedCustomers = filteredBySearch.slice(offset, offset + recordsPerPage);
+    paginatedCustomers = filteredBySearch.slice(offset, offset + recordsPerPage);
+}
     
   return (
     <>
@@ -38,6 +44,27 @@ const listCostumers = () => {
             <Col >
             <h2 className="text-center">Clientes</h2>
             <td></td>
+
+            <Form>
+          <Row className="mb-3">
+            <Col md={3}>
+              <Form.Label>Buscar:</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Por código, descripción, dirección o estado..."
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </Col>
+            <Col md={3}>
+              <Form.Label>Filtrar por estado:</Form.Label>
+              <Form.Select onChange={(e) => setFilterState(e.target.value === "true" ? true : e.target.value === "false" ? false : null)}>
+                <option value="">Todos</option>
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
+              </Form.Select>
+            </Col>
+          </Row>
+        </Form>
 
             </Col>
         </Row>
@@ -59,7 +86,7 @@ const listCostumers = () => {
                 {
                     costumers!=null?(
                         
-                        costumers.map((costumer)=>
+                      paginatedCustomers.map((costumer)=>
                             <tr key={costumer.id}>
                                 <td>{costumer.cedulaJuridica}</td>
                                 <td>{costumer.name}</td>
