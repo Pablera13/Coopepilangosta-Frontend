@@ -12,20 +12,31 @@ const listCostumers = () => {
     //if(costumers){console.log(costumers)}
 
     const [searchTerm, setSearchTerm] = React.useState('');
+    const [filterState, setFilterState] = React.useState(null);
 
      //if (costumersloading) return <div>Loading...</div>;
 
      //if (costumersError) return <div>Error</div>;
 
-     const filteredBySearch = costumers?.filter(
-         (costumer) =>
+    //const filteredBySearch = costumers?.filter(
+        // (costumer) =>
+        // costumer.cedulaJuridica.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+        // costumer.name.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+        // costumer.province.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+        //costumer.district.toString().toLowerCase().includes(searchTerm.toLowerCase()) 
+       //);
+
+       const filteredBySearch = costumers?.filter(costumer => {
+        const matchesSearchTerm = (
          costumer.cedulaJuridica.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
          costumer.name.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
          costumer.province.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
          costumer.district.toString().toLowerCase().includes(searchTerm.toLowerCase()) 
-       );
+        );
+        const matchesVerify = filterState === null || costumer.verified === filterState;
+        return matchesSearchTerm && matchesVerify;
+      });
        
-
     
     const recordsPerPage = 10;
     const [currentPage] = React.useState(0);
@@ -51,7 +62,7 @@ const listCostumers = () => {
               <Form.Label>Buscar:</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Por código, descripción, dirección o estado..."
+                placeholder="Por Cédula Juridica, nombre, provincia o distrito..."
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </Col>
@@ -59,8 +70,8 @@ const listCostumers = () => {
               <Form.Label>Filtrar por estado:</Form.Label>
               <Form.Select onChange={(e) => setFilterState(e.target.value === "true" ? true : e.target.value === "false" ? false : null)}>
                 <option value="">Todos</option>
-                <option value="true">Activo</option>
-                <option value="false">Inactivo</option>
+                <option value="true">Verificado</option>
+                <option value="false">No Verificado</option>
               </Form.Select>
             </Col>
           </Row>
