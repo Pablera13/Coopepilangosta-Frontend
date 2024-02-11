@@ -1,30 +1,43 @@
 import React from 'react'
+import { useState } from 'react';
 import { Container,Row,Col,Form,Table, Button} from 'react-bootstrap'
 import { useQuery } from 'react-query';
 import { getCostumers } from '../../../services/costumerService';
 import DetailsCostumer from './detailsCostumer';
 import Styles from './listCostumers.css'
 import VerifyCostumer from '../costumers/actions/verifyCostumer';
+import {useNavigate} from 'react-router-dom';
+import ReactPaginate from 'react-paginate';
 
 
 const listCostumers = () => {
     const {data: costumers, isLoading: costumersloading, IsError: costumersError} = useQuery('costumer',getCostumers);
     //if(costumers){console.log(costumers)}
 
-    const [searchTerm, setSearchTerm] = React.useState('');
-    const [filterState, setFilterState] = React.useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filterState, setFilterState] = useState(null);
 
-     //if (costumersloading) return <div>Loading...</div>;
+    const navigate = useNavigate()
+  const buttonStyle = {
+    borderRadius: '5px',
+    backgroundColor: '#e0e0e0',
+    color: '#333',
+    border: '1px solid #e0e0e0',
+    padding: '8px 12px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s',
+    minWidth: '100px',
+    fontWeight: 'bold',
+    hover: {
+      backgroundColor: '#c0c0c0', 
+    },
+  };
 
-     //if (costumersError) return <div>Error</div>;
+  const [currentPage, setCurrentPage] = useState(0);
 
-    //const filteredBySearch = costumers?.filter(
-        // (costumer) =>
-        // costumer.cedulaJuridica.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-        // costumer.name.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-        // costumer.province.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-        //costumer.district.toString().toLowerCase().includes(searchTerm.toLowerCase()) 
-       //);
+     if (costumersloading) return <div>Loading...</div>;
+
+     if (costumersError) return <div>Error</div>;
 
        const filteredBySearch = costumers?.filter(costumer => {
         const matchesSearchTerm = (
@@ -39,14 +52,19 @@ const listCostumers = () => {
        
     
     const recordsPerPage = 10;
-    const [currentPage] = React.useState(0);
 
     let paginatedCustomers = [];
     if (filteredBySearch) {
 
     const offset = currentPage * recordsPerPage;
     paginatedCustomers = filteredBySearch.slice(offset, offset + recordsPerPage);
+    
 }
+  const pageCount = Math.ceil(costumers.length / recordsPerPage);
+    
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
     
   return (
     <>
@@ -117,6 +135,18 @@ const listCostumers = () => {
                 }
                 </tbody>
             </Table>
+            <ReactPaginate
+              previousLabel={"Anterior"}
+              nextLabel={"Siguiente"}
+              breakLabel={"..."}
+              pageCount={pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={handlePageClick}
+              containerClassName={"pagination"}
+              subContainerClassName={"pages pagination"}
+              activeClassName={"active"}
+            />
         </Row>
     </Container>
     </>

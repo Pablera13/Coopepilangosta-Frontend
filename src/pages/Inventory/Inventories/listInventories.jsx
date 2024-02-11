@@ -1,10 +1,12 @@
 import React from 'react'
+import { useState } from 'react';
 import './listInventories.css';
 import { NavLink } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { getProducts } from '../../../services/productService';
 import { getCategories } from '../../../services/categoryService';
 import { Table,Container,Col,Row, Button } from 'react-bootstrap';
+import ReactPaginate from 'react-paginate';
 import {useNavigate} from 'react-router-dom';
 
 
@@ -28,6 +30,8 @@ const ListInventories = () => {
     },
   };
 
+  const [currentPage, setCurrentPage] = useState(0);
+
     if (categoriesLoading || productsLoading) {
       return <div>Cargando...</div>;
     }
@@ -44,7 +48,16 @@ const ListInventories = () => {
        return category && (category.name.normalize("NFD").toLowerCase().startsWith('caf') || category.name.normalize("NFD").toLowerCase().startsWith('materia prima'));
      });
  } console.log(productsFiltered);
+
+  const recordsPerPage = 10;
+
+  const offset = currentPage * recordsPerPage;
+  const paginatedProducts = productsFiltered.slice(offset, offset + recordsPerPage);
+  const pageCount = Math.ceil(productsData.length / recordsPerPage);
     
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
   
     return (
       <Container>
@@ -67,7 +80,7 @@ const ListInventories = () => {
                 </tr>
               </thead>
               {
-                productsFiltered.map((product) => (
+                paginatedProducts.map((product) => (
                   <tr key={product.id}>
                     <td><img className='imgProduct'
                     src={product.image}
@@ -93,6 +106,18 @@ const ListInventories = () => {
                 ))
          }
             </Table>
+            <ReactPaginate
+              previousLabel={"Anterior"}
+              nextLabel={"Siguiente"}
+              breakLabel={"..."}
+              pageCount={pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={handlePageClick}
+              containerClassName={"pagination"}
+              subContainerClassName={"pages pagination"}
+              activeClassName={"active"}
+            />
           </Row>
         )
         :("Cargando")
