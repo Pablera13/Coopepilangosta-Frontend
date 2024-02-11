@@ -18,7 +18,7 @@ const listProducts = () => {
   const navigate = useNavigate()
   const buttonStyle = {
     borderRadius: '5px',
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#e  0e0e0',
     color: '#333',
     border: '1px solid #e0e0e0',
     padding: '8px 12px',
@@ -117,7 +117,7 @@ const listProducts = () => {
                   <td>{product.margin}%</td>
                   <td>{product.state === true ? 'Activo' : 'De baja'}</td>
                   <td>
-
+                 
                   <Button
                   onClick={() => navigate(`/editProduct/${product.id}`)}
                   size='sm'

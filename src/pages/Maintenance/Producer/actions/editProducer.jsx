@@ -5,7 +5,8 @@ import { QueryClient, useMutation } from 'react-query';
 import { NavLink } from 'react-router-dom';
 import { Form, Button, Col, Row } from 'react-bootstrap';
 import swal from 'sweetalert';
-
+import Select from 'react-select';
+import { locations } from '../../../../utils/provinces';
 
 const editProducer = () => {
   const producer = useParams();
@@ -15,8 +16,9 @@ const editProducer = () => {
   const [validated, setValidated] = useState(false);
 
 
-  useEffect(() => {
+  useEffect( () => {
     getProducerById(producer.producer, setProducer);
+    
   }, []);
 
   const mutation = useMutation('producer', updateProducer, {
@@ -30,6 +32,7 @@ const editProducer = () => {
       });
       setTimeout(() => {
         history.back();
+        window.location.reload()
       }, 2000);
     },
   });
@@ -40,13 +43,11 @@ const editProducer = () => {
   const lastname2 = useRef();
   const phoneNumber = useRef();
   const email = useRef();
-  const province = useRef();
-  const canton = useRef();
-  const district = useRef();
+  
   const address = useRef();
   const bankAccount = useRef();
 
-  const update = (event) => {
+  const update = async (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -54,8 +55,8 @@ const editProducer = () => {
     } else {
       setValidated(true);
     }
-    if (form.checkValidity() === true) {
-
+    if (form.checkValidity() === true)  {
+      event.preventDefault();
       let editProducer = {
         id: producer.producer,
         cedula: cedula.current.value,
@@ -64,30 +65,71 @@ const editProducer = () => {
         lastname2: lastname2.current.value,
         phoneNumber: phoneNumber.current.value,
         email: email.current.value,
-        province: province.current.value,
-        canton: canton.current.value,
-        district: district.current.value,
+        province: selectedProvincia !=null?(selectedProvincia.label):(producerRequest.province),
+        canton: selectedCanton?(selectedCanton.label):(producerRequest.canton),
+        district: selectedDistrito?(selectedDistrito.label):(producerRequest.district),
         address: address.current.value,
         bankAccount: bankAccount.current.value,
       };
       mutation.mutateAsync(editProducer);
-      //limpiarInput();
     }
   };
 
-  const limpiarInput = () => {
-    cedula.current.value = '';
-    name.current.value = '';
-    lastname1.current.value = '';
-    lastname2.current.value = '';
-    phoneNumber.current.value = '';
-    email.current.value = '';
-    province.current.value = '';
-    canton.current.value = '';
-    district.current.value = '';
-    address.current.value = '';
-    bankAccount.current.value = '';
-  };
+
+
+  const [selectedProvincia, setSelectedProvincia] = useState(null);
+  const [selectedCanton, setSelectedCanton] = useState(null)
+  const [selectedDistrito, setSelectedDistrito] = useState(null);
+
+
+  const provinciasArray = Object.keys(locations.provincias).map((index) => {
+
+    const indexNumber = parseInt(index, 10);
+
+    return {
+      value: indexNumber,
+      label: locations.provincias[index].nombre
+    };
+  });
+
+  const [cantonesOptions, setCantonesOptions] = useState();
+  let cantones = []
+
+  const handleProvinciasSelectChange = (provinceIndex) => {
+
+    let cantones = locations.provincias[provinceIndex].cantones
+
+    const cantonesOptions = Object.keys(cantones).map((index) => {
+      const indexNumber = parseInt(index, 10);
+
+      return {
+        value: indexNumber,
+        label: cantones[index].nombre
+      };
+    });
+
+    setCantonesOptions(cantonesOptions)
+  }
+
+  const [distritosOptions, setDistritosOptions] = useState();
+  let distritos = []
+
+
+  const handlecantonesSelectChange = (cantonIndex) => {
+    console.log(cantonIndex)
+    let distritos = locations.provincias[selectedProvincia.value].cantones[cantonIndex].distritos
+    console.log(selectedProvincia.value)
+    const distritosOpt = Object.keys(distritos).map((index) => {
+      const indexNumber = parseInt(index, 10);
+
+      return {
+        value: indexNumber,
+        label: distritos[index].toString()
+      };
+    });
+    console.log(distritosOpt)
+    setDistritosOptions(distritosOpt)
+  }
 
   return (
     <>
@@ -129,19 +171,35 @@ const editProducer = () => {
                   </Form.Group>
                 </Col>
                 <Col md={4}>
-                  <Form.Group controlId='province' style={{ marginBottom: '20px' }}>
-                    <Form.Label className='mb-2'>Provincia:</Form.Label>
-                    <Form.Control required type='text' defaultValue={producerRequest.province} ref={province} style={{ fontSize: '14px', height: '30px' }} />
+                  <Form.Group as={Col} md="4" lg="12" controlId="validationCustom03">
+                    <Form.Label>Provincia</Form.Label>
+                    <Select placeholder={producerRequest.province} options={provinciasArray} 
+                      onChange={(selected) => { handleProvinciasSelectChange(selected.value); setSelectedProvincia(selected); }}
+                      on
+                    ></Select>
+                    <Form.Control.Feedback type="invalid">
+                      Ingrese su provincia
+                    </Form.Control.Feedback>
                   </Form.Group>
 
-                  <Form.Group controlId='canton' style={{ marginBottom: '20px' }}>
-                    <Form.Label className='mb-2'>Cantón:</Form.Label>
-                    <Form.Control required type='text' defaultValue={producerRequest.canton} ref={canton} style={{ fontSize: '14px', height: '30px' }} />
+                  <Form.Group as={Col} md="4" lg="12" controlId="validationCustom04">
+                    <Form.Label>Canton</Form.Label>
+                    <Select placeholder={producerRequest.canton} options={cantonesOptions}
+                      onChange={(selected) => { setSelectedCanton(selected); handlecantonesSelectChange(selected.value); }}
+                    ></Select>
+                    <Form.Control.Feedback type="invalid">
+                      Por favor indique el canton
+                    </Form.Control.Feedback>
                   </Form.Group>
 
-                  <Form.Group controlId='district' style={{ marginBottom: '20px' }}>
-                    <Form.Label className='mb-2'>Distrito:</Form.Label>
-                    <Form.Control required type='text' defaultValue={producerRequest.district} ref={district} style={{ fontSize: '14px', height: '30px' }} />
+                  <Form.Group as={Col} md="4" lg="12" controlId="validationCustom05">
+                    <Form.Label>Distrito</Form.Label>
+                    <Select placeholder={producerRequest.district} options={distritosOptions}
+                      onChange={(selected) => setSelectedDistrito(selected)}
+                    ></Select>
+                    <Form.Control.Feedback type="invalid">
+                      Indique su distrito!.
+                    </Form.Control.Feedback>
                   </Form.Group>
 
                   <Form.Group controlId='address' style={{ marginBottom: '20px' }}>

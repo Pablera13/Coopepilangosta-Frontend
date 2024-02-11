@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Form, Row, Col, Button, Container, InputGroup, Collapse } from 'react-bootstrap'
+import { Form, Row, Col, Button, Container, InputGroup, Collapse,Card } from 'react-bootstrap'
 import { QueryClient } from 'react-query'
 import { createuser } from '../../../services/userService'
 import { createCostumer,checkCedula } from '../../../services/costumerService'
@@ -62,7 +62,7 @@ const costumerRegister = () => {
                 {name: name.current.value,
                  cedulaJuridica: cedulaJuridica.current.value,
                  date: formattedDate}
-                , 'VLTRXG-aDYJG_QYt-')
+                , 'VLTRXG-aDYJG_QYt-').then(history.back())
 
             },
             onError: () => {
@@ -86,11 +86,11 @@ const costumerRegister = () => {
                 idRole: 2
             }
 
-            const cedulaAvailabiloty = await checkCedula(cedulaJuridica.current.value).then(data=>data)
-            const emailAvailability = checkEmailAvailability(email.current.value).then(data=>data)
+            const cedulaAvailability = await checkCedula(cedulaJuridica.current.value).then(data=>data)
+            const emailAvailability = await checkEmailAvailability(email.current.value).then(data=>data)
 
-            if (cedulaAvailabiloty == true && emailAvailability == true) {
-
+            if (cedulaAvailability == true && emailAvailability == true) {
+                console.log(cedulaAvailability)
                 const createdUser = await addUserMutation.mutateAsync(newCostumerUser)
                 let newCostumer = {
                     cedulaJuridica: cedulaJuridica.current.value,
@@ -105,8 +105,9 @@ const costumerRegister = () => {
                     userId: createdUser.id
                 }
                 await addCostumerMutation.mutateAsync(newCostumer); 
+                
             }else{
-                if (cedulaAvailabiloty == false) {
+                if (cedulaAvailability == false) {
                     swal("Cedula se encuentra registrada","Ya existe un usuario con la cedula ingresada","warning")
                 }
                 if (emailAvailability == false) {
@@ -170,22 +171,18 @@ const costumerRegister = () => {
         setDistritosOptions(distritosOpt)
     }      
 
-    const verEleccion = ()=>{
-        console.log(selectedProvincia)
-        console.log(selectedCanton)
-        console.log(selectedDistrito)
-
-    }
-
     return (
         <>
             <Container className='registerContainer'>
+            <Card>
+                <Card.Body>
                 <Row>
                     <h2 className='h3register'>Registro</h2>
                 </Row>
                 <Row>
                     <h3>Información general</h3>
                 </Row>
+                
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                     <Row className="mb-3">
                         <Form.Group as={Col} md="4" controlId="validationCustom01">
@@ -264,7 +261,8 @@ const costumerRegister = () => {
                             </Form.Control.Feedback>
                         </Form.Group>
                     </Row>
-
+                        
+                        <hr />
                     <Row>
                         <Col>
                             <h3>Información de usuario</h3>
@@ -298,6 +296,8 @@ const costumerRegister = () => {
 
                     </Row>
                 </Form>
+                </Card.Body>
+                </Card>
                 <Row className='justify-content-md-center'>
                     <Col >
                         <Button onClick={handleSubmit}>Enviar</Button>

@@ -89,7 +89,7 @@ const checkEntry = () => {
               <Row>
                 <Col>
                   <div className='purchaseProductsInformation'>
-                    <div><h3>Productos del pedido aun no agregados</h3></div>
+                    <div><h3>Productos del pedido aun no agregados a bodega</h3></div>
                     <div className='purchaseProducts'>
                       <Table bordered>
                         <thead>
@@ -116,7 +116,7 @@ const checkEntry = () => {
                       <div>
                         <Accordion>
                           <Accordion.Item eventKey="0">
-                            <Accordion.Header>Todos los productos del pedido</Accordion.Header>
+                            <Accordion.Header>Todos los productos del pedido (Incluyendo ya en bodega)</Accordion.Header>
                             <Accordion.Body>
                               <table>
                                 <thead>
@@ -130,7 +130,7 @@ const checkEntry = () => {
                                     prodOrderById.purchases.map((purchases) =>
                                       <tr key={purchases.id}>
                                         <td>{purchases.product.name}</td>
-                                        <td>{purchases.quantity}</td>
+                                        <td>{purchases.quantity}</td>                                    
 
                                       </tr>)
                                   }

@@ -23,6 +23,7 @@ const updateCustomerOrder = () => {
 
   useEffect(() => {
     getCostumerOrderById(customerorder.customerorder, setCustomerorder)
+
   }, [])
 
   const mutation = useMutation("producerorder", editCostumerOrder,
@@ -46,20 +47,24 @@ const updateCustomerOrder = () => {
     { value: true, label: "Recibido" },
   ];
 
+
+
   const optionsStage = [
-    { value: "Sin confirmar", label: "Sin confirmar" },
-    { value: "Confirmado", label: "Confirmado" },
-    { value: "En preparación", label: "En preparación" },
-    { value: "En ruta de entrega", label: "En ruta de entrega" },
-    { value: "Entregado", label: "Entregado" },
-    { value: "Cancelado", label: "Cancelado" },
-    { value: "Devuelto", label: "Devuelto" },
+    { value: 1, label: "Sin confirmar" },
+    { value: 2, label: "Confirmado" },
+    { value: 3, label: "En preparación" },
+    { value: 4, label: "En ruta de entrega" },
+    { value: 5, label: "Entregado" },
+    { value: 6, label: "Cancelado" },
+    { value: 7, label: "Devuelto" },
   ];
 
   const paid = useRef();
   const delivered = useRef();
   const stage = useRef();
 
+
+  const [optionStageFiltered, setStagesFiltered] = useState(null)
 
   useEffect(() => {
     if (customerorderRequest) {
@@ -68,6 +73,14 @@ const updateCustomerOrder = () => {
 
       const isDelivered = customerorderRequest.paidDelivered !== "0001-01-01T00:00:00";
       setSelectedDelivered(optionsDelivered.find(option => option.value === isDelivered));
+
+
+      const findCurrentStage = optionsStage.find(optionsStage => optionsStage.label == customerorderRequest.stage)
+      setSelectedStage(findCurrentStage.label);
+
+      let currentState = optionsStage.find(stage => stage.label == customerorderRequest.stage)
+      setStagesFiltered(optionsStage.filter(stage => stage.value <= (currentState.value+1) && stage.value >= currentState.value))
+
     }
   }, [customerorderRequest]);
 
@@ -84,7 +97,7 @@ const updateCustomerOrder = () => {
       id: customerorderRequest.id,
       CostumerId: customerorderRequest.costumerId,
       Detail: customerorderRequest.detail,
-      Stage: selectedStage != null ? selectedStage.value : customerorderRequest.stage,
+      Stage: selectedStage != null ? selectedStage.label : customerorderRequest.stage,
       Total: customerorderRequest.total,
       ConfirmedDate: customerorderRequest.confirmedDate,
       paidDate: selectedPaid.value == false ? "0001-01-01T00:00:00" : formattedDate,
@@ -134,7 +147,7 @@ const updateCustomerOrder = () => {
         <div>
           <span>Seguimiento del pedido:</span>
           <Select
-            options={optionsStage}
+            options={optionStageFiltered}
             placeholder='Seleccione'
             name="state"
             id="3"
