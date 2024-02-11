@@ -1,13 +1,13 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import { getCategories } from '../../../services/categoryService';
-import { NavLink } from 'react-router-dom';
+import { Table, Container, Col, Row, Button } from 'react-bootstrap';
 import { deleteCategory } from '../../../services/categoryService';
 import AddCategoryModal from './actions/addCategoryModal';
-import { Table, Button } from 'react-bootstrap';
+import EditCategoryModal from './actions/editCategoryModal';
 import ReactPaginate from 'react-paginate';
 import styles from './listCategories.css'
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const listCategories = () => {
   const { data: Categories, isLoading: CategoriesLoading, isError: CategoriesError } = useQuery('category', getCategories);
@@ -24,7 +24,7 @@ const listCategories = () => {
     minWidth: '100px',
     fontWeight: 'bold',
     hover: {
-      backgroundColor: '#c0c0c0', 
+      backgroundColor: '#c0c0c0',
     },
   };
 
@@ -44,87 +44,92 @@ const listCategories = () => {
     setCurrentPage(data.selected);
   };
 
-  const deleteCategoryItem = async (id) => {
-    console.log("Id de la categoría: ", id);
-    await deleteCategory(id);
-    window.location.reload();
-  };
+  // const deleteCategoryItem = async (id) => {
+  //   console.log("Id de la categoría: ", id);
+  //   await deleteCategory(id);
+  //   window.location.reload();
+  // };
 
   const showAlert = (id) => {
     swal({
-      title: "Eliminar",
-      text: "¿Está seguro de que desea eliminar esta categoría?",
-      icon: "warning",
-      buttons: ["Cancelar", "Aceptar"],
+      title: 'Eliminar',
+      text: '¿Está seguro de que desea eliminar esta valoración?',
+      icon: 'warning',
+      buttons: ['Cancelar', 'Aceptar'],
     }).then((answer) => {
       if (answer) {
+        deleteCategory(id);
         swal({
-          title: 'Eliminado!',
-          text: 'La categoría ha sido eliminada',
+          title: 'Eliminado',
+          text: 'La valoración ha sido eliminada',
           icon: 'success',
         });
         setTimeout(function () {
-          deleteCategoryItem(id);
+          console.log("Review eliminada" + id)
+          window.location.reload();
         }, 2000);
       }
     });
   };
 
   return (
-    <div>
-      <h2 className="text-center">Categorías</h2>
-      <div className="buttons">
-        <AddCategoryModal />
-      </div>
-      <Table striped bordered hover variant="light">
-        <thead>
-          <tr>
-            <th>Nombre de la categoría</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        {paginatedCategories.map((category) => (
-          <tr key={category.id}>
-            <td>{category.name}</td>
-            <td>
 
-              <Button
-                  onClick={() => navigate(`/editCategory/${category.id}`)}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                  Editar
-                  </Button>
+    <Container>
+      <h2 className="text-center">Categorías</h2>
+      <div className='buttons'>
+        <AddCategoryModal />
+
+      </div>
+      <Col xs={8} md={2} lg={12}>
+        {Categories ? (
+          <Row>
+            <Table striped bordered hover variant="light">
+              <thead>
+                <tr>
+                  <th>Nombre de la categoría</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              {paginatedCategories.map((category) => (
+                <tr key={category.id}>
+                  <td>{category.name}</td>
+                  <td>
+
+                  <EditCategoryModal props={category} />
 
                   <Button
-                  onClick={() => showAlert(category.id)}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                  Eliminar
-                  </Button>
+                onClick={() => showAlert(category.id)}
+                size='sm'
+                style={{ ...buttonStyle, marginLeft: '5px', }}
+                onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
+                onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
+              >
+                Eliminar
+              </Button>
 
-            </td>
-          </tr>
-        ))}
-      </Table>
-      <ReactPaginate
-        previousLabel={"Anterior"}
-        nextLabel={"Siguiente"}
-        breakLabel={"..."}
-        pageCount={pageCount}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={handlePageClick}
-        containerClassName={"pagination"}
-        subContainerClassName={"pages pagination"}
-        activeClassName={"active"}
-      />
-    </div>
+                  </td>
+                </tr>
+              ))}
+
+            </Table>
+            <ReactPaginate
+              previousLabel={"Anterior"}
+              nextLabel={"Siguiente"}
+              breakLabel={"..."}
+              pageCount={pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={handlePageClick}
+              containerClassName={"pagination"}
+              subContainerClassName={"pages pagination"}
+              activeClassName={"active"}
+            />
+          </Row>
+        ) : (
+          "Cargando"
+        )}
+      </Col>
+    </Container>
   );
 };
 

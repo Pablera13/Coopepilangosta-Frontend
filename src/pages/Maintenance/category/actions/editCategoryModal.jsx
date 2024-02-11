@@ -2,12 +2,15 @@ import { React, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { Col, InputGroup, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import { QueryClient, useMutation } from 'react-query';
-import { createCategory } from '../../../../services/categoryService';
+import {updateCategory } from '../../../../services/categoryService';
 import { useRef } from 'react';
 import swal from 'sweetalert';
-const addCategoryModal = () => {
+
+const editCategoryModal = (props) => {
+    
+  const category = props.props;
   const [validated, setValidated] = useState(false);
   const [show, setShow] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -32,20 +35,18 @@ const addCategoryModal = () => {
     },
   };
 
-  const mutation = useMutation('category', createCategory, {
+const mutation = useMutation('category', updateCategory, {
     onSettled: () => queryClient.invalidateQueries('category'),
     mutationKey: 'category',
     onSuccess: () => {
         swal({
-            title: 'Agregado!',
-            text: 'Se agregó la categoria',
+            title: 'Editado!',
+            text: 'Se editó la categoría',
             icon: 'success',
         });
-        handleClose()
-
-            setTimeout(function () {
-                window.location.reload();
-            }, 2000)
+        setTimeout(() => {
+            window.location.reload();
+        }, 2000);
     },
 });
 
@@ -60,6 +61,7 @@ const addCategoryModal = () => {
 
     if (form.checkValidity() === true) {
       let newCategory = {
+        id: category.id,
         name: categoryName.current.value,
       };
       setIsSaving(true); 
@@ -78,29 +80,41 @@ const addCategoryModal = () => {
                   onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
                   onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
                   >
-                  Agregar Categoría
+                  Editar
                   </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Agregar nueva categoría</Modal.Title>
+          <Modal.Title>Editar categoría</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form validated={validated} onSubmit={save}>
 
             <Form.Group className="mb-3" controlId="validationCustom01">
-              
+                
                 <Row>
                   <Col>
                 <Form.Label>Nombre</Form.Label>
                 </Col>
                 </Row>
 
+                {/* <Form.Control
+                  required
+                  defaultValue={category.name}
+                  type="text"
+                  placeholder=""
+                  autoFocus
+                  ref={categoryName}
+                />
+                <Form.Control.Feedback>Ingrese el nombre de la categoría</Form.Control.Feedback>
+             */}
+
                 <Row>
                 <Col md={8}>
                 <Form.Control
                   required
                   type="text"
+                  defaultValue={category.name}
                   placeholder="Ingrese el nombre de la categoría"
                   autoFocus
                   ref={categoryName}
@@ -108,14 +122,16 @@ const addCategoryModal = () => {
                 <Form.Control.Feedback>Ingrese el nombre de la categoría</Form.Control.Feedback>
                 </Col>
                 </Row>
+                </Form.Group>
 
-            </Form.Group>
             
+
+           
           </Form>
         </Modal.Body>
         <Modal.Footer>
         <Button variant="primary" size='sm' onClick={save}>
-              Guardar categoría
+             Editar categoría
             </Button>
           <Button variant="secondary" size='sm' onClick={handleClose}>
             Cerrar
@@ -127,4 +143,4 @@ const addCategoryModal = () => {
   );
 }
 
-export default addCategoryModal
+export default editCategoryModal

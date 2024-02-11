@@ -4,6 +4,8 @@ import { useQuery } from 'react-query';
 import { Table, Form, Row, Col } from 'react-bootstrap';
 import ReactPaginate from 'react-paginate';
 
+import { format } from 'date-fns';
+
 const stockReport = () => {
   const { data: stocksData, isLoading: stocksLoading, isError: stocksError } = useQuery(
     'stockreport',
@@ -88,8 +90,8 @@ const stockReport = () => {
           <tr>
             <th>Producto</th>
             <th>Fecha del movimiento</th>
-            <th>Existencia Inicial</th>
-            <th>Existencia Modificada</th>
+            <th>Inicial</th>
+            <th>Modificado</th>
             <th>Motivo</th>
             <th>Usuario</th>
           </tr>
@@ -98,7 +100,7 @@ const stockReport = () => {
           {paginatedStocks.map((stock) => (
             <tr key={stock.Id}>
               <td>{stock.productName}</td>
-              <td>{stock.cambioFecha}</td>
+              <td>{(format(new Date(stock.cambioFecha), "dd-MM-yyyy"))}</td>
               <td>{stock.oldStock}</td>
               <td>{stock.newStock}</td>
               <td>{stock.motive}</td>

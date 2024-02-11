@@ -5,9 +5,11 @@ import { NavLink } from 'react-router-dom';
 import { deleteProducerService } from '../../../services/producerService';
 import { Table, Container, Col, Row, Button } from 'react-bootstrap';
 import AddProducerModal from './actions/addProducerModal.jsx';
+import EditProducerModal from './actions/editProducerModal';
+
 import ReactPaginate from 'react-paginate';
 import syles from '../Producer/listProducer.css'
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const listProducers = () => {
   const { data: Producers, isLoading: ProducersLoading, isError: ProducersError } = useQuery('producer', getProducers);
@@ -24,7 +26,7 @@ const listProducers = () => {
     minWidth: '100px',
     fontWeight: 'bold',
     hover: {
-      backgroundColor: '#c0c0c0', 
+      backgroundColor: '#c0c0c0',
     },
   };
 
@@ -51,20 +53,21 @@ const listProducers = () => {
 
   const showAlert = (id) => {
     swal({
-      title: "Eliminar",
-      text: "¿Está seguro de que desea eliminar este productor?",
-      icon: "warning",
-      buttons: ["Cancelar", "Aceptar"],
+      title: 'Eliminar',
+      text: '¿Está seguro de que desea eliminar esta valoración?',
+      icon: 'warning',
+      buttons: ['Cancelar', 'Aceptar'],
     }).then((answer) => {
       if (answer) {
+        deleteProducerService(id);
         swal({
-          title: 'Eliminado!',
-          text: 'El productor ha sido eliminado',
+          title: 'Eliminado',
+          text: 'La valoración ha sido eliminada',
           icon: 'success',
         });
         setTimeout(function () {
-          deleteProducerService(id).finally(window.location.reload());
-          
+          console.log("Review eliminada" + id)
+          window.location.reload();
         }, 2000);
       }
     });
@@ -92,39 +95,31 @@ const listProducers = () => {
                 </tr>
               </thead>
               <tbody>
-              {paginatedProducers.map((producer) => (
-                <tr key={producer.id}>
-                  <td>{producer.cedula}</td>
-                  <td>{producer.name} {producer.lastname1} {producer.lastname2}</td>
-                  <td>{producer.phoneNumber}</td>
-                  <td>{producer.email}</td>
-                  <td>{producer.address}</td>
-                  <td>{producer.bankAccount}</td>
-                  <td>
+                {paginatedProducers.map((producer) => (
+                  <tr key={producer.id}>
+                    <td>{producer.cedula}</td>
+                    <td>{producer.name} {producer.lastname1} {producer.lastname2}</td>
+                    <td>{producer.phoneNumber}</td>
+                    <td>{producer.email}</td>
+                    <td>{producer.address}</td>
+                    <td>{producer.bankAccount}</td>
+                    <td>
 
-                    <Button
-                  onClick={() => navigate(`/editProducer/${producer.id}`)}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                  Editar
-                  </Button>
+                      <EditProducerModal props={producer} />
 
-                  <Button
-                  onClick={() => showAlert(producer.id)}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                  Eliminar
-                  </Button> 
+                      <Button
+                        onClick={() => showAlert(producer.id)}
+                        size='sm'
+                        style={{ ...buttonStyle, marginLeft: '5px', }}
+                        onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
+                        onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
+                      >
+                        Eliminar
+                      </Button>
 
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </Table>
             <ReactPaginate

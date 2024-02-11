@@ -3,9 +3,11 @@ import { QueryClient, useMutation } from 'react-query';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import swal from 'sweetalert';
-import { createWarehouse,checkWarehouseCodeAvailability } from '../../../../services/warehouseService';
+import { updateWarehouse, checkWarehouseCodeAvailability } from '../../../../services/warehouseService';
 
-const addWarehouseModal = () => {
+const editWarehouseModal = (props) => {
+
+    const warehouse = props.props;
     const queryClient = new QueryClient();
     const [show, setShow] = useState(false);
 
@@ -25,20 +27,22 @@ const addWarehouseModal = () => {
         minWidth: '100px',
         fontWeight: 'bold',
         hover: {
-          backgroundColor: '#c0c0c0', 
+            backgroundColor: '#c0c0c0',
         },
-      };
+    };
 
-    const mutation = useMutation('warehouse', createWarehouse, {
-        onSettled: () => queryClient.invalidateQueries('Warehouse'),
+    const mutation = useMutation('warehouse', updateWarehouse, {
+        onSettled: () => queryClient.invalidateQueries('warehouse'),
         mutationKey: 'warehouse',
         onSuccess: () => {
             swal({
-                title: 'Agregado!',
-                text: 'Se agregó la bodega',
+                title: 'Editado!',
+                text: 'Se edito la bodega',
                 icon: 'success',
             });
-            
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
         },
     });
 
@@ -47,7 +51,7 @@ const addWarehouseModal = () => {
     const address = useRef();
     const state = useRef();
 
-    const saveWarehouse = async(event) => {
+    const saveWarehouse = async (event) => {
         event.preventDefault()
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -56,28 +60,28 @@ const addWarehouseModal = () => {
         } else {
             setValidated(true);
             let newWarehouse = {
+                id: warehouse.id,
                 code: code.current.value,
                 description: description.current.value,
                 address: address.current.value,
                 state: state.current.value,
             };
 
-            let codeAvailability = await checkWarehouseCodeAvailability(code.current.value).then(data => data)
-            .finally(
-                setTimeout(() => {
-                window.location.reload()
-            }, 2000));
+            // let codeAvailability = await checkWarehouseCodeAvailability(code.current.value).then(data => data)
+            // .finally(
+            //     setTimeout(() => {
+            //     window.location.reload()
+            // }, 2000));
 
-            
-            if (codeAvailability == true){
-                
-                mutation.mutateAsync(newWarehouse);
+            // if (codeAvailability == true){
 
-            }else{
-                event.preventDefault();
-                swal('Advertencia','Este codigo de bodega se encuentra en uso.','warning')
-            }
-            
+            mutation.mutateAsync(newWarehouse);
+
+            // }else{
+            //     event.preventDefault();
+            //     swal('Advertencia','Este codigo de bodega se encuentra en uso.','warning')
+            // }
+
         }
     };
 
@@ -91,19 +95,19 @@ const addWarehouseModal = () => {
     return (
         <>
             <Button
-                  onClick={handleShow}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                Agregar Bodega
-                  </Button>
+                onClick={handleShow}
+                size='sm'
+                style={{ ...buttonStyle, marginLeft: '5px', }}
+                onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
+                onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
+            >
+                Editar
+            </Button>
 
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Agregar nueva bodega</Modal.Title>
+                    <Modal.Title>Editar bodega</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form validated={validated} onSubmit={saveWarehouse}>
@@ -112,6 +116,8 @@ const addWarehouseModal = () => {
                             <Form.Control
                                 required
                                 type="number"
+                                readOnly={true}
+                                defaultValue={warehouse.code}
                                 placeholder="Ingrese el código"
                                 ref={code}
                             />
@@ -121,6 +127,7 @@ const addWarehouseModal = () => {
                             <Form.Control
                                 required
                                 type="text"
+                                defaultValue={warehouse.description}
                                 placeholder="Ingrese la descripción"
                                 ref={description}
                             />
@@ -130,6 +137,7 @@ const addWarehouseModal = () => {
                             <Form.Control
                                 required
                                 type="text"
+                                defaultValue={warehouse.address}
                                 placeholder="Ingrese la dirección"
                                 ref={address}
                             />
@@ -145,7 +153,7 @@ const addWarehouseModal = () => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                <Button variant="primary" size="sm" onClick={saveWarehouse}>
+                    <Button variant="primary" size="sm" onClick={saveWarehouse}>
                         Editar Bodega
                     </Button>
                     <Button variant="secondary" size="sm" onClick={handleClose}>
@@ -157,4 +165,4 @@ const addWarehouseModal = () => {
     );
 };
 
-export default addWarehouseModal;
+export default editWarehouseModal;

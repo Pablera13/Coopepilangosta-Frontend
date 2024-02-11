@@ -114,51 +114,51 @@ export const ObtainWeeklyData = async (ProductSales) => {
       QuantityData[index].push(totalQuantityLastWeek)
     })}
   
-      //WeeklyData = QuantityData.concat(PurchaseData);
-      console.log(WeeklyData)
-      WeeklyData = 
-      [
-        [
-            "Semana 1",
-            Math.floor(Math.random() * (99 - 1 + 1) + 1),
-            Math.floor(Math.random() * (99 - 1 + 1) + 1)
-        ],
-        [
-            "Semana 2",
-            Math.floor(Math.random() * (99 - 1 + 1) + 1),
-            Math.floor(Math.random() * (99 - 1 + 1) + 1)
-        ],
-        [
-            "Semana 3",
-            Math.floor(Math.random() * (99 - 1 + 1) + 1),
-            Math.floor(Math.random() * (99 - 1 + 1) + 1)
-        ],
-        [
-            "Semana 4",
-            Math.floor(Math.random() * (99 - 1 + 1) + 1),
-            Math.floor(Math.random() * (99 - 1 + 1) + 1)
-        ],
-        [
-            "Semana 1",
-            Math.floor(Math.random() * (99 - 1 + 1) + 1),
-            Math.floor(Math.random() * (99 - 1 + 1) + 1)
-        ],
-        [
-            "Semana 2",
-            Math.floor(Math.random() * (99 - 1 + 1) + 1),
-            Math.floor(Math.random() * (99 - 1 + 1) + 1)
-        ],
-        [
-            "Semana 3",
-            Math.floor(Math.random() * (99 - 1 + 1) + 1),
-            Math.floor(Math.random() * (99 - 1 + 1) + 1)
-        ],
-        [
-            "Semana 4",
-            Math.floor(Math.random() * (99 - 1 + 1) + 1),
-            Math.floor(Math.random() * (99 - 1 + 1) + 1)
-        ]
-    ]
+    WeeklyData = QuantityData.concat(PurchaseData);
+    //   console.log(WeeklyData)
+    //   WeeklyData = 
+    //   [
+    //     [
+    //         "Semana 1",
+    //         Math.floor(Math.random() * (99 - 1 + 1) + 1),
+    //         Math.floor(Math.random() * (99 - 1 + 1) + 1)
+    //     ],
+    //     [
+    //         "Semana 2",
+    //         Math.floor(Math.random() * (99 - 1 + 1) + 1),
+    //         Math.floor(Math.random() * (99 - 1 + 1) + 1)
+    //     ],
+    //     [
+    //         "Semana 3",
+    //         Math.floor(Math.random() * (99 - 1 + 1) + 1),
+    //         Math.floor(Math.random() * (99 - 1 + 1) + 1)
+    //     ],
+    //     [
+    //         "Semana 4",
+    //         Math.floor(Math.random() * (99 - 1 + 1) + 1),
+    //         Math.floor(Math.random() * (99 - 1 + 1) + 1)
+    //     ],
+    //     [
+    //         "Semana 1",
+    //         Math.floor(Math.random() * (99 - 1 + 1) + 1),
+    //         Math.floor(Math.random() * (99 - 1 + 1) + 1)
+    //     ],
+    //     [
+    //         "Semana 2",
+    //         Math.floor(Math.random() * (99 - 1 + 1) + 1),
+    //         Math.floor(Math.random() * (99 - 1 + 1) + 1)
+    //     ],
+    //     [
+    //         "Semana 3",
+    //         Math.floor(Math.random() * (99 - 1 + 1) + 1),
+    //         Math.floor(Math.random() * (99 - 1 + 1) + 1)
+    //     ],
+    //     [
+    //         "Semana 4",
+    //         Math.floor(Math.random() * (99 - 1 + 1) + 1),
+    //         Math.floor(Math.random() * (99 - 1 + 1) + 1)
+    //     ]
+    // ]
   
       return WeeklyData;
   }

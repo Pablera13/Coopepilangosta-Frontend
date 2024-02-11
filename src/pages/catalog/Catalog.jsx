@@ -89,33 +89,24 @@ const catalog = () => {
           {
             products != null ? (
               products.map((product) => (
+<>
+                {product.state == true?
+
                 <Col xs={12} md={6} lg={3} key={product.id}>
                   <Card className="Customcard">
                     <Card.Img variant="top" src={product.image} className="custom-card-img" />
                     <Card.Body>
                       <Card.Title>{product.name }</Card.Title>
-                      <Card.Text>{" (" + product.unit + ")"}</Card.Text>
-                      <Card.Text>{product.description}</Card.Text>
-
-                      {/* <Button variant="primary" size='sm'>Agregar al pedido</Button> */}
-
-
-                      
-
-                    
+                      {/* <Card.Text><strong>{product.name}</strong></Card.Text> */}
+                      <Card.Text><strong style={{fontSize:"100%"}}>{product.unit}</strong></Card.Text>
+                      {/* <Card.Text class="text-success"><b>{product.unit}</b></Card.Text> */}
+                      <Card.Text>{product.description.slice(0, 50)}...</Card.Text>
                     </Card.Body>
                     <Card.Footer>
                       
-                    {/* <NavLink className="NavLink" to={`/ProductDetail/${product.categoryId}/${product.id}`} >Detalle</NavLink> */}
-
                     <NavLink className="NavLink" 
                     to={
-
-                      // UserRole === 'Cliente'
-                      // ?
                       `/ProductDetail/${product.categoryId}/${product.id}`
-                      // :
-                      // '/login'
                     } 
 
                     >Detalle</NavLink>
@@ -124,6 +115,9 @@ const catalog = () => {
                     </Card.Footer>
                   </Card>
                 </Col>
+
+                  : ""}
+</>
               ))
             ) : (
               "Sin productos"

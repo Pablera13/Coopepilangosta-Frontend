@@ -146,15 +146,24 @@ input[type="radio"] {
 
 .Star:hover,
 .Star:hover~.Star {
-    color: orange;
+        color: #3c3019;
+
 }
 
 input[type="radio"]:checked~.Star {
-    color: orange;
+    color: #3c3019;
+    ;
 }
 
 
 .Star {
     color: grey;
     margin-right: 5px;
+}
+
+.Rating {
+    /* color: orange; */
+    color: #3c3019;
+
+    margin-right: 1%;
 }

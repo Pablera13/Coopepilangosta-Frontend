@@ -6,19 +6,15 @@ import { Layout } from './pages/_layout/Layout.jsx'
 
 //Componentes de productos
 import ListProducts from './pages/Maintenance/Products/listProducts'
-import UpdateProduct from './pages/Maintenance/Products/operations/updateProduct'
 
 //Componentes de categorias
 import ListCategories from './pages/Maintenance/category/listCategories'
-import EditCategory from './pages/Maintenance/category/actions/editCategory'
 
 //Componentes de bodegas
 import ListWarehouse from './pages/Maintenance/Warehouse/listWarehouse'
-import EditWarehouse from './pages/Maintenance/Warehouse/actions/editWarehouse'
 
 //Componentes de Productores
 import ListProducers from './pages/Maintenance/Producer/listProducers'
-import EditProducer from './pages/Maintenance/Producer/actions/editProducer'
 
 //Componentes de pedidos al productor
 import ListProducerOrder from './pages/Maintenance/ProducerOrder/listProducerOrder'
@@ -28,6 +24,7 @@ import UpdateProducerOrder from './pages/Maintenance/ProducerOrder/actions/updat
 //Componentes de pedidos del cliente
 import ListCustomerOrder from './pages/Maintenance/CustomerOrder/listCustomerOrder'
 import UpdateCustomerOrder from './pages/Maintenance/CustomerOrder/actions/updateCustomerOrder'
+import MyCostumerOrder from './pages/Maintenance/CustomerOrder/myCostumerOrder'
 
 //Componente de ordenes
 import ListOrders from '../src/pages/Inventory/Orders/listOrders'
@@ -66,6 +63,9 @@ import StockReport from './pages/reports/stockReport/stockReport.jsx'
 //Componentes del carro de compra
 import ShoppingCart from './pages/ShoppingCart/ShoppingCart'
 
+//Componentes de cotizaciones
+import ListProductCostumer from './pages/Maintenance/ProductCostumer/listProductCostumer'
+
 const queryClient = new QueryClient()
 ReactDOM.createRoot(document.getElementById('root')).render(
   <QueryClientProvider client={queryClient}>
@@ -77,11 +77,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Route index element={<Catalog />}/>
       <Route path='/home' element={<Catalog/>}></Route>
       <Route path='/listProducts' element={<ListProducts/>}></Route>
-      <Route path='/editProduct/:product' element={<UpdateProduct/>}></Route>
       <Route path='/listCategories' element={<ListCategories/>}></Route>
-      <Route path='/editCategory/:idCategory' element={<EditCategory />}></Route>
       <Route path="/listWareHouse"element={<ListWarehouse/>}/>
-      <Route path="/editWarehouse/:idWarehouse"element={<EditWarehouse/>}/>
 
       {/* <Route path="/ProductDetail/:idproduct"element={<ProductDetail/>}/> */}
       <Route path="/ProductDetail/:idcategory/:idproduct"element={<ProductDetail/>}/>
@@ -89,7 +86,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Route path="/ShoppingCart"element={<ShoppingCart/>}/>
 
       <Route path="/listProducers"element={<ListProducers/>}/>
-      <Route path='/editProducer/:producer'element={<EditProducer/>}/>
 
       {/* <Route path="/listProducerOrder"element={<ListProducerOrder/>}/> */}
       <Route path="/listProducerOrder/:filter"element={<ListProducerOrder/>}/>
@@ -100,10 +96,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Route path="/productReport/:productId"element={<ProductReport/>}/>
       <Route path="/stockReport/"element={<StockReport/>}/>
 
+      <Route path="/listProductCostumer/:costumername/:costumerid"element={<ListProductCostumer/>}/>
 
 
 
+      <Route path="/myCustomerOrders"element={<MyCostumerOrder/>}/>
       <Route path="/addProducerOrder"element={<AddProducerOrder/>}/>
+
 
       <Route path='/editProducerOrder/:producerorder'element={<UpdateProducerOrder/>}/>
       <Route path='/editCustomerOrder/:customerorder'element={<UpdateCustomerOrder/>}/>
