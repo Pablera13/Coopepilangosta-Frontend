@@ -90,9 +90,7 @@ const listCategories = () => {
       <div className='buttons'>
         <AddCategoryModal />
 
-      </div>
-
-      <Form>
+        <Form>
         <Row className="mb-3">
           <Col md={3}>
             <Form.Label>Buscar:</Form.Label>
@@ -105,27 +103,24 @@ const listCategories = () => {
         </Row>
       </Form>
 
-      <Table striped bordered hover variant="light">
-        <thead>
-          <tr>
-            <th>Nombre de la categoría</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        {paginatedCategories.map((category) => (
-          <tr key={category.id}>
-            <td>{category.name}</td>
-            <td>
+        </div>
+      <Col xs={8} md={2} lg={12}>
+        {Categories ? (
+          <Row>
+            <Table striped bordered hover variant="light">
+              <thead>
+                <tr>
+                  <th>Nombre de la categoría</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              {paginatedCategories.map((category) => (
+                <tr key={category.id}>
+                  <td>{category.name}</td>
+                  <td>
 
-              <Button
-                  onClick={() => navigate(`/editCategory/${category.id}`)}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                  Editar
-                  </Button>
+                  <EditCategoryModal props={category} />
+
                   <Button
                 onClick={() => showAlert(category.id)}
                 size='sm'
