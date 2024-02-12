@@ -6,6 +6,7 @@ import { useQuery } from 'react-query';
 import { getProducts } from '../../../services/productService';
 import { getCategories } from '../../../services/categoryService';
 import { Table,Container,Col,Row, Button } from 'react-bootstrap';
+import AddInventoryModal from './actions/addInventoriesModal';
 import ReactPaginate from 'react-paginate';
 import {useNavigate} from 'react-router-dom';
 
@@ -90,15 +91,6 @@ const ListInventories = () => {
                     <td>{product.unit}</td>
                     <td>{product.stock}</td>
                     <td>
-                            <Button
-                  onClick={() => navigate(`/addInventories/${product.id}`)}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                  Editar
-                  </Button> */}
 
                         <AddInventoryModal props={product} />
 
