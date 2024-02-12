@@ -1,0 +1,179 @@
+import React, { useRef, useState, useEffect } from 'react'
+import { Modal, Row, Col, Button, Form } from 'react-bootstrap'
+import { useMutation, useQuery } from 'react-query';
+import Select from 'react-select';
+import { QueryClient } from 'react-query';
+import { createProductCostumer } from '../../../../services/productCostumerService.js';
+import {useNavigate, useParams} from 'react-router-dom';
+import { getProducts } from '../../../../services/productService';
+import { getProductById2 } from '../../../../services/productService';
+
+export const addProductCostumer = () => {
+
+  const queryClient = new QueryClient();
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const Params = useParams();
+
+  const [validated, setValidated] = useState(false);
+
+  const PurchasePrice = useRef();
+  const Description = useRef();
+  const Margin = useRef();
+  const Unit = useRef();
+
+  const { data: products} = useQuery('product', getProducts);
+  const [ProductOptions, setProductOptions] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null); 
+
+  useEffect(() => {
+    if (selectedProduct) {
+      ObtainMargin(selectedProduct.value);
+      console.log(selectedProduct.value);
+    }
+  }, [selectedProduct]);
+
+  useEffect(() => {
+    if (products && products.length > 0) {
+      FillSelect();
+    }
+  }, [products]);
+
+  const FillSelect = async () => {
+    if (products){
+      let productsOptions = []
+      for(const product of products){
+        let productOption = {
+          value: product.id,
+          label: product.name
+        } 
+        productsOptions.push(productOption)
+      } setProductOptions(productsOptions)
+}};
+
+  const ObtainMargin = async (productId) => {
+    try {
+        let Leproduct = await getProductById2(productId)
+            console.log("Leproduct = " + JSON.stringify(Leproduct));
+            Margin.current.value = Leproduct.margin;
+            Unit.current.value = Leproduct.unit; 
+ 
+    } catch (error) {
+        console.error("Error al obtener margin en el componente ", error);
+    }
+};
+
+
+const mutation = useMutation('productcostumer', createProductCostumer, {
+  onSettled: () => queryClient.invalidateQueries('productcostumer'),
+  mutationKey: 'productcostumer',
+  onSuccess: () => {
+      swal({
+          title: 'Agregado!',
+          text: 'Gracias por su tiempo',
+          icon: 'success',
+      });  setTimeout(function () {
+        window.location.reload();
+      }, 2000);
+  },
+});
+
+  const saveProductCostumer = async(event) => {
+    const form = event.currentTarget;
+    event.preventDefault();
+    if (form.checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+    } else {
+        setValidated(true);
+
+        let productcostumer = {
+          productId: selectedProduct.value,
+          costumerId : Params.costumerid,
+          purchasePrice: PurchasePrice.current.value ,
+          description: Description.current.value ,
+          margin: Margin.current.value ,
+          unit: Unit.current.value ,
+
+        }
+        console.log(productcostumer)
+        mutation.mutateAsync(productcostumer);
+    }
+};
+  
+
+
+  return (
+    <>
+      <Button variant="info" onClick={handleShow} size='sm'>
+      Agregar nueva cotización
+      </Button>
+      
+
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Agregar nueva cotización</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+          <Form noValidate validated={validated}>
+            {/* <Row><h3>Datos personales</h3></Row> */}
+            <Row>
+              <Col>
+              <Form.Label style={{ fontSize: '16px', marginBottom: '20px' }}>Seleccione el producto</Form.Label>
+                          <Select
+                            options={ProductOptions}
+                            placeholder='Producto'
+                            onChange={(selectedOption) => setSelectedProduct(selectedOption)}
+                            className="small-input"
+                          />
+              </Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <Form.Label>Precio inicial</Form.Label>
+                <Form.Control required type='number' placeholder="Ingrese el precio inicial" ref={PurchasePrice} />
+              </Col>
+              <Col>
+                <Form.Label>Margen de ganancia</Form.Label>
+                <Form.Control required type='number' placeholder="Ingrese el margen de ganancia" ref={Margin} />
+              </Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <Form.Label>Unidad</Form.Label>
+                <Form.Control required placeholder="Ingrese la unidadad comercial" ref={Unit} />
+              </Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <Form.Label>Descripción</Form.Label>
+                <Form.Control required type='textarea' rows={3} placeholder="Ingrese la descripción" ref={Description} />
+              </Col>
+            </Row>
+            
+          </Form>
+
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" size='sm' onClick={handleClose}>
+            Cerrar
+          </Button>
+          <Button variant="primary" size='sm' onClick={saveProductCostumer}>Guardar</Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  )
+}
+export default addProductCostumer

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { Modal, Col, Row, Container, Button, Form } from 'react-bootstrap'
-import {ReviewUpdate} from '../../../services/ReviewService';
+import {ReviewUpdate} from '../../../services/reviewService';
 import {QueryClient, useMutation, useQuery } from 'react-query';
 import { format } from 'date-fns';
 

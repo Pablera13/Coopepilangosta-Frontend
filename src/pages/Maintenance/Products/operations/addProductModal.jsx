@@ -147,7 +147,7 @@ const addProductModal = () => {
                         <Row>
                             <Col md={6}>
                                 <Form.Group className="mb-3">
-                                    <Form.Label>Código:</Form.Label>
+                                    <Form.Label>Código</Form.Label>
                                     <Form.Control
                                         required
                                         type="number"
@@ -159,7 +159,7 @@ const addProductModal = () => {
                             </Col>
                             <Col md={6}>
                                 <Form.Group className="mb-3">
-                                    <Form.Label>Nombre:</Form.Label>
+                                    <Form.Label>Nombre</Form.Label>
                                     <Form.Control
                                         required
                                         type="text"
@@ -172,18 +172,19 @@ const addProductModal = () => {
                         <Row>
                             <Col md={6}>
                                 <Form.Group className="mb-3">
-                                    <Form.Label>Descripción:</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        placeholder="Ingrese la descripción"
-                                        ref={description}
-                                    />
+                                    <Form.Label>Descripción</Form.Label>
+                                    <textarea 
+                                    required
+                                    className='form-control' 
+                                    rows='4'
+                                    placeholder="Ingrese la descripción"
+                                    ref={description}
+                                    ></textarea>
                                 </Form.Group>
                             </Col>
                             <Col md={6}>
                                 <Form.Group className="mb-3">
-                                    <Form.Label>Unidad Comercial:</Form.Label>                               
+                                    <Form.Label>Unidad Comercial</Form.Label>                               
                                     <div className="custom-select-container">
                                         <select className="custom-select" id="unitOptions" ref={unit}>
                                             <option value="Kilogramo">Kilogramo</option>
@@ -205,7 +206,7 @@ const addProductModal = () => {
                         <Row>
                             <Col md={6}>
                                 <Form.Group className="mb-3">
-                                    <Form.Label>Margen de Ganancia:</Form.Label>
+                                    <Form.Label>Margen de Ganancia</Form.Label>
                                     <Form.Control
                                         required
                                         type="number"
@@ -216,7 +217,7 @@ const addProductModal = () => {
                             </Col>
                             <Col md={6}>
                                 <Form.Group className="mb-3">
-                                    <Form.Label>IVA:</Form.Label>
+                                    <Form.Label>IVA</Form.Label>
                                     <Form.Control
                                         required
                                         type="number"
@@ -229,7 +230,7 @@ const addProductModal = () => {
                         <Row>
                             <Col md={6}>
                                 <Form.Group className="mb-3">
-                                    <Form.Label>Estado:</Form.Label>
+                                    <Form.Label>Estado</Form.Label>
                                     <Form.Select required ref={state}>
                                         <option value="true">Activo</option>
                                         <option value="false">Inactivo</option>
@@ -238,7 +239,7 @@ const addProductModal = () => {
                             </Col>
                             <Col md={6}>
                                 <Form.Group className="mb-3">
-                                    <Form.Label>Categoría:</Form.Label>
+                                    <Form.Label>Categoría</Form.Label>
                                     <Form.Select required ref={categoryId}>
                                         {Categories != null ? (
                                             Categories.map((category) => (
@@ -256,7 +257,7 @@ const addProductModal = () => {
                         <Row>
                             <Col md={6}>
                                 <Form.Group className="mb-3">
-                                    <Form.Label>Imagen:</Form.Label>
+                                    <Form.Label>Imagen</Form.Label>
                                     <div className="custom-file">
                                         <input
                                             type="file"

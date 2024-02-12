@@ -3,6 +3,7 @@ import { Table, Container, Col, Row, Button, Card, ListGroup } from 'react-boots
 import AddContact from '../costumers/actions/addContact';
 import UpdateContact from '../costumers/actions/updateContact';
 import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
+import PrintCustomerOrder from '../../Maintenance/CustomerOrder/actions/printCustomerOrder.jsx';
 
 import { useEffect, useState } from 'react';
 import { getUserById } from '../../../services/userService';
@@ -196,54 +197,8 @@ const costumerProfile = () => {
                 </Card>
               )}
               <AddContact props={user.costumer.id} />
+
             </Col>
-  
-              <Col xl={9} lg={9} md={12} sm={12} xs={12}>
-                <Card className='mt-3'>
-                  <Card.Header>Mis Pedidos</Card.Header>
-                  {customerorderData ? (
-                    <Table striped bordered hover variant="light">
-                      <thead>
-                        <tr>
-                          <th>Número de pedido</th>
-                          <th>Fecha del pedido</th>
-                          <th>Total</th>
-                          <th>Acciones</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {customerorderData
-                          .filter((order) => order.costumerId === userStorage.costumer.id)
-                          .map((order) => (
-                            <tr key={order.id}>
-                              <td>{order.id}</td>
-                              <td>{format(new Date(order.confirmedDate), 'yyyy-MM-dd')}</td>
-                              <td>{order.total.toFixed(2)}</td>
-                              <td>
-                                <NavLink
-                                  to={`/userOrder/${order.id}`}
-                                  style={{
-                                    textDecoration: 'underline',
-                                    margin: '0 10px',
-                                    border: 'none',
-                                    background: 'none',
-                                    padding: 0,
-                                    color: 'inherit',
-                                    cursor: 'pointer',
-                                  }}
-                                >
-                                  Detalles
-                                </NavLink>
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </Table>
-                  ) : (
-                    'Cargando'
-                  )}
-                </Card>
-              </Col>
             </Row>
           </>
         ) : (

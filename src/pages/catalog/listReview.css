@@ -43,6 +43,11 @@ input[type="radio"] {
     color: grey;
 }
 
+.StarReviewed {
+    color: #3c3019;
+}
+
+
 .clasificacion {
     direction: rtl;
     unicode-bidi: bidi-override;
@@ -52,11 +57,13 @@ input[type="radio"] {
 
 .StarR:hover,
 .StarR:hover~.StarR {
-    color: orange;
+    color: #3c3019;
+
 }
 
 input[type="radio"]:checked~.StarR {
-    color: orange;
+    color: #3c3019;
+
 }
 
 .float-right btn text-white btn-danger edit-button-container{

@@ -17,7 +17,7 @@ const detailsCostumer = (props) => {
     return (
         <>
             <Button variant="outline-primary" onClick={handleOpen} size='sm' >
-                Detalles
+                Contactos
             </Button>
 
             <Modal show={show} onHide={handleClose}>

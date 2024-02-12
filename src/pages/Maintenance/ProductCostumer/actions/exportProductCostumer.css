@@ -1,0 +1,12 @@
+
+.checkbox-container {
+    margin-bottom: 10px;
+    font-size: large;
+    text-align: justify;
+    margin-left: 5%;
+}
+
+.checkbox-container label {
+    margin-left: 5px;
+    color: #333; 
+}

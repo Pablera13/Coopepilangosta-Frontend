@@ -9,12 +9,11 @@ import { Table,Container,Col,Row, Button } from 'react-bootstrap';
 import ReactPaginate from 'react-paginate';
 import {useNavigate} from 'react-router-dom';
 
-
 const ListInventories = () => {
-    const { data: categoriesData, isLoading: categoriesLoading, isError: categoriesError } = useQuery('categories', getCategories);
-    const { data: productsData, isLoading: productsLoading, isError: productsError } = useQuery('products', getProducts);
-  
-    const navigate = useNavigate()
+  const { data: categoriesData, isLoading: categoriesLoading, isError: categoriesError } = useQuery('categories', getCategories);
+  const { data: productsData, isLoading: productsLoading, isError: productsError } = useQuery('products', getProducts);
+
+  const navigate = useNavigate()
   const buttonStyle = {
     borderRadius: '5px',
     backgroundColor: '#e0e0e0',
@@ -26,7 +25,7 @@ const ListInventories = () => {
     minWidth: '100px',
     fontWeight: 'bold',
     hover: {
-      backgroundColor: '#c0c0c0', 
+      backgroundColor: '#c0c0c0',
     },
   };
 
@@ -99,8 +98,25 @@ const ListInventories = () => {
                   onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
                   >
                   Editar
-                  </Button>
+                  </Button> */}
 
+                        <AddInventoryModal props={product} />
+
+
+                      </td>
+                    </tr>
+                  ))
+                }
+              </Table>
+            </Row>
+          )
+            : ("Cargando")
+        }
+
+      </Col>
+    </Container>
+  );
+};
                     </td>
                   </tr>
                 ))
