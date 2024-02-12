@@ -4,8 +4,7 @@ import { getCategories } from '../../../services/categoryService';
 import { Table, Container, Col, Row, Button } from 'react-bootstrap';
 import { deleteCategory } from '../../../services/categoryService';
 import AddCategoryModal from './actions/addCategoryModal';
-import { Table, Button } from 'react-bootstrap';
-import { Form, Row, Col } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import EditCategoryModal from './actions/editCategoryModal';
 import ReactPaginate from 'react-paginate';
 import styles from './listCategories.css'

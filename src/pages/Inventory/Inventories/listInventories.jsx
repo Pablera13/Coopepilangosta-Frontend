@@ -108,21 +108,7 @@ const ListInventories = () => {
                   ))
                 }
               </Table>
-            </Row>
-          )
-            : ("Cargando")
-        }
-
-      </Col>
-    </Container>
-  );
-};
-                    </td>
-                  </tr>
-                ))
-         }
-            </Table>
-            <ReactPaginate
+              <ReactPaginate
               previousLabel={"Anterior"}
               nextLabel={"Siguiente"}
               breakLabel={"..."}
@@ -135,14 +121,14 @@ const ListInventories = () => {
               activeClassName={"active"}
             />
           </Row>
-        )
-        :("Cargando")
-    }
-    
-        </Col>
-      </Container>
-    );
-  };
+          )
+            : ("Cargando")
+        }
+
+      </Col>
+    </Container>
+  );
+};
   
 export default ListInventories;
 
