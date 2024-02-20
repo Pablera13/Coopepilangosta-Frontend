@@ -17,21 +17,6 @@ const listProducerOrders = () => {
 
   const params = useParams();
 
-  const buttonStyle = {
-    borderRadius: '5px',
-    backgroundColor: '#e0e0e0',
-    color: '#333',
-    border: '1px solid #e0e0e0',
-    padding: '8px 12px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s',
-    minWidth: '100px',
-    fontWeight: 'bold',
-    hover: {
-      backgroundColor: '#c0c0c0',
-    },
-  };
-
   const { data: producerorderData, isLoading, isError } = useQuery('producerorder', getProducerOrder);
   let dataFiltered = []
 
@@ -139,13 +124,7 @@ const listProducerOrders = () => {
         <Select onChange={(selected) => setSelectedOption(selected)} options={optionsSelect} /><Col>
           <br></br>
 
-          <Button
-            onClick={() => navigate("/addProducerOrder")}
-            size='sm'
-            style={{ ...buttonStyle, marginLeft: '5px', }}
-            onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-            onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-          >
+          <Button className='BtnAddProducerModal' onClick={() => navigate("/addProducerOrder")}size='sm'>
             Crear Pedido
           </Button>
 
@@ -159,9 +138,9 @@ const listProducerOrders = () => {
 
         {producerorderData ? (
           <Row>
-            <Table striped bordered hover variant="light">
+            <Table className='TableProducerOrder' striped bordered hover variant="light">
               <thead>
-                <tr>
+                <tr className='TblProducerOrder'>
                   <th>Número de pedido</th>
                   <th>Fecha del pedido</th>
                   <th>Total</th>
@@ -188,35 +167,17 @@ const listProducerOrders = () => {
                     </td>
                     <td>
 
-                      <Button
-                        onClick={() => navigate(`/editProducerOrder/${ProducerOrder.id}`)}
-                        size='sm'
-                        style={{ ...buttonStyle, marginLeft: '5px', }}
-                        onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                        onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                      >
+                    <Button className='BtnEdit' onClick={() => navigate(`/editProducerOrder/${ProducerOrder.id}`)}size='sm'>
                         Editar
                       </Button>
 
                       {ProducerOrder.deliveredDate != "0001-01-01T00:00:00" ? (
-                        <Button
-                          onClick={() => navigate(`/checkProducerOrder/${ProducerOrder.id}`)}
-                          size='sm'
-                          style={{ ...buttonStyle, marginLeft: '5px', }}
-                          onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                          onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                        >
+                        <Button className='BtnAdd'  conClick={() => navigate(`/checkProducerOrder/${ProducerOrder.id}`)}size='sm'>
                           Ingresar
                         </Button>
                       ) : null}
 
-                      <Button
-                        onClick={() => showAlert(ProducerOrder.id)}
-                        size='sm'
-                        style={{ ...buttonStyle, marginLeft: '5px', }}
-                        onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                        onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                      >
+                      <Button className='BtnTrash' onClick={() => showAlert(ProducerOrder.id)}size='sm'>
                         Eliminar
                       </Button>
 

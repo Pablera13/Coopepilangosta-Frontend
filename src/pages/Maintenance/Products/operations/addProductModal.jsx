@@ -25,7 +25,7 @@ const addProductModal = () => {
         minWidth: '100px',
         fontWeight: 'bold',
         hover: {
-          backgroundColor: '#c0c0c0', 
+          backgroundColor: '#b8a49f', 
         },
       };
 

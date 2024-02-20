@@ -11,7 +11,7 @@ import swal from 'sweetalert';
 import { createForesight } from '../../../../services/foresightService';
 import { getProducts } from '../../../../services/productService';
 import { getProducers } from '../../../../services/producerService';
-
+import './addForesight.css'
 
 const addForesight = () => {
   const queryClient = new QueryClient();
@@ -138,7 +138,7 @@ const addForesight = () => {
 
   return (
     <>
-      <Button variant="info" size='sm' onClick={handleShow}>
+      <Button className='BtnAddForecast' variant="info" size='sm' onClick={handleShow}>
         Agregar prevision
       </Button>
 

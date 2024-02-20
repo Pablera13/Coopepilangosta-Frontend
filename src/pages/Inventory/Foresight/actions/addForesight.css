@@ -1,25 +1,4 @@
-.titleForesight{
-    display: grid;
-    justify-content: center;
-}
-
-.foresights-container{
-    display: grid;
-    justify-content: center;
-}
-
-.foresight-details{
-    margin-top: 20px;
-    padding: 5px;
-    border: 4px;
-    border-color: #3c3019;
-    border-style: solid;
-    box-shadow:  4px 4px 8px rgba(0, 0, 0, 0.2);
-    gap: 2px;
-}
-
-
-button.BtnConsult {
+button.BtnAddForecast {
     font-weight: 500;
     font-size: 13px;
     text-transform: uppercase !important;
@@ -46,12 +25,12 @@ button.BtnConsult {
   }
   
   
-  button.BtnConsult:hover {
+  button.BtnAddForecast:hover {
     border: 5px solid #9b7122d2;
     color: #ffff !important;
   }
   
-  button.BtnConsult::before {
+  button.BtnAddForecast::before {
     content: '';
     width: 0%;
     height: 100%;
@@ -72,7 +51,7 @@ button.BtnConsult {
     box-shadow: 2px 0px 14px rgba(0, 0, 0, .6);
   }
   
-  button.BtnConsult::after {
+  button.BtnAddForecast::after {
     content: '';
     width: 0%;
     height: 100%;
@@ -93,14 +72,14 @@ button.BtnConsult {
     box-shadow: 2px 0px 14px rgba(0, 0, 0, .6);
   }
   
-  button.BtnConsult:hover::before,
-  button.BtnConsult:hover::before {
+  button.BtnAddForecast:hover::before,
+  button.BtnAddForecast:hover::before {
     opacity: 1;
     width: 116%;
   }
   
-  button.BtnConsult:hover::after,
-  button.BtnConsult:hover::after {
+  button.BtnAddForecast:hover::after,
+  button.BtnAddForecast:hover::after {
     opacity: 1;
     width: 120%;
   }

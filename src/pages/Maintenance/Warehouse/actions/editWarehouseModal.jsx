@@ -4,7 +4,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import swal from 'sweetalert';
 import { updateWarehouse, checkWarehouseCodeAvailability } from '../../../../services/warehouseService';
-
+import './editWarehouseModal.css'
 const editWarehouseModal = (props) => {
 
     const warehouse = props.props;
@@ -15,22 +15,6 @@ const editWarehouseModal = (props) => {
     const handleShow = () => setShow(true);
 
     const [validated, setValidated] = useState(false);
-
-    const buttonStyle = {
-        borderRadius: '5px',
-        backgroundColor: '#e0e0e0',
-        color: '#333',
-        border: '1px solid #e0e0e0',
-        padding: '8px 12px',
-        cursor: 'pointer',
-        transition: 'background-color 0.3s',
-        minWidth: '100px',
-        fontWeight: 'bold',
-        hover: {
-            backgroundColor: '#c0c0c0',
-        },
-    };
-
     const mutation = useMutation('warehouse', updateWarehouse, {
         onSettled: () => queryClient.invalidateQueries('warehouse'),
         mutationKey: 'warehouse',
@@ -94,20 +78,14 @@ const editWarehouseModal = (props) => {
 
     return (
         <>
-            <Button
-                onClick={handleShow}
-                size='sm'
-                style={{ ...buttonStyle, marginLeft: '5px', }}
-                onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-            >
+            <Button className='BtnEditWareHouse' onClick={handleShow}size='sm'>
                 Editar
             </Button>
 
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Editar bodega</Modal.Title>
+                <Modal.Header className='HdEditWarehouse' closeButton>
+                    <Modal.Title >Editar bodega</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form validated={validated} onSubmit={saveWarehouse}>
@@ -153,10 +131,10 @@ const editWarehouseModal = (props) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" size="sm" onClick={saveWarehouse}>
+                    <Button className='BtnSaveWarehouse' variant="primary" size="sm" onClick={saveWarehouse}>
                         Editar Bodega
                     </Button>
-                    <Button variant="secondary" size="sm" onClick={handleClose}>
+                    <Button className='BtnReturnWarehouse' variant="secondary" size="sm" onClick={handleClose}>
                         Cerrar
                     </Button>
                 </Modal.Footer>

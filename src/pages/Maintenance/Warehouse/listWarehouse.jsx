@@ -11,7 +11,7 @@ import EditWarehouseModal from './actions/editWarehouseModal';
 import ReactPaginate from 'react-paginate';
 import { useNavigate } from 'react-router-dom';
 import { MdDelete } from "react-icons/md";
-
+import './listWarehouse.css'
 
 const listWarehouse = () => {
   const { data: Warehouses, isLoading: WarehousesLoading, isError: WarehousesError } = useQuery('warehouse', getWarehouse);

@@ -374,7 +374,7 @@ const ProductDetail = () => {
 
                               <Button
                                 variant="danger"
-                                className="btn btn-round"
+                                className="BtnStar"
                                 type="button"
                                 onClick={toLogin}
                               >
