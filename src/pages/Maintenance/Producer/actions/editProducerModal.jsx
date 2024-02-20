@@ -2,10 +2,8 @@ import React, { useRef, useState } from 'react';
 import { QueryClient, useMutation } from 'react-query';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import swal from 'sweetalert';
-import { createProducer,CheckCedulaProducerAvailability } from '../../../../services/producerService';
+import { createProducer, CheckCedulaProducerAvailability } from '../../../../services/producerService';
 import { updateProducer } from '../../../../services/producerService';
-import './editProducerModal.css'
-import { TiEdit } from "react-icons/ti";
 
 const editProducerModal = (props) => {
     const [show, setShow] = useState(false);
@@ -15,22 +13,37 @@ const editProducerModal = (props) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const buttonStyle = {
+        borderRadius: '5px',
+        backgroundColor: '#e0e0e0',
+        color: '#333',
+        border: '1px solid #e0e0e0',
+        padding: '8px 12px',
+        cursor: 'pointer',
+        transition: 'background-color 0.3s',
+        minWidth: '100px',
+        fontWeight: 'bold',
+        hover: {
+          backgroundColor: '#c0c0c0', 
+        },
+      };
+
     const [validated, setValidated] = useState(false);
 
     const mutation = useMutation('producer', updateProducer, {
         onSettled: () => queryClient.invalidateQueries('producer'),
         mutationKey: 'producer',
         onSuccess: () => {
-          swal({
-            title: 'Editado!',
-            text: 'Se edito el productor',
-            icon: 'success',
-          });
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+            swal({
+                title: 'Editado!',
+                text: 'Se edito el productor',
+                icon: 'success',
+            });
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
         },
-      });
+    });
 
     const cedula = useRef();
     const name = useRef();
@@ -44,7 +57,7 @@ const editProducerModal = (props) => {
     const address = useRef();
     const bankAccount = useRef();
 
-    const saveProducer = async(event) => {
+    const saveProducer = async (event) => {
         const form = event.currentTarget;
         event.preventDefault();
         if (form.checkValidity() === false) {
@@ -60,19 +73,19 @@ const editProducerModal = (props) => {
                 lastname2: lastname2.current.value,
                 phoneNumber: phoneNumber.current.value,
                 email: email.current.value,
-                province: province.current.value,
-                canton: canton.current.value,
-                district: district.current.value,
+                province: selectedProvincia != null ? (selectedProvincia.label) : (producer.province),
+                canton: selectedCanton ? (selectedCanton.label) : (producer.canton),
+                district: selectedDistrito ? (selectedDistrito.label) : (producer.district),
                 address: address.current.value,
                 bankAccount: bankAccount.current.value,
             };
 
             // let cedulaAvailability = await CheckCedulaProducerAvailability(cedula.current.value).then(data=>data)
             // console.log(cedulaAvailability)
-            
+
             // if (cedulaAvailability == true) {   
 
-                mutation.mutateAsync(newProducer);
+            mutation.mutateAsync(newProducer);
 
             // }else{
             //     event.preventDefault()
@@ -94,10 +107,70 @@ const editProducerModal = (props) => {
         event.target.value = event.target.value.replace(/[^0-9]/g, '');
     };
 
+    const [selectedProvincia, setSelectedProvincia] = useState(null);
+    const [selectedCanton, setSelectedCanton] = useState(null)
+    const [selectedDistrito, setSelectedDistrito] = useState(null);
+
+
+    const provinciasArray = Object.keys(locations.provincias).map((index) => {
+
+        const indexNumber = parseInt(index, 10);
+
+        return {
+            value: indexNumber,
+            label: locations.provincias[index].nombre
+        };
+    });
+
+    const [cantonesOptions, setCantonesOptions] = useState();
+    let cantones = []
+
+    const handleProvinciasSelectChange = (provinceIndex) => {
+
+        let cantones = locations.provincias[provinceIndex].cantones
+
+        const cantonesOptions = Object.keys(cantones).map((index) => {
+            const indexNumber = parseInt(index, 10);
+
+            return {
+                value: indexNumber,
+                label: cantones[index].nombre
+            };
+        });
+
+        setCantonesOptions(cantonesOptions)
+    }
+
+    const [distritosOptions, setDistritosOptions] = useState();
+    let distritos = []
+
+
+    const handlecantonesSelectChange = (cantonIndex) => {
+        console.log(cantonIndex)
+        let distritos = locations.provincias[selectedProvincia.value].cantones[cantonIndex].distritos
+        console.log(selectedProvincia.value)
+        const distritosOpt = Object.keys(distritos).map((index) => {
+            const indexNumber = parseInt(index, 10);
+
+            return {
+                value: indexNumber,
+                label: distritos[index].toString()
+            };
+        });
+        console.log(distritosOpt)
+        setDistritosOptions(distritosOpt)
+    }
+
     return (
         <>
-                <Button className='BtnEditProducer' onClick={handleShow} size='sm' >
-                Editar <TiEdit />
+                <Button
+                  onClick={handleShow}
+                  size='sm'
+                  style={{...buttonStyle, marginLeft: '5px',}}
+                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
+                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
+                  >
+                Editar
                   </Button>
 
             <Modal show={show} onHide={handleClose}>
@@ -191,39 +264,37 @@ const editProducerModal = (props) => {
                         </Row>
                         <Row>
                             <Col md={4}>
-                                <Form.Group controlId="province">
+                                <Form.Group as={Col} md="4" lg="12" controlId="validationCustom03">
                                     <Form.Label>Provincia</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        defaultValue={producer.province}
-                                        placeholder="Ingrese la provincia"
-                                        ref={province}
-                                    />
+                                    <Select placeholder={producer.province} options={provinciasArray}
+                                        onChange={(selected) => { handleProvinciasSelectChange(selected.value); setSelectedProvincia(selected); }}
+                                        on
+                                    ></Select>
+                                    <Form.Control.Feedback type="invalid">
+                                        Ingrese su provincia
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                             <Col md={4}>
-                                <Form.Group controlId="canton">
-                                    <Form.Label>Cantón</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        defaultValue={producer.canton}
-                                        placeholder="Ingrese el cantón"
-                                        ref={canton}
-                                    />
+                                <Form.Group as={Col} md="4" lg="12" controlId="validationCustom04">
+                                    <Form.Label>Canton</Form.Label>
+                                    <Select placeholder={producer.canton} options={cantonesOptions}
+                                        onChange={(selected) => { setSelectedCanton(selected); handlecantonesSelectChange(selected.value); }}
+                                    ></Select>
+                                    <Form.Control.Feedback type="invalid">
+                                        Por favor indique el canton
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                             <Col md={4}>
-                                <Form.Group controlId="district">
+                                <Form.Group as={Col} md="4" lg="12" controlId="validationCustom05">
                                     <Form.Label>Distrito</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        defaultValue={producer.district}
-                                        placeholder="Ingrese el distrito"
-                                        ref={district}
-                                    />
+                                    <Select placeholder={producer.district} options={distritosOptions}
+                                        onChange={(selected) => setSelectedDistrito(selected)}
+                                    ></Select>
+                                    <Form.Control.Feedback type="invalid">
+                                        Indique su distrito!.
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -251,10 +322,10 @@ const editProducerModal = (props) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                <Button className='BtnSaveProducer' variant="primary" size="sm" onClick={saveProducer}>
+                <Button variant="primary" size="sm" onClick={saveProducer}>
                             Actualizar productor
                         </Button>
-                    <Button className='BtnReturnProducts' variant="secondary" size="sm" onClick={handleClose}>
+                    <Button variant="secondary" size="sm" onClick={handleClose}>
                         Cerrar
                     </Button>
                 </Modal.Footer>

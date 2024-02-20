@@ -120,7 +120,7 @@ const addProductModal = () => {
             if (CodeAvailability == true) {
                 mutation.mutateAsync(newProduct);
             }else{
-                swal('Advertnecia','El codigo se encuentra en uso, no es posible guardar un registro con el codigo duplicado','warning')
+                swal('Advertencia','El codigo se encuentra en uso, no es posible guardar un registro con el codigo duplicado.','warning')
             }
             
         }

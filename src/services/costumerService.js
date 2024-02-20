@@ -20,8 +20,8 @@ export const getCostumerByIdNoState = async(id) => {
 }
 
 export const checkCedula = async(id) => {
-    
-    let data = await api.get(`costumer/checkCedula?${id}`).then(result => result.data);
+    console.log(id)
+    let data = await api.get(`costumer/checkCedula?id=${id}`).then(result => result.data);
     console.log(data)
     return data;
 }

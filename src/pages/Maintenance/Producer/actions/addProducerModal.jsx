@@ -2,8 +2,8 @@ import React, { useRef, useState } from 'react';
 import { QueryClient, useMutation } from 'react-query';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import swal from 'sweetalert';
-import { createProducer, CheckCedulaProducerAvailability } from '../../../../services/producerService';
-import './addProducerModal.css'
+import { createProducer,CheckCedulaProducerAvailability } from '../../../../services/producerService';
+
 const addProducerModal = () => {
     const [show, setShow] = useState(false);
     const queryClient = new QueryClient();
@@ -37,7 +37,7 @@ const addProducerModal = () => {
                 text: 'El productor ha sido agregado',
                 icon: 'success',
             });
-
+            
 
 
         },
@@ -70,9 +70,9 @@ const addProducerModal = () => {
                 lastname2: lastname2.current.value,
                 phoneNumber: phoneNumber.current.value,
                 email: email.current.value,
-                province: province.current.value,
-                canton: canton.current.value,
-                district: district.current.value,
+                province: selectedProvincia.label,
+                canton: selectedDistrito.label,
+                district: selectedDistrito.label,
                 address: address.current.value,
                 bankAccount: bankAccount.current.value,
             };
@@ -101,6 +101,59 @@ const addProducerModal = () => {
     const handlePhoneChange = (event) => {
         event.target.value = event.target.value.replace(/[^0-9]/g, '');
     };
+
+    const [selectedProvincia,setSelectedProvincia] = useState();
+    const [selectedCanton,setSelectedCanton] = useState()
+    const [selectedDistrito,setSelectedDistrito] = useState(); 
+
+    const provinciasArray = Object.keys(locations.provincias).map((index) => {
+        
+        const indexNumber = parseInt(index, 10);
+        
+        return {
+          value: indexNumber,
+          label: locations.provincias[index].nombre
+        };
+      });
+    
+   
+    const [cantonesOptions,setCantonesOptions] = useState();
+    let cantones = []
+    const handleProvinciasSelectChange = (provinceIndex) => {
+       
+        let cantones = locations.provincias[provinceIndex].cantones
+        
+        const cantonesOptions = Object.keys(cantones).map((index) => {           
+            const indexNumber = parseInt(index, 10);
+            
+            return {
+              value: indexNumber,
+              label: cantones[index].nombre
+            };
+          });
+        
+        setCantonesOptions(cantonesOptions)
+    }  
+
+    const [distritosOptions,setDistritosOptions] = useState();
+    let distritos = []
+    
+
+    const handlecantonesSelectChange = (cantonIndex) => {
+        console.log(cantonIndex)
+        let distritos = locations.provincias[selectedProvincia.value].cantones[cantonIndex].distritos
+        console.log(selectedProvincia.value)
+        const distritosOpt = Object.keys(distritos).map((index) => {           
+            const indexNumber = parseInt(index, 10);
+            
+            return {
+              value: indexNumber,
+              label: distritos[index].toString()
+            };
+          });
+        console.log(distritosOpt)
+        setDistritosOptions(distritosOpt)
+    }      
 
     return (
         <>
@@ -196,41 +249,37 @@ const addProducerModal = () => {
                                 </Form.Group>
                             </Col>
                         </Row>
-                        <Row>
-                            <Col md={4}>
-                                <Form.Group controlId="province">
-                                    <Form.Label>Provincia</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        placeholder="Ingrese la provincia"
-                                        ref={province}
-                                    />
-                                </Form.Group>
-                            </Col>
-                            <Col md={4}>
-                                <Form.Group controlId="canton">
-                                    <Form.Label>Cantón</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        placeholder="Ingrese el cantón"
-                                        ref={canton}
-                                    />
-                                </Form.Group>
-                            </Col>
-                            <Col md={4}>
-                                <Form.Group controlId="district">
-                                    <Form.Label>Distrito</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        placeholder="Ingrese el distrito"
-                                        ref={district}
-                                    />
-                                </Form.Group>
-                            </Col>
-                        </Row>
+                        <Row className="mb-3">
+                        <Form.Group as={Col} md="4" controlId="validationCustom03">
+                            <Form.Label>Provincia</Form.Label>
+                            <Select placeholder='Provincia' options={provinciasArray}
+                                onChange={(selected)=>{handleProvinciasSelectChange(selected.value);setSelectedProvincia(selected);}}
+                                on
+                            ></Select>
+                            <Form.Control.Feedback type="invalid">
+                                Ingrese su provincia
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group as={Col} md="4" controlId="validationCustom04">
+                            <Form.Label>Canton</Form.Label>
+                            <Select placeholder='Canton' options={cantonesOptions}
+                                onChange={(selected)=>{setSelectedCanton(selected);handlecantonesSelectChange(selected.value);}}
+                            ></Select>
+                            <Form.Control.Feedback type="invalid">
+                                Por favor indique el canton
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group as={Col} md="4" controlId="validationCustom05">
+                            <Form.Label>Distrito</Form.Label>
+                            <Select placeholder='Distrito' options={distritosOptions}
+                                onChange={(selected)=>setSelectedDistrito(selected)}
+                            ></Select>
+                            <Form.Control.Feedback type="invalid">
+                                Indique su distrito!.
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                    </Row>
+                    <Row></Row>
                         <Form.Group controlId="address">
                             <Form.Label>Dirección</Form.Label>
                             <Form.Control
