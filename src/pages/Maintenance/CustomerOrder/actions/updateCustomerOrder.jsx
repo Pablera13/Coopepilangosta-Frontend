@@ -74,7 +74,7 @@ const updateCustomerOrder = () => {
       const isDelivered = customerorderRequest.paidDelivered !== "0001-01-01T00:00:00";
       setSelectedDelivered(optionsDelivered.find(option => option.value === isDelivered));
 
-
+      //Filter stages
       const findCurrentStage = optionsStage.find(optionsStage => optionsStage.label == customerorderRequest.stage)
       setSelectedStage(findCurrentStage.label);
 
