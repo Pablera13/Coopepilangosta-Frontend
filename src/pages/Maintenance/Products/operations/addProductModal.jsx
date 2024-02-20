@@ -139,7 +139,7 @@ const addProductModal = () => {
                   </Button>
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
+                <Modal.Header className='HdEditProducts' closeButton>
                     <Modal.Title>Agregar nuevo producto</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -276,10 +276,10 @@ const addProductModal = () => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" size="sm" onClick={save}>
+                    <Button className='BtnSaveProducts' variant="primary" size="sm" onClick={save}>
                         Guardar producto
                     </Button>
-                    <Button variant="secondary" size="sm" onClick={handleClose}>
+                    <Button className='BtnCloseProducts' variant="secondary" size="sm" onClick={handleClose}>
                         Cerrar
                     </Button>
 

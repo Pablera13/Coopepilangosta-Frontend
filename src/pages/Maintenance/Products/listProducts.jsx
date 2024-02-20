@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import './listProducts.css'
 import { useQuery } from "react-query";
 import { getProducts } from '../../../services/productService';
 import { NavLink } from 'react-router-dom'
@@ -9,8 +10,8 @@ import { Form } from 'react-bootstrap';
 import EditProductModal from './operations/editProductModal.jsx'
 import ReactPaginate from 'react-paginate';
 import { useNavigate } from 'react-router-dom';
+import { MdDelete } from "react-icons/md";
 
-import './listProducts.css'
 
 const listProducts = () => {
 
@@ -21,20 +22,7 @@ const listProducts = () => {
   const [filterState, setFilterState] = useState(null);
 
   const navigate = useNavigate()
-  const buttonStyle = {
-    borderRadius: '5px',
-    backgroundColor: '#e0e0e0',
-    color: '#333',
-    border: '1px solid #e0e0e0',
-    padding: '8px 12px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s',
-    minWidth: '100px',
-    fontWeight: 'bold',
-    hover: {
-      backgroundColor: '#c0c0c0',
-    },
-  };
+
 
   const recordsPerPage = 3;
   const [currentPage, setCurrentPage] = useState(0);
@@ -45,14 +33,14 @@ const listProducts = () => {
   if (ProductsError)
     return <div>Error</div>
 
-    const filteredBySearch = Products.filter(product => {
-      const matchesSearchTerm = (
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.unit.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      const matchesState = filterState === null || product.state === filterState;
-      return matchesSearchTerm && matchesState;
-    });
+  const filteredBySearch = Products.filter(product => {
+    const matchesSearchTerm = (
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.unit.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    const matchesState = filterState === null || product.state === filterState;
+    return matchesSearchTerm && matchesState;
+  });
 
   const offset = currentPage * recordsPerPage;
   const paginatedProducts = filteredBySearch.slice(offset, offset + recordsPerPage);
@@ -121,10 +109,9 @@ const listProducts = () => {
       <Col xs={8} md={2} lg={12}>
         {Products ? (
           <Row>
-            <Table striped bordered hover variant="light">
+            <Table className='TableProducts' striped bordered hover variant="light" >
               <thead>
-                <tr>
-                  {/* <th>Imagen</th> */}
+                <tr className='TblProducts'>
                   <th>Código</th>
                   <th>Nombre</th>
                   {/* <th>Descripción</th> */}
@@ -142,23 +129,15 @@ const listProducts = () => {
                   /></td> */}
                   <td>{product.code}</td>
                   <td>{product.name}</td>
-                  {/* <td>{product.description}</td> */}
                   <td>{product.unit}</td>
                   <td>{product.iva}%</td>
                   <td>{product.margin}%</td>
                   <td>{product.state === true ? 'Activo' : 'De baja'}</td>
                   <td>
+                    <EditProductModal props={product} />
 
-                    <EditProductModal props={product}/>
-
-                    <Button
-                      onClick={() => showAlert(product.id)}
-                      size='sm'
-                      style={{ ...buttonStyle, marginLeft: '5px', }}
-                      onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                      onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                    >
-                      Eliminar
+                    <Button className='BtnTrash' onClick={() => showAlert(product.id)}>
+                      Eliminar <MdDelete />
                     </Button>
 
                   </td>
@@ -166,18 +145,21 @@ const listProducts = () => {
               ))}
 
             </Table>
-            <ReactPaginate
-              previousLabel={"Anterior"}
-              nextLabel={"Siguiente"}
-              breakLabel={"..."}
-              pageCount={pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={handlePageClick}
-              containerClassName={"pagination"}
-              subContainerClassName={"pages pagination"}
-              activeClassName={"active"}
-            />
+            <div className='Pagination-Container'>
+              <ReactPaginate
+                previousLabel={"Anterior"}
+                nextLabel={"Siguiente"}
+                breakLabel={"..."}
+                pageCount={pageCount}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageClick}
+                containerClassName={"pagination"}
+                subContainerClassName={"pages pagination"}
+                activeClassName={"active"}
+              />
+            </div>
+
           </Row>
         ) : (
           "Cargando"

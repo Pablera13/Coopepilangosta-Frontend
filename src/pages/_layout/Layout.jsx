@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom'
-import React, { useState,useEffect,useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom';
 import Header from './Header';
 import { Link } from 'react-router-dom';
@@ -8,39 +8,41 @@ import swal from 'sweetalert'
 import emailjs2 from 'emailjs-com'
 export const Layout = () => {
 
-  const location = useLocation();  
-    
-  useEffect(()=>{
-    if(location.pathname == '/login'){
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname == '/login') {
       document.body.classList.add('login-body');
       document.body.classList.add('header');
     }
-    else{document.body.classList.remove('login-body')}
-  },[location])
+    else { document.body.classList.remove('login-body') }
+  }, [location])
 
-  const message = useRef() 
-  const email = useRef() 
+  const message = useRef()
+  const email = useRef()
 
-  const sendMessage = () => { 
+  const sendMessage = () => {
 
     console.log("message: " + message.current.value)
-    console.log("email: " + email.current.value )
+    console.log("email: " + email.current.value)
 
 
-                emailjs2.send('service_vd4y2ba', 'template_uuzf9f9', 
-                {message: message.current.value,
-                 email: email.current.value}     
-                , 'wp2slKrA6ADSD4NTz')
+    emailjs2.send('service_vd4y2ba', 'template_uuzf9f9',
+      {
+        message: message.current.value,
+        email: email.current.value
+      }
+      , 'wp2slKrA6ADSD4NTz')
 
-                message.current.value = ''
-                email.current.value = ''
+    message.current.value = ''
+    email.current.value = ''
 
-                swal({
-                    title: 'Enviado!',
-                    text: 'Se envió el correo',
-                    icon: 'success',
-                });         
-              }
+    swal({
+      title: 'Enviado!',
+      text: 'Se envió el correo',
+      icon: 'success',
+    });
+  }
 
   return (
     <>
@@ -49,7 +51,7 @@ export const Layout = () => {
       </div>
 
       <main style={{ marginBottom: '150px' }}>
-        
+
         <Outlet />
 
       </main>
@@ -97,7 +99,7 @@ export const Layout = () => {
               <form>
 
                 <fieldset className="form-group">
-                  <input type="email" className="form-control" id="InputEmail1" placeholder="Ingrese su correo" ref={email}/>
+                  <input type="email" className="form-control" id="InputEmail1" placeholder="Ingrese su correo" ref={email} />
                 </fieldset>
 
                 <br />
