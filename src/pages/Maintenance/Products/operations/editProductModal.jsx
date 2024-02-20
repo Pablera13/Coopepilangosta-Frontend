@@ -4,22 +4,14 @@ import { Modal, Button, Form, Row, Col, Table } from 'react-bootstrap';
 import { editProduct } from '../../../../services/productService';
 import { getCategories } from '../../../../services/categoryService';
 import swal from 'sweetalert';
-import './addProductModal.css';
+import './editProductModal.css';
+import { TiEdit } from "react-icons/ti";
 
 const editProductModal = (props) => {
 
+
     const [productRequest, setProduct] = useState(null);
     const [newImages, setNewImages] = useState([]);
-
-    // useEffect(() => {
-    //     const product = props.props;
-    //     if (product.image != null){
-    //         console.log("img  = " + product.image)
-    //     const imagesArray = product.image.split(',');
-    //     product.image = imagesArray;
-    //     setProduct(product);
-    //     }
-    // }, [props]);
 
     useEffect(() => {
         const product = props.props;
@@ -33,21 +25,6 @@ const editProductModal = (props) => {
     const [validated, setValidated] = useState(false);
     const queryClient = new QueryClient();
     const [show, setShow] = useState(false);
-
-    const buttonStyle = {
-        borderRadius: '5px',
-        backgroundColor: '#e0e0e0',
-        color: '#333',
-        border: '1px solid #e0e0e0',
-        padding: '8px 12px',
-        cursor: 'pointer',
-        transition: 'background-color 0.3s',
-        minWidth: '100px',
-        fontWeight: 'bold',
-        hover: {
-            backgroundColor: '#c0c0c0',
-        },
-    };
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -164,19 +141,13 @@ const editProductModal = (props) => {
 
     return (
         <>
-            <Button
-                onClick={handleShow}
-                size='sm'
-                style={{ ...buttonStyle, marginLeft: '5px', }}
-                onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-            >
-                Editar
+            <Button className='BtnEditProducts' onClick={handleShow} size='sm'>
+                Editar <TiEdit />
             </Button>
 
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
+                <Modal.Header className='HdEditProducts' closeButton>
                     <Modal.Title>Editar producto</Modal.Title>
                 </Modal.Header>
 
@@ -321,7 +292,7 @@ const editProductModal = (props) => {
                                                                     style={{ maxWidth: '100px', maxHeight: '100px' }} />
                                                             </td>
                                                             <td>
-                                                                <Button variant='danger' onClick={() => removeImage(index)}>
+                                                                <Button className='BtnDeleteImg' variant='danger' onClick={() => removeImage(index)}>
                                                                     Eliminar
                                                                 </Button>
                                                             </td>
@@ -344,11 +315,11 @@ const editProductModal = (props) => {
                             </Form>
                         </Modal.Body>
 
-                        <Modal.Footer>
-                            <Button variant="primary" size="sm" onClick={save}>
+                        <Modal.Footer className='FtEditProducts' >
+                            <Button className='BtnSaveProducts' variant="primary" size="sm" onClick={save}>
                                 Editar producto
                             </Button>
-                            <Button variant="secondary" size="sm" onClick={handleClose}>
+                            <Button className='BtnReturnProducts' variant="secondary" size="sm" onClick={handleClose}>
                                 Cerrar
                             </Button>
 

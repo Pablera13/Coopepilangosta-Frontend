@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { deleteWarehouse } from '../../../services/warehouseService';
 import swal from 'sweetalert';
 import { Table, Container, Col, Row, Button } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import AddWarehouseModal from './actions/addWarehouseModal';
 import EditWarehouseModal from './actions/editWarehouseModal';
 
@@ -16,6 +17,9 @@ import syles from '../Warehouse/listWarehouse.css';
 
 const listWarehouse = () => {
   const { data: Warehouses, isLoading: WarehousesLoading, isError: WarehousesError } = useQuery('warehouse', getWarehouse);
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterState, setFilterState] = useState(null);
 
   const navigate = useNavigate()
   const buttonStyle = {
@@ -40,8 +44,18 @@ const listWarehouse = () => {
 
   if (WarehousesError) return <div>Error</div>;
 
+  const filteredBySearch = Warehouses.filter(warehouse => {
+    const matchesSearchTerm = (
+      warehouse.code.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+      warehouse.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      warehouse.address.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    const matchesState = filterState === null || warehouse.state === filterState;
+    return matchesSearchTerm && matchesState;
+  });
+
   const offset = currentPage * recordsPerPage;
-  const paginatedWarehouses = Warehouses.slice(offset, offset + recordsPerPage);
+  const paginatedWarehouses = filteredBySearch.slice(offset, offset + recordsPerPage);
 
   const pageCount = Math.ceil(Warehouses.length / recordsPerPage);
 
@@ -82,6 +96,28 @@ const listWarehouse = () => {
       <div className="buttons">
         <AddWarehouseModal />
       </div>
+
+      <Form>
+          <Row className="mb-3">
+            <Col md={3}>
+              <Form.Label>Buscar:</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Por código, descripción, dirección o estado..."
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </Col>
+            <Col md={3}>
+              <Form.Label>Filtrar por estado:</Form.Label>
+              <Form.Select onChange={(e) => setFilterState(e.target.value === "true" ? true : e.target.value === "false" ? false : null)}>
+                <option value="">Todos</option>
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
+              </Form.Select>
+            </Col>
+          </Row>
+        </Form>
+
       <Col xs={8} md={2} lg={12}>
         {Warehouses ? (
           <Row>

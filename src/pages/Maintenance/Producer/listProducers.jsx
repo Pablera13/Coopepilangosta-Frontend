@@ -5,14 +5,16 @@ import { NavLink } from 'react-router-dom';
 import { deleteProducerService } from '../../../services/producerService';
 import { Table, Container, Col, Row, Button } from 'react-bootstrap';
 import AddProducerModal from './actions/addProducerModal.jsx';
+import { Form } from 'react-bootstrap';
 import EditProducerModal from './actions/editProducerModal';
-
 import ReactPaginate from 'react-paginate';
 import syles from '../Producer/listProducer.css'
 import { useNavigate } from 'react-router-dom';
 
 const listProducers = () => {
   const { data: Producers, isLoading: ProducersLoading, isError: ProducersError } = useQuery('producer', getProducers);
+
+  const [searchTerm, setSearchTerm] = useState('');
 
   const navigate = useNavigate()
   const buttonStyle = {
@@ -37,8 +39,15 @@ const listProducers = () => {
 
   if (ProducersError) return <div>Error</div>;
 
+  const filteredBySearch = Producers.filter(
+    (producer) =>
+    producer.name.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+    producer.cedula.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+    producer.phoneNumber.toString().toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const offset = currentPage * recordsPerPage;
-  const paginatedProducers = Producers.slice(offset, offset + recordsPerPage);
+  const paginatedProducers = filteredBySearch.slice(offset, offset + recordsPerPage);
 
   const pageCount = Math.ceil(Producers.length / recordsPerPage);
 
@@ -79,6 +88,20 @@ const listProducers = () => {
       <div className="buttons">
         <AddProducerModal />
       </div>
+
+      <Form>
+        <Row className="mb-3">
+          <Col md={3}>
+            <Form.Label>Buscar:</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Por nombre, apellidos, cédula o teléfono..."
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </Col>
+        </Row>
+      </Form>
+
       <Col xs={8} md={2} lg={12}>
         {Producers ? (
           <Row>

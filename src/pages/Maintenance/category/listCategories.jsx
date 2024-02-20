@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useQuery } from 'react-query';
 import { getCategories } from '../../../services/categoryService';
 import { Table, Container, Col, Row, Button } from 'react-bootstrap';
 import { deleteCategory } from '../../../services/categoryService';
 import AddCategoryModal from './actions/addCategoryModal';
+import { Form } from 'react-bootstrap';
 import EditCategoryModal from './actions/editCategoryModal';
 import ReactPaginate from 'react-paginate';
 import styles from './listCategories.css'
@@ -11,6 +12,10 @@ import { useNavigate } from 'react-router-dom';
 
 const listCategories = () => {
   const { data: Categories, isLoading: CategoriesLoading, isError: CategoriesError } = useQuery('category', getCategories);
+
+  const [searchTerm, setSearchTerm] = useState('');
+
+
 
   const navigate = useNavigate()
   const buttonStyle = {
@@ -29,14 +34,19 @@ const listCategories = () => {
   };
 
   const recordsPerPage = 10;
-  const [currentPage, setCurrentPage] = React.useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
   if (CategoriesLoading) return <div>Loading...</div>;
 
   if (CategoriesError) return <div>Error</div>;
 
+  const filteredBySearch = Categories.filter(
+    (category) =>
+    category.name.toString().toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const offset = currentPage * recordsPerPage;
-  const paginatedCategories = Categories.slice(offset, offset + recordsPerPage);
+  const paginatedCategories = filteredBySearch.slice(offset, offset + recordsPerPage);
 
   const pageCount = Math.ceil(Categories.length / recordsPerPage);
 
@@ -79,7 +89,20 @@ const listCategories = () => {
       <div className='buttons'>
         <AddCategoryModal />
 
-      </div>
+        <Form>
+        <Row className="mb-3">
+          <Col md={3}>
+            <Form.Label>Buscar:</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Buscar categoria..."
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </Col>
+        </Row>
+      </Form>
+
+        </div>
       <Col xs={8} md={2} lg={12}>
         {Categories ? (
           <Row>

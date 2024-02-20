@@ -7,11 +7,32 @@ import UpdateEmployee from './actions/updateEmployee'
 import { AddEmployee } from './actions/addEmployee'
 import UpdateEmployeeUser from './actions/updateEmployeeUser'
 import { deleteEmployee } from '../../../services/employeeService'
+import { useState } from 'react';
 import { deleteUser } from '../../../services/userService'
+import {useNavigate} from 'react-router-dom';
+import ReactPaginate from 'react-paginate';
 import swal from 'sweetalert'
 import './listEmployee.css'
 const listEmployee = () => {
     const {data:employees,isLoading:employeesloading,IsError:employeesError} = useQuery('employee',getEmployees);
+
+    const [currentPage, setCurrentPage] = useState(0);
+
+    const navigate = useNavigate()
+  const buttonStyle = {
+    borderRadius: '5px',
+    backgroundColor: '#e0e0e0',
+    color: '#333',
+    border: '1px solid #e0e0e0',
+    padding: '8px 12px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s',
+    minWidth: '100px',
+    fontWeight: 'bold',
+    hover: {
+      backgroundColor: '#c0c0c0', 
+    },
+  };
 
     if(employeesloading){return <><span>Cargando...</span></>}
     if(employeesError){return <><span>Error...</span></>}
@@ -55,6 +76,18 @@ const listEmployee = () => {
             }
           })
     }
+
+    const recordsPerPage = 10;
+
+    const offset = currentPage * recordsPerPage;
+  const paginatedEmployess = employees.slice(offset, offset + recordsPerPage);
+
+  const pageCount = Math.ceil(employees.length / recordsPerPage);
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
+
   return (
     <>
     <Container>
@@ -84,7 +117,7 @@ const listEmployee = () => {
                 {
                     employees!=null?(
                         
-                        employees.map((employee)=>
+                        paginatedEmployess.map((employee)=>
                             <tr key={employee.id}>
                                 <td>{employee.cedula}</td>
                                 <td>{employee.name}</td>
@@ -103,6 +136,18 @@ const listEmployee = () => {
                 }
                 </tbody>
             </Table>
+            <ReactPaginate
+              previousLabel="Anterior"
+              nextLabel="Siguiente"
+              breakLabel="..."
+              pageCount={pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={handlePageClick}
+              containerClassName="pagination"
+              subContainerClassName="pages pagination"
+              activeClassName="active"
+            />
         </Row>
     </Container>
     </>

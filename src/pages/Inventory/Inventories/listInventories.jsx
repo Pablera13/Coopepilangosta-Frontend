@@ -1,13 +1,14 @@
 import React from 'react'
+import { useState } from 'react';
 import './listInventories.css';
 import { NavLink } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { getProducts } from '../../../services/productService';
 import { getCategories } from '../../../services/categoryService';
-import { Table, Container, Col, Row, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Table,Container,Col,Row, Button } from 'react-bootstrap';
 import AddInventoryModal from './actions/addInventoriesModal';
-
+import ReactPaginate from 'react-paginate';
+import {useNavigate} from 'react-router-dom';
 
 const ListInventories = () => {
   const { data: categoriesData, isLoading: categoriesLoading, isError: categoriesError } = useQuery('categories', getCategories);
@@ -29,66 +30,67 @@ const ListInventories = () => {
     },
   };
 
-  if (categoriesLoading || productsLoading) {
-    return <div>Cargando...</div>;
-  }
+  const [currentPage, setCurrentPage] = useState(0);
 
-  if (categoriesError || productsError) {
-    return <div>Error al cargar los datos.</div>;
-  }
+    if (categoriesLoading || productsLoading) {
+      return <div>Cargando...</div>;
+    }
+  
+    if (categoriesError || productsError) {
+      return <div>Error al cargar los datos.</div>;
+    }
+  
+    let productsFiltered = [];
 
-  let productsFiltered = [];
+    if (productsData != null) {
+      productsFiltered = productsData.filter((product) => {
+       const category = categoriesData.find((category) => category.id === product.categoryId);
+       return category && (category.name.normalize("NFD").toLowerCase().startsWith('caf') || category.name.normalize("NFD").toLowerCase().startsWith('materia prima'));
+     });
+ } console.log(productsFiltered);
 
-  if (productsData != null) {
-    productsFiltered = productsData.filter((product) => {
-      const category = categoriesData.find((category) => category.id === product.categoryId);
-      return category && (category.name.normalize("NFD").toLowerCase().startsWith('caf') || category.name.normalize("NFD").toLowerCase().startsWith('materia prima'));
-    });
-  } console.log(productsFiltered);
+  const recordsPerPage = 10;
 
-
-  return (
-    <Container>
-      <h2 className="text-center">Existencias</h2>
-      <br></br>
-      <Col xs={8} md={10} lg={12}>
+  const offset = currentPage * recordsPerPage;
+  const paginatedProducts = productsFiltered.slice(offset, offset + recordsPerPage);
+  const pageCount = Math.ceil(productsData.length / recordsPerPage);
+    
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
+  
+    return (
+      <Container>
+        <h2 className="text-center">Existencias</h2>
+        <br></br>
+        <Col xs={8} md={10} lg={12}>
         {
-          productsData != null ? (
-            <Row>
-              <Table striped bordered hover variant="light">
-                <thead>
-                  <tr>
-                    <th>Imagen</th>
-                    <th>Código</th>
-                    <th>Nombre</th>
-                    {/* <th>Descripción</th> */}
-                    <th>Unidad</th>
-                    <th>Existencias</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                {
-                  productsFiltered.map((product) => (
-                    <tr key={product.id}>
-                      <td><img className='imgProduct'
-                        src={product.image}
-                      /></td>
-                      <td>{product.code}</td>
-                      <td>{product.name}</td>
-                      {/* <td>{product.description}</td> */}
-                      <td>{product.unit}</td>
-                      <td>{product.stock}</td>
-                      <td>
-
-                        {/* <Button
-                  onClick={() => navigate(`/addInventories/${product.id}`)}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                  Editar
-                  </Button> */}
+        productsData !=null?(
+          <Row>
+            <Table striped bordered hover variant="light">
+              <thead>
+                <tr>
+                  <th>Imagen</th>
+                  <th>Código</th>
+                  <th>Nombre</th>
+                  <th>Descripción</th>
+                  <th>Unidad</th>
+                  <th>Existencias</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              {
+                paginatedProducts.map((product) => (
+                  <tr key={product.id}>
+                    <td><img className='imgProduct'
+                    src={product.image}
+                  /></td>
+                    <td>{product.code}</td>
+                    <td>{product.name}</td>
+                    <td>{product.description}</td>
+                    <td>{product.unit}</td>
+                    <td>{product.stock}</td>
+                    <td>
 
                         <AddInventoryModal props={product} />
 
@@ -98,7 +100,19 @@ const ListInventories = () => {
                   ))
                 }
               </Table>
-            </Row>
+              <ReactPaginate
+              previousLabel={"Anterior"}
+              nextLabel={"Siguiente"}
+              breakLabel={"..."}
+              pageCount={pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={handlePageClick}
+              containerClassName={"pagination"}
+              subContainerClassName={"pages pagination"}
+              activeClassName={"active"}
+            />
+          </Row>
           )
             : ("Cargando")
         }
@@ -107,6 +121,6 @@ const ListInventories = () => {
     </Container>
   );
 };
-
+  
 export default ListInventories;
 
