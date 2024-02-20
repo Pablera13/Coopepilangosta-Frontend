@@ -15,7 +15,7 @@ export const menuItemsCostumer = [
         url: '/home',
     },
     {
-        title: 'Carro de compras',
+        title:'Carro de compras ', 
         url: '/ShoppingCart',
     },
     {

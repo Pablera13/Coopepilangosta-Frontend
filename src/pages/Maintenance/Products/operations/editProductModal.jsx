@@ -317,7 +317,7 @@ const editProductModal = (props) => {
 
                         <Modal.Footer className='FtEditProducts' >
                             <Button className='BtnSaveProducts' variant="primary" size="sm" onClick={save}>
-                                Editar producto
+                                Actualizar producto
                             </Button>
                             <Button className='BtnReturnProducts' variant="secondary" size="sm" onClick={handleClose}>
                                 Cerrar

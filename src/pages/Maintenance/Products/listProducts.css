@@ -1,15 +1,3 @@
-/* Estilos para la tabla */
-.TableProducts {
-  width: 100%;
-  margin-top: 20px;
-}
-
-
-.TblProducts {
-  background-color: #931b1b;
-  font-weight: bold;
-}
-
 button.BtnTrash {
   border-radius: 5px;
   background-color: #e0e0e0;
@@ -27,22 +15,6 @@ button.BtnTrash:hover {
   background-color: #a43114 !important;
   color: #fff;
 }
-
-/* Estilos para las imágenes de productos (si decides habilitarlas) */
-.imgProduct {
-  max-width: 50px;
-  max-height: 50px;
-}
-
-/* Estilos para los botones */
-button {
-  border-radius: 5px;
-  padding: 5px 10px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-/* Otros estilos según sea necesario */
 
 .TblProducts th, .TblProducts td {
   padding: 12px;

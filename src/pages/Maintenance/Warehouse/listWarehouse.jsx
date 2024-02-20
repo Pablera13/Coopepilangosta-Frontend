@@ -8,12 +8,10 @@ import { Table, Container, Col, Row, Button } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
 import AddWarehouseModal from './actions/addWarehouseModal';
 import EditWarehouseModal from './actions/editWarehouseModal';
-
-
 import ReactPaginate from 'react-paginate';
 import { useNavigate } from 'react-router-dom';
+import { MdDelete } from "react-icons/md";
 
-import syles from '../Warehouse/listWarehouse.css';
 
 const listWarehouse = () => {
   const { data: Warehouses, isLoading: WarehousesLoading, isError: WarehousesError } = useQuery('warehouse', getWarehouse);
@@ -22,20 +20,7 @@ const listWarehouse = () => {
   const [filterState, setFilterState] = useState(null);
 
   const navigate = useNavigate()
-  const buttonStyle = {
-    borderRadius: '5px',
-    backgroundColor: '#e0e0e0',
-    color: '#333',
-    border: '1px solid #e0e0e0',
-    padding: '8px 12px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s',
-    minWidth: '100px',
-    fontWeight: 'bold',
-    hover: {
-      backgroundColor: '#c0c0c0',
-    },
-  };
+
 
   const recordsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(0);
@@ -98,6 +83,7 @@ const listWarehouse = () => {
       </div>
 
       <Form>
+        <br />
           <Row className="mb-3">
             <Col md={3}>
               <Form.Label>Buscar:</Form.Label>
@@ -121,9 +107,9 @@ const listWarehouse = () => {
       <Col xs={8} md={2} lg={12}>
         {Warehouses ? (
           <Row>
-            <Table striped bordered hover variant="light">
+            <Table className='TableWareHouse' striped bordered hover variant="light">
               <thead>
-                <tr>
+                <tr className='TblWareHouse' >
                   <th>Código</th>
                   <th>Descripción</th>
                   <th>Dirección</th>
@@ -151,14 +137,8 @@ const listWarehouse = () => {
 
                     <EditWarehouseModal props={warehouse}/>
 
-                    <Button
-                      onClick={() => showAlert(warehouse.id)}
-                      size='sm'
-                      style={{ ...buttonStyle, marginLeft: '5px', }}
-                      onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                      onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                    >
-                      Eliminar
+                    <Button className='BtnTrash' onClick={() => showAlert(warehouse.id)}size='sm'>
+                      Eliminar <MdDelete />
                     </Button>
                   </td>
 

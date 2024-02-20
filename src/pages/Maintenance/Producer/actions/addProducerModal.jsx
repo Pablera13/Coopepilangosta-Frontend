@@ -2,8 +2,8 @@ import React, { useRef, useState } from 'react';
 import { QueryClient, useMutation } from 'react-query';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import swal from 'sweetalert';
-import { createProducer,CheckCedulaProducerAvailability } from '../../../../services/producerService';
-
+import { createProducer, CheckCedulaProducerAvailability } from '../../../../services/producerService';
+import './addProducerModal.css'
 const addProducerModal = () => {
     const [show, setShow] = useState(false);
     const queryClient = new QueryClient();
@@ -22,9 +22,9 @@ const addProducerModal = () => {
         minWidth: '100px',
         fontWeight: 'bold',
         hover: {
-          backgroundColor: '#c0c0c0', 
+            backgroundColor: '#c0c0c0',
         },
-      };
+    };
 
     const [validated, setValidated] = useState(false);
 
@@ -37,9 +37,9 @@ const addProducerModal = () => {
                 text: 'El productor ha sido agregado',
                 icon: 'success',
             });
-            
 
-            
+
+
         },
     });
 
@@ -55,7 +55,7 @@ const addProducerModal = () => {
     const address = useRef();
     const bankAccount = useRef();
 
-    const saveProducer = async(event) => {
+    const saveProducer = async (event) => {
         const form = event.currentTarget;
         event.preventDefault();
         if (form.checkValidity() === false) {
@@ -77,14 +77,14 @@ const addProducerModal = () => {
                 bankAccount: bankAccount.current.value,
             };
 
-            let cedulaAvailability = await CheckCedulaProducerAvailability(cedula.current.value).then(data=>data)
+            let cedulaAvailability = await CheckCedulaProducerAvailability(cedula.current.value).then(data => data)
             console.log(cedulaAvailability)
-            
-            if (cedulaAvailability == true) {              
+
+            if (cedulaAvailability == true) {
                 mutation.mutateAsync(newProducer);
-            }else{
+            } else {
                 event.preventDefault()
-                swal('Advertencia','Ya existe un productor con el numero de cedula ingresado.','warning')
+                swal('Advertencia', 'Ya existe un productor con el numero de cedula ingresado.', 'warning')
             }
 
         }
@@ -104,18 +104,18 @@ const addProducerModal = () => {
 
     return (
         <>
-                <Button
-                  onClick={handleShow}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
+            <Button
+                onClick={handleShow}
+                size='sm'
+                style={{ ...buttonStyle, marginLeft: '5px', }}
+                onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
+                onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
+            >
                 Agregar Productor
-                  </Button>
+            </Button>
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
+                <Modal.Header className='HdEditProducer' closeButton>
                     <Modal.Title>Agregar nuevo productor</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -250,15 +250,16 @@ const addProducerModal = () => {
                             />
                         </Form.Group>
 
-                        <Button variant="primary" size="sm" type="submit">
-                            Guardar productor
-                        </Button>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" size="sm" onClick={handleClose}>
+                    <Button className='BtnSaveProducer' variant="primary" size="sm" type="submit">
+                        Guardar productor
+                    </Button>
+                    <Button className='BtnCloseProducer' variant="secondary" size="sm" onClick={handleClose}>
                         Cerrar
                     </Button>
+
                 </Modal.Footer>
             </Modal>
         </>

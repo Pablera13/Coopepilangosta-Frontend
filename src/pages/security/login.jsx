@@ -103,7 +103,7 @@ const login = () => {
           <br />
           <Row>
             <NavLink className={'btn-btn-secondary'} to={'/forgotPassword'}>
-              ¿Olvido su contraseña?
+              ¿Olvidó su contraseña?
             </NavLink>
           </Row>
           <br />

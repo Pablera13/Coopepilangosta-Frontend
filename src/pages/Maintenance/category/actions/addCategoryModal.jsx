@@ -7,6 +7,8 @@ import { QueryClient, useMutation } from 'react-query';
 import { createCategory } from '../../../../services/categoryService';
 import { useRef } from 'react';
 import swal from 'sweetalert';
+import './addCategoryModal.css'
+
 const addCategoryModal = () => {
   const [validated, setValidated] = useState(false);
   const [show, setShow] = useState(false);
@@ -82,7 +84,7 @@ const addCategoryModal = () => {
                   </Button>
 
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
+        <Modal.Header className='HdAddCategory' closeButton>
           <Modal.Title>Agregar nueva categoría</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -114,10 +116,10 @@ const addCategoryModal = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-        <Button variant="primary" size='sm' onClick={save}>
+        <Button className='BtnSaveCategory' variant="primary" size='sm' onClick={save}>
               Guardar categoría
             </Button>
-          <Button variant="secondary" size='sm' onClick={handleClose}>
+          <Button className='BtnCloseCategory' variant="secondary" size='sm' onClick={handleClose}>
             Cerrar
           </Button>
 

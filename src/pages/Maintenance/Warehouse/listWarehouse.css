@@ -1,109 +1,65 @@
+button.BtnTrash {
+  border-radius: 5px;
+  background-color: #e0e0e0;
+  border: 1px solid #e0e0e0 !important;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  min-width: 100px;
+  font-weight: bold;
+  margin: 2%;
+  font-size: 15px;
+}
 
-.Container {
-    margin: 20px;
-  }
-  
-  thead {
-    background-color: #007BFF; 
-    color: white; 
-  }
-  
-  th {
-    padding: 10px;
-    color: gray;
-  }
-  
-  tr {
-    background-color: white; 
-    text-align: center;
-    font-size: medium;
-  }
-  
-  td {
-    padding: 10px;
-  }
-  
-  .Button,
-  .NavLink {
-    background-color: #28a745; 
-    color: white; 
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
-    margin-right: 5px;
-    text-decoration: none; 
-  }
-  
-  .Button-danger {
-    background-color: #dc3545; /* Red color */
-    color: white; 
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
-    text-decoration: none; 
-  }
-  
-  tr:hover {
-    background-color: #e0e0e0; 
-  }
-  
-  tr th {
-    background-color: #f9f9f9; 
-  }
-  
-  table, th, td {
-    border: 1px solid black;
-  }
-  
-  .pagination {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    margin: 20px 0;
-    padding: 0;
-  }
-  
-  .pagination li {
-    display: inline;
-    margin-right: 10px;
-  }
-  
-  .pagination .active a {
-    color: white;
-    padding: 8px 12px;
-    border-radius: 4px;
-    font-weight: bold;
-  }
-  
-  tr:hover {
-    background-color: #e0e0e0; 
-  }
-  
-  .pagination .previous a,
-  .pagination .next a {
-    background-color: #e0e0e0; 
-    color: #333; 
-    border: 1px solid #e0e0e0;
-    padding: 8px 12px;
-    border-radius: 4px;
-    font-weight: bold;
-  }
-  
-  .pagination .break a {
-    display: none; 
-  }
-  
-  .pagination a {
-    background-color: #f0f0f0; 
-    color: #333; 
-    border: 1px solid #f0f0f0;
-    padding: 8px 12px;
-    border-radius: 4px;
-    font-weight: bold;
-    text-decoration: none;
-  }
-  
-  .pagination a:hover {
-    background-color: #e0e0e0; 
-  
-  }
+button.BtnTrash:hover {
+  background-color: #a43114 !important;
+  color: #fff;
+}
+
+.TblWarehouse th, .TblWarehouse td {
+  padding: 12px;
+  border: 1px solid #111;
+  text-align: center;
+  background-color: #3c3019 !important;
+  color: #d8a649b7 !important;
+}
+
+/* Pagination */
+
+.Pagination-Container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Ajusta el margen superior según tus necesidades */
+}
+
+.pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pagination li {
+  margin: 0 5px; /* Espacio entre los elementos de la paginación */
+}
+
+.pagination a {
+  text-decoration: none;
+  color: #333; /* Color del texto de la paginación */
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 10%;
+}
+
+.pagination .active a {
+  background-color: #675127; /* Color de fondo del enlace activo */
+  color: #fff !important; /* Color del texto del enlace activo */
+}
+
+.pagination a:hover {
+  background-color: #d89821b7 !important; /* Cambia el color de fondo al pasar el ratón sobre un enlace */
+}
+

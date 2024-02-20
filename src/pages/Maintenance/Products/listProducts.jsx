@@ -24,7 +24,7 @@ const listProducts = () => {
   const navigate = useNavigate()
 
 
-  const recordsPerPage = 3;
+  const recordsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(0);
 
   if (ProductsLoading)
@@ -82,10 +82,14 @@ const listProducts = () => {
     <Container>
       <h2 className="text-center">Productos</h2>
       <div className='buttons'>
+        
         <AddProductModal />
+        
         <Form>
+          <br />
           <Row className="mb-3">
             <Col md={3}>
+            
               <Form.Label>Buscar:</Form.Label>
               <Form.Control
                 type="text"

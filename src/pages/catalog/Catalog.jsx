@@ -14,7 +14,7 @@ const catalog = () => {
   const { data: Categories, isLoading: CategoriesLoading, isError: CategoriesError } = useQuery('category', getCategories);
   let products = []
   const searchValue = useRef()
-  const [search,setSearch] = useState();
+  const [search, setSearch] = useState();
   const [SelectedCategory, setSelectedCategory] = useState()
 
   //const [UserRole,setUserRole] = useState('');
@@ -28,8 +28,8 @@ const catalog = () => {
   }
   //console.log("token: "+localStorage.getItem('bearer')+" User: "+localStorage.getItem('user'))
 
-  const handleSearch = () =>{
-    setSearch(searchValue.current.value)  
+  const handleSearch = () => {
+    setSearch(searchValue.current.value)
   }
 
   // useEffect(() => {
@@ -45,17 +45,17 @@ const catalog = () => {
 
   if (!SelectedCategory) {
     products = data;
-  }else{
+  } else {
     products = data.filter((product) => product.categoryId == SelectedCategory.value)
   }
-  if(search){
-    products = products.filter((product)=> product.name.toLowerCase().includes(searchValue.current.value.toLowerCase()))
+  if (search) {
+    products = products.filter((product) => product.name.toLowerCase().includes(searchValue.current.value.toLowerCase()))
   }
-  
+
   const resetFilter = () => {
     setSelectedCategory(null)
   }
-  
+
   if (isLoading)
     return <div>Loading...</div>;
 
@@ -64,8 +64,8 @@ const catalog = () => {
 
   return (
     <>
-    <br />
-    <dir></dir>
+      <br />
+      <dir></dir>
       <Container fluid='md'>
         <Row className='search'>
           <Col lg={3}>
@@ -79,7 +79,7 @@ const catalog = () => {
           </Col>
 
           <Col lg={3}>
-            <input type="text" className='search' placeholder='Búsqueda...' ref={searchValue} onChange={handleSearch}/>
+            <input type="text" className='search' placeholder='Búsqueda...' ref={searchValue} onChange={handleSearch} />
 
           </Col>
           <br />
@@ -89,35 +89,35 @@ const catalog = () => {
           {
             products != null ? (
               products.map((product) => (
-<>
-                {product.state == true?
+                <>
+                  {product.state == true ?
 
-                <Col xs={12} md={6} lg={3} key={product.id}>
-                  <Card className="Customcard">
-                    <Card.Img variant="top" src={product.image} className="custom-card-img" />
-                    <Card.Body>
-                      <Card.Title>{product.name }</Card.Title>
-                      {/* <Card.Text><strong>{product.name}</strong></Card.Text> */}
-                      <Card.Text><strong style={{fontSize:"100%"}}>{product.unit}</strong></Card.Text>
-                      {/* <Card.Text class="text-success"><b>{product.unit}</b></Card.Text> */}
-                      <Card.Text>{product.description.slice(0, 50)}...</Card.Text>
-                    </Card.Body>
-                    <Card.Footer>
-                      
-                    <NavLink className="NavLink" 
-                    to={
-                      `/ProductDetail/${product.categoryId}/${product.id}`
-                    } 
+                    <Col xs={12} md={6} lg={3} key={product.id}>
+                      <Card className="Customcard">
+                        <Card.Img variant="top" src={product.image} className="custom-card-img" />
+                        <Card.Body>
+                          <Card.Title>{product.name}</Card.Title>
+                          {/* <Card.Text><strong>{product.name}</strong></Card.Text> */}
+                          <Card.Text><strong style={{ fontSize: "100%" }}>{product.unit}</strong></Card.Text>
+                          {/* <Card.Text class="text-success"><b>{product.unit}</b></Card.Text> */}
+                          <Card.Text>{product.description.slice(0, 50)}...</Card.Text>
+                        </Card.Body>
+                        <Card.Footer>
+                          <div className='BtnContainer' >
+                            <Button className="BtnDetail"
+                              href={`/ProductDetail/${product.categoryId}/${product.id}`}
+                            >Detalle
+                            </Button>
+                          </div>
 
-                    >Detalle</NavLink>
 
 
-                    </Card.Footer>
-                  </Card>
-                </Col>
+                        </Card.Footer>
+                      </Card>
+                    </Col>
 
-                  : ""}
-</>
+                    : ""}
+                </>
               ))
             ) : (
               "Sin productos"

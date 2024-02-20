@@ -139,7 +139,7 @@ const addProductModal = () => {
                   </Button>
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header className='HdEditProducts' closeButton>
+                <Modal.Header className='HdAddProducts' closeButton>
                     <Modal.Title>Agregar nuevo producto</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>

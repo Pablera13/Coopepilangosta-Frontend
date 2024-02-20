@@ -14,24 +14,8 @@ const listCategories = () => {
   const { data: Categories, isLoading: CategoriesLoading, isError: CategoriesError } = useQuery('category', getCategories);
 
   const [searchTerm, setSearchTerm] = useState('');
-
-
-
   const navigate = useNavigate()
-  const buttonStyle = {
-    borderRadius: '5px',
-    backgroundColor: '#e0e0e0',
-    color: '#333',
-    border: '1px solid #e0e0e0',
-    padding: '8px 12px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s',
-    minWidth: '100px',
-    fontWeight: 'bold',
-    hover: {
-      backgroundColor: '#c0c0c0',
-    },
-  };
+
 
   const recordsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(0);
@@ -42,7 +26,7 @@ const listCategories = () => {
 
   const filteredBySearch = Categories.filter(
     (category) =>
-    category.name.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      category.name.toString().toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const offset = currentPage * recordsPerPage;
@@ -90,25 +74,26 @@ const listCategories = () => {
         <AddCategoryModal />
 
         <Form>
-        <Row className="mb-3">
-          <Col md={3}>
-            <Form.Label>Buscar:</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Buscar categoria..."
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </Col>
-        </Row>
-      </Form>
+          <br />
+          <Row className="mb-3">
+            <Col md={3}>
+              <Form.Label>Buscar:</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Buscar categoria..."
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </Col>
+          </Row>
+        </Form>
 
-        </div>
+      </div>
       <Col xs={8} md={2} lg={12}>
         {Categories ? (
           <Row>
-            <Table striped bordered hover variant="light">
+            <Table className='TableCategories' striped bordered hover variant="light">
               <thead>
-                <tr>
+                <tr className='TblCategories'>
                   <th>Nombre de la categoría</th>
                   <th>Acciones</th>
                 </tr>
@@ -118,17 +103,11 @@ const listCategories = () => {
                   <td>{category.name}</td>
                   <td>
 
-                  <EditCategoryModal props={category} />
+                    <EditCategoryModal props={category} />
 
-                  <Button
-                onClick={() => showAlert(category.id)}
-                size='sm'
-                style={{ ...buttonStyle, marginLeft: '5px', }}
-                onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-              >
-                Eliminar
-              </Button>
+                    <Button className='BtnTrash' onClick={() => showAlert(category.id)} size='sm'>
+                      Eliminar
+                    </Button>
 
                   </td>
                 </tr>

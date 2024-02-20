@@ -4,12 +4,13 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { Col, Row } from 'react-bootstrap';
 import { QueryClient, useMutation } from 'react-query';
-import {updateCategory } from '../../../../services/categoryService';
+import { updateCategory } from '../../../../services/categoryService';
 import { useRef } from 'react';
 import swal from 'sweetalert';
+import './editCategoriesModal.css'
 
 const editCategoryModal = (props) => {
-    
+
   const category = props.props;
   const [validated, setValidated] = useState(false);
   const [show, setShow] = useState(false);
@@ -20,35 +21,20 @@ const editCategoryModal = (props) => {
 
   const queryClient = new QueryClient();
 
-  const buttonStyle = {
-    borderRadius: '5px',
-    backgroundColor: '#e0e0e0',
-    color: '#333',
-    border: '1px solid #e0e0e0',
-    padding: '8px 12px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s',
-    minWidth: '100px',
-    fontWeight: 'bold',
-    hover: {
-      backgroundColor: '#c0c0c0', 
-    },
-  };
-
-const mutation = useMutation('category', updateCategory, {
+  const mutation = useMutation('category', updateCategory, {
     onSettled: () => queryClient.invalidateQueries('category'),
     mutationKey: 'category',
     onSuccess: () => {
-        swal({
-            title: 'Editado!',
-            text: 'Se editó la categoría',
-            icon: 'success',
-        });
-        setTimeout(() => {
-            window.location.reload();
-        }, 2000);
+      swal({
+        title: 'Editado!',
+        text: 'Se editó la categoría',
+        icon: 'success',
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     },
-});
+  });
 
   const categoryName = useRef()
 
@@ -64,41 +50,35 @@ const mutation = useMutation('category', updateCategory, {
         id: category.id,
         name: categoryName.current.value,
       };
-      setIsSaving(true); 
+      setIsSaving(true);
       mutation.mutateAsync(newCategory).then(() => {
-        setIsSaving(false); 
+        setIsSaving(false);
       });
     }
   };
 
   return (
     <>
-                  <Button
-                  onClick={handleShow}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                  Editar
-                  </Button>
+      <Button className='BtnEditCategory' onClick={handleShow}size='sm'>
+        Editar
+      </Button>
 
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Editar categoría</Modal.Title>
+        <Modal.Header  className='HdEditCategory' closeButton>
+          <Modal.Title >Editar categoría</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form validated={validated} onSubmit={save}>
 
             <Form.Group className="mb-3" controlId="validationCustom01">
-                
-                <Row>
-                  <Col>
-                <Form.Label>Nombre</Form.Label>
-                </Col>
-                </Row>
 
-                {/* <Form.Control
+              <Row>
+                <Col>
+                  <Form.Label>Nombre</Form.Label>
+                </Col>
+              </Row>
+
+              {/* <Form.Control
                   required
                   defaultValue={category.name}
                   type="text"
@@ -109,31 +89,31 @@ const mutation = useMutation('category', updateCategory, {
                 <Form.Control.Feedback>Ingrese el nombre de la categoría</Form.Control.Feedback>
              */}
 
-                <Row>
+              <Row>
                 <Col md={8}>
-                <Form.Control
-                  required
-                  type="text"
-                  defaultValue={category.name}
-                  placeholder="Ingrese el nombre de la categoría"
-                  autoFocus
-                  ref={categoryName}
-                />
-                <Form.Control.Feedback>Ingrese el nombre de la categoría</Form.Control.Feedback>
+                  <Form.Control
+                    required
+                    type="text"
+                    defaultValue={category.name}
+                    placeholder="Ingrese el nombre de la categoría"
+                    autoFocus
+                    ref={categoryName}
+                  />
+                  <Form.Control.Feedback>Ingrese el nombre de la categoría</Form.Control.Feedback>
                 </Col>
-                </Row>
-                </Form.Group>
+              </Row>
+            </Form.Group>
 
-            
 
-           
+
+
           </Form>
         </Modal.Body>
         <Modal.Footer>
-        <Button variant="primary" size='sm' onClick={save}>
-             Editar categoría
-            </Button>
-          <Button variant="secondary" size='sm' onClick={handleClose}>
+          <Button className='BtnSaveCategory' variant="primary" size='sm' onClick={save}>
+            Actualizar categoría
+          </Button>
+          <Button className='BtnReturnProducts' variant="secondary" size='sm' onClick={handleClose}>
             Cerrar
           </Button>
 
