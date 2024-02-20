@@ -363,7 +363,7 @@ const ProductDetail = () => {
                             {UserRole === 'Cliente' ? (
                               <Button
                                 variant="danger"
-                                className="btn btn-round"
+                                className="BtnStar"
                                 type="button"
                                 onClick={addToCart}
                               >

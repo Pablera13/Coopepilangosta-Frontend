@@ -78,29 +78,37 @@ const listWarehouse = () => {
   return (
     <Container>
       <h2 className="text-center">Bodegas</h2>
-      <div className="buttons">
+      <br></br>
+
+      {/* <div className="buttons">
         <AddWarehouseModal />
-      </div>
+      </div> */}
 
       <Form>
-        <br />
           <Row className="mb-3">
+
+          <Col md={3}>
+          <AddWarehouseModal />
+          </Col>
+
             <Col md={3}>
-              <Form.Label>Buscar:</Form.Label>
+              <Form.Label>Buscar</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Por código, descripción, dirección o estado..."
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </Col>
+
             <Col md={3}>
-              <Form.Label>Filtrar por estado:</Form.Label>
+              <Form.Label>Filtrar por estado</Form.Label>
               <Form.Select onChange={(e) => setFilterState(e.target.value === "true" ? true : e.target.value === "false" ? false : null)}>
                 <option value="">Todos</option>
                 <option value="true">Activo</option>
                 <option value="false">Inactivo</option>
               </Form.Select>
             </Col>
+
           </Row>
         </Form>
 

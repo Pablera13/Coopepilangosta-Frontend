@@ -195,11 +195,11 @@ button.BtnDeleteImg {
   
   button.BtnEditProducer {
     border-radius: 5px;
+    color: #333;
     background-color: #e0e0e0;
     border: 1px solid #e0e0e0 !important;
     padding: 8px 12px;
     cursor: pointer;
-    color: #000;
     transition: background-color 0.3s;
     min-width: 100px;
     font-weight: bold;
@@ -211,4 +211,5 @@ button.BtnDeleteImg {
     background-color: #90620dd2 !important;
     color: #fff;
   }
+  
   

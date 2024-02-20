@@ -82,9 +82,14 @@ const addWarehouseModal = () => {
 
   return (
     <>
-      <Button className="BtnAddWarehouse" onClick={handleShow} size="sm">
-        Agregar Bodega
-      </Button>
+
+      <Button
+                onClick={handleShow}
+                className="BtnStar"
+            >
+                Agregar Bodega
+            </Button>
+
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header className="HdAddWarehouse" closeButton>

@@ -70,6 +70,18 @@ input[type="radio"]:checked~.StarR {
     margin-left: 5px;;
 }
 
-
+button.BtnTrash {
+    border-radius: 5px;
+    background-color: #e0e0e0;
+    border: 1px solid #e0e0e0 !important;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    min-width: 100px;
+    font-weight: bold;
+    margin: 2%;
+    font-size: 15px;
+    color: #111;
+  }
 
 

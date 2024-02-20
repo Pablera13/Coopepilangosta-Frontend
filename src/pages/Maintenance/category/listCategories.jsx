@@ -9,6 +9,7 @@ import EditCategoryModal from './actions/editCategoryModal';
 import ReactPaginate from 'react-paginate';
 import styles from './listCategories.css'
 import { useNavigate } from 'react-router-dom';
+import { MdDelete } from "react-icons/md";
 
 const listCategories = () => {
   const { data: Categories, isLoading: CategoriesLoading, isError: CategoriesError } = useQuery('category', getCategories);
@@ -70,14 +71,17 @@ const listCategories = () => {
 
     <Container>
       <h2 className="text-center">Categorías</h2>
-      <div className='buttons'>
-        <AddCategoryModal />
+      <br></br>
 
         <Form>
-          <br />
           <Row className="mb-3">
+
+          <Col md={3}>
+          <AddCategoryModal />
+          </Col>
+
             <Col md={3}>
-              <Form.Label>Buscar:</Form.Label>
+              <Form.Label>Buscar</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Buscar categoria..."
@@ -85,9 +89,9 @@ const listCategories = () => {
               />
             </Col>
           </Row>
+
         </Form>
 
-      </div>
       <Col xs={8} md={2} lg={12}>
         {Categories ? (
           <Row>
@@ -106,7 +110,7 @@ const listCategories = () => {
                     <EditCategoryModal props={category} />
 
                     <Button className='BtnTrash' onClick={() => showAlert(category.id)} size='sm'>
-                      Eliminar
+                      Eliminar <MdDelete />
                     </Button>
 
                   </td>

@@ -8,6 +8,7 @@ import { updateCategory } from '../../../../services/categoryService';
 import { useRef } from 'react';
 import swal from 'sweetalert';
 import './editCategoriesModal.css'
+import { TiEdit } from "react-icons/ti";
 
 const editCategoryModal = (props) => {
 
@@ -60,7 +61,7 @@ const editCategoryModal = (props) => {
   return (
     <>
       <Button className='BtnEditCategory' onClick={handleShow}size='sm'>
-        Editar
+        Editar <TiEdit />
       </Button>
 
       <Modal show={show} onHide={handleClose}>

@@ -72,21 +72,24 @@ const listProducers = () => {
   return (
     <Container>
       <h2 className="text-center">Productores</h2>
-      <div className="buttons">
-        <AddProducerModal />
-      </div>
+      <br></br>
 
       <Form>
-        <br />
         <Row className="mb-3">
+
+        <Col md={3}>
+          <AddProducerModal />
+          </Col>
+
           <Col md={3}>
-            <Form.Label>Buscar:</Form.Label>
+            <Form.Label>Buscar</Form.Label>
             <Form.Control
               type="text"
               placeholder="Por nombre, apellidos, cédula o teléfono..."
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </Col>
+
         </Row>
       </Form>
 
