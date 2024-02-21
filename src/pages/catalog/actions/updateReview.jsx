@@ -3,7 +3,8 @@ import { Modal, Col, Row, Container, Button, Form } from 'react-bootstrap'
 import {ReviewUpdate} from '../../../services/reviewService';
 import {QueryClient, useMutation, useQuery } from 'react-query';
 import { format } from 'date-fns';
-
+import { TiEdit } from "react-icons/ti";
+import './updateReview.css';
 
 const updateReview = (props) => {
 
@@ -58,9 +59,9 @@ async function star5Checked() {setStarsChecked(5)}
   return (
     <>
       <Button onClick={handleOpen} 
-      className="float-right btn text-white btn-danger edit-button-container"
-      style={{marginRight:'7% '}}>
-        Editar
+      className="BtnEditReview"
+     >
+        Editar <TiEdit/>
       </Button>
 
       <Modal
@@ -69,7 +70,7 @@ async function star5Checked() {setStarsChecked(5)}
         backdrop="static"
         keyboard={false}
       >
-        <Modal.Header closeButton>
+        <Modal.Header className='HdEditReview' closeButton>
           <Modal.Title>Actualizar valoración del producto</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -102,10 +103,10 @@ async function star5Checked() {setStarsChecked(5)}
 
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" size='sm' onClick={handleClose}>
+          <Button className='BtnSaveReview' variant="primary" size='sm' onClick={handleUpdate}>Guardar</Button>
+          <Button className='BtnReturnReview' variant="secondary" size='sm' onClick={handleClose}>
             Cerrar
           </Button>
-          <Button variant="primary" size='sm' onClick={handleUpdate}>Guardar</Button>
         </Modal.Footer>
       </Modal>
     </>

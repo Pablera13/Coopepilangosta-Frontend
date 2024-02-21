@@ -73,15 +73,14 @@ const addCategoryModal = () => {
 
   return (
     <>
+
+
                   <Button
-                  onClick={handleShow}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                  Agregar Categoría
-                  </Button>
+                onClick={handleShow}
+                className="BtnStar"
+            >
+                Agregar Categoría
+            </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header className='HdAddCategory' closeButton>

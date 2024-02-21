@@ -3,6 +3,9 @@ import { QueryClient, useMutation } from 'react-query';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import swal from 'sweetalert';
 import { createProducer,CheckCedulaProducerAvailability } from '../../../../services/producerService';
+import { locations } from '../../../../utils/provinces'
+import Select from 'react-select'
+import './addProducerModal.css';
 
 const addProducerModal = () => {
     const [show, setShow] = useState(false);
@@ -157,12 +160,10 @@ const addProducerModal = () => {
 
     return (
         <>
+
             <Button
                 onClick={handleShow}
-                size='sm'
-                style={{ ...buttonStyle, marginLeft: '5px', }}
-                onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
+                className="BtnStar"
             >
                 Agregar Productor
             </Button>

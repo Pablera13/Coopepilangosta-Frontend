@@ -63,7 +63,7 @@ const listWarehouseEntries = () => {
                                             <th>Id</th>
                                             <th>Fecha de entrada</th>
                                             <th>Fecha de salida</th>
-                                            <th>Cantidad:</th>
+                                            <th>Cantidad</th>
                                             
                                         </tr>
                                     </thead>

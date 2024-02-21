@@ -4,7 +4,10 @@ import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import swal from 'sweetalert';
 import { createProducer, CheckCedulaProducerAvailability } from '../../../../services/producerService';
 import { updateProducer } from '../../../../services/producerService';
-import { locations } from '../../../../utils/provinces';
+import { locations } from '../../../../utils/provinces'
+import Select from 'react-select'
+import './editProducerModal.css'
+import { TiEdit } from "react-icons/ti";
 
 const editProducerModal = (props) => {
     const [show, setShow] = useState(false);
@@ -13,21 +16,6 @@ const editProducerModal = (props) => {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
-    const buttonStyle = {
-        borderRadius: '5px',
-        backgroundColor: '#e0e0e0',
-        color: '#333',
-        border: '1px solid #e0e0e0',
-        padding: '8px 12px',
-        cursor: 'pointer',
-        transition: 'background-color 0.3s',
-        minWidth: '100px',
-        fontWeight: 'bold',
-        hover: {
-          backgroundColor: '#c0c0c0', 
-        },
-      };
 
     const [validated, setValidated] = useState(false);
 
@@ -164,15 +152,9 @@ const editProducerModal = (props) => {
 
     return (
         <>
-                <Button
-                  onClick={handleShow}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                Editar
-                  </Button>
+            <Button className='BtnEditProducer' onClick={handleShow} size='sm'>
+                Editar <TiEdit />
+            </Button>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header className='HdEditProducer' closeButton>
@@ -323,10 +305,10 @@ const editProducerModal = (props) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                <Button variant="primary" size="sm" onClick={saveProducer}>
+                <Button className='BtnSaveProducer' variant="primary" size="sm" onClick={saveProducer}>
                             Actualizar productor
                         </Button>
-                    <Button variant="secondary" size="sm" onClick={handleClose}>
+                    <Button className='BtnReturnProducer' variant="secondary" size="sm" onClick={handleClose}>
                         Cerrar
                     </Button>
                 </Modal.Footer>

@@ -4,7 +4,7 @@ import { QueryClient, useMutation, useQuery } from 'react-query';
 // import { Container, Row, Col, Button, Form, Modal, InputGroup } from 'react-bootstrap';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 
-import { createProduct,checkCodeAvailability } from '../../../../services/productService';
+import { createProduct, checkCodeAvailability } from '../../../../services/productService';
 import { getCategories } from '../../../../services/categoryService';
 import swal from 'sweetalert';
 import './addProductModal.css';
@@ -25,9 +25,9 @@ const addProductModal = () => {
         minWidth: '100px',
         fontWeight: 'bold',
         hover: {
-          backgroundColor: '#b8a49f', 
+            backgroundColor: '#b8a49f',
         },
-      };
+    };
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -81,8 +81,8 @@ const addProductModal = () => {
                 window.location.reload();
             }, 2000)
         },
-        onError: ()=>{
-            swal('Error','Algo salio mal...','error')
+        onError: () => {
+            swal('Error', 'Algo salio mal...', 'error')
         }
     });
 
@@ -95,7 +95,7 @@ const addProductModal = () => {
     const state = useRef();
     const categoryId = useRef();
 
-    const save = async(event) => {
+    const save = async (event) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.preventDefault();
@@ -115,31 +115,35 @@ const addProductModal = () => {
                 categoryId: categoryId.current.value,
                 image: imageUrl,
             };
-            let CodeAvailability = await checkCodeAvailability(code.current.value).then(data=>data);
+            let CodeAvailability = await checkCodeAvailability(code.current.value).then(data => data);
             console.log(CodeAvailability)
             if (CodeAvailability == true) {
                 mutation.mutateAsync(newProduct);
-            }else{
-                swal('Advertencia','El codigo se encuentra en uso, no es posible guardar un registro con el codigo duplicado.','warning')
+            } else {
+                swal('Advertencia', 'El codigo se encuentra en uso, no es posible guardar un registro con el codigo duplicado.', 'warning')
             }
-            
+
         }
     };
 
     return (
         <>
             <Button
-                  onClick={handleShow}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
+                onClick={handleShow}
+                className="BtnStar"
+            >
                 Agregar Producto
-                  </Button>
+            </Button>
+
+            {/* <Button
+                                variant="danger"
+                                className="BtnStar"
+                                type="button"
+                                onClick={addToCart}
+                              ></Button> */}
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header className='HdAddProducts' closeButton>
+                <Modal.Header className='HdEditProducts' closeButton>
                     <Modal.Title>Agregar nuevo producto</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -173,18 +177,18 @@ const addProductModal = () => {
                             <Col md={6}>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Descripción</Form.Label>
-                                    <textarea 
-                                    required
-                                    className='form-control' 
-                                    rows='4'
-                                    placeholder="Ingrese la descripción"
-                                    ref={description}
+                                    <textarea
+                                        required
+                                        className='form-control'
+                                        rows='4'
+                                        placeholder="Ingrese la descripción"
+                                        ref={description}
                                     ></textarea>
                                 </Form.Group>
                             </Col>
                             <Col md={6}>
                                 <Form.Group className="mb-3">
-                                    <Form.Label>Unidad Comercial</Form.Label>                               
+                                    <Form.Label>Unidad Comercial</Form.Label>
                                     <div className="custom-select-container">
                                         <select className="custom-select" id="unitOptions" ref={unit}>
                                             <option value="Kilogramo">Kilogramo</option>

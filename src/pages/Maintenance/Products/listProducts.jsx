@@ -81,33 +81,35 @@ const listProducts = () => {
 
     <Container>
       <h2 className="text-center">Productos</h2>
-      <div className='buttons'>
-        
-        <AddProductModal />
+      <br></br>
         
         <Form>
-          <br />
           <Row className="mb-3">
+
+          <Col md={3}>
+          <AddProductModal />
+          </Col>
+
             <Col md={3}>
-            
-              <Form.Label>Buscar:</Form.Label>
+              <Form.Label>Buscar</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Por nombre, unidad comercial o estado..."
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </Col>
+
             <Col md={3}>
-              <Form.Label>Filtrar por estado:</Form.Label>
+              <Form.Label>Filtrar por estado</Form.Label>
               <Form.Select onChange={(e) => setFilterState(e.target.value === "true" ? true : e.target.value === "false" ? false : null)}>
                 <option value="">Todos</option>
                 <option value="true">Activo</option>
                 <option value="false">Inactivo</option>
               </Form.Select>
             </Col>
+
           </Row>
         </Form>
-      </div>
 
 
       <Col xs={8} md={2} lg={12}>
@@ -140,7 +142,7 @@ const listProducts = () => {
                   <td>
                     <EditProductModal props={product} />
 
-                    <Button className='BtnTrash' onClick={() => showAlert(product.id)}>
+                    <Button className='BtnTrashProducts' onClick={() => showAlert(product.id)}>
                       Eliminar <MdDelete />
                     </Button>
 

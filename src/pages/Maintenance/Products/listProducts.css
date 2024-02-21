@@ -1,6 +1,6 @@
-button.BtnTrash {
+button.BtnTrashProducts {
   border-radius: 5px;
-  background-color: #e0e0e0;
+  background-color: white;
   border: 1px solid #e0e0e0 !important;
   padding: 8px 12px;
   cursor: pointer;
@@ -11,7 +11,7 @@ button.BtnTrash {
   font-size: 15px;
 }
 
-button.BtnTrash:hover {
+button.BtnTrashProducts:hover {
   background-color: #a43114 !important;
   color: #fff;
 }
@@ -21,7 +21,7 @@ button.BtnTrash:hover {
   border: 1px solid #111;
   text-align: center;
   background-color: #3c3019 !important;
-  color: #d8a649b7 !important;
+  color: white !important;
 }
 
 /* Pagination */

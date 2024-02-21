@@ -5,6 +5,8 @@ import { NavLink } from 'react-router-dom';
 import swal from 'sweetalert';
 import { updateWarehouse, checkWarehouseCodeAvailability } from '../../../../services/warehouseService';
 import './editWarehouseModal.css'
+import { TiEdit } from "react-icons/ti";
+
 const editWarehouseModal = (props) => {
 
     const warehouse = props.props;
@@ -79,7 +81,7 @@ const editWarehouseModal = (props) => {
     return (
         <>
             <Button className='BtnEditWareHouse' onClick={handleShow}size='sm'>
-                Editar
+                Editar <TiEdit />
             </Button>
 
 

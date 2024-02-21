@@ -8,6 +8,7 @@ import {getCostumerByIdNoState} from '../../services/costumerService';
 import {createReview} from '../../services/reviewService';
 import {deleteReview} from '../../services/reviewService';
 import ReviewEdit from './actions/updateReview'
+import { MdDelete } from "react-icons/md";
 
 import { es } from 'date-fns/locale';
 
@@ -183,9 +184,11 @@ const showAlert = (id) => {
             </Form.Group>
                              
 
-            <Button variant="primary"  type="submit" 
+            <Button className='BtnStar' variant="primary"  type="submit" 
             >
               Enviar Reseña
+
+              
             </Button>
           </Form>
         </Card.Body>
@@ -228,9 +231,9 @@ const showAlert = (id) => {
                       
                        <ReviewEdit props={review}/>
                     
-                        <Button className="float-right btn text-white btn-danger edit-button-container"
+                        <Button className="BtnTrash"
                         onClick={() => showAlert(review.id)}>
-                          Eliminar
+                          Eliminar <MdDelete/>
                         </Button>
                       </>
 
