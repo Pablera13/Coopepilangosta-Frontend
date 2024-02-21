@@ -121,7 +121,7 @@ const listProducers = () => {
 
                       <EditProducerModal props={producer} />
 
-                      <Button className='BtnTrash' onClick={() => showAlert(producer.id)} size='sm' >
+                      <Button className='BtnTrashProducers' onClick={() => showAlert(producer.id)} size='sm' >
                         Eliminar  <MdDelete />
                       </Button>
 

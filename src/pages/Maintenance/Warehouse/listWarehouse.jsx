@@ -145,7 +145,7 @@ const listWarehouse = () => {
 
                     <EditWarehouseModal props={warehouse}/>
 
-                    <Button className='BtnTrash' onClick={() => showAlert(warehouse.id)}size='sm'>
+                    <Button className='BtnTrashWarehouses' onClick={() => showAlert(warehouse.id)}size='sm'>
                       Eliminar <MdDelete />
                     </Button>
                   </td>

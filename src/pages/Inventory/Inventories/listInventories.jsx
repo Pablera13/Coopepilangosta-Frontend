@@ -70,10 +70,9 @@ const ListInventories = () => {
             <Table striped bordered hover variant="light">
               <thead>
                 <tr>
-                  <th>Imagen</th>
+                  {/* <th>Imagen</th> */}
                   <th>Código</th>
                   <th>Nombre</th>
-                  <th>Descripción</th>
                   <th>Unidad</th>
                   <th>Existencias</th>
                   <th>Acciones</th>
@@ -82,12 +81,11 @@ const ListInventories = () => {
               {
                 paginatedProducts.map((product) => (
                   <tr key={product.id}>
-                    <td><img className='imgProduct'
+                    {/* <td><img className='imgProduct'
                     src={product.image}
-                  /></td>
+                  /></td> */}
                     <td>{product.code}</td>
                     <td>{product.name}</td>
-                    <td>{product.description}</td>
                     <td>{product.unit}</td>
                     <td>{product.stock}</td>
                     <td>

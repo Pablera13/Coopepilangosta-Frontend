@@ -109,7 +109,7 @@ const listCategories = () => {
 
                     <EditCategoryModal props={category} />
 
-                    <Button className='BtnTrash' onClick={() => showAlert(category.id)} size='sm'>
+                    <Button className='BtnTrashCategories' onClick={() => showAlert(category.id)} size='sm'>
                       Eliminar <MdDelete />
                     </Button>
 

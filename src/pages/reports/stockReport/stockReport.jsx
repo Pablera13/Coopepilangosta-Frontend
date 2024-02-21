@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { getstocks } from '../../../services/reportServices/stockreportService';
 import { useQuery } from 'react-query';
-import { Table, Form, Row, Col } from 'react-bootstrap';
+import { Table, Form, Container, Col, Row, Button } from 'react-bootstrap';
 import ReactPaginate from 'react-paginate';
 
 import { format } from 'date-fns';
@@ -52,44 +52,52 @@ const stockReport = () => {
   };
 
   return (
-    <div>
-      <br></br>
+
+      <Container>
       <h2 className="text-center">Historial de Inventario</h2>
       <br></br>
+
       <Form>
         <Row className="mb-3">
+
           <Col md={3}>
-            <Form.Label>Buscar:</Form.Label>
+            <Form.Label>Buscar</Form.Label>
             <Form.Control
               type="text"
               placeholder="Por nombre, motivo o correo electrónico..."
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </Col>
+
           <Col md={3}>
-            <Form.Label>Fecha Inicial:</Form.Label>
+            <Form.Label>Fecha Inicial</Form.Label>
             <Form.Control
               type="datetime-local"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
             />
           </Col>
+
           <Col md={3}>
-            <Form.Label>Fecha Final:</Form.Label>
+            <Form.Label>Fecha Final</Form.Label>
             <Form.Control
               type="datetime-local"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
             />
           </Col>
+
         </Row>
       </Form>
 
-      <Table striped bordered hover variant="light">
+     <Col xs={8} md={2} lg={12}>
+        {stocksData ? (
+          <Row>
+            <Table className='TableProducts' striped bordered hover variant="light" >
         <thead>
           <tr>
             <th>Producto</th>
-            <th>Fecha del movimiento</th>
+            <th>Fecha</th>
             <th>Inicial</th>
             <th>Modificado</th>
             <th>Motivo</th>
@@ -109,7 +117,7 @@ const stockReport = () => {
           ))}
         </tbody>
       </Table>
-
+      <div className='Pagination-Container'>
       <ReactPaginate
         previousLabel={'Anterior'}
         nextLabel={'Siguiente'}
@@ -123,7 +131,13 @@ const stockReport = () => {
         activeClassName={'active'}
       />
     </div>
-  );
+  </Row>
+  ) : (
+    "Cargando"
+  )}
+</Col>
+</Container>
+);
 };
 
 export default stockReport;

@@ -142,7 +142,7 @@ const listProducts = () => {
                   <td>
                     <EditProductModal props={product} />
 
-                    <Button className='BtnTrash' onClick={() => showAlert(product.id)}>
+                    <Button className='BtnTrashProducts' onClick={() => showAlert(product.id)}>
                       Eliminar <MdDelete />
                     </Button>
 
