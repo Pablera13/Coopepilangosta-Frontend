@@ -35,14 +35,14 @@ export const editCostumerOrder = async (costumerorder) => {
     
     const id = costumerorder.id;
     let costumerorderEdit = {
-
         total: costumerorder.Total ,
-        detail: costumerorder.Detail ,
-        stage: costumerorder.Stage ,
         costumerId : costumerorder.CostumerId,
         confirmedDate: costumerorder.ConfirmedDate ,
         paidDate: costumerorder.paidDate,
         deliveredDate: costumerorder.deliveredDate,
+        detail: costumerorder.Detail ,
+        stage: costumerorder.Stage ,  
+        address: costumerorder.address
     }
 
     let data = await api.put(`costumerorder/${id}`,costumerorderEdit).then(result => result.data);

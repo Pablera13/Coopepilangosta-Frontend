@@ -4,6 +4,7 @@ import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import swal from 'sweetalert';
 import { createProducer, CheckCedulaProducerAvailability } from '../../../../services/producerService';
 import { updateProducer } from '../../../../services/producerService';
+import { locations } from '../../../../utils/provinces';
 
 const editProducerModal = (props) => {
     const [show, setShow] = useState(false);

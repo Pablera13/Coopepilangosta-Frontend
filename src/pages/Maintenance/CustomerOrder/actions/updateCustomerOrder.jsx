@@ -20,7 +20,9 @@ const updateCustomerOrder = () => {
   const [customerorderRequest, setCustomerorder] = useState(null)
 
   const { data, isLoading, isError } = useQuery('producerorder', getCostumerOrder);
-
+if (data) {
+  console.log(data)
+}
   useEffect(() => {
     getCostumerOrderById(customerorder.customerorder, setCustomerorder)
 
@@ -93,21 +95,21 @@ const updateCustomerOrder = () => {
     console.log("selectedStage " + selectedStage.value)
 
     let edit = {
-
       id: customerorderRequest.id,
-      CostumerId: customerorderRequest.costumerId,
-      Detail: customerorderRequest.detail,
-      Stage: selectedStage != null ? selectedStage.label : customerorderRequest.stage,
       Total: customerorderRequest.total,
+      CostumerId: customerorderRequest.costumerId,
       ConfirmedDate: customerorderRequest.confirmedDate,
       paidDate: selectedPaid.value == false ? "0001-01-01T00:00:00" : formattedDate,
-      deliveredDate: selectedDelivered.value == false ? "0001-01-01T00:00:00" : formattedDate
-
+      deliveredDate: selectedDelivered.value == false ? "0001-01-01T00:00:00" : formattedDate,
+      Detail: customerorderRequest.detail,
+      Stage: selectedStage != null ? selectedStage.label : customerorderRequest.stage,      
+      address: customerorderRequest.address
     };
 
     console.log(edit)
 
     mutation.mutateAsync(edit);
+    console.log(edit)
     limpiarInput()
   }
   const limpiarInput = () => {
