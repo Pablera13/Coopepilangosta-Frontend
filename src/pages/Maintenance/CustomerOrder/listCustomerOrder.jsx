@@ -15,6 +15,8 @@ import styles from './listCustomerOrder.css'
 
 import ReactPaginate from 'react-paginate';
 
+import UpdateCustomerOrderModal from './actions/updateCustomerOrderModal.jsx';
+
 const listCustomerOrder = () => {
 
   const params = useParams();
@@ -178,8 +180,9 @@ const listCustomerOrder = () => {
                     </td>
                     <td>{CustomerOrder.stage}</td>
                     <td>
+                      <UpdateCustomerOrderModal props={CustomerOrder.id}/>
 
-                      <Button
+                      {/* <Button
                         onClick={() => navigate(`/editCustomerOrder/${CustomerOrder.id}`)}
                         size='sm'
                         style={{ ...buttonStyle, marginLeft: '5px', }}
@@ -187,7 +190,7 @@ const listCustomerOrder = () => {
                         onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
                       >
                         Editar
-                      </Button>
+                      </Button> */}
 
                       <Button
                         onClick={() => showAlert(CustomerOrder.id)}
