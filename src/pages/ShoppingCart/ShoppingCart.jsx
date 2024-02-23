@@ -305,8 +305,8 @@ const ShoppingCart = () => {
                         <br></br>
 
                         <div>
-                        <a href="#" className="btn btn-primary btn-main btn-square btn-block" data-abc="true" onClick={saveProducerOrder}>Realizar pedido</a>
-                        <NavLink to={`/home`} className="btn btn-success btn-main btn-square btn-block mt-2">Seguir comprando</NavLink>
+                        <Button href="#" className="BtnTrash" data-abc="true" onClick={saveProducerOrder}>Realizar pedido</Button>
+                        <Button href={`/home`} className="BtnUpdate">Seguir comprando</Button>
                     </div>
                     </div>
                 </div>

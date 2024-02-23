@@ -48,3 +48,43 @@
 
       width: 50%;
     } */
+
+
+    .BtnUpdate {
+      border-radius: 5px;
+      background-color: white;
+      border: 1px solid #e0e0e0 !important;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      min-width: 100px;
+      font-weight: bold;
+      margin: 2%;
+      font-size: 15px;
+      color: #000;
+    }
+    
+    .BtnUpdate:hover {
+      background-color: #a43114 !important;
+      color: #fff;
+    }
+    
+    .BtnTrash {
+      border-radius: 5px;
+      background-color: white;
+      border: 1px solid #e0e0e0 !important;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      min-width: 100px;
+      font-weight: bold;
+      margin: 2%;
+      font-size: 15px;
+      color: #000;
+    }
+    
+    .BtnTrash:hover {
+      background-color: #a46614 !important;
+      color: #fff;
+    }
+    
