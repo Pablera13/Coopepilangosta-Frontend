@@ -8,6 +8,7 @@ import { getProducerOrder } from '../../../services/producerorderService';
 import { getPurchase } from '../../../services/purchaseService';
 import Select from 'react-select';
 import PrintProducerOrder from './actions/printProducerOrder.jsx';
+import AddProducerOrderModal from './actions/addProducerOrderModal.jsx';
 
 import styles from './listProducerOrder.css'
 
@@ -124,10 +125,13 @@ const listProducerOrders = () => {
         <Select onChange={(selected) => setSelectedOption(selected)} options={optionsSelect} /><Col>
           <br></br>
 
-          <Button className='BtnAddProducerModal' onClick={() => navigate("/addProducerOrder")}size='sm'>
+          {/* <Button className='BtnAddProducerModal' onClick={() => navigate("/addProducerOrder")}size='sm'>
             Crear Pedido
-          </Button>
+          </Button> */}
 
+          <Col md={3}>
+            <AddProducerOrderModal />
+          </Col>
 
 
 
@@ -167,17 +171,17 @@ const listProducerOrders = () => {
                     </td>
                     <td>
 
-                    <Button className='BtnEdit' onClick={() => navigate(`/editProducerOrder/${ProducerOrder.id}`)}size='sm'>
+                      <Button className='BtnEdit' onClick={() => navigate(`/editProducerOrder/${ProducerOrder.id}`)} size='sm'>
                         Editar
                       </Button>
 
                       {ProducerOrder.deliveredDate != "0001-01-01T00:00:00" ? (
-                        <Button className='BtnAdd'  conClick={() => navigate(`/checkProducerOrder/${ProducerOrder.id}`)}size='sm'>
+                        <Button className='BtnAdd' onClick={() => navigate(`/checkProducerOrder/${ProducerOrder.id}`)} size='sm'>
                           Ingresar
                         </Button>
                       ) : null}
 
-                      <Button className='BtnTrash' onClick={() => showAlert(ProducerOrder.id)}size='sm'>
+                      <Button className='BtnTrash' onClick={() => showAlert(ProducerOrder.id)} size='sm'>
                         Eliminar
                       </Button>
 

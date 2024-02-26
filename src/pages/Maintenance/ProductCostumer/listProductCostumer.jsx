@@ -9,6 +9,7 @@ import ReactPaginate from 'react-paginate';
 import syles from '../ProductCostumer/listProductCostumer.css'
 import {useNavigate, useParams} from 'react-router-dom';
 import UpdateProductCostumer from './actions/updateProductCostumer'
+import VolumeDiscountModal from './actions/volumeDiscountModal'
 import ExportProductCostumer from './actions/exportProductCostumer'
 
 import { getProductById2 } from '../../../services/productService';
@@ -165,6 +166,7 @@ const listProductCostumer = () => {
                   </Button>
 
                   <ExportProductCostumer props={cotizacion}/>
+                  <VolumeDiscountModal props={cotizacion.id}/>
 
 
                   </td>

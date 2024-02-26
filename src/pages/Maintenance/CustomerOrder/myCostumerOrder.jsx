@@ -58,7 +58,11 @@ const myCostumerOrder = () => {
                                                         : 'Sin pagar'
                                                     }</td>
 
-                                                    <td>₡{order.total.toFixed(2)}</td>
+                                                    {/* <td>₡{order.total.toFixed(2)}</td> */}
+                                                    <td>{order.total.toFixed(2) == 0 ?
+                                                        'Por cotizar'
+                                                        : `₡${order.total.toFixed(2)}`
+                                                    }</td>
                                                     <td>{order.stage}</td>
                                                     <td>
                                                         <NavLink

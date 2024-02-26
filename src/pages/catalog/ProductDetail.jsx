@@ -5,6 +5,7 @@ import { getProductById } from '../../services/productService';
 import { getCategoryById } from '../../services/categoryService';
 import { getProductCostumerById } from '../../services/productCostumerService.js';
 import { getSingleProductCostumerById } from '../../services/productCostumerService.js';
+import { getVolumeDiscount } from '../../services/volumeDiscount.js';
 import { getStarsAverage } from '../../services/reviewService';
 
 import Select from 'react-select';
@@ -37,9 +38,10 @@ const ProductDetail = () => {
   const [categoryRequest, setCategory] = useState(null);
   const [cotizacionRequest, setCotizacionRequest] = useState([]);
   const [cotizacionOptions, setCotizacionOptions] = useState([]);
-  const [selectedCotizacion, setSelectedCotizacion] = useState([]);
+  // const [selectedCotizacion, setSelectedCotizacion] = useState([]);
   const [MyCotizacion, setMyCotizacion] = useState([]);
   const [FixedCotizacion, setFixedCotizacion] = useState(null);
+  const [Volumes, setVolumes] = useState(null);
 
   const [currentImage, setCurrentImage] = useState(null);
 
@@ -64,7 +66,8 @@ const ProductDetail = () => {
           finalPrice: finalPrice.toFixed(0)
         }
         setFixedCotizacion(FixedCotizacion)
-        console.log("FixedCotizacion =" + JSON.stringify(FixedCotizacion))
+        getVolumeDiscount(MyCotizacion.id, setVolumes)
+        // console.log("FixedCotizacion =" + JSON.stringify(FixedCotizacion))
       }
     }
     fetchCotizacion();
@@ -167,6 +170,7 @@ const ProductDetail = () => {
             CotizacionId: FixedCotizacion.cotizacionId,
             CostumerId: user.costumer.id,
             ProductId: productParams.idproduct,
+            PrecioInicial: FixedCotizacion.priceWithMargin,
             PrecioConMargen: FixedCotizacion.priceWithMargin,
             iva: FixedCotizacion.iva,
             PrecioFinal: FixedCotizacion.finalPrice,
@@ -177,9 +181,9 @@ const ProductDetail = () => {
             ProductUnit: FixedCotizacion.unit,
             ProductImage: productRequest.image,
             Quantity: parseInt(quantity.current.value),
+            Volumes: Volumes,
           };
           setLocalShopping((prevProducts) => [...prevProducts, newProductToCart]);
-
         }
       } else {
 
@@ -199,6 +203,7 @@ const ProductDetail = () => {
             CotizacionId: 0,
             CostumerId: user.costumer.id,
             ProductId: productParams.idproduct,
+            PrecioInicial: 0,
             ProductName: productRequest.name,
             ProductDescription: productRequest.description,
             PrecioConMargen: 0,

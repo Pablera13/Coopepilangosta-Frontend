@@ -134,7 +134,7 @@ const printProducerOrder = (props) => {
             doc.setFontSize(10);
             doc.text(`${producer.name} ${producer.lastname1} ${producer.lastname2}`, 10, 95);
             doc.text(`Cédula: ${producer.cedula}`, 10, 102);
-            doc.text(`${producer.address}, ${producer.district}, ${producer.canton}`, 10, 109);
+            doc.text(`Dirección:${producer.address}, ${producer.district}, ${producer.canton}`, 10, 109);
             doc.text(`Teléfono: ${producer.phoneNumber}`, 10, 116);
             doc.text(`Email: ${producer.email}`, 10, 123);
             doc.text(`Cuenta Bancaria: ${producer.bankAccount}`, 10, 130);
@@ -142,10 +142,11 @@ const printProducerOrder = (props) => {
             //Datos factura
             doc.text("Fecha de factura:", 100, 116);
             doc.text(format(new Date(producerorder.confirmedDate), 'yyyy-MM-dd'), 150, 116);
+
             doc.text("Fecha de pago:", 100, 123);
             doc.text(
-                producerorder.paidDate === "0001-01-01T00:00:00" ? "Sin pagar" : `${producerorder.paidDate}`,
-                150, 123
+                producerorder.paidDate === "0001-01-01T00:00:00" ? "Sin pagar" : 
+                format(new Date(producerorder.paidDate), 'yyyy-MM-dd'), 150, 123
             );
 
             // Tercera linea

@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { createCostumerOrder } from '../../services/costumerorderService';
 import { createSale } from '../../services/saleService';
-import { Form, Row, Col, Button, Container, InputGroup, Collapse } from 'react-bootstrap'
+import { Form, Row, Col, Button, Container, InputGroup, Collapse, Table } from 'react-bootstrap'
 import Select from 'react-select'
 
 import './ShoppingCart.css'
@@ -34,7 +34,7 @@ const ShoppingCart = () => {
     if (storedCar) {
       const parsestoredCar = JSON.parse(storedCar);
       setLocalShopping(parsestoredCar);
-      console.log("Carrito recuperado: " + storedCar);
+      //console.log("Carrito recuperado: " + storedCar);
 
       async function xd() {
         let newTotal = 0;
@@ -56,7 +56,7 @@ const ShoppingCart = () => {
 
   useEffect(() => {
     localStorage.setItem('ShoppingCar', JSON.stringify(LocalShopping));
-    console.log(JSON.parse(localStorage.getItem('ShoppingCar')))
+    //console.log(JSON.parse(localStorage.getItem('ShoppingCar')))
   }, [LocalShopping]);
 
 
@@ -72,7 +72,7 @@ const ShoppingCart = () => {
 
       setTimeout(() => {
         // history.back();
-        navigate(`/userProfile`)
+        navigate(`/myCustomerOrders`)
       }, 2000);
     },
   })
@@ -114,7 +114,7 @@ const ShoppingCart = () => {
       DeliveredDate: "0001-01-01T00:00:00",
       Detail: Detail.current.value,
       Stage: "Sin confirmar",
-      Address: `${Address}, ${District}, ${Canton}, ${Province}`,
+      Address: `${Address.current.value}, ${District.current.value}, ${Canton.current.value}, ${Province.current.value}`,
     };
 
     const costumerOrder = await mutationCostumerOrder.mutateAsync(newCostumerOrder).finally(data => data)
@@ -139,188 +139,222 @@ const ShoppingCart = () => {
 
   return (
     <>
-      {/* {localStorage.getItem('ShoppingCar') != null ? ( */}
       {LocalShopping.length >= 1 && localStorage.getItem('ShoppingCar') != null ? (
         <>
-          <div className="container">
-            <div className="row">
+          <Container>
+            <Row className="mb-3">
+
               <div className="card">
+
                 <div className="warning">
                   Los precios indicados en este catálogo son referenciales y
                   pueden estar sujetos a variaciones en el precio final.
                   Por favor consulte con nuestro equipo para conocer precios especiales y descuentos disponibles
                 </div>
+
                 <br></br>
                 <div >
-                  <table className="table table-borderless table-shopping-cart">
-                    <br></br>
 
-                    <thead>
-                      <tr>
-                        <th>Imagen</th>
-                        <th>Descripción</th>
-                        <th>Cantidad</th>
-                        <th>Unidad</th>
-                        <th>Precio Unitario</th>
-                        <th>Subtotal</th>
-                        <th>IVA</th>
-                        <th>Final</th>
-                      </tr>
-                    </thead>
+                  <Col xs={12} md={12} lg={12}>
+                    <Row>
+                      <Table responsive className="table table-borderless table-shopping-cart">
+                        <br></br>
 
-                    <tbody>
-                      {LocalShopping.map((Sale, index) => (
-                        <tr key={Sale.ProductId}>
+                        <thead>
+                          <tr>
+                            <th>Imagen</th>
+                            <th>Descripción</th>
+                            <th>Cantidad</th>
+                            <th>Unidad</th>
+                            <th>Precio</th>
+                            <th>Subtotal</th>
+                            <th>IVA</th>
+                            <th>Final</th>
+                            <th>Acciones</th>
+                          </tr>
+                        </thead>
 
-                          <td>
-                            <img src={Sale.ProductImage} className="img-sm border" alt={Sale.ProductName} />
-                          </td>
-                          <td>{Sale.ProductName}</td>
+                        <tbody>
+                          {LocalShopping.map((Sale, index) => (
+                            <tr key={Sale.ProductId}>
 
-                          <td>
-                            <input
-                              className="form-control"
-                              // style={{width:'50%', textAlign:'center'}}
-                              defaultValue={Sale.Quantity}
-                              type="number"
-                              min="1"
-                              onChange={(e) => {
+                              <td>
+                                <img src={Sale.ProductImage} className="img-sm border" alt={Sale.ProductName} />
+                              </td>
+                              <td>{Sale.ProductName}</td>
 
-                                const updatedShopping = [...LocalShopping];
-                                updatedShopping[index].Quantity = parseInt(e.target.value);
+                              <td>
+                                <input
+                                  className="form-control"
+                                  style={{ textAlign: 'center' }}
+                                  defaultValue={Sale.Quantity}
+                                  type="number"
+                                  min="1"
+                                  onChange={(e) => {
 
-                                if (Sale.CotizacionId != 0) {
+                                    const updatedShopping = [...LocalShopping];
+                                    updatedShopping[index].Quantity = parseInt(e.target.value);
 
-                                  updatedShopping[index].TotalVenta = updatedShopping[index].PrecioFinal * parseInt(e.target.value);
-                                  updatedShopping[index].SubTotal = updatedShopping[index].PrecioConMargen * parseInt(e.target.value);
+                                    if (Sale.CotizacionId != 0) {
 
-                                  let newTotal = 0;
-                                  updatedShopping.map((sale) => (
-                                    newTotal = newTotal + sale.TotalVenta
-                                  ))
-                                  setTotalOrder(newTotal);
+                                      var volumesArray = [];
+                                      volumesArray = Sale.Volumes;
 
-                                  let newSubTotal = 0;
-                                  updatedShopping.map((sale) => (
-                                    newSubTotal = newSubTotal + sale.SubTotal
-                                  ))
-                                  setSubTotal(newSubTotal);
+                                      const initialVolume = {
+                                      id:0,
+                                      price:updatedShopping[index].PrecioInicial,
+                                      volume:1,
+                                      productCostumerId:1,
+                                      productCostumer: null
+                                    }
 
-                                }
+                                      volumesArray.push(initialVolume)
 
-                                setLocalShopping(updatedShopping);
-                              }}
-                            />
-                          </td>
-                          <td>{Sale.ProductUnit}</td>
-                          <td>{Sale.PrecioConMargen == 0 ? 'Por cotizar' : '₡' + Sale.PrecioConMargen}</td>
+                                      function compararPorVolume(a, b) {
+                                        return a.volume - b.volume;
+                                      }
+                                      volumesArray.sort(compararPorVolume);
 
-                          <td>{Sale.SubTotal == 0 ? 'Por cotizar' : '₡' + Sale.SubTotal}</td>
-                          <td>{Sale.iva}%</td>
-                          <td>{Sale.TotalVenta == 0 ? 'Por cotizar' : '₡' + Sale.TotalVenta}</td>
+                                      // console.log("volumes ordered" + JSON.stringify(volumes))
+
+                                      for (let object of volumesArray) {
+ 
+                                        if (e.target.value >= object.volume) {
+                                          updatedShopping[index].PrecioConMargen = object.price
+                                        }
+
+                                      updatedShopping[index].TotalVenta = updatedShopping[index].PrecioFinal * parseInt(e.target.value);
+                                      updatedShopping[index].SubTotal = updatedShopping[index].PrecioConMargen * parseInt(e.target.value);
+
+                                      let newTotal = 0;
+                                      updatedShopping.map((sale) => (
+                                        newTotal = newTotal + sale.TotalVenta
+                                      ))
+                                      setTotalOrder(newTotal);
+
+                                      let newSubTotal = 0;
+                                      updatedShopping.map((sale) => (
+                                        newSubTotal = newSubTotal + sale.SubTotal
+                                      ))
+                                      setSubTotal(newSubTotal.toFixed(0));
+
+                                    }
+
+                                    setLocalShopping(updatedShopping);
+                                  }}}
+                                />
+                              </td>
+                              <td>{Sale.ProductUnit}</td>
+
+                              <td>{Sale.PrecioConMargen == 0 ? 'Por cotizar' : '₡' + Sale.PrecioConMargen}</td>
+
+                              <td>{Sale.SubTotal == 0 ? 'Por cotizar' : '₡' + Sale.SubTotal}</td>
+                              <td>{Sale.iva}%</td>
+                              <td>{Sale.TotalVenta == 0 ? 'Por cotizar' : '₡' + Sale.TotalVenta}</td>
 
 
 
-                          <td>
-                            <button variant='danger' className="btn btn-light" size='sm'
-                              onClick={() => {
-                                Sale.CotizacionId != 0 ?
-                                  DeleteCotizacion(Sale.CotizacionId)
-                                  :
-                                  DeleteProduct(Sale.ProductId)
-                              }}
-                            >Eliminar</button>
-                          </td>
-                          
-                        </tr>
-                      ))}
+                              <td>
+                                <button variant='danger' className="btn btn-light" size='sm'
+                                  onClick={() => {
+                                    Sale.CotizacionId != 0 ?
+                                      DeleteCotizacion(Sale.CotizacionId)
+                                      :
+                                      DeleteProduct(Sale.ProductId)
+                                  }}
+                                >Eliminar</button>
+                              </td>
 
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td><b>SubTotal</b></td>
-                        <td>{SubTotal == 0 ? 'Por cotizar' : '₡' + SubTotal}</td>
-                      </tr>
+                            </tr>
+                          ))}
 
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td><b>Total</b></td>
-                        <td>{TotalOrder == 0 ? 'Por cotizar' : '₡' + TotalOrder}</td>
-                      </tr>
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><b>SubTotal</b></td>
+                            <td>{SubTotal == 0 ? 'Por cotizar' : '₡' + SubTotal}</td>
+                          </tr>
 
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><b>Total</b></td>
+                            <td>{TotalOrder == 0 ? 'Por cotizar' : '₡' + TotalOrder}</td>
+                          </tr>
 
-                    </tbody>
-                  </table>
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+
+                        </tbody>
+                      </Table>
+                    </Row>
+                  </Col>
+
                 </div>
-                </div>
-</div>
-</div>
+              </div>
+
+            </Row>
+          </Container>
 
           <div className="container">
-          <div className="card">
-        <div className="card-body">
-            <div className="row">
-                <div className="col-md-6">
+            <div className="card">
+              <div className="card-body">
+                <div className="row">
+                  <div className="col-md-6">
                     <h5 className="card-title">Dirección de Envío</h5>
                     <div className="row">
-                        <div className="col-md-4">
-                            <label htmlFor="provincia">Provincia</label>
-                            <input type="text" className="form-control" id="provincia" defaultValue={user.costumer.province} ref={Province}/>
-                        </div>
-                        <div className="col-md-4">
-                            <label htmlFor="provincia">Cantón</label>
-                            <input type="text" className="form-control" id="Cantón" defaultValue={user.costumer.canton} ref={Canton}/>
-                        </div>
-                        <div className="col-md-4">
-                            <label htmlFor="provincia">Distrito</label>
-                            <input type="text" className="form-control" id="Distrito" defaultValue={user.costumer.district} ref={District}/>
-                        </div>
+                      <div className="col-md-4">
+                        <Form.Group>
+                          <Form.Label>Provincia</Form.Label>
+                          <Form.Control type="text" defaultValue={user.costumer.province} ref={Province} />
+                        </Form.Group>
+                      </div>
+                      <div className="col-md-4">
+                        <Form.Group>
+                          <Form.Label>Cantón</Form.Label>
+                          <Form.Control type="text" defaultValue={user.costumer.canton} ref={Canton} />
+                        </Form.Group>
+                      </div>
+                      <div className="col-md-4">
+                        <Form.Group>
+                          <Form.Label>Distrito</Form.Label>
+                          <Form.Control type="text" defaultValue={user.costumer.district} ref={District} />
+                        </Form.Group>
+                      </div>
                     </div>
-                    <div className="row mt-3">
-                        <div className="col-md-12">
-                            <label htmlFor="provincia">Dirección de Envío</label>
-                            <input type="text" className="form-control" id="direccion" defaultValue={user.costumer.address} ref={Address}/>
-                        </div>
-                        <br></br>
-                        <br></br>
-                        <br></br>
-
-                        <div>
-                        <a href="#" className="btn btn-primary btn-main btn-square btn-block" data-abc="true" onClick={saveProducerOrder}>Realizar pedido</a>
-                        <NavLink to={`/home`} className="btn btn-success btn-main btn-square btn-block mt-2">Seguir comprando</NavLink>
-                    </div>
-                    </div>
-                </div>
-                <div className="col-md-6">
+                    <Form.Group>
+                      <Form.Label>Dirección de Envío</Form.Label>
+                      <Form.Control type="text" defaultValue={user.costumer.address} ref={Address} />
+                    </Form.Group>
+                    <Button variant="primary" onClick={saveProducerOrder}>Realizar pedido</Button>
+                    <NavLink to={`/home`} className="btn btn-success btn-main btn-square btn-block mt-2">Seguir comprando</NavLink>
+                  </div>
+                  <div className="col-md-6">
                     <h5 className="card-title">Detalle de Envío</h5>
-                    <br />
-
-                    <textarea className="form-control" rows="5" placeholder="Ingrese aquí el detalle del envío..." ref={Detail}></textarea>
+                    <Form.Group>
+                      <Form.Label></Form.Label>
+                      <Form.Control as="textarea" placeholder='Ingrese el detalle del envío' rows={5} ref={Detail} />
+                    </Form.Group>
+                  </div>
                 </div>
+              </div>
             </div>
-        </div>
-
-
-</div>
           </div>
 
         </>

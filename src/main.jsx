@@ -18,7 +18,6 @@ import ListProducers from './pages/Maintenance/Producer/listProducers'
 
 //Componentes de pedidos al productor
 import ListProducerOrder from './pages/Maintenance/ProducerOrder/listProducerOrder'
-import AddProducerOrder from './pages/Maintenance/ProducerOrder/actions/addProducerOrder'
 import UpdateProducerOrder from './pages/Maintenance/ProducerOrder/actions/updateProducerOrder'
 
 //Componentes de pedidos del cliente
@@ -101,8 +100,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 
       <Route path="/myCustomerOrders"element={<MyCostumerOrder/>}/>
-      <Route path="/addProducerOrder"element={<AddProducerOrder/>}/>
-
 
       <Route path='/editProducerOrder/:producerorder'element={<UpdateProducerOrder/>}/>
       <Route path='/editCustomerOrder/:customerorder'element={<UpdateCustomerOrder/>}/>

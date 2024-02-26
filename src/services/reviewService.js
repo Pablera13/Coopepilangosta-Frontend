@@ -11,7 +11,7 @@ export const getReviewById = async(productid,state) => {
 
 export const getStarsAverage = async (productid, state) => { 
     let data = await api.get(`review/Average?productid=${productid}`);
-    console.log("data del service " + data);
+    // console.log("data del service " + data);
     let average = data.data
     state(average)
     return average;
