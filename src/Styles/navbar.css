@@ -1,4 +1,4 @@
-* {
+/* * {
 
     margin: 0;
     padding: 0;
@@ -238,7 +238,6 @@ button span {
   top: -7px;
 }
 
-/* content */
 
 .content {
   max-width: 1200px;
@@ -256,10 +255,10 @@ button span {
 }
 .logoImg{
   width: 270px;
-  /* width: 20%; */
+  
 
   
 }
 
 
-
+ */

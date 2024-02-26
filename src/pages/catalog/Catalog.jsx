@@ -65,25 +65,24 @@ const catalog = () => {
   return (
     <>
       <br />
-      <dir></dir>
+      
       <Container fluid='md'>
         <Row className='search'>
-          <Col lg={3}>
+          <Col xs={4} sm={4} md={3} lg={3}>
             <Select placeholder='Filtrar por categoría' options={optionsSelect} onChange={(selected) => setSelectedCategory(selected)}
             >
-            </Select><br />
+            </Select>
           </Col>
 
-          <Col lg={3}>
+          <Col xs={4} sm={4} md={1} lg={2}>
             <Button className='resetFilter' onClick={resetFilter} size='sm'>Deshacer filtro</Button>
           </Col>
 
-          <Col lg={3}>
+          <Col xs={2} md={4} lg={2}>
             <input type="text" className='search' placeholder='Búsqueda...' ref={searchValue} onChange={handleSearch} />
 
           </Col>
-          <br />
-          <br />
+          
         </Row>
         <Row xs={4} md={4} lg={8} xl={12}>
           {
@@ -92,7 +91,7 @@ const catalog = () => {
                 <>
                   {product.state == true ?
 
-                    <Col xs={12} md={6} lg={3} key={product.id}>
+                    <Col xs={11} md={6} lg={3} key={product.id}>
                       <Card className="Customcard">
                         <Card.Img variant="top" src={product.image} className="custom-card-img" />
                         <Card.Body>

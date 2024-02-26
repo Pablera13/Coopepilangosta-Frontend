@@ -83,10 +83,10 @@ const login = () => {
               </Form.Group>
             </Col>
           </Row>
-          <Row className='buttonsRow'>
+          <Row>
             <Col lg={7} sm={6}>
 
-              <Button onClick={handleLogin}>
+              <Button className='BtnStar' onClick={handleLogin}>
                 {
                   loginLoading ? (<Spinner animation="border" variant="light" size='sm' />) : ("")
                 }
@@ -95,9 +95,9 @@ const login = () => {
             </Col>
 
             <Col lg={5} sm={3}>
-              <NavLink className={'btn btn-info'} to={'/registerCostumer'}>
+              <Button className='BtnStar' href={'/registerCostumer'}>
                 Registrarme
-              </NavLink>
+              </Button>
             </Col>
           </Row>
           <br />
