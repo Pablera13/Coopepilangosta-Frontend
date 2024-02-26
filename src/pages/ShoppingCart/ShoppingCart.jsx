@@ -342,8 +342,8 @@ const ShoppingCart = () => {
                       <Form.Label>Dirección de Envío</Form.Label>
                       <Form.Control type="text" defaultValue={user.costumer.address} ref={Address} />
                     </Form.Group>
-                    <Button variant="primary" onClick={saveProducerOrder}>Realizar pedido</Button>
-                    <NavLink to={`/home`} className="btn btn-success btn-main btn-square btn-block mt-2">Seguir comprando</NavLink>
+                    <Button variant="primary" className="BtnTrash" onClick={saveProducerOrder}>Realizar pedido</Button>
+                    <NavLink to={`/home`} className="BtnUpdate">Seguir comprando</NavLink>
                   </div>
                   <div className="col-md-6">
                     <h5 className="card-title">Detalle de Envío</h5>
