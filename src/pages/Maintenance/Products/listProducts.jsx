@@ -82,40 +82,40 @@ const listProducts = () => {
     <Container>
       <h2 className="text-center">Productos</h2>
       <br></br>
-        
-        <Form>
-          <Row className="mb-3">
 
-          <Col md={3}>
-          <AddProductModal />
+      <Form>
+        <Row className="mb-3">
+
+          <Col xs={12} md={3}>
+            <AddProductModal />
           </Col>
 
-            <Col md={3}>
-              <Form.Label>Buscar</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Por nombre, unidad comercial o estado..."
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </Col>
+          <Col xs={10} md={3}>
+            <Form.Label>Buscar</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Por nombre, unidad comercial o estado..."
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </Col>
 
-            <Col md={3}>
-              <Form.Label>Filtrar por estado</Form.Label>
-              <Form.Select onChange={(e) => setFilterState(e.target.value === "true" ? true : e.target.value === "false" ? false : null)}>
-                <option value="">Todos</option>
-                <option value="true">Activo</option>
-                <option value="false">Inactivo</option>
-              </Form.Select>
-            </Col>
+          <Col xs={10} md={3}>
+            <Form.Label>Filtrar por estado</Form.Label>
+            <Form.Select onChange={(e) => setFilterState(e.target.value === "true" ? true : e.target.value === "false" ? false : null)}>
+              <option value="">Todos</option>
+              <option value="true">Activo</option>
+              <option value="false">Inactivo</option>
+            </Form.Select>
+          </Col>
 
-          </Row>
-        </Form>
+        </Row>
+      </Form>
 
 
-      <Col xs={8} md={2} lg={12}>
+      <Col xs={10} md={2} lg={12}>
         {Products ? (
           <Row>
-            <Table className='TableProducts' striped bordered hover variant="light" >
+            <Table className='TableProducts' striped bordered hover variant="light" responsive>
               <thead>
                 <tr className='TblProducts'>
                   <th>Código</th>

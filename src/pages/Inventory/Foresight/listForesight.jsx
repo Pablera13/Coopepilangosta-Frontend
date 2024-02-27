@@ -53,29 +53,37 @@ const listForesight = () => {
           </div>
           <br />
         </Row>
-        
+
 
         <Stack direction="horizontal" gap={3}>
-          <h3>Seleccione un producto</h3>
-          <Select
-          
-            options={optionsProduct}
-            ref={product}
-            onChange={(selectedOption) => setSelectedProduct(selectedOption)}
-            placeholder="Seleccione..."
-          ></Select>
-        
-          <Button
-            className="BtnConsult"
-            variant="info"
-            size="sm"
-            onClick={handleConsult}
-          >
-            Consultar previsiones
-          </Button>
-          <div className="vr" />
-          <AddForesight />
+          <Row>
+            <Col lg={3}>
+              <h3>Seleccione un producto</h3>
+            </Col>
+            <Col lg={3}>
+              <Select
+
+                options={optionsProduct}
+                ref={product}
+                onChange={(selectedOption) => setSelectedProduct(selectedOption)}
+                placeholder="Seleccione..."
+              ></Select>
+            </Col>
+            <Col>
+              <Button
+                className="BtnConsult"
+                variant="info"
+                size="sm"
+                onClick={handleConsult}
+              >
+                Consultar previsiones
+              </Button>
+              <div className="vr" />
+              <AddForesight />
+            </Col>
+          </Row>
         </Stack>
+
 
         {ForesightConsult != null ? (
           <>
@@ -83,7 +91,8 @@ const listForesight = () => {
               <>
                 <div className="foresight-details">
                   <Row className="justify-content-md-center">
-                    <Card style={{ width: "18rem" }}>
+                    <Col xs={12} sm={4} md={4}>
+                    <Card>
                       <Card.Body>
                         <Card.Title>Plazo de la prevision</Card.Title>
                         <ListGroup className="list-group-flush">
@@ -97,29 +106,29 @@ const listForesight = () => {
                         </ListGroup>
                       </Card.Body>
                     </Card>
-
-                    <Col lg={5}>
+                    </Col>
+                    <Col xs={12} sm={8} md={6} lg={5}>
                       <Card>
                         <Card.Title>Productores para el plazo</Card.Title>
                         <ListGroup key={ForesightConsult.id}>
                           {ForesightConsult.foresightproducers != null
                             ? ForesightConsult.foresightproducers.map(
-                                (fproducer) => (
-                                  <>
-                                    <Card.Body>
-                                      <ListGroup.Item key={fproducer.id}>
-                                        {fproducer.producer.name +
-                                          " " +
-                                          fproducer.producer.lastname1 +
-                                          ", Telefono: " +
-                                          fproducer.producer.phoneNumber}
-                                      </ListGroup.Item>
-                                    </Card.Body>
-                                  </>
-                                )
+                              (fproducer) => (
+                                <>
+                                  <Card.Body>
+                                    <ListGroup.Item key={fproducer.id}>
+                                      {fproducer.producer.name +
+                                        " " +
+                                        fproducer.producer.lastname1 +
+                                        ", Telefono: " +
+                                        fproducer.producer.phoneNumber}
+                                    </ListGroup.Item>
+                                  </Card.Body>
+                                </>
                               )
+                            )
                             : "No se agregaron productores del producto: " +
-                              selectedProduct.label}
+                            selectedProduct.label}
 
                           <UpdateForesight props={ForesightConsult} />
                         </ListGroup>

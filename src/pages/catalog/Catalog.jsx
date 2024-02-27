@@ -67,19 +67,19 @@ const catalog = () => {
       <br />
       
       <Container fluid='md'>
-        <Row className='search'>
-          <Col xs={4} sm={4} md={3} lg={3}>
+        <Row className='searchContainer'>
+          <Col xs={6} sm={4} md={3} lg={3}>
             <Select placeholder='Filtrar por categoría' options={optionsSelect} onChange={(selected) => setSelectedCategory(selected)}
             >
             </Select>
           </Col>
 
-          <Col xs={4} sm={4} md={1} lg={2}>
+          <Col xs={6} sm={4} md={3} lg={2}>
             <Button className='resetFilter' onClick={resetFilter} size='sm'>Deshacer filtro</Button>
           </Col>
 
-          <Col xs={2} md={4} lg={2}>
-            <input type="text" className='search' placeholder='Búsqueda...' ref={searchValue} onChange={handleSearch} />
+          <Col xs={12} sm={3} md={4} lg={2}>
+            <input type="text" placeholder='Búsqueda...' ref={searchValue} onChange={handleSearch}/>
 
           </Col>
           
