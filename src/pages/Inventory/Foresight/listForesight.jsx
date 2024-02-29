@@ -57,10 +57,10 @@ const listForesight = () => {
 
         <Stack direction="horizontal" gap={3}>
           <Row>
-            <Col lg={3}>
-              <h3>Seleccione un producto</h3>
+            <Col  lg={3}>
+              <h3>Producto a Consultar</h3>
             </Col>
-            <Col lg={3}>
+            <Col lg={2}>
               <Select
 
                 options={optionsProduct}
@@ -69,7 +69,7 @@ const listForesight = () => {
                 placeholder="Seleccione..."
               ></Select>
             </Col>
-            <Col>
+            <Col >
               <Button
                 className="BtnConsult"
                 variant="info"

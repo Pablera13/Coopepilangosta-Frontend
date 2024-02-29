@@ -63,11 +63,11 @@ const ListInventories = () => {
       <Container>
         <h2 className="text-center">Existencias</h2>
         <br></br>
-        <Col xs={8} md={10} lg={12}>
+        <Col xs={12} md={10} lg={12}>
         {
         productsData !=null?(
           <Row>
-            <Table striped bordered hover variant="light">
+            <Table striped bordered hover variant="light" responsive>
               <thead>
                 <tr>
                   {/* <th>Imagen</th> */}

@@ -58,7 +58,7 @@ const listProducts = () => {
   const showAlert = (id) => {
     swal({
       title: 'Eliminar',
-      text: '¿Está seguro de que desea eliminar esta valoración?',
+      text: '¿Está seguro de que desea eliminar este producto?',
       icon: 'warning',
       buttons: ['Cancelar', 'Aceptar'],
     }).then((answer) => {
@@ -66,7 +66,7 @@ const listProducts = () => {
         deleteProduct(id);
         swal({
           title: 'Eliminado',
-          text: 'La valoración ha sido eliminada',
+          text: 'El producto ha sido eliminada',
           icon: 'success',
         });
         setTimeout(function () {
@@ -90,7 +90,7 @@ const listProducts = () => {
             <AddProductModal />
           </Col>
 
-          <Col xs={10} md={3}>
+          <Col xs={12} md={3}>
             <Form.Label>Buscar</Form.Label>
             <Form.Control
               type="text"
@@ -99,7 +99,7 @@ const listProducts = () => {
             />
           </Col>
 
-          <Col xs={10} md={3}>
+          <Col xs={12} md={3}>
             <Form.Label>Filtrar por estado</Form.Label>
             <Form.Select onChange={(e) => setFilterState(e.target.value === "true" ? true : e.target.value === "false" ? false : null)}>
               <option value="">Todos</option>
@@ -112,7 +112,7 @@ const listProducts = () => {
       </Form>
 
 
-      <Col xs={10} md={2} lg={12}>
+      <Col xs={12} md={2} lg={12}>
         {Products ? (
           <Row>
             <Table className='TableProducts' striped bordered hover variant="light" responsive>

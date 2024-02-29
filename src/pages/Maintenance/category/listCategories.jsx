@@ -92,10 +92,10 @@ const listCategories = () => {
 
         </Form>
 
-      <Col xs={8} md={2} lg={12}>
+      <Col xs={12} md={2} lg={12}>
         {Categories ? (
           <Row>
-            <Table className='TableCategories' striped bordered hover variant="light">
+            <Table className='TableCategories' striped bordered hover variant="light" responsive>
               <thead>
                 <tr className='TblCategories'>
                   <th>Nombre de la categoría</th>

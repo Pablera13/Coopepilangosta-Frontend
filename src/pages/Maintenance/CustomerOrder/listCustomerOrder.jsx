@@ -141,16 +141,18 @@ const listCustomerOrder = () => {
       <h2 className="text-center">Pedidos Recibidos</h2>
       <div className="buttons">
       </div>
-      <Col xs={8} md={2} lg={12}>
+      <Row>
+        <Col xs={12}>
+          <span>Seleccione los pedidos que desea ver:</span>
+          <Select onChange={(selected) => setSelectedOption(selected)} options={optionsSelect} />
+        </Col>
+      </Row>
+      <br></br>
 
-        <span>Seleccione los pedidos que desea ver:</span>
-        <Select onChange={(selected) => setSelectedOption(selected)} options={optionsSelect} />
-
-        <br></br>
-
-        {customerorderData ? (
-          <Row>
-            <Table striped bordered hover variant="light">
+      {customerorderData ? (
+        <Row>
+          <Col xs={12}>
+            <Table striped bordered hover variant="light" responsive>
               <thead>
                 <tr>
                   <th>Número de pedido</th>
@@ -180,7 +182,7 @@ const listCustomerOrder = () => {
                     </td>
                     <td>{CustomerOrder.stage}</td>
                     <td>
-                      <UpdateCustomerOrderModal props={CustomerOrder.id}/>
+                      <UpdateCustomerOrderModal props={CustomerOrder.id} />
 
                       {/* <Button
                         onClick={() => navigate(`/editCustomerOrder/${CustomerOrder.id}`)}
@@ -209,6 +211,8 @@ const listCustomerOrder = () => {
                 ))}
               </tbody>
             </Table>
+          </Col>
+          <Col>
             <ReactPaginate
               previousLabel="Anterior"
               nextLabel="Siguiente"
@@ -221,11 +225,12 @@ const listCustomerOrder = () => {
               subContainerClassName="pages pagination"
               activeClassName="active"
             />
-          </Row>
-        ) : (
-          "Cargando"
-        )}
-      </Col>
+          </Col>
+        </Row>
+      ) : (
+        "Cargando"
+      )}
+
     </Container>
   );
 };
