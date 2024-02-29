@@ -23,6 +23,10 @@
 
 } 
 
+.LoginButtonsContainer{
+    display: flex;
+    align-items: center;
+}
 
 .loginContainer label {
     size: 10px;

@@ -150,7 +150,7 @@ const addForesight = () => {
           <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Row>
-                <Col xs={6} md={8} lg={10}>
+                <Col xs={12} md={8} lg={12}>
                   <h3 className="text-center">Seleccione un producto</h3><hr />
                   <Select options={optionsProduct} onChange=
                     {(selectedOption) => setSelectedProduct(selectedOption)} placeholder='Seleccione un producto' isDisabled={isProductDisabled}>
@@ -161,7 +161,7 @@ const addForesight = () => {
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Row>
-                <Col xs={6} md={8} lg={10}>
+                <Col xs={12} md={8} lg={12}>
                   <h3 className="text-center">Seleccione el productor</h3><hr />
                   <Select options={optionsProducer} onChange=
                     {(selectedOption) => setSelecterProducer(selectedOption)} placeholder='Busqueda'>

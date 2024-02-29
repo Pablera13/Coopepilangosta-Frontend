@@ -59,7 +59,7 @@ const listProducts = () => {
   const showAlert = (id) => {
     swal({
       title: 'Eliminar',
-      text: '¿Está seguro de que desea eliminar esta valoración?',
+      text: '¿Está seguro de que desea eliminar este producto?',
       icon: 'warning',
       buttons: ['Cancelar', 'Aceptar'],
     }).then((answer) => {
@@ -67,7 +67,7 @@ const listProducts = () => {
         deleteProduct(id);
         swal({
           title: 'Eliminado',
-          text: 'La valoración ha sido eliminada',
+          text: 'El producto ha sido eliminada',
           icon: 'success',
         });
         setTimeout(function () {
@@ -83,40 +83,40 @@ const listProducts = () => {
     <Container>
       <h2 className="text-center">Productos</h2>
       <br></br>
-        
-        <Form>
-          <Row className="mb-3">
 
-          <Col md={3}>
-          <AddProductModal />
+      <Form>
+        <Row className="mb-3">
+
+          <Col xs={12} md={3}>
+            <AddProductModal />
           </Col>
 
-            <Col md={3}>
-              <Form.Label>Buscar</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Por nombre, unidad comercial o estado..."
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </Col>
+          <Col xs={12} md={3}>
+            <Form.Label>Buscar</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Por nombre, unidad comercial o estado..."
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </Col>
 
-            <Col md={3}>
-              <Form.Label>Filtrar por estado</Form.Label>
-              <Form.Select onChange={(e) => setFilterState(e.target.value === "true" ? true : e.target.value === "false" ? false : null)}>
-                <option value="">Todos</option>
-                <option value="true">Activo</option>
-                <option value="false">Inactivo</option>
-              </Form.Select>
-            </Col>
+          <Col xs={12} md={3}>
+            <Form.Label>Filtrar por estado</Form.Label>
+            <Form.Select onChange={(e) => setFilterState(e.target.value === "true" ? true : e.target.value === "false" ? false : null)}>
+              <option value="">Todos</option>
+              <option value="true">Activo</option>
+              <option value="false">Inactivo</option>
+            </Form.Select>
+          </Col>
 
-          </Row>
-        </Form>
+        </Row>
+      </Form>
 
 
-      <Col xs={8} md={2} lg={12}>
+      <Col xs={12} md={2} lg={12}>
         {Products ? (
           <Row>
-            <Table className='Table'>
+            <Table className='Table' striped bordered hover variant="light" >
               <thead>
                 <tr>
                   <th>Código</th>

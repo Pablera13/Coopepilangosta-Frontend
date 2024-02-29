@@ -7,7 +7,7 @@
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    background-color: #f8f8f8;
+    background-color: #ffffff;
   }
   
   /* Estilos para el título */
@@ -70,4 +70,4 @@
   .editButtons a:hover {
     color: #0056b3;
   }
-  
+

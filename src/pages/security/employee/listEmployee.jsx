@@ -102,7 +102,7 @@ const listEmployee = () => {
         </Row>
         <br />
         <Row>
-            <Table striped hover variant="light">
+            <Table striped hover variant="light" responsive>
                 <thead className="bg-dark text-white">
                     <tr >
                         <th>Cédula</th>

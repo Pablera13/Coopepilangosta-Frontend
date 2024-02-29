@@ -64,9 +64,9 @@ const login = () => {
         </Row>
         <Form>
           <Row>
-            <Col>
-              <Form.Group className="mb-3" controlId="formPlaintextEmail">
-                <Form.Label column sm="2" className='labelLogin'>
+            <Col xs={12} lg={12}>
+              <Form.Group cla2ssName="mb-3" controlId="formPlaintextEmail">
+                <Form.Label className='labelLogin'>
                   Correo
                 </Form.Label>
                 <Form.Control type='text' placeholder="Ingrese su correo" ref={email} />
@@ -74,17 +74,17 @@ const login = () => {
             </Col>
           </Row>
           <Row>
-            <Col>
+            <Col lg={12}> 
               <Form.Group className="mb-3" controlId="formPlaintextPassword">
-                <Form.Label column sm="2" className='labelLogin'>
+                <Form.Label className='labelLogin'>
                   Contraseña
                 </Form.Label>
                 <Form.Control type="password" placeholder="Ingrese su Contraseña" ref={password} />
               </Form.Group>
             </Col>
           </Row>
-          <Row>
-            <Col lg={7} sm={6}>
+          <Row className='justify-content-md-center'>
+            <Col xs={12} lg={7}>
 
               <Button className='BtnStar' onClick={handleLogin}>
                 {
@@ -94,7 +94,7 @@ const login = () => {
                 Iniciar sesión</Button>
             </Col>
 
-            <Col lg={5} sm={3}>
+            <Col xs={12} lg={5} sm={3}>
               <Button className='BtnStar' href={'/registerCostumer'}>
                 Registrarme
               </Button>

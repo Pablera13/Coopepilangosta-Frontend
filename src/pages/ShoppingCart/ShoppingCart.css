@@ -8,25 +8,9 @@
       font-size: 15px;
     }
 
-    hr.vertical {
-      width: 1px; /* Ancho de la línea vertical */
-      height: 100px; /* Altura de la línea vertical */
-      transform: rotate(90deg); /* Rotar la línea para que sea vertical */
-      margin: 0 auto; /* Opcional: centrar la línea verticalmente */
-    }
-    
-
-    table.table-shopping-cart tbody tr:hover {
-      background-color: transparent; /* Cambia el color de fondo al valor deseado o 'transparent' para eliminarlo */
-    }
-    
     /* Estilo para quitar el borde de las columnas */
     table.table-shopping-cart th, table.table-shopping-cart td {
       border: none; /* Quita el borde de las celdas de la tabla */
-    }
-
-    .shopping-cart-container {
-      margin-top: 20px;
     }
     
     .empty-cart-message {

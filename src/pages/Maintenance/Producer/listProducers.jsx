@@ -94,7 +94,7 @@ const listProducers = () => {
         </Row>
       </Form>
 
-      <Col xs={8} md={2} lg={12}>
+      <Col xs={12} md={2} lg={12}>
         {Producers ? (
           <Row>
             <Table className='Table' striped bordered hover variant="light">

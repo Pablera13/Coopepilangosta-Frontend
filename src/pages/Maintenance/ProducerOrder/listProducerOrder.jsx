@@ -8,8 +8,10 @@ import { getProducerOrder } from '../../../services/producerorderService';
 import { getPurchase } from '../../../services/purchaseService';
 import Select from 'react-select';
 import PrintProducerOrder from './actions/printProducerOrder.jsx';
+import AddProducerOrderModal from './actions/addProducerOrderModal.jsx';
 
 import styles from './listProducerOrder.css'
+import CheckEntryModal from '../../Inventory/Entries/actions/checkEntryModal.jsx';
 
 import ReactPaginate from 'react-paginate';
 
@@ -116,29 +118,30 @@ const listProducerOrders = () => {
   return (
     <Container>
       <h2 className="text-center">Pedidos a productores</h2>
-      <div className="buttons">
-      </div>
-      <Col xs={8} md={2} lg={12}>
 
-        <span>Seleccione los pedidos que desea ver:</span>
-        <Select onChange={(selected) => setSelectedOption(selected)} options={optionsSelect} /><Col>
-          <br></br>
-
-          <Button className='BtnAddProducerModal' onClick={() => navigate("/addProducerOrder")}size='sm'>
+      <Row>
+        <Col xs={8} lg={8}>
+          <span>Seleccione los pedidos que desea ver:</span>
+          <Select onChange={(selected) => setSelectedOption(selected)} options={optionsSelect} />
+          {/* <Button className='BtnAddProducerModal' onClick={() => navigate("/addProducerOrder")}size='sm'>
             Crear Pedido
-          </Button>
-
-
-
-
-
+          </Button> */}
+        </Col>
+        <Col xs={2} md={3}>
+          <AddProducerOrderModal />
         </Col>
 
-        <br></br>
 
-        {producerorderData ? (
-          <Row>
-            <Table className='TableProducerOrder' striped bordered hover variant="light">
+
+
+
+      </Row>
+      <br></br>
+
+      {producerorderData ? (
+        <Row>
+          <Col xs={12}>
+            <Table className='TableProducerOrder' striped bordered hover variant="light" responsive>
               <thead>
                 <tr className='TblProducerOrder'>
                   <th>Número de pedido</th>
@@ -167,17 +170,15 @@ const listProducerOrders = () => {
                     </td>
                     <td>
 
-                    <Button className='BtnEdit' onClick={() => navigate(`/editProducerOrder/${ProducerOrder.id}`)}size='sm'>
+                      <Button className='BtnEdit' onClick={() => navigate(`/editProducerOrder/${ProducerOrder.id}`)} size='sm'>
                         Editar
                       </Button>
 
                       {ProducerOrder.deliveredDate != "0001-01-01T00:00:00" ? (
-                        <Button className='BtnAdd'  conClick={() => navigate(`/checkProducerOrder/${ProducerOrder.id}`)}size='sm'>
-                          Ingresar
-                        </Button>
+                        <CheckEntryModal props={ProducerOrder} />
                       ) : null}
 
-                      <Button className='BtnTrash' onClick={() => showAlert(ProducerOrder.id)}size='sm'>
+                      <Button className='BtnTrash' onClick={() => showAlert(ProducerOrder.id)} size='sm'>
                         Eliminar
                       </Button>
 
@@ -199,23 +200,24 @@ const listProducerOrders = () => {
                 ))}
               </tbody>
             </Table>
-            <ReactPaginate
-              previousLabel="Anterior"
-              nextLabel="Siguiente"
-              breakLabel="..."
-              pageCount={pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={handlePageClick}
-              containerClassName="pagination"
-              subContainerClassName="pages pagination"
-              activeClassName="active"
-            />
-          </Row>
-        ) : (
-          "Cargando"
-        )}
-      </Col>
+          </Col>
+          <ReactPaginate
+            previousLabel="Anterior"
+            nextLabel="Siguiente"
+            breakLabel="..."
+            pageCount={pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageClick}
+            containerClassName="pagination"
+            subContainerClassName="pages pagination"
+            activeClassName="active"
+          />
+        </Row>
+      ) : (
+        "Cargando"
+      )}
+
     </Container>
   );
 };

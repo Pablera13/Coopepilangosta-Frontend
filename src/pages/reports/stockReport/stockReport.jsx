@@ -53,7 +53,7 @@ const stockReport = () => {
 
   return (
 
-      <Container>
+    <Container>
       <h2 className="text-center">Historial de Inventario</h2>
       <br></br>
 
@@ -90,54 +90,54 @@ const stockReport = () => {
         </Row>
       </Form>
 
-     <Col xs={8} md={2} lg={12}>
+      <Col xs={12} md={2} lg={12}>
         {stocksData ? (
           <Row>
-            <Table className='TableProducts' striped bordered hover variant="light" >
-        <thead>
-          <tr>
-            <th>Producto</th>
-            <th>Fecha</th>
-            <th>Inicial</th>
-            <th>Modificado</th>
-            <th>Motivo</th>
-            <th>Usuario</th>
-          </tr>
-        </thead>
-        <tbody>
-          {paginatedStocks.map((stock) => (
-            <tr key={stock.Id}>
-              <td>{stock.productName}</td>
-              <td>{(format(new Date(stock.cambioFecha), "dd-MM-yyyy"))}</td>
-              <td>{stock.oldStock}</td>
-              <td>{stock.newStock}</td>
-              <td>{stock.motive}</td>
-              <td>{stock.email}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-      <div className='Pagination-Container'>
-      <ReactPaginate
-        previousLabel={'Anterior'}
-        nextLabel={'Siguiente'}
-        breakLabel={'...'}
-        pageCount={pageCount}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={handlePageClick}
-        containerClassName={'pagination'}
-        subContainerClassName={'pages pagination'}
-        activeClassName={'active'}
-      />
-    </div>
-  </Row>
-  ) : (
-    "Cargando"
-  )}
-</Col>
-</Container>
-);
+            <Table className='TableProducts' striped bordered hover variant="light" responsive>
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Fecha</th>
+                  <th>Inicial</th>
+                  <th>Modificado</th>
+                  <th>Motivo</th>
+                  <th>Usuario</th>
+                </tr>
+              </thead>
+              <tbody>
+                {paginatedStocks.map((stock) => (
+                  <tr key={stock.Id}>
+                    <td>{stock.productName}</td>
+                    <td>{(format(new Date(stock.cambioFecha), "dd-MM-yyyy"))}</td>
+                    <td>{stock.oldStock}</td>
+                    <td>{stock.newStock}</td>
+                    <td>{stock.motive}</td>
+                    <td>{stock.email}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+            <div className='Pagination-Container'>
+              <ReactPaginate
+                previousLabel={'Anterior'}
+                nextLabel={'Siguiente'}
+                breakLabel={'...'}
+                pageCount={pageCount}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageClick}
+                containerClassName={'pagination'}
+                subContainerClassName={'pages pagination'}
+                activeClassName={'active'}
+              />
+            </div>
+          </Row>
+        ) : (
+          "Cargando"
+        )}
+      </Col>
+    </Container>
+  );
 };
 
 export default stockReport;

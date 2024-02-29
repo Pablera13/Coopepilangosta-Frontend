@@ -97,7 +97,7 @@ const listCostumers = () => {
             </Col>
         </Row>
         <Row>
-            <Table striped bordered hover variant="light">
+            <Table striped bordered hover variant="light" responsive>
                 <thead className="bg-dark text-white">
                     <tr >
                         <th>Cédula jurídica</th>

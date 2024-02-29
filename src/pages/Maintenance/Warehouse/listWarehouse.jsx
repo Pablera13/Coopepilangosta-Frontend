@@ -133,16 +133,10 @@ const listWarehouse = () => {
         </Row>
       </Form>
 
-      <Col xs={8} md={2} lg={12}>
+      <Col xs={12} md={2} lg={12}>
         {Warehouses ? (
           <Row>
-            <Table
-              className="Table"
-              striped
-              bordered
-              hover
-              variant="light"
-            >
+            <Table className='Table' striped bordered hover variant="light"responsive >
               <thead>
                 <tr >
                   <th>Código</th>

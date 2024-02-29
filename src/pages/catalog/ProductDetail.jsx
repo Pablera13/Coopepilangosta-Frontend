@@ -5,6 +5,7 @@ import { getProductById } from '../../services/productService';
 import { getCategoryById } from '../../services/categoryService';
 import { getProductCostumerById } from '../../services/productCostumerService.js';
 import { getSingleProductCostumerById } from '../../services/productCostumerService.js';
+import { getVolumeDiscount } from '../../services/volumeDiscount.js';
 import { getStarsAverage } from '../../services/reviewService';
 
 import Select from 'react-select';
@@ -37,9 +38,10 @@ const ProductDetail = () => {
   const [categoryRequest, setCategory] = useState(null);
   const [cotizacionRequest, setCotizacionRequest] = useState([]);
   const [cotizacionOptions, setCotizacionOptions] = useState([]);
-  const [selectedCotizacion, setSelectedCotizacion] = useState([]);
+  // const [selectedCotizacion, setSelectedCotizacion] = useState([]);
   const [MyCotizacion, setMyCotizacion] = useState([]);
   const [FixedCotizacion, setFixedCotizacion] = useState(null);
+  const [Volumes, setVolumes] = useState(null);
 
   const [currentImage, setCurrentImage] = useState(null);
 
@@ -64,7 +66,8 @@ const ProductDetail = () => {
           finalPrice: finalPrice.toFixed(0)
         }
         setFixedCotizacion(FixedCotizacion)
-        console.log("FixedCotizacion =" + JSON.stringify(FixedCotizacion))
+        getVolumeDiscount(MyCotizacion.id, setVolumes)
+        // console.log("FixedCotizacion =" + JSON.stringify(FixedCotizacion))
       }
     }
     fetchCotizacion();
@@ -167,6 +170,7 @@ const ProductDetail = () => {
             CotizacionId: FixedCotizacion.cotizacionId,
             CostumerId: user.costumer.id,
             ProductId: productParams.idproduct,
+            PrecioInicial: FixedCotizacion.priceWithMargin,
             PrecioConMargen: FixedCotizacion.priceWithMargin,
             iva: FixedCotizacion.iva,
             PrecioFinal: FixedCotizacion.finalPrice,
@@ -177,9 +181,9 @@ const ProductDetail = () => {
             ProductUnit: FixedCotizacion.unit,
             ProductImage: productRequest.image,
             Quantity: parseInt(quantity.current.value),
+            Volumes: Volumes,
           };
           setLocalShopping((prevProducts) => [...prevProducts, newProductToCart]);
-
         }
       } else {
 
@@ -199,6 +203,7 @@ const ProductDetail = () => {
             CotizacionId: 0,
             CostumerId: user.costumer.id,
             ProductId: productParams.idproduct,
+            PrecioInicial: 0,
             ProductName: productRequest.name,
             ProductDescription: productRequest.description,
             PrecioConMargen: 0,
@@ -230,162 +235,161 @@ const ProductDetail = () => {
     <>
       {productRequest != null && categoryRequest != null ? (
         <Container className="bootdey">
-          <div className="mt-5">
-            <div className="container">
-              <div className="row">
-                <div className="col-lg-12">
-                  <Card className="cardDetails" style={{ width: '100%', height: 'auto' }}>
-                    <Card.Body>
 
-                      <Row>
+          <Row>
+            <div className="col-lg-12">
+              <Card className="cardDetails" style={{ width: '100%', height: 'auto' }}>
+                <Card.Body>
 
-                        <Col md={6}>
+                  <Row>
 
-                          <div className="ImgDetails">
-                            <Image src={currentImage} alt={productRequest.name} fluid />
-                          </div>
+                    <Col xs={9} md={6} >
 
-                          {productRequest.image != null ? (
+                      <div className="ImgDetails">
+                        <Image src={currentImage} alt={productRequest.name} fluid />
+                      </div>
 
-                            <div className="ImgFluid">
+                      {productRequest.image != null ? (
 
-                              {
-                                productRequest.image.split(',').map((image) => (
-                                  <a onClick={() => switchImage(image)}>
-                                    <Image src={image} width={'100px'}
-                                    />
-                                  </a>
+                        <div className="ImgFluid">
 
-                                ))}
-
-                            </div>
-                          ) : null}
-                        </Col>
-                        <Col md={6}>
-
-                          <h4 className="pro-d-title" >
-                            <a className="TitleProducts" style={{marginRight:'5%'}}>
-                              {productRequest.name}
-                            </a>
- 
-                              {Array.from({ length: StarsAverage }, () => (
-                                <span className="Rating">
-                                  ★
-                                </span>
-                              ))}
-
-                          </h4>
-                          <br />
-                          <form>
-
-                          </form>
-
-                          <p>
-                            {productRequest.description}
-                          </p>
-
-                          <div className="product_meta">
-                            <span className="posted_in">
-                              <strong>Categoría:</strong> <a className='CategoryName' rel="tag" href="#">
-                                {categoryRequest.name}
+                          {
+                            productRequest.image.split(',').map((image) => (
+                              <a onClick={() => switchImage(image)}>
+                                <Image src={image} width={'100px'}
+                                />
                               </a>
-                              <br />
-                            </span>
+
+                            ))}
+
+                        </div>
+                      ) : null}
+                    </Col>
+                    <Col md={6}>
+
+                      <h4 className="pro-d-title" >
+                        <a className="TitleProducts" style={{ marginRight: '5%' }}>
+                          {productRequest.name}
+                        </a>
+
+                        {Array.from({ length: StarsAverage }, () => (
+                          <span className="Rating">
+                            ★
+                          </span>
+                        ))}
+
+                      </h4>
+                      <br />
+                      <form>
+
+                      </form>
+
+                      <p>
+                        {productRequest.description}
+                      </p>
+
+                      <div className="product_meta">
+                        <span className="posted_in">
+                          <strong>Categoría:</strong> <a className='CategoryName' rel="tag" href="#">
+                            {categoryRequest.name}
+                          </a>
+                          <br />
+                        </span>
+
+                        <span className="tagged_as">
+                          <strong>Unidad comercial:</strong> <a className='ProductName' rel="tag" href="#">
+                            {productRequest.unit}
+                          </a>
+                        </span>
+                      </div>
+
+                      <br />
+                      {cotizacionRequest != null && cotizacionRequest.length > 0 ? (
+                        <><>
+                          <Col>
 
                             <span className="tagged_as">
-                              <strong>Unidad comercial:</strong> <a className='ProductName' rel="tag" href="#">
-                                {productRequest.unit}
+                              <strong>Seleccione su cotización</strong> <a className='ProductName' rel="tag" href="#">
                               </a>
                             </span>
-                          </div>
+                            <Select
+                              options={cotizacionOptions}
+                              placeholder='Mis cotizaciones'
+                              onChange={(selectedOption) => setCotizacion(selectedOption.value)}
+                              className="small-input" />
+                          </Col>
 
+                        </></>
+
+                      ) : (
+
+                        <span className="posted_in">
+                          <strong>Consulta por nuestras cotizaciones</strong> <a className='CategoryName' rel="tag" href="#">
+                          </a>
                           <br />
-                          {cotizacionRequest != null && cotizacionRequest.length > 0 ? (
-                            <><>
-                              <Col>
+                        </span>
 
-                                <span className="tagged_as">
-                                  <strong>Seleccione su cotización</strong> <a className='ProductName' rel="tag" href="#">
-                                  </a>
-                                </span>
-                                <Select
-                                  options={cotizacionOptions}
-                                  placeholder='Mis cotizaciones'
-                                  onChange={(selectedOption) => setCotizacion(selectedOption.value)}
-                                  className="small-input" />
-                              </Col>
+                      )}
 
-                            </></>
-
-                          ) : (
-
+                      {FixedCotizacion ? (
+                        <>
+                          <br></br>
+                          <Col>
                             <span className="posted_in">
-                              <strong>Consulta por nuestras cotizaciones</strong> <a className='CategoryName' rel="tag" href="#">
+                              <strong>Precio unitario: ₡{FixedCotizacion.finalPrice}</strong> <a className='CategoryName' rel="tag" href="#">
                               </a>
                               <br />
                             </span>
+                          </Col>
+                        </>
 
-                          )}
+                      ) : (""
 
-                          {FixedCotizacion ? (
-                            <>
-                              <br></br>
-                              <Col>
-                                <span className="posted_in">
-                                  <strong>Precio unitario: ₡{FixedCotizacion.finalPrice}</strong> <a className='CategoryName' rel="tag" href="#">
-                                  </a>
-                                  <br />
-                                </span>
-                              </Col>
-                            </>
-
-                          ) : (""
-
-                          )}
+                      )}
 
 
 
-                          <br />
-                          <div className="form-group">
-                            <label >Ingrese la cantidad</label>
+                      <br />
+                      <div className="form-group">
+                        <label >Ingrese la cantidad</label>
 
-                            <Form.Control
-                              type="number"
-                              placeholder="1"
-                              className="form-control quantity"
-                              defaultValue={1}
-                              ref={quantity}
-                              min="1"
-                            />
-                          </div>
-                          <p>
-                            <br />
-                            {UserRole === 'Cliente' ? (
-                              <Button
-                                variant="danger"
-                                className="BtnStar"
-                                type="button"
-                                onClick={addToCart}
-                              >
+                        <Form.Control
+                          type="number"
+                          placeholder="1"
+                          className="form-control quantity"
+                          defaultValue={1}
+                          ref={quantity}
+                          min="1"
+                        />
+                      </div>
+                      <p>
+                        <br />
+                        {UserRole === 'Cliente' ? (
+                          <Button
+                            variant="danger"
+                            className="BtnStar"
+                            type="button"
+                            onClick={addToCart}
+                          >
 
-                                <i className="fa fa-shopping-cart"></i> Agregar al carrito
-                              </Button>
-                            ) : (
+                            <i className="fa fa-shopping-cart"></i> Agregar al carrito
+                          </Button>
+                        ) : (
 
-                              <Button
-                                variant="danger"
-                                className="BtnStar"
-                                type="button"
-                                onClick={toLogin}
-                              >
-                                <i className="fa fa-shopping-cart"></i> Inicie sesión para comprar
-                              </Button>
-                            )}
-                          </p>
-                        </Col>
-                      </Row>
+                          <Button
+                            variant="danger"
+                            className="BtnStar"
+                            type="button"
+                            onClick={toLogin}
+                          >
+                            <i className="fa fa-shopping-cart"></i> Inicie sesión para comprar
+                          </Button>
+                        )}
+                      </p>
+                    </Col>
+                  </Row>
 
-                      {/* {productParams != null? (
+                  {/* {productParams != null? (
 
                           <Listreview productid={productParams.idproduct}/>    
 
@@ -394,20 +398,19 @@ const ProductDetail = () => {
                           )} */}
 
 
-                    </Card.Body>
-                  </Card>
-                </div>
-              </div>
-              {productParams != null ? (
-
-                <Listreview productid={productParams.idproduct} />
-
-              ) : (
-                'No hay reviews'
-              )}
-
+                </Card.Body>
+              </Card>
             </div>
-          </div>
+          </Row>
+          {productParams != null ? (
+
+            <Listreview productid={productParams.idproduct} />
+
+          ) : (
+            'No hay reviews'
+          )}
+
+
         </Container>
       ) : (
         'Espere'
