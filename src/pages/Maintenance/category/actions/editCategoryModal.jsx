@@ -1,17 +1,17 @@
-import { React, useState } from 'react'
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
-import { Col, Row } from 'react-bootstrap';
-import { QueryClient, useMutation } from 'react-query';
-import { updateCategory } from '../../../../services/categoryService';
-import { useRef } from 'react';
-import swal from 'sweetalert';
-import './editCategoriesModal.css'
+import { React, useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
+import { Col, Row } from "react-bootstrap";
+import { QueryClient, useMutation } from "react-query";
+import { updateCategory } from "../../../../services/categoryService";
+import { useRef } from "react";
+import swal from "sweetalert";
+import "../../../../css/Pagination.css";
+import "../../../../css/StylesBtn.css";
 import { TiEdit } from "react-icons/ti";
 
 const editCategoryModal = (props) => {
-
   const category = props.props;
   const [validated, setValidated] = useState(false);
   const [show, setShow] = useState(false);
@@ -22,14 +22,14 @@ const editCategoryModal = (props) => {
 
   const queryClient = new QueryClient();
 
-  const mutation = useMutation('category', updateCategory, {
-    onSettled: () => queryClient.invalidateQueries('category'),
-    mutationKey: 'category',
+  const mutation = useMutation("category", updateCategory, {
+    onSettled: () => queryClient.invalidateQueries("category"),
+    mutationKey: "category",
     onSuccess: () => {
       swal({
-        title: 'Editado!',
-        text: 'Se editó la categoría',
-        icon: 'success',
+        title: "Editado!",
+        text: "Se editó la categoría",
+        icon: "success",
       });
       setTimeout(() => {
         window.location.reload();
@@ -37,7 +37,7 @@ const editCategoryModal = (props) => {
     },
   });
 
-  const categoryName = useRef()
+  const categoryName = useRef();
 
   const save = (event) => {
     const form = event.currentTarget;
@@ -60,19 +60,17 @@ const editCategoryModal = (props) => {
 
   return (
     <>
-      <Button className='BtnEditCategory' onClick={handleShow}size='sm'>
+      <Button className="BtnBrown" onClick={handleShow} size="sm">
         Editar <TiEdit />
       </Button>
 
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header  className='HdEditCategory' closeButton>
-          <Modal.Title >Editar categoría</Modal.Title>
+        <Modal.Header className="HeaderModal" closeButton>
+          <Modal.Title>Editar categoría</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form validated={validated} onSubmit={save}>
-
             <Form.Group className="mb-3" controlId="validationCustom01">
-
               <Row>
                 <Col>
                   <Form.Label>Nombre</Form.Label>
@@ -100,28 +98,35 @@ const editCategoryModal = (props) => {
                     autoFocus
                     ref={categoryName}
                   />
-                  <Form.Control.Feedback>Ingrese el nombre de la categoría</Form.Control.Feedback>
+                  <Form.Control.Feedback>
+                    Ingrese el nombre de la categoría
+                  </Form.Control.Feedback>
                 </Col>
               </Row>
             </Form.Group>
-
-
-
-
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button className='BtnSaveCategory' variant="primary" size='sm' onClick={save}>
+          <Button
+            className="BtnSave"
+            variant="primary"
+            size="sm"
+            onClick={save}
+          >
             Actualizar categoría
           </Button>
-          <Button className='BtnReturnProducts' variant="secondary" size='sm' onClick={handleClose}>
+          <Button
+            className="BtnClose"
+            variant="secondary"
+            size="sm"
+            onClick={handleClose}
+          >
             Cerrar
           </Button>
-
         </Modal.Footer>
       </Modal>
     </>
   );
-}
+};
 
-export default editCategoryModal
+export default editCategoryModal;

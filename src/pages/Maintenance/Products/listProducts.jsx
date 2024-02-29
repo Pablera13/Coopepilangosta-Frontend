@@ -11,7 +11,8 @@ import EditProductModal from './operations/editProductModal.jsx'
 import ReactPaginate from 'react-paginate';
 import { useNavigate } from 'react-router-dom';
 import { MdDelete } from "react-icons/md";
-
+import '../../../css/StylesBtn.css'
+import '../../../css/Pagination.css'
 
 const listProducts = () => {
 
@@ -115,9 +116,9 @@ const listProducts = () => {
       <Col xs={8} md={2} lg={12}>
         {Products ? (
           <Row>
-            <Table className='TableProducts' striped bordered hover variant="light" >
+            <Table className='Table'>
               <thead>
-                <tr className='TblProducts'>
+                <tr>
                   <th>Código</th>
                   <th>Nombre</th>
                   {/* <th>Descripción</th> */}
@@ -142,7 +143,7 @@ const listProducts = () => {
                   <td>
                     <EditProductModal props={product} />
 
-                    <Button className='BtnTrashProducts' onClick={() => showAlert(product.id)}>
+                    <Button className='BtnRed' onClick={() => showAlert(product.id)}>
                       Eliminar <MdDelete />
                     </Button>
 

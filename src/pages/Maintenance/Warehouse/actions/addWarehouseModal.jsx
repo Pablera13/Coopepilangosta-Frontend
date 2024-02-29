@@ -8,7 +8,8 @@ import {
   createWarehouse,
   checkWarehouseCodeAvailability,
 } from "../../../../services/warehouseService";
-
+import '../../../../css/Pagination.css'
+import '../../../../css/StylesBtn.css'
 const addWarehouseModal = () => {
   const queryClient = new QueryClient();
   const [show, setShow] = useState(false);
@@ -92,7 +93,7 @@ const addWarehouseModal = () => {
 
 
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header className="HdAddWarehouse" closeButton>
+        <Modal.Header className="HeaderModal" closeButton>
           <Modal.Title>Agregar nueva bodega</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -134,10 +135,10 @@ const addWarehouseModal = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button className="BtnSaveWarehouse" variant="primary" size="sm" onClick={saveWarehouse}>
-            Editar Bodega
+          <Button className="BtnSave" variant="primary" size="sm" onClick={saveWarehouse}>
+            Guardar Bodega
           </Button>
-          <Button className="BtnCloseWarehouse" variant="secondary" size="sm" onClick={handleClose}>
+          <Button className="BtnClose" variant="secondary" size="sm" onClick={handleClose}>
             Cerrar
           </Button>
         </Modal.Footer>

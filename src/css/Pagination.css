@@ -1,0 +1,38 @@
+ 
+.Pagination-Container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* Ajusta el margen superior según tus necesidades */
+  }
+  
+  .pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .pagination li {
+    margin: 0 5px; /* Espacio entre los elementos de la paginación */
+  }
+  
+  .pagination a {
+    text-decoration: none;
+    color: #333; /* Color del texto de la paginación */
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 10%;
+  }
+  
+  .pagination .active a {
+    background-color: #675127; /* Color de fondo del enlace activo */
+    color: #fff !important; /* Color del texto del enlace activo */
+  }
+  
+  .pagination a:hover {
+    background-color: #d89821b7 !important; /* Cambia el color de fondo al pasar el ratón sobre un enlace */
+  }
+  

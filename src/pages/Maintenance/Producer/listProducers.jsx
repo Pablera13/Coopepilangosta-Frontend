@@ -8,9 +8,10 @@ import AddProducerModal from './actions/addProducerModal.jsx';
 import { Form } from 'react-bootstrap';
 import EditProducerModal from './actions/editProducerModal';
 import ReactPaginate from 'react-paginate';
-import syles from '../Producer/listProducer.css'
+import '../../../css/StylesBtn.css'
 import { useNavigate } from 'react-router-dom';
 import { MdDelete } from "react-icons/md";
+import '../../../css/Pagination.css'
 
 const listProducers = () => {
   const { data: Producers, isLoading: ProducersLoading, isError: ProducersError } = useQuery('producer', getProducers);
@@ -96,9 +97,9 @@ const listProducers = () => {
       <Col xs={8} md={2} lg={12}>
         {Producers ? (
           <Row>
-            <Table className='TableProducer' striped bordered hover variant="light">
+            <Table className='Table' striped bordered hover variant="light">
               <thead>
-                <tr className='TblProducer'>
+                <tr>
                   <th>Cédula</th>
                   <th>Nombre Completo</th>
                   <th>Teléfono</th>
@@ -121,7 +122,7 @@ const listProducers = () => {
 
                       <EditProducerModal props={producer} />
 
-                      <Button className='BtnTrashProducers' onClick={() => showAlert(producer.id)} size='sm' >
+                      <Button className='BtnRed' onClick={() => showAlert(producer.id)} size='sm' >
                         Eliminar  <MdDelete />
                       </Button>
 

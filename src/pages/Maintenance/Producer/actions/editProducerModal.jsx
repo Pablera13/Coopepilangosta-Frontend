@@ -8,6 +8,7 @@ import { locations } from '../../../../utils/provinces'
 import Select from 'react-select'
 import './editProducerModal.css'
 import { TiEdit } from "react-icons/ti";
+import '../../../../css/StylesBtn.css'
 
 const editProducerModal = (props) => {
     const [show, setShow] = useState(false);
@@ -152,12 +153,12 @@ const editProducerModal = (props) => {
 
     return (
         <>
-            <Button className='BtnEditProducer' onClick={handleShow} size='sm'>
+            <Button className='BtnBrown' onClick={handleShow} size='sm'>
                 Editar <TiEdit />
             </Button>
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header className='HdEditProducer' closeButton>
+                <Modal.Header className='HeaderModal' closeButton>
                     <Modal.Title>Editar productor</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -305,10 +306,10 @@ const editProducerModal = (props) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                <Button className='BtnSaveProducer' variant="primary" size="sm" onClick={saveProducer}>
+                <Button className='BtnSave' variant="primary" size="sm" onClick={saveProducer}>
                             Actualizar productor
                         </Button>
-                    <Button className='BtnReturnProducer' variant="secondary" size="sm" onClick={handleClose}>
+                    <Button className='BtnClose' variant="secondary" size="sm" onClick={handleClose}>
                         Cerrar
                     </Button>
                 </Modal.Footer>

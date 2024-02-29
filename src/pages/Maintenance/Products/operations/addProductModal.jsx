@@ -14,21 +14,6 @@ const addProductModal = () => {
     const queryClient = new QueryClient();
     const [show, setShow] = useState(false);
 
-    const buttonStyle = {
-        borderRadius: '5px',
-        backgroundColor: '#e0e0e0',
-        color: '#333',
-        border: '1px solid #e0e0e0',
-        padding: '8px 12px',
-        cursor: 'pointer',
-        transition: 'background-color 0.3s',
-        minWidth: '100px',
-        fontWeight: 'bold',
-        hover: {
-            backgroundColor: '#b8a49f',
-        },
-    };
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const { data: Categories, isLoading: CategoriesLoading, isError: CategoriesError } = useQuery('category', getCategories);
@@ -143,7 +128,7 @@ const addProductModal = () => {
                               ></Button> */}
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header className='HdEditProducts' closeButton>
+                <Modal.Header className='HeaderModal' closeButton>
                     <Modal.Title>Agregar nuevo producto</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -280,10 +265,10 @@ const addProductModal = () => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='BtnSaveProducts' variant="primary" size="sm" onClick={save}>
+                    <Button className='BtnSave' variant="primary" size="sm" onClick={save}>
                         Guardar producto
                     </Button>
-                    <Button className='BtnCloseProducts' variant="secondary" size="sm" onClick={handleClose}>
+                    <Button className='BtnClose' variant="secondary" size="sm" onClick={handleClose}>
                         Cerrar
                     </Button>
 

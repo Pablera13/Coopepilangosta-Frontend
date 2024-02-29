@@ -6,7 +6,7 @@ import { createProducer,CheckCedulaProducerAvailability } from '../../../../serv
 import { locations } from '../../../../utils/provinces'
 import Select from 'react-select'
 import './addProducerModal.css';
-
+import '../../../../css/StylesBtn.css'
 const addProducerModal = () => {
     const [show, setShow] = useState(false);
     const queryClient = new QueryClient();
@@ -163,13 +163,13 @@ const addProducerModal = () => {
 
             <Button
                 onClick={handleShow}
-                className="BtnStar"
+                className="BtnSave"
             >
                 Agregar Productor
             </Button>
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header className='HdEditProducer' closeButton>
+                <Modal.Header className='HeaderModal' closeButton>
                     <Modal.Title>Agregar nuevo productor</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -250,7 +250,7 @@ const addProducerModal = () => {
                                 </Form.Group>
                             </Col>
                         </Row>
-                        <Row className="mb-3">
+                        <Row className="MnuCountry">
                         <Form.Group as={Col} md="4" controlId="validationCustom03">
                             <Form.Label>Provincia</Form.Label>
                             <Select placeholder='Provincia' options={provinciasArray}
@@ -270,7 +270,7 @@ const addProducerModal = () => {
                                 Por favor indique el canton
                             </Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group as={Col} md="4" controlId="validationCustom05">
+                        <Form.Group className="DropMenu" as={Col} md="4" controlId="validationCustom05">
                             <Form.Label>Distrito</Form.Label>
                             <Select placeholder='Distrito' options={distritosOptions}
                                 onChange={(selected)=>setSelectedDistrito(selected)}
@@ -303,10 +303,10 @@ const addProducerModal = () => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='BtnSaveProducer' variant="primary" size="sm" type="submit">
+                    <Button className='BtnSave' variant="primary" size="sm" type="submit">
                         Guardar productor
                     </Button>
-                    <Button className='BtnCloseProducer' variant="secondary" size="sm" onClick={handleClose}>
+                    <Button className='BtnClose' variant="secondary" size="sm" onClick={handleClose}>
                         Cerrar
                     </Button>
 

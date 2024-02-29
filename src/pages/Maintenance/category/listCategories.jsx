@@ -7,9 +7,10 @@ import AddCategoryModal from './actions/addCategoryModal';
 import { Form } from 'react-bootstrap';
 import EditCategoryModal from './actions/editCategoryModal';
 import ReactPaginate from 'react-paginate';
-import styles from './listCategories.css'
 import { useNavigate } from 'react-router-dom';
 import { MdDelete } from "react-icons/md";
+import '../../../css/Pagination.css'
+import '../../../css/StylesBtn.css'
 
 const listCategories = () => {
   const { data: Categories, isLoading: CategoriesLoading, isError: CategoriesError } = useQuery('category', getCategories);
@@ -95,9 +96,9 @@ const listCategories = () => {
       <Col xs={8} md={2} lg={12}>
         {Categories ? (
           <Row>
-            <Table className='TableCategories' striped bordered hover variant="light">
+            <Table className='Table' striped bordered hover variant="light">
               <thead>
-                <tr className='TblCategories'>
+                <tr>
                   <th>Nombre de la categoría</th>
                   <th>Acciones</th>
                 </tr>
@@ -109,7 +110,7 @@ const listCategories = () => {
 
                     <EditCategoryModal props={category} />
 
-                    <Button className='BtnTrashCategories' onClick={() => showAlert(category.id)} size='sm'>
+                    <Button className='BtnRed' onClick={() => showAlert(category.id)} size='sm'>
                       Eliminar <MdDelete />
                     </Button>
 
