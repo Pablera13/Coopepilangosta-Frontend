@@ -116,7 +116,7 @@ const listProducts = () => {
       <Col xs={12} md={2} lg={12}>
         {Products ? (
           <Row>
-            <Table className='Table' striped bordered hover variant="light" >
+            <Table className='Table' striped bordered hover variant="light" responsive>
               <thead>
                 <tr>
                   <th>Código</th>
