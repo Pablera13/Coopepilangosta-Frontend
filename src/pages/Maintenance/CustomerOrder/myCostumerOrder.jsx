@@ -30,7 +30,7 @@ const myCostumerOrder = () => {
                     <>
                         <Row>
                             {customerorderData ? (
-                                <Table striped bordered hover variant="light">
+                                <Table striped bordered hover variant="light" responsive>
                                     <thead>
                                         <tr>
                                             <th>Número de pedido</th>

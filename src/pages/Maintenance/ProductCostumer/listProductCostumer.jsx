@@ -130,7 +130,7 @@ const listProductCostumer = () => {
       <Col xs={8} md={2} lg={12}>
         {Cotizaciones && Cotizaciones.length > 0?(
           <Row>
-            <Table striped bordered hover variant="light">
+            <Table striped bordered hover variant="light" responsive>
               <thead>
                 <tr>
                   <th>Producto</th>
