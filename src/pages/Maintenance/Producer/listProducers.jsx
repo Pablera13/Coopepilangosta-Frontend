@@ -97,7 +97,7 @@ const listProducers = () => {
       <Col xs={12} md={2} lg={12}>
         {Producers ? (
           <Row>
-            <Table className='Table' striped bordered hover variant="light">
+            <Table className='Table' striped bordered hover variant="light" responsive>
               <thead>
                 <tr>
                   <th>Cédula</th>

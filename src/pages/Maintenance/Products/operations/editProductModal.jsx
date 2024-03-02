@@ -273,7 +273,7 @@ const editProductModal = (props) => {
                     <Form.Group className="mb-3">
                       <Form.Label>Imagen</Form.Label>
 
-                      <Table>
+                      <Table >
                         <thead>
                           <tr>
                             <th>Imagen</th>
