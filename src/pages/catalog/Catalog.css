@@ -9,6 +9,62 @@
   height: 50%;
 }
 
+
+/* Prueba zona de carga */
+.Loading{
+margin: 100px;
+
+}
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.Loading ul {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.Loading li {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 5px solid #fff;
+  border-radius: 100%;
+}
+
+.Loading li:nth-child(1) {
+  margin: -30px 0 0 -30px;
+  border-top-color: #3c3019;
+  width: 60px;
+  height: 60px;
+  animation: loading 3s infinite linear;
+}
+
+.Loading li:nth-child(2) {
+  margin: -20px 0 0 -20px;
+  border-top-color: #3c3019;
+  width: 40px;
+  height: 40px;
+  animation: loading 2s infinite linear;
+}
+
+.Loading li:nth-child(3) {
+  margin: -10px 0 0 -10px;
+  border-top-color: #3c3019;
+  width: 20px;
+  height: 20px;
+  animation: loading 1s infinite linear;
+}
+
+
 /* Estilos para las tarjetas de producto */
 
 
