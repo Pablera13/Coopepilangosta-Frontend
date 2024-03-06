@@ -224,6 +224,7 @@ const printProducerOrder = (props) => {
 
     return (
         <Button
+            className='BtnPrint'
             onClick={() => generatePDF(props.props)}
             size='sm'
         >

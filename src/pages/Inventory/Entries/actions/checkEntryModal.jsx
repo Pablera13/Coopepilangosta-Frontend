@@ -46,7 +46,7 @@ const checkEntryModal = (props) => {
 
     return (
         <>
-            <Button variant="primary" onClick={open}>
+            <Button className="BtnAdd" variant="primary" onClick={open}>
                 Ingresar
             </Button>
             <Modal
@@ -55,7 +55,7 @@ const checkEntryModal = (props) => {
                 size="lg"
                 keyboard={false}
             >
-                <Modal.Header closeButton>
+                <Modal.Header className="HeaderModal" closeButton>
                     <Modal.Title>Detalles del pedido al productor</Modal.Title>
                 </Modal.Header>
                 
@@ -65,10 +65,10 @@ const checkEntryModal = (props) => {
                             <Modal.Body>
                                 <Row className='cards-order-producer'>
                                     <Col>
-                                    <Card xs={4}>
+                                    <Card xs={6}>
                                         {/* <Card.Img variant="top" src="holder.js/100px180?text=Image cap" /> */}
                                         <Card.Body>
-                                            <Card.Title className='card-info-title'>Información general del pedido</Card.Title>
+                                            <Card.Title className='card-info-title'>Información del pedido</Card.Title>
                                             <Card.Text>
 
                                             </Card.Text>
@@ -85,7 +85,7 @@ const checkEntryModal = (props) => {
                                     </Card>
                                     </Col>
 
-                                    <Col xs={8}>
+                                    <Col xs={6}>
                                     <Card>
                                         {/* <Card.Img variant="top" src="holder.js/100px180?text=Image cap" /> */}
                                         <Card.Body>
@@ -112,7 +112,9 @@ const checkEntryModal = (props) => {
                                 <Row>
                                     <Col>
                                         <div className='purchaseProductsInformation'>
-                                            <div><h3>Productos del pedido aun no agregados a bodega</h3></div>
+                                            <div><Card.Title className='card-info-title'>Productos no agregados a bodega</Card.Title>
+</div>
+<br/>
                                             <div className='purchaseProducts'>
                                                 <Table bordered>
                                                     <thead>
@@ -172,7 +174,7 @@ const checkEntryModal = (props) => {
 
                             </Modal.Body>
                             <Modal.Footer>
-                                <Button variant="secondary" onClick={handleClose}>
+                                <Button className="BtnClose" variant="secondary" onClick={handleClose}>
                                     Cerrar
                                 </Button>
                                 

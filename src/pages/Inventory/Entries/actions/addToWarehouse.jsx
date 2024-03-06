@@ -87,7 +87,7 @@ const addToWarehouse = (props) => {
         backdrop="static"
         keyboard={false}
       >
-        <Modal.Header closeButton>
+        <Modal.Header className="HeaderModal" closeButton>
           <Modal.Title>Agregar el pedido a una bodega</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -116,10 +116,10 @@ const addToWarehouse = (props) => {
           </Container>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button  className="BtnClose" variant="secondary" onClick={handleClose}>
             Cerrar
           </Button>
-          <Button variant="primary" size='sm' onClick={saveEntry}>Guardar</Button>
+          <Button className="BtnSave" variant="primary" size='sm' onClick={saveEntry}>Guardar</Button>
         </Modal.Footer>
       </Modal>
     </>

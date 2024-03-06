@@ -118,7 +118,7 @@ const mutation = useMutation('productcostumer', createProductCostumer, {
         backdrop="static"
         keyboard={false}
       >
-        <Modal.Header closeButton>
+        <Modal.Header className='HeaderModal' closeButton>
           <Modal.Title>Agregar nueva cotización</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -167,10 +167,10 @@ const mutation = useMutation('productcostumer', createProductCostumer, {
 
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" size='sm' onClick={handleClose}>
+          <Button className='BtnClose' size='sm' onClick={handleClose}>
             Cerrar
           </Button>
-          <Button variant="primary" size='sm' onClick={saveProductCostumer}>Guardar</Button>
+          <Button className='BtnSave' size='sm' onClick={saveProductCostumer}>Guardar</Button>
         </Modal.Footer>
       </Modal>
     </>

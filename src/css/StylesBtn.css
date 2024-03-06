@@ -3,6 +3,10 @@
   color: #fff;
 }
 
+.ProfileText {
+  color: #9b7122d2;
+}
+
 .Table th{
   padding: 12px;
   border: 2px solid #111;
@@ -217,4 +221,42 @@ button.BtnClose:hover::after,
 button.BtnClose:hover::after {
   opacity: 1;
   width: 120%;
+}
+
+button.BtnAdd {
+  border-radius: 5px;
+  background-color: white;
+  border: 1px solid #e0e0e0 !important;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  min-width: 100px;
+  font-weight: bold;
+  margin: 2%;
+  font-size: 15px;
+  color: #111;
+}
+
+button.BtnAdd:hover {
+  background-color: #91a414 !important;
+  color: #fff;
+}
+
+button.BtnPrint {
+  border-radius: 5px;
+  background-color: white;
+  border: 1px solid #e0e0e0 !important;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  min-width: 100px;
+  font-weight: bold;
+  margin: 2%;
+  font-size: 15px;
+  color: #111;
+}
+
+button.BtnPrint:hover {
+  background-color: #3c3019 !important;
+  color: #fff;
 }

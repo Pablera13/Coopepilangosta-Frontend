@@ -48,6 +48,7 @@ const editProducerModal = (props) => {
     const bankAccount = useRef();
 
     const saveProducer = async (event) => {
+
         const form = event.currentTarget;
         event.preventDefault();
         if (form.checkValidity() === false) {
@@ -55,6 +56,7 @@ const editProducerModal = (props) => {
             event.stopPropagation();
         } else {
             setValidated(true);
+            
             let newProducer = {
                 id: producer.id,
                 cedula: cedula.current.value,

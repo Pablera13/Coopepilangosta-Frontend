@@ -67,7 +67,7 @@ const ListInventories = () => {
         {
         productsData !=null?(
           <Row>
-            <Table striped bordered hover variant="light" responsive>
+            <Table className='Table' striped bordered hover variant="light" responsive>
               <thead>
                 <tr>
                   {/* <th>Imagen</th> */}

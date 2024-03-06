@@ -85,73 +85,77 @@ const costumerProfile = () => {
                     <Row className='gutters'>
 
                       <Col xl={12} lg={12} md={12} sm={12} xs={12}>
-                        <h6 className='mb-2 text-primary'>Información general</h6>
+                        <h6 className='ProfileText'>Información general</h6>
+                        <br/>
                       </Col>
                       <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                         <div className='form-group'>
-                          <label htmlFor='fullName'>Nombre</label>
+                          <h5 htmlFor='fullName'>Nombre</h5>
                           <input type='text' className='form-control' id='fullName' placeholder={user.costumer.name} readOnly />
                         </div>
                       </Col>
                       <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                         <div className='form-group'>
-                          <label htmlFor='eMail'>Cédula Juridica</label>
+                          <h5 htmlFor='eMail'>Cédula Juridica</h5>
                           <input type='text' className='form-control' id='eMail' placeholder={user.costumer.cedulaJuridica} readOnly />
                         </div>
                       </Col>
                       <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                         <div className='form-group'>
-                          <label htmlFor='phone'>Provincia</label>
+                          <h5 htmlFor='phone'>Provincia</h5>
                           <input type='text' className='form-control' id='phone' placeholder={user.costumer.province} readOnly />
                         </div>
                       </Col>
                       <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                         <div className='form-group'>
-                          <label htmlFor='website'>Cantón</label>
+                          <h5 htmlFor='website'>Cantón</h5>
                           <input type='text' className='form-control' id='website' placeholder={user.costumer.canton} readOnly />
                         </div>
                       </Col>
 
                       <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                         <div className='form-group'>
-                          <label htmlFor='website'>Distrito</label>
+                          <h5 htmlFor='website'>Distrito</h5>
                           <input type='text' className='form-control' id='website' placeholder={user.costumer.district} readOnly />
                         </div>
                       </Col>
 
                       <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                         <div className='form-group'>
-                          <label htmlFor='website'>Dirección</label>
+                          <h5 htmlFor='website'>Dirección</h5>
                           <input type='text' className='form-control' id='website' placeholder={user.costumer.address} readOnly />
                         </div>
                       </Col>
 
                       <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                         <div className='form-group'>
-                          <label htmlFor='website'>Código Postal</label>
+                          <h5 htmlFor='website'>Código Postal</h5>
                           <input type='text' className='form-control' id='website' placeholder={user.costumer.postalCode} readOnly />
                         </div>
                       </Col>
 
                       <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                         <div className='form-group'>
-                          <label htmlFor='website'>Número de Cuenta</label>
+                          <h5 htmlFor='website'>Número de Cuenta</h5>
                           <input type='text' className='form-control' id='website' placeholder={user.costumer.bankAccount} readOnly />
                         </div>
                       </Col>
   
                       <Col xl={12} lg={12} md={12} sm={12} xs={12}>
-                        <h6 className='mt-3 mb-2 text-primary'>Información de Usuario</h6>
+                      <br/>
+                        <h6 className='ProfileText'>Información de Usuario</h6>
+                        <br/>
+
                       </Col>
                       <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                         <div className='form-group'>
-                          <label htmlFor='Street'>Correo Electrónico</label>
+                          <h5 htmlFor='Street'>Correo Electrónico</h5>
                           <input type='text' className='form-control' id='Street' placeholder={user.email} readOnly />
                         </div>
                       </Col>
                       <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                         <div className='form-group'>
-                          <label htmlFor='ciTy'>Nombre de Usuario</label>
+                          <h5 htmlFor='ciTy'>Nombre de Usuario</h5>
                           <input type='text' className='form-control' id='ciTy' placeholder={user.userName} readOnly />
                         </div>
                       </Col>

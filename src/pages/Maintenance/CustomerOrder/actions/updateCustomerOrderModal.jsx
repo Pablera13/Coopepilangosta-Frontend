@@ -3,13 +3,13 @@ import { QueryClient, useMutation, useQuery } from "react-query";
 import { useParams } from 'react-router-dom'
 import { format } from 'date-fns';
 import Select from 'react-select';
-import { Button, Modal } from 'react-bootstrap';
+import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import { getCostumerOrderById } from '../../../../services/costumerorderService';
 import { editCostumerOrder } from '../../../../services/costumerorderService';
-
+import { TiEdit } from "react-icons/ti";
 import { NavLink } from 'react-router-dom';
 
-import styles from './updateCustomerOrder.css'
+// import styles from './updateCustomerOrder.css'
 
 import { getCostumerOrder } from '../../../../services/costumerorderService';
 import swal from 'sweetalert';
@@ -17,29 +17,29 @@ import swal from 'sweetalert';
 const updateCustomerOrderModal = (props) => {
 
     const [show, setShow] = useState(false);
+    const [validated, setValidated] = useState(false);
+    const customerorder = props.props;
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const [CustomerOrderProps, setCustomerorderProps] = useState();
+    // const [CustomerOrderProps, setCustomerorderProps] = useState();
 
     const handleOpen = () => {
-        setCustomerorderProps(props.props)
         handleShow()
-        console.log(props.props)
     }
 
-    const customerorder = useParams();
+    // const customerorder = useParams();
     const queryClient = new QueryClient();
 
     const [customerorderRequest, setCustomerorder] = useState(null)
 
     const { data, isLoading, isError } = useQuery('producerorder', getCostumerOrder);
 
-    useEffect(() => {
-        getCostumerOrderById(CustomerOrderProps, setCustomerorder)
+    // useEffect(() => {
+    //     getCostumerOrderById(CustomerOrderProps.id, setCustomerorder)
 
-    }, [CustomerOrderProps])
+    // }, [CustomerOrderProps])
 
     const mutation = useMutation("producerorder", editCostumerOrder,
         {
@@ -91,142 +91,144 @@ const updateCustomerOrderModal = (props) => {
     const [optionStageFiltered, setStagesFiltered] = useState(null)
 
     useEffect(() => {
-        if (customerorderRequest) {
-            const isPaid = customerorderRequest.paidDate !== "0001-01-01T00:00:00";
+        if (customerorder) {
+            const isPaid = customerorder.paidDate !== "0001-01-01T00:00:00";
             setSelectedPaid(optionsPaid.find(option => option.value === isPaid));
 
-            const isDelivered = customerorderRequest.paidDelivered !== "0001-01-01T00:00:00";
+            const isDelivered = customerorder.paidDelivered !== "0001-01-01T00:00:00";
             setSelectedDelivered(optionsDelivered.find(option => option.value === isDelivered));
 
             //Filter stages
-            const findCurrentStage = optionsStage.find(optionsStage => optionsStage.label == customerorderRequest.stage)
+            const findCurrentStage = optionsStage.find(optionsStage => optionsStage.label == customerorder.stage)
             setSelectedStage(findCurrentStage.label);
 
-            let currentState = optionsStage.find(stage => stage.label == customerorderRequest.stage)
+            let currentState = optionsStage.find(stage => stage.label == customerorder.stage)
             setStagesFiltered(optionsStage.filter(stage => stage.value <= (currentState.value + 1) && stage.value >= currentState.value))
 
         }
-    }, [customerorderRequest]);
+    }, [customerorder]);
 
 
-    const saveEdit = () => {
+    const saveEdit = async (event) => {
 
+        const form = event.currentTarget;
+        event.preventDefault();
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        } else {
+
+            setValidated(true);
         const currentDate = new Date();
         const formattedDate = format(currentDate, 'yyyy-MM-dd');
 
-        console.log("selectedStage " + selectedStage.value)
-
         let edit = {
-            id: customerorderRequest.id,
-            Total: customerorderRequest.total,
-            CostumerId: customerorderRequest.costumerId,
-            ConfirmedDate: customerorderRequest.confirmedDate,
+            id: customerorder.id,
+            Total: customerorder.total,
+            CostumerId: customerorder.costumerId,
+            ConfirmedDate: customerorder.confirmedDate,
             paidDate: selectedPaid.value == false ? "0001-01-01T00:00:00" : formattedDate,
             deliveredDate: selectedDelivered.value == false ? "0001-01-01T00:00:00" : formattedDate,
-            Detail: customerorderRequest.detail,
-            Stage: selectedStage != null ? selectedStage.label : customerorderRequest.stage,
-            address: customerorderRequest.address
+            Detail: customerorder.detail,
+            Stage: selectedStage != null ? selectedStage.label : customerorder.stage,
+            address: customerorder.address
         };
 
         mutation.mutateAsync(edit);
         console.log(edit)
         limpiarInput()
-    }
-    const limpiarInput = () => {
-        paid.current.value = "";
-        delivered.current.value = "";
-    }
-    const buttonStyle = {
-        borderRadius: '5px',
-        backgroundColor: '#e0e0e0',
-        color: '#333',
-        border: '1px solid #e0e0e0',
-        padding: '8px 12px',
-        cursor: 'pointer',
-        transition: 'background-color 0.3s',
-        minWidth: '100px',
-        fontWeight: 'bold',
-        hover: {
-          backgroundColor: '#c0c0c0',
-        },
-      };
+    }}
 
     return (
         <>
-            <Button variant="primary" onClick={handleOpen} style={{ ...buttonStyle, marginLeft: '5px', }}
-                        onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                        onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}>
-                Editar
+            <Button className='BtnBrown' onClick={handleOpen} size='sm' >
+                Editar <TiEdit />
             </Button>
-            <Modal
-                show={show}
-                onHide={handleClose}
-                backdrop="static"
-                keyboard={false}
+            
 
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title>Actualizar</Modal.Title>
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header className='HeaderModal' closeButton>
+                    <Modal.Title>Editar pedido</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className='editContainer'>
-                        <h1>Editar estados del pedido</h1>
-
-                        <div className='editProductTextFields'>
-                            <div>
-                                <span>Estado de pago:</span>
-                                <Select
+                <Form validated={validated} onSubmit={saveEdit}>
+                        <Row>
+                            <Col md={6}>
+                                <Form.Group controlId="cedula">
+                                    <Form.Label>Estado de pago</Form.Label>
+                                    <Select
                                     options={optionsPaid}
-                                    placeholder='Seleccione'
+                                    required
+                                    placeholder=
+                                    {customerorder.paidDate === "0001-01-01T00:00:00"
+                                    ? "Sin pagar"
+                                    : format(new Date(customerorder.paidDate), 'yyyy-MM-dd')}
+
+                                    defaultValue={customerorder.paidDate}
                                     name="state"
                                     id="1"
                                     ref={paid}
                                     onChange={(selectedOption) => setSelectedPaid(selectedOption)}
                                 />
-                            </div>
+                                </Form.Group>
+                            </Col>
+                        </Row>
 
-                            <div>
-                                <span>Estado de entrega:</span>
-                                <Select
+                        <Row>
+                            <Col md={6}>
+                                <Form.Group controlId="name">
+                                    <Form.Label>Estado de entrega</Form.Label>
+                                    <Select
                                     options={optionsDelivered}
-                                    placeholder='Seleccione'
+                                    required
+                                    placeholder=
+                                    {customerorder.deliveredDate === "0001-01-01T00:00:00"
+                                    ? "Sin entregar"
+                                    : format(new Date(customerorder.deliveredDate), 'yyyy-MM-dd')}
+
                                     name="state"
+                                    defaultValue={customerorder.deliveredDate}
                                     id="2"
                                     ref={delivered}
                                     onChange={(selectedOption) => setSelectedDelivered(selectedOption)}
                                 />
-                            </div>
+                                </Form.Group>
+                            </Col>
+                        </Row> 
 
-                            <div>
-                                <span>Seguimiento del pedido:</span>
-                                <Select
+                        <Row>
+                            <Col md={6}>
+                                <Form.Group controlId="name">
+                                    <Form.Label>Seguimiento del pedido</Form.Label>
+                                    <Select
                                     options={optionStageFiltered}
-                                    placeholder='Seleccione'
+                                    required
+                                    placeholder=
+                                    {customerorder.stage}
+
                                     name="state"
                                     id="3"
+                                    defaultValue={customerorder.stage}
                                     ref={stage}
                                     onChange={(selectedOption) => setSelectedStage(selectedOption)}
                                 />
-                            </div>
-                        </div>
+                                </Form.Group>
+                            </Col>
+                        </Row> 
 
-                    </div>
+                    </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button style={{ ...buttonStyle, marginLeft: '5px', }}
-                        onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                        onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor} onClick={handleClose}>
+                <Button className='BtnSave' variant="primary" size="sm" onClick={saveEdit}>
+                            Actualizar pedido
+                        </Button>
+                    <Button className='BtnClose' variant="secondary" size="sm" onClick={handleClose}>
                         Cerrar
                     </Button>
-                    <button onClick={saveEdit} className='saveChanges' style={{ ...buttonStyle, marginLeft: '5px', }}
-                        onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                        onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}>Aceptar</button>
                 </Modal.Footer>
             </Modal>
-
-
         </>
     );
 };
 
-export default updateCustomerOrderModal
+export default updateCustomerOrderModal;

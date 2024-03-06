@@ -93,7 +93,7 @@ const volumeDiscountModal = (props) => {
 
     return (
         <>
-            <Button className='xd' onClick={handleShow} size='sm'>
+            <Button className='BtnAdd' onClick={handleShow} size='sm'>
                 Volúmenes
             </Button>
 

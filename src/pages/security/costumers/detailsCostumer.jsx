@@ -16,12 +16,12 @@ const detailsCostumer = (props) => {
     
     return (
         <>
-            <Button variant="outline-primary" onClick={handleOpen} size='sm' >
+            <Button className='BtnBrown' variant="outline-primary" onClick={handleOpen} size='sm' >
                 Contactos
             </Button>
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
+                <Modal.Header className="HeaderModal" closeButton>
                     <Modal.Title>Información del cliente</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -50,7 +50,7 @@ const detailsCostumer = (props) => {
                     </Row>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button className="BtnClose" variant="secondary" onClick={handleClose}>
                         Cerrar
                     </Button>
                 </Modal.Footer>

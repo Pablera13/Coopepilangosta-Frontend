@@ -4,6 +4,7 @@ import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import { editCostumer } from '../../../../services/costumerService';
 import { useRef } from 'react';
 import { provinces } from '../../../../utils/provinces';
+import { TiEdit } from "react-icons/ti";
 
 const updateCostumer = (props) => {
     const queryClient = new QueryClient();
@@ -64,8 +65,8 @@ const updateCostumer = (props) => {
 
     return (
         <>
-            <Button variant="primary" onClick={handleShow} size="sm">
-                Editar
+            <Button className="BtnBrown" onClick={handleShow} size="sm">
+                Editar <TiEdit/>
             </Button>
 
             <Modal show={show} onHide={handleClose}>

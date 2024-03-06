@@ -10,7 +10,8 @@ import Select from 'react-select';
 import PrintProducerOrder from './actions/printProducerOrder.jsx';
 import AddProducerOrderModal from './actions/addProducerOrderModal.jsx';
 
-import styles from './listProducerOrder.css'
+import { MdDelete } from "react-icons/md";
+// import styles from './listProducerOrder.css'
 import CheckEntryModal from '../../Inventory/Entries/actions/checkEntryModal.jsx';
 
 import ReactPaginate from 'react-paginate';
@@ -141,10 +142,10 @@ const listProducerOrders = () => {
       {producerorderData ? (
         <Row>
           <Col xs={12}>
-            <Table className='TableProducerOrder' striped bordered hover variant="light" responsive>
+          <Table className='Table' striped bordered hover variant="light" responsive>
               <thead>
                 <tr className='TblProducerOrder'>
-                  <th>Número de pedido</th>
+                  <th>#</th>
                   <th>Fecha del pedido</th>
                   <th>Total</th>
                   <th>Estado del pago</th>
@@ -170,7 +171,7 @@ const listProducerOrders = () => {
                     </td>
                     <td>
 
-                      <Button className='BtnEdit' onClick={() => navigate(`/editProducerOrder/${ProducerOrder.id}`)} size='sm'>
+                      <Button className='BtnBrown' onClick={() => navigate(`/editProducerOrder/${ProducerOrder.id}`)} size='sm'>
                         Editar
                       </Button>
 
@@ -178,8 +179,9 @@ const listProducerOrders = () => {
                         <CheckEntryModal props={ProducerOrder} />
                       ) : null}
 
-                      <Button className='BtnTrash' onClick={() => showAlert(ProducerOrder.id)} size='sm'>
-                        Eliminar
+                      <Button className='BtnRed' onClick={() => showAlert(ProducerOrder.id)} size='sm'>
+                        Eliminar <MdDelete />
+
                       </Button>
 
                       {/* <Button

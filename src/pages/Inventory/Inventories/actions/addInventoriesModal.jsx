@@ -4,6 +4,7 @@ import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import swal from 'sweetalert';
 import { createStockReport } from '../../../../services/reportServices/stockreportService';
 import { editProduct } from '../../../../services/productService';
+import { TiEdit } from "react-icons/ti";
 
 const addInventoriesModal = (props) => {
 
@@ -48,8 +49,8 @@ const addInventoriesModal = (props) => {
     });
 
     useEffect(() => {
-          setInitialStock(product.stock); 
-      }, []);
+        setInitialStock(product.stock);
+    }, []);
 
     const mutationStock = useMutation('stock', createStockReport, {
         onSettled: () => queryClient.invalidateQueries('stock'),
@@ -111,15 +112,14 @@ const addInventoriesModal = (props) => {
             <Button
                 onClick={handleShow}
                 size='sm'
-                style={{ ...buttonStyle, marginLeft: '5px', }}
-                onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
+                className='BtnBrown
+'
             >
-                Editar
+                Editar <TiEdit />
             </Button>
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
+                <Modal.Header className='HeaderModal'closeButton>
                     <Modal.Title>Movimiento de inventario</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -174,10 +174,10 @@ const addInventoriesModal = (props) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" size="sm" onClick={saveEdit}>
+                    <Button className="BtnSave" variant="primary" size="sm" onClick={saveEdit}>
                         Crear movimiento
                     </Button>
-                    <Button variant="secondary" size="sm" onClick={handleClose}>
+                    <Button className="BtnClose" variant="secondary" size="sm" onClick={handleClose}>
                         Cerrar
                     </Button>
                 </Modal.Footer>
