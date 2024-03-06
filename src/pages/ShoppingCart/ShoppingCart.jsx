@@ -164,7 +164,7 @@ const ShoppingCart = () => {
                           <tr>
                             <th>Imagen</th>
                             <th>Descripción</th>
-                            <th>Cantidad</th>
+                            <th style={{ width: '10%' }}>Cantidad</th>
                             <th>Unidad</th>
                             <th>Precio</th>
                             <th>Subtotal</th>
@@ -201,12 +201,12 @@ const ShoppingCart = () => {
                                       volumesArray = Sale.Volumes;
 
                                       const initialVolume = {
-                                      id:0,
-                                      price:updatedShopping[index].PrecioInicial,
-                                      volume:1,
-                                      productCostumerId:1,
-                                      productCostumer: null
-                                    }
+                                        id: 0,
+                                        price: updatedShopping[index].PrecioInicial,
+                                        volume: 1,
+                                        productCostumerId: 1,
+                                        productCostumer: null
+                                      }
 
                                       volumesArray.push(initialVolume)
 
@@ -218,30 +218,31 @@ const ShoppingCart = () => {
                                       // console.log("volumes ordered" + JSON.stringify(volumes))
 
                                       for (let object of volumesArray) {
- 
+
                                         if (e.target.value >= object.volume) {
                                           updatedShopping[index].PrecioConMargen = object.price
                                         }
 
-                                      updatedShopping[index].TotalVenta = updatedShopping[index].PrecioFinal * parseInt(e.target.value);
-                                      updatedShopping[index].SubTotal = updatedShopping[index].PrecioConMargen * parseInt(e.target.value);
+                                        updatedShopping[index].TotalVenta = updatedShopping[index].PrecioFinal * parseInt(e.target.value);
+                                        updatedShopping[index].SubTotal = updatedShopping[index].PrecioConMargen * parseInt(e.target.value);
 
-                                      let newTotal = 0;
-                                      updatedShopping.map((sale) => (
-                                        newTotal = newTotal + sale.TotalVenta
-                                      ))
-                                      setTotalOrder(newTotal);
+                                        let newTotal = 0;
+                                        updatedShopping.map((sale) => (
+                                          newTotal = newTotal + sale.TotalVenta
+                                        ))
+                                        setTotalOrder(newTotal);
 
-                                      let newSubTotal = 0;
-                                      updatedShopping.map((sale) => (
-                                        newSubTotal = newSubTotal + sale.SubTotal
-                                      ))
-                                      setSubTotal(newSubTotal.toFixed(0));
+                                        let newSubTotal = 0;
+                                        updatedShopping.map((sale) => (
+                                          newSubTotal = newSubTotal + sale.SubTotal
+                                        ))
+                                        setSubTotal(newSubTotal.toFixed(0));
 
+                                      }
+
+                                      setLocalShopping(updatedShopping);
                                     }
-
-                                    setLocalShopping(updatedShopping);
-                                  }}}
+                                  }}
                                 />
                               </td>
                               <td>{Sale.ProductUnit}</td>
@@ -342,8 +343,7 @@ const ShoppingCart = () => {
                       <Form.Label>Dirección de Envío</Form.Label>
                       <Form.Control type="text" defaultValue={user.costumer.address} ref={Address} />
                     </Form.Group>
-                    <Button variant="primary" className="BtnTrash" onClick={saveProducerOrder}>Realizar pedido</Button>
-                    <NavLink to={`/home`} className="BtnUpdate">Seguir comprando</NavLink>
+
                   </div>
                   <div className="col-md-6">
                     <h5 className="card-title">Detalle de Envío</h5>
@@ -352,8 +352,23 @@ const ShoppingCart = () => {
                       <Form.Control as="textarea" placeholder='Ingrese el detalle del envío' rows={5} ref={Detail} />
                     </Form.Group>
                   </div>
+
                 </div>
+                
               </div>
+              <Row>
+                  <Col xs={12} lg={12}>
+                    <Button variant="primary" className="BtnTrash" onClick={saveProducerOrder}>Realizar pedido</Button>
+                    
+                  </Col>
+                  <Col lg={12}>
+                  <NavLink to={`/home`} className="BtnUpdate">Seguir comprando</NavLink>
+
+                  </Col>
+                </Row>
+                <Row>
+
+                </Row>
             </div>
           </div>
 

@@ -37,7 +37,7 @@ const listEmployee = () => {
     if(employeesloading){return <><span>Cargando...</span></>}
     if(employeesError){return <><span>Error...</span></>}
 
-    const deleteEmployee = (idEmployee) => {
+    const deleteEmployeeMethod = (idEmployee) => {
         try {
             deleteEmployee(idEmployee)
         } catch (error) {
@@ -67,8 +67,9 @@ const listEmployee = () => {
                 icon:"success"
               
               })
+              deleteEmployeeMethod(idEmployee);
               setTimeout(function(){
-                deleteEmployee(idEmployee);
+                
                 deleteUser(idUser);
                 window.location.reload();
             }, 2000)

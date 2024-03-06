@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { Modal, Col, Row, Container, Button, Form } from 'react-bootstrap'
 import { useMutation } from 'react-query';
 import { editEmployee } from '../../../../services/employeeService';
+import swal from 'sweetalert';
 const updateEmployee = (props) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -23,7 +24,16 @@ const updateEmployee = (props) => {
     {
       onSettled: () => queryClient.invalidateQueries('employee'),
       mutationKey: 'employee',
-      onSuccess: () => window.location.reload(),
+      onSuccess: () => {
+        swal('Informacion actualizada!','El registro del empleado fue actualizado exitosamente.','success')
+        setTimeout(() => {
+          window.location.reload()          
+        }, 2000);
+      }
+      ,
+      onError:()=>{
+        swal('Error','Algo salio mal durante la operacion.','error')
+      }
     })
 
   const handleUpdate = () =>{
