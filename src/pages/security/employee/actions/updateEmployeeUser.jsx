@@ -133,7 +133,7 @@ const updateEmployeeUser = (props) => {
                                 <Row>
                                     <Col>
                                         <Form.Label>Password</Form.Label>
-                                        <Form.Control required defaultValue={user.password} ref={password} />
+                                        <Form.Control required defaultValue={user.password} ref={password} disabled/>
                                     </Col>
                                     <Col>
                                         <Form.Label>Elija el rol</Form.Label>

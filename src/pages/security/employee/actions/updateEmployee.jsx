@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { Modal, Col, Row, Container, Button, Form } from 'react-bootstrap'
 import { useMutation } from 'react-query';
 import { editEmployee } from '../../../../services/employeeService';
+import swal from 'sweetalert';
 
 import { TiEdit } from "react-icons/ti";
 
