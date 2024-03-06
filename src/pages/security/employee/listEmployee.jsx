@@ -46,13 +46,13 @@ const listEmployee = () => {
       console.log(error)
     }
   }
-  const deleteUserEmployee = (idUser) => {
-    try {
-      deleteUser(idUser)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // const deleteUserEmployee = (idUser) => {
+  //   try {
+  //     deleteUser(idUser)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   const showDeleteAlert = (idEmployee, idUser) => {
     console.log("Id employee: " + idEmployee + ", Id user: " + idUser)
