@@ -28,13 +28,20 @@ const updateCostumer = (props) => {
         onSettled: () => queryClient.invalidateQueries('Costumer'),
         mutationKey: 'Costumer',
         onSuccess: () => {
-            // You can use a different way to provide feedback to the user here.
-            console.log('Edit successful');
-        },
-        onError: () => {
-            // Handle the error as needed.
-            console.log('Error editing the costumer');
-        },
+            swal({
+              title: "Creado!",
+              text: "Se creó el contacto",
+              icon: "success",
+            });
+            handleClose();
+      
+            setTimeout(function () {
+              window.location.reload();
+            }, 2000);
+          },
+          onError: () => {
+            swal("Error", "Algo salio mal...", "error");
+          },
     });
 
     const handleSubmit = async (event) => {
@@ -66,11 +73,11 @@ const updateCostumer = (props) => {
     return (
         <>
             <Button className="BtnBrown" onClick={handleShow} size="sm">
-                Editar <TiEdit/>
+                Editar 
             </Button>
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
+                <Modal.Header  className="HeaderModal" closeButton>
                     <Modal.Title>Editar</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -164,11 +171,12 @@ const updateCostumer = (props) => {
                         </Form.Group>
                         </Row>
 
-                        <Button type="submit">Guardar</Button>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                <Button className="BtnSave" type="submit">Guardar</Button>
+
+                    <Button className="BtnClose" variant="secondary" onClick={handleClose}>
                         Cerrar
                     </Button>
                 </Modal.Footer>

@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Table, Container, Col, Row, Button } from 'react-bootstrap';
+import { Table, Container, Col, Row, Button, Form } from 'react-bootstrap';
 import { deleteProducerOrder } from '../../../services/producerorderService';
 import { getProducerOrder } from '../../../services/producerorderService';
 import { getPurchase } from '../../../services/purchaseService';
@@ -119,24 +119,26 @@ const listProducerOrders = () => {
   return (
     <Container>
       <h2 className="text-center">Pedidos a productores</h2>
+      <br></br>
 
-      <Row>
-        <Col xs={8} lg={8}>
+<Form>
+        <Row className="mb-3">
+
+        <Col xs={2} md={3}>
+          <AddProducerOrderModal />
+        </Col>
+
+          <Col xs={8} lg={8}>
           <span>Seleccione los pedidos que desea ver:</span>
           <Select onChange={(selected) => setSelectedOption(selected)} options={optionsSelect} />
           {/* <Button className='BtnAddProducerModal' onClick={() => navigate("/addProducerOrder")}size='sm'>
             Crear Pedido
           </Button> */}
         </Col>
-        <Col xs={2} md={3}>
-          <AddProducerOrderModal />
-        </Col>
 
+        </Row>
+      </Form>
 
-
-
-
-      </Row>
       <br></br>
 
       {producerorderData ? (

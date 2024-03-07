@@ -77,7 +77,7 @@ const addToWarehouse = (props) => {
   const dateInput = moment(now).format("yyyy-MM-ddThh:mm:ss.SSS")
   return (
     <>
-      <Button variant="primary" onClick={open} size='sm'>
+      <Button className='BtnBrown' onClick={open} size='sm'>
         Agregar a una bodega
       </Button>
 
@@ -88,28 +88,31 @@ const addToWarehouse = (props) => {
         keyboard={false}
       >
         <Modal.Header className="HeaderModal" closeButton>
-          <Modal.Title>Agregar el pedido a una bodega</Modal.Title>
+          <Modal.Title>Agregar a una bodega</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container>
             <Row>
               <Col>
-                <span>Seleccione la bodega a la que se agregara el pedido: </span>
+                <span>Seleccione la bodega</span>
                 <Select options={warehouseOptions} onChange=
                   {(selectedOption) => setSelectedWarehouse(selectedOption.value)} placeholder='Seleccione la bodega'>
                 </Select>
-
+                <br/>
               </Col>
             </Row>
             <Row>
               <Col lg={10}>
-                <span>Ingrese la fecha de entrada</span><br />
+                <span>Fecha de entrada</span><br />
                 <input type="datetime-local" ref={entryDate}/>
+                <br/>
+                <br/>
+
               </Col>
             </Row>
             <Row>
               <Col>
-                <span>Ingrese la fecha de vencimiento</span><br />
+                <span>Fecha de vencimiento</span><br />
                 <input type="datetime-local" ref={expireDate} min={currentDate}/>
               </Col>
             </Row>

@@ -127,7 +127,19 @@ const addInventoriesModal = (props) => {
                         <Row>
                             <Col md={6}>
                                 <Form.Group controlId="cedula">
-                                    <Form.Label>Stock</Form.Label>
+                                    <Form.Label>Stock Inicial</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="number"
+                                        defaultValue={product.stock}
+                                        readOnly
+                                    />
+                                </Form.Group>
+                                </Col>
+                                <Col md={6}>
+
+                                <Form.Group controlId="cedula">
+                                    <Form.Label>Nuevo Stock</Form.Label>
                                     <Form.Control
                                         required
                                         type="number"
@@ -138,6 +150,10 @@ const addInventoriesModal = (props) => {
                                     />
                                 </Form.Group>
                             </Col>
+                        </Row>
+                        <br></br>
+
+                        <Row>
                             <Col md={6}>
                                 <Form.Group controlId="phoneNumber">
                                     <Form.Label>Motivo</Form.Label>
@@ -145,19 +161,18 @@ const addInventoriesModal = (props) => {
                                         placeholder="Seleccionar motivo"
                                         required
                                         onChange={(e) => setSelectedMotive(e.target.value)}>
-                                        <option value="regalía">Regalía</option>
-                                        <option value="venta">Venta</option>
-                                        <option value="devolución">Devolución</option>
-                                        <option value="producto dañado">Producto Dañado</option>
-                                        <option value="aumento">Aumento de Existencias</option>
-                                        <option value="prueba de mercado">Prueba de mercado</option>
+                                        <option value="Venta">Venta</option>
+                                        <option value="Regalía">Regalía</option>
+                                        <option value="Devolución">Devolución</option>
+                                        <option value="Producto Dañado">Producto Dañado</option>
+                                        <option value="Ingreso">Aumento de Existencias</option>
+                                        <option value="Prueba de mercado">Prueba de mercado</option>                                        <option value="prueba de mercado">Prueba de mercado</option>
+                                        <option value="Otro">Otro</option>
                                     </select>
                                 </Form.Group>
                             </Col>
-                        </Row>
-                        <Row>
+
                             <Col md={6}>
-                                <br></br>
                                 <Form.Group controlId="name">
                                     <Form.Label>Fecha del movimiento</Form.Label>
                                     <input

@@ -56,7 +56,7 @@ const checkEntryModal = (props) => {
                 keyboard={false}
             >
                 <Modal.Header className="HeaderModal" closeButton>
-                    <Modal.Title>Detalles del pedido al productor</Modal.Title>
+                    <Modal.Title>Ingreso de pedido</Modal.Title>
                 </Modal.Header>
                 
                 {
@@ -66,18 +66,16 @@ const checkEntryModal = (props) => {
                                 <Row className='cards-order-producer'>
                                     <Col>
                                     <Card xs={6}>
-                                        {/* <Card.Img variant="top" src="holder.js/100px180?text=Image cap" /> */}
                                         <Card.Body>
-                                            <Card.Title className='card-info-title'>Información del pedido</Card.Title>
+                                            <Card.Title className='card-info-title'>Pedido #{prodOrderById.id}</Card.Title>
                                             <Card.Text>
 
                                             </Card.Text>
                                         </Card.Body>
                                         <ListGroup className="list-group-flush">
-                                            <ListGroup.Item>Numero de pedido: {prodOrderById.id}</ListGroup.Item>
                                             <ListGroup.Item>Fecha del pedido: {prodOrderById.confirmedDate.slice(0, 10)}</ListGroup.Item>
                                             <ListGroup.Item>Fecha de recibido: {prodOrderById.deliveredDate.slice(0, 10)}</ListGroup.Item>
-                                            <ListGroup.Item>Total del pedido: {prodOrderById.total}</ListGroup.Item>
+                                            <ListGroup.Item>Total del pedido: ₡{prodOrderById.total}</ListGroup.Item>
                                         </ListGroup>
                                         <Card.Body>
 
@@ -89,7 +87,7 @@ const checkEntryModal = (props) => {
                                     <Card>
                                         {/* <Card.Img variant="top" src="holder.js/100px180?text=Image cap" /> */}
                                         <Card.Body>
-                                            <Card.Title className='card-info-title'>Información del productor</Card.Title>
+                                            <Card.Title className='card-info-title'>Productor</Card.Title>
                                             <Card.Text>
 
                                             </Card.Text>
@@ -97,9 +95,6 @@ const checkEntryModal = (props) => {
                                         <ListGroup className="list-group-flush">
                                             <ListGroup.Item>Cédula: {prodOrderById.producer.cedula}</ListGroup.Item>
                                             <ListGroup.Item>Nombre: {prodOrderById.producer.name + " " + prodOrderById.producer.lastname1 + " " + prodOrderById.producer.lastname2}</ListGroup.Item>
-                                            <ListGroup.Item>Provincia: {prodOrderById.producer.province}</ListGroup.Item>
-                                            <ListGroup.Item>Cantón: {prodOrderById.producer.canton}</ListGroup.Item>
-                                            <ListGroup.Item>Distrito: {prodOrderById.producer.district}</ListGroup.Item>
                                             <ListGroup.Item>Teléfono: {prodOrderById.producer.phoneNumber}</ListGroup.Item>
                                         </ListGroup>
                                         <Card.Body>
@@ -112,15 +107,16 @@ const checkEntryModal = (props) => {
                                 <Row>
                                     <Col>
                                         <div className='purchaseProductsInformation'>
-                                            <div><Card.Title className='card-info-title'>Productos no agregados a bodega</Card.Title>
+                                            <div><Card.Title className='card-info-title'>Productos sin ingresar</Card.Title>
 </div>
 <br/>
                                             <div className='purchaseProducts'>
-                                                <Table bordered>
+                                                <Table className='Table'>
                                                     <thead>
                                                         <tr>
                                                             <th>Producto</th>
                                                             <th>Cantidad</th>
+                                                            <th>Acciones</th>
 
                                                         </tr>
                                                         {
@@ -141,10 +137,9 @@ const checkEntryModal = (props) => {
                                                 <div>
                                                     <Accordion>
                                                         <Accordion.Item eventKey="0">
-                                                            <Accordion.Header>Todos los productos del pedido (Incluyendo ya en bodega)</Accordion.Header>
+                                                            <Accordion.Header>Todos los productos</Accordion.Header>
                                                             <Accordion.Body>
-                                                                <table>
-                                                                    <thead>
+                                                            <Table className='Table'>                                                                    <thead>
                                                                         <tr>
                                                                             <th>Producto</th>
                                                                             <th>Cantidad</th>
@@ -160,7 +155,7 @@ const checkEntryModal = (props) => {
                                                                                 </tr>)
                                                                         }
                                                                     </tbody>
-                                                                </table>
+                                                                </Table>
                                                             </Accordion.Body>
                                                         </Accordion.Item>
                                                     </Accordion>

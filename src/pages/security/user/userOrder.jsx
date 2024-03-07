@@ -4,6 +4,7 @@ import { getProducerOrderSales } from '../../../services/saleService';
 import { getProductById2 } from '../../../services/productService';
 import { getCostumerOrderById } from '../../../services/costumerorderService';
 import { Form, Row, Col, Button, Container, InputGroup, Collapse, Table } from 'react-bootstrap'
+import {useNavigate} from 'react-router-dom';
 
 import { format } from 'date-fns';
 
@@ -16,6 +17,8 @@ const userOrder = () => {
     const [MyFilteredData, setMyFilteredData] = useState([]);
     const [MyOrders, setMyOrders] = useState([]);
     const [subTotal, setSubTotal] = useState(0);
+    const navigate = useNavigate()
+
 
     useEffect(() => {
         async function settingSales() {
@@ -187,7 +190,14 @@ const userOrder = () => {
                             </div>
                             <br />
                             <hr />
-                            <NavLink to={`/userProfile`} className="btn btn-warning">Volver a mi perfil</NavLink>
+                            {/* <NavLink to={`/userProfile`} className="BtnBrown">Volver a mi perfil</NavLink> */}
+
+                            <Button className='BtnBrown'
+                                    onClick={() => navigate(`/userProfile`)}>
+                                    Volver a mi perfil
+                                   </Button>
+
+
                             <br />
                        </div> 
                     </article>

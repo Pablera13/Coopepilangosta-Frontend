@@ -57,7 +57,7 @@ const updateEmployee = (props) => {
   return (
     <>
       <Button className="BtnBrown" variant="primary" onClick={handleOpen} size='sm'>
-        Editar<TiEdit />
+        Editar
 
       </Button>
 

@@ -376,9 +376,9 @@ const ShoppingCart = () => {
       ) : (
         <div className="empty-cart-message">
           <p>No has realizado compras aún</p>
-          <NavLink to={`/home`} className="btn btn-primary">
-            Ir a comprar
-          </NavLink>
+          <Button className='BtnBrown'
+                                    onClick={() => navigate(`/home`)}>
+Ir a comprar                                   </Button>
         </div>
       )}
     </>
