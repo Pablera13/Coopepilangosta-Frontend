@@ -12,7 +12,6 @@ import UpdateProductCostumer from './actions/updateProductCostumer'
 import VolumeDiscountModal from './actions/volumeDiscountModal'
 import ExportProductCostumer from './actions/exportProductCostumer'
 import { MdDelete } from "react-icons/md";
-
 import { getProductById2 } from '../../../services/productService';
 
 const listProductCostumer = () => {
@@ -20,6 +19,11 @@ const listProductCostumer = () => {
 
   const [ProductCostumers, setProductCostumers] = useState([]);
   const [Cotizaciones, setCotizaciones] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const navigate = useNavigate()
+  const recordsPerPage = 6;
+  const [currentPage, setCurrentPage] = useState(0); 
 
   useEffect(() => {
     async function obtainProductCostumer() {
@@ -62,8 +66,6 @@ const listProductCostumer = () => {
           cotizaciones.push(cotizacion)
         } setCotizaciones(cotizaciones)}
 };
-
-  const navigate = useNavigate()
   
 
   // const showAlert = (id) => {
@@ -87,6 +89,11 @@ const listProductCostumer = () => {
   //   });
   // };
 
+  const filteredCotizaciones = Cotizaciones.filter(cotizacion =>
+    cotizacion.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    cotizacion.productUnit.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const showAlert = (id) => {
     swal({
       title: 'Eliminar',
@@ -108,6 +115,7 @@ const listProductCostumer = () => {
       }
     });
   };
+
   
   return (
     <Container>
@@ -116,11 +124,17 @@ const listProductCostumer = () => {
 
       <Form>
         <Row className="mb-3">
-
-        <Col md={3}>
-        <AddProductCostumer />
+          <Col md={3}>
+            <AddProductCostumer />
           </Col>
-
+          <Col md={3}>
+            <Form.Label>Buscar</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Por nombre o unidad comercial..."
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </Col>
         </Row>
       </Form>
 
@@ -142,7 +156,7 @@ const listProductCostumer = () => {
                 </tr>
               </thead>
               <tbody>
-              {Cotizaciones.map((cotizacion) => (
+              {filteredCotizaciones.map((cotizacion) => (
                 // <tr key={productcostumer.id}>
                 <tr>
                   <td>{cotizacion.productName}</td>
