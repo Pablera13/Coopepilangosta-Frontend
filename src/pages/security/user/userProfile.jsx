@@ -3,12 +3,14 @@ import { Container, Row, Col, Button, Card, ListGroup, CardGroup } from 'react-b
 import swal from 'sweetalert'
 import CostumerProfile from './costumerProfile'
 import EmployeeProfile from './employeeProfile'
+
+import { MdDelete } from "react-icons/md";
+
 export const UserProfile = () => {
     const [isCostumer, setIsCostumer] = useState(false);
     const [isEmployee, setIesEmployee] = useState(false);
 
     const user = JSON.parse(localStorage.getItem('user'));
-    // console.log(user)
 
     useEffect(() => {
         if (user.costumer != null) {
@@ -19,49 +21,20 @@ export const UserProfile = () => {
         }
     }, [])
 
-    const handleLogout = () => {
-        swal({
-            title: "Cerrar session",
-            text: "Esta seguro?",
-            icon: "warning",
-            buttons: ["Cancelar", "Aceptar"]
-        }).then(answer => {
-            if (answer) {
-                swal({
-                    title: 'Se cerro la sesión!',
-                    text: `Volverá a sitio principal`,
-                    icon: "success"
-
-                })
-                setTimeout(function () {
-                    localStorage.removeItem('user');
-                    localStorage.removeItem('bearer');
-                    window.location = '/';
-                }, 2000)
-            }
-        })
-    }
-
     return (
         <>
-        <Container>
-            {
-                isCostumer ? (
-                    
+            <Container>
+                {
+                    isCostumer ? (
+
                         <CostumerProfile />
-                    
-                ) : (
-                    isEmployee ? (
-                        <EmployeeProfile />
-                    ) : ("")
-                )
-            }
-            <Row>
-                <Col lg={4}></Col>
-                <Col>
-                    <Button onClick={handleLogout} variant='warning'>Cerrar sesión</Button>
-                </Col>
-            </Row>
+
+                    ) : (
+                        isEmployee ? (
+                            <EmployeeProfile />
+                        ) : ("")
+                    )
+                }
             </Container>
         </>
     )

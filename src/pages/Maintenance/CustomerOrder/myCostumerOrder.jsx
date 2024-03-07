@@ -13,6 +13,7 @@ const myCostumerOrder = () => {
     const userStorage = JSON.parse(localStorage.getItem('user'));
     const [user, setUser] = useState(null);
     const { data: customerorderData, isLoading, isError } = useQuery('customerorder', getCostumerOrder);
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (customerorderData) {
@@ -30,10 +31,10 @@ const myCostumerOrder = () => {
                     <>
                         <Row>
                             {customerorderData ? (
-                                <Table striped bordered hover variant="light" responsive>
+                                <Table className='Table' striped bordered hover variant="light" responsive>
                                     <thead>
                                         <tr>
-                                            <th>Número de pedido</th>
+                                            <th>#</th>
                                             <th>Fecha del pedido</th>
                                             <th>Fecha de pago</th>
                                             <th>Fecha de entrega</th>
@@ -65,7 +66,7 @@ const myCostumerOrder = () => {
                                                     }</td>
                                                     <td>{order.stage}</td>
                                                     <td>
-                                                        <NavLink
+                                                        {/* <NavLink
                                                             to={`/userOrder/${order.id}`}
                                                             style={{
                                                                 textDecoration: 'underline',
@@ -78,7 +79,12 @@ const myCostumerOrder = () => {
                                                             }}
                                                         >
                                                             Detalles
-                                                        </NavLink>
+                                                        </NavLink> */}
+
+                                                        <Button className='BtnBrown'
+                                                            onClick={() => navigate(`/userOrder/${order.id}`)}>
+                                                            Detalles
+                                                        </Button>
 
                                                         <PrintCustomerOrder props={order.id} />
 

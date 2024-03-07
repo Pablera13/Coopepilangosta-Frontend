@@ -231,7 +231,7 @@ const showAlert = (id) => {
                       
                        <ReviewEdit props={review}/>
                     
-                        <Button className="BtnTrash"
+                        <Button className="BtnRed"
                         onClick={() => showAlert(review.id)}>
                           Eliminar <MdDelete/>
                         </Button>

@@ -14,6 +14,8 @@ import { checkEmailAvailability } from '../../../services/userService'
 
 import { locations } from '../../../utils/provinces'
 import Select from 'react-select'
+import { checkPasswordFormat } from '../../../utils/validatePasswordFormat'
+
 const costumerRegister = () => {
     const queryClient = new QueryClient();
     const [validated, setValidated] = useState(false);
@@ -34,7 +36,7 @@ const costumerRegister = () => {
         {
             onSettled: () => queryClient.invalidateQueries('users'),
             mutationKey: 'users',
-            onSuccess: () => console.log("User created"),
+            onSuccess: () => swal('Registro existoso!','Su registro realizado exitosamente!','success'),
             onError: () => {
                 swal({
                     title: 'Error!',
@@ -88,8 +90,9 @@ const costumerRegister = () => {
 
             const cedulaAvailability = await checkCedula(cedulaJuridica.current.value).then(data=>data)
             const emailAvailability = await checkEmailAvailability(email.current.value).then(data=>data)
+            const validPasswordFormat = checkPasswordFormat(password.current.value)
 
-            if (cedulaAvailability == true && emailAvailability == true) {
+            if (cedulaAvailability == true && emailAvailability == true && validPasswordFormat == true) {
                 console.log(cedulaAvailability)
                 const createdUser = await addUserMutation.mutateAsync(newCostumerUser)
                 let newCostumer = {
@@ -112,7 +115,9 @@ const costumerRegister = () => {
                 }
                 if (emailAvailability == false) {
                     swal("Correo electronico se encuentra registrada","Ya existe un usuario con el correo ingresado","warning")
-
+                }
+                if (validPasswordFormat == false) {
+                    swal('Contraseña invalida!','La contraseña deseada, no es valida, debe contener minimo 8 caracteres de longitud.','warning')
                 }
             }
         }

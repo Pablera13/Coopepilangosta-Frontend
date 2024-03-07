@@ -102,8 +102,8 @@ const updateEmployeeUser = (props) => {
 
     return (
         <>
-            <Button variant="warning" onClick={handleOpen} size='sm'>
-                Roles
+            <Button className="BtnAdd"  onClick={handleOpen} size='sm'>
+                Roles 
             </Button>
 
             <Modal
@@ -112,14 +112,13 @@ const updateEmployeeUser = (props) => {
                 backdrop="static"
                 keyboard={false}
             >
-                <Modal.Header closeButton>
+                <Modal.Header className="HeaderModal" closeButton>
                     <Modal.Title>Actualizar usuario</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {
                         user != null ? (
                             <Form noValidate validated={validated} id='form-updateuser'>
-                                <Row><h3>Datos de inicio de sesion</h3></Row>
                                 <Row id='form-updateuser'>
                                     <Col>
                                         <Form.Label>Correo</Form.Label>
@@ -134,7 +133,7 @@ const updateEmployeeUser = (props) => {
                                 <Row>
                                     <Col>
                                         <Form.Label>Password</Form.Label>
-                                        <Form.Control required defaultValue={user.password} ref={password} />
+                                        <Form.Control required defaultValue={user.password} ref={password} disabled/>
                                     </Col>
                                     <Col>
                                         <Form.Label>Elija el rol</Form.Label>
@@ -156,8 +155,8 @@ const updateEmployeeUser = (props) => {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" size='sm' onClick={handleSubmit}>Guardar</Button>
-                    <Button variant="secondary" size='sm' onClick={handleClose}>
+                    <Button className="BtnSave" variant="primary" size='sm' onClick={handleSubmit}>Guardar</Button>
+                    <Button className="BtnClose" variant="secondary" size='sm' onClick={handleClose}>
                         Cerrar
                     </Button>
 

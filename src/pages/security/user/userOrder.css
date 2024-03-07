@@ -47,7 +47,7 @@
             position: relative}
             
     .track .step.active:before{
-        background: brown}
+        background:   #3c3019}
     
         .track .step::before{
         height: 7px;
@@ -58,7 +58,7 @@
         top: 18px}
     
         .track .step.active .icon
-        {background: #ee5435;
+        {background:  #9b7122d2;
         color: #fff}
         
     .track .icon{

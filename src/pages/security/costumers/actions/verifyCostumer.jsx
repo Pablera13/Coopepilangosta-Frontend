@@ -16,9 +16,9 @@ const verifyCostumer = (props) => {
     const options = [
         { value: false, label: "No verificado" },
         { value: true, label: "Verificado" },
-      ];
+    ];
 
-    const costumer = props.props || {}; 
+    const costumer = props.props || {};
 
     const verification = useRef();
 
@@ -26,12 +26,22 @@ const verifyCostumer = (props) => {
         onSettled: () => queryClient.invalidateQueries('Costumer'),
         mutationKey: 'Costumer',
         onSuccess: () => {
-            console.log('Edit successful');
-        },
-        onError: () => {
-            console.log('Error editing the costumer');
-        },
+            swal({
+              title: "Editado!",
+              text: "Se editó el cliente",
+              icon: "success",
+            });
+            handleClose();
+      
+            setTimeout(function () {
+              window.location.reload();
+            }, 2000);
+          },
+          onError: () => {
+            swal("Error", "Algo salio mal...", "error");
+          },
     });
+
 
     const handleSubmit = async (event) => {
         const form = event.currentTarget;
@@ -61,40 +71,44 @@ const verifyCostumer = (props) => {
 
     return (
         <>
-            <Button variant="primary" onClick={handleShow} size="sm">
+            <Button className='BtnBrown' variant="primary" onClick={handleShow} size="sm">
                 Verificación
             </Button>
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
+                <Modal.Header className="HeaderModal" closeButton>
                     <Modal.Title>Verificación</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form validated={validated} onSubmit={handleSubmit}>
                         <Row>
-                            <Col lg={4}>
+                            <Col lg={6}>
                                 <Form.Group controlId="validationCustom01">
                                     <Form.Label>Estado de Verificación</Form.Label>
-                                        <Select
-                                            options={options}
-                                            placeholder='Seleccione'
-                                            name="state"
-                                            id="1"
-                                            ref={verification}
-                                            onChange={(selectedOption) => setSelectedState(selectedOption)}
-                                        />
+                                    <Select
+                                        required
+                                        options={options}
+                                        placeholder={costumer.verified==true? "Verificado": "No verificado"}
+                                        defaultValue={costumer.verified}
+                                        name="state"
+                                        ref={verification}
+                                        onChange={(selectedOption) => setSelectedState(selectedOption)}
+                                    />
                                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                         </Row>
-
-                        <Button type="submit">Guardar</Button>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                <Button className="BtnSave" onClick={handleSubmit}
+                        type="submit">Guardar</Button>
+                    <Button className="BtnClose"
+                        variant="secondary" onClick={handleClose}>
                         Cerrar
                     </Button>
+                    
+
                 </Modal.Footer>
             </Modal>
         </>

@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Table, Container, Col, Row, Button } from 'react-bootstrap';
+import { Table, Container, Col, Row, Button, Form } from 'react-bootstrap';
 import { deleteProducerOrder } from '../../../services/producerorderService';
 import { getProducerOrder } from '../../../services/producerorderService';
 import { getPurchase } from '../../../services/purchaseService';
@@ -10,7 +10,8 @@ import Select from 'react-select';
 import PrintProducerOrder from './actions/printProducerOrder.jsx';
 import AddProducerOrderModal from './actions/addProducerOrderModal.jsx';
 
-import styles from './listProducerOrder.css'
+import { MdDelete } from "react-icons/md";
+// import styles from './listProducerOrder.css'
 import CheckEntryModal from '../../Inventory/Entries/actions/checkEntryModal.jsx';
 
 import ReactPaginate from 'react-paginate';
@@ -118,33 +119,35 @@ const listProducerOrders = () => {
   return (
     <Container>
       <h2 className="text-center">Pedidos a productores</h2>
+      <br></br>
 
-      <Row>
-        <Col xs={8} lg={8}>
+<Form>
+        <Row className="mb-3">
+
+        <Col xs={2} md={3}>
+          <AddProducerOrderModal />
+        </Col>
+
+          <Col xs={8} lg={8}>
           <span>Seleccione los pedidos que desea ver:</span>
           <Select onChange={(selected) => setSelectedOption(selected)} options={optionsSelect} />
           {/* <Button className='BtnAddProducerModal' onClick={() => navigate("/addProducerOrder")}size='sm'>
             Crear Pedido
           </Button> */}
         </Col>
-        <Col xs={2} md={3}>
-          <AddProducerOrderModal />
-        </Col>
 
+        </Row>
+      </Form>
 
-
-
-
-      </Row>
       <br></br>
 
       {producerorderData ? (
         <Row>
           <Col xs={12}>
-            <Table className='TableProducerOrder' striped bordered hover variant="light" responsive>
+          <Table className='Table' striped bordered hover variant="light" responsive>
               <thead>
                 <tr className='TblProducerOrder'>
-                  <th>Número de pedido</th>
+                  <th>#</th>
                   <th>Fecha del pedido</th>
                   <th>Total</th>
                   <th>Estado del pago</th>
@@ -170,7 +173,7 @@ const listProducerOrders = () => {
                     </td>
                     <td>
 
-                      <Button className='BtnEdit' onClick={() => navigate(`/editProducerOrder/${ProducerOrder.id}`)} size='sm'>
+                      <Button className='BtnBrown' onClick={() => navigate(`/editProducerOrder/${ProducerOrder.id}`)} size='sm'>
                         Editar
                       </Button>
 
@@ -178,8 +181,9 @@ const listProducerOrders = () => {
                         <CheckEntryModal props={ProducerOrder} />
                       ) : null}
 
-                      <Button className='BtnTrash' onClick={() => showAlert(ProducerOrder.id)} size='sm'>
-                        Eliminar
+                      <Button className='BtnRed' onClick={() => showAlert(ProducerOrder.id)} size='sm'>
+                        Eliminar <MdDelete />
+
                       </Button>
 
                       {/* <Button

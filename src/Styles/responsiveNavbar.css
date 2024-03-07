@@ -1,25 +1,25 @@
 .nav-area {
     height: 65px;
     max-width: 1200px;
-    margin: 0 auto;
-    
+    margin: auto;
+    margin-top: 10px;
     margin-bottom: 20px;
     font-family: "Montserrat", Sans-serif;
-    color: #212529;
   }
 
 #navbarHead{
     position: relative;
     height: 50px;
-    
+
     font-family: "Montserrat", Sans-serif;
-    font-size: 15px;
+    font-size: 90%;
     font-weight: 700;
+    margin-left: 2%;
     text-transform: uppercase;
-    color: #212529;
-    background-color: white;
+
     
 }
+
 
 #navbarContainer{
     font-size: larger;
@@ -55,7 +55,7 @@
   }
   
   body {
-    font-family: sans-serif;
+    font-family: "Montserrat", Sans-serif;
     
   }
   
@@ -72,25 +72,11 @@
     margin-right: 20px;
   }
 
-
-
-
-.logo {
-  text-decoration: none;
-  font-size: 25px;
-  color: inherit;
-  margin-right: 20px;
-}
-
-
-
-
-
 /* content */
 
 
 .logoImg{
-  width: 200px;
+  width: 280px;
   /* width: 20%; */
 
   

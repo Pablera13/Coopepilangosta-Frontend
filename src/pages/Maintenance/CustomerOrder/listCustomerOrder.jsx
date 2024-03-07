@@ -8,10 +8,12 @@ import { getCostumerOrder } from '../../../services/costumerorderService';
 import Select from 'react-select';
 import PrintCustomerOrder from './actions/printCustomerOrder.jsx';
 
+import { MdDelete } from "react-icons/md";
+
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
-import styles from './listCustomerOrder.css'
+// import styles from './listCustomerOrder.css'
 
 import ReactPaginate from 'react-paginate';
 
@@ -20,21 +22,6 @@ import UpdateCustomerOrderModal from './actions/updateCustomerOrderModal.jsx';
 const listCustomerOrder = () => {
 
   const params = useParams();
-
-  const buttonStyle = {
-    borderRadius: '5px',
-    backgroundColor: '#e0e0e0',
-    color: '#333',
-    border: '1px solid #e0e0e0',
-    padding: '8px 12px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s',
-    minWidth: '100px',
-    fontWeight: 'bold',
-    hover: {
-      backgroundColor: '#c0c0c0',
-    },
-  };
 
   const { data: customerorderData, isLoading, isError } = useQuery('customerorder', getCostumerOrder);
   let dataFiltered = []
@@ -152,10 +139,10 @@ const listCustomerOrder = () => {
       {customerorderData ? (
         <Row>
           <Col xs={12}>
-            <Table striped bordered hover variant="light" responsive>
+            <Table className='Table' striped bordered hover variant="light" responsive>
               <thead>
                 <tr>
-                  <th>Número de pedido</th>
+                <th>#</th>
                   <th>Fecha del pedido</th>
                   <th>Total</th>
                   <th>Estado del pago</th>
@@ -182,7 +169,7 @@ const listCustomerOrder = () => {
                     </td>
                     <td>{CustomerOrder.stage}</td>
                     <td>
-                      <UpdateCustomerOrderModal props={CustomerOrder.id} />
+                      <UpdateCustomerOrderModal props={CustomerOrder} />
 
                       {/* <Button
                         onClick={() => navigate(`/editCustomerOrder/${CustomerOrder.id}`)}
@@ -197,11 +184,10 @@ const listCustomerOrder = () => {
                       <Button
                         onClick={() => showAlert(CustomerOrder.id)}
                         size='sm'
-                        style={{ ...buttonStyle, marginLeft: '5px', }}
-                        onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                        onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
+                        className='BtnRed'
                       >
-                        Eliminar
+                        Eliminar <MdDelete />
+
                       </Button>
 
                       <PrintCustomerOrder props={CustomerOrder.id} />
