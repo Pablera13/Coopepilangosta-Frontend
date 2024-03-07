@@ -9,7 +9,6 @@ import { getPurchase } from '../../../services/purchaseService';
 import Select from 'react-select';
 import PrintProducerOrder from './actions/printProducerOrder.jsx';
 import AddProducerOrderModal from './actions/addProducerOrderModal.jsx';
-
 import { MdDelete } from "react-icons/md";
 // import styles from './listProducerOrder.css'
 import CheckEntryModal from '../../Inventory/Entries/actions/checkEntryModal.jsx';
@@ -175,7 +174,7 @@ const listProducerOrders = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredByDate.map((ProducerOrder) => (
+                {paginatedPedidos.map((ProducerOrder) => (
                   <tr key={ProducerOrder.id}>
                     <td>{ProducerOrder.id}</td>
                     <td>{format(new Date(ProducerOrder.confirmedDate), 'yyyy-MM-dd')}</td>
