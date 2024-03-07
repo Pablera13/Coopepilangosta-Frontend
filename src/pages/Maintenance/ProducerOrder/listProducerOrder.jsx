@@ -22,6 +22,10 @@ const listProducerOrders = () => {
 
   const { data: producerorderData, isLoading, isError } = useQuery('producerorder', getProducerOrder);
   let dataFiltered = []
+  console.log(producerorderData)
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const [selectedDate, setSelectedDate] = useState('');
 
   const filter = params.filter
 
@@ -72,24 +76,30 @@ const listProducerOrders = () => {
     }
   }, [selectedOption]);
 
+  const filteredByDate = producerorderData ? producerorderData.filter((pedido) => {
+    if (selectedDate) {
+      const pedidoDate = new Date(pedido.confirmedDate);
+      const selected = new Date(selectedDate);
+      return pedidoDate.toDateString() === selected.toDateString();
+    }
+    return true;
+  }) : [];
 
   const recordsPerPage = 10;
-  const [currentPage, setCurrentPage] = useState(0);
   const offset = currentPage * recordsPerPage;
+  const paginatedPedidos = filteredByDate.slice(offset, offset + recordsPerPage);
+
+  const pageCount = Math.ceil(filteredByDate.length / recordsPerPage);
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
 
   if (isLoading)
     return <div>Loading...</div>
 
   if (isError)
     return <div>Error</div>
-
-  const paginatedEntries = producerorderData.slice(offset, offset + recordsPerPage);
-
-  const pageCount = Math.ceil(producerorderData.length / recordsPerPage);
-
-  const handlePageClick = (data) => {
-    setCurrentPage(data.selected);
-  };
 
 
   const showAlert = (id) => {
@@ -128,6 +138,15 @@ const listProducerOrders = () => {
           <AddProducerOrderModal />
         </Col>
 
+        <Col md={3}>
+            <Form.Label>Fecha Inicial</Form.Label>
+            <Form.Control
+              type="datetime-local"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+            />
+          </Col>
+
           <Col xs={8} lg={8}>
           <span>Seleccione los pedidos que desea ver:</span>
           <Select onChange={(selected) => setSelectedOption(selected)} options={optionsSelect} />
@@ -156,7 +175,7 @@ const listProducerOrders = () => {
                 </tr>
               </thead>
               <tbody>
-                {dataFiltered.map((ProducerOrder) => (
+                {filteredByDate.map((ProducerOrder) => (
                   <tr key={ProducerOrder.id}>
                     <td>{ProducerOrder.id}</td>
                     <td>{format(new Date(ProducerOrder.confirmedDate), 'yyyy-MM-dd')}</td>
