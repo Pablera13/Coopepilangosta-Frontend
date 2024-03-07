@@ -94,6 +94,17 @@ const listProductCostumer = () => {
     cotizacion.productUnit.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const offset = currentPage * recordsPerPage;
+  const paginatedCotizaciones = filteredCotizaciones.slice(offset, offset + recordsPerPage);
+
+  const pageCount = Math.ceil(Cotizaciones.length / recordsPerPage);
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+    console.log("paginatedCotizaciones = " + paginatedCotizaciones.length)
+  };
+  //const paginatedFilter = filteredBySearch.slice(offset, offset + recordsPerPage);
+
   const showAlert = (id) => {
     swal({
       title: 'Eliminar',
@@ -156,7 +167,7 @@ const listProductCostumer = () => {
                 </tr>
               </thead>
               <tbody>
-              {filteredCotizaciones.map((cotizacion) => (
+              {paginatedCotizaciones.map((cotizacion) => (
                 // <tr key={productcostumer.id}>
                 <tr>
                   <td>{cotizacion.productName}</td>
@@ -186,6 +197,21 @@ const listProductCostumer = () => {
               ))}
               </tbody>
             </Table>
+
+            <div className='Pagination-Container'>
+              <ReactPaginate
+                previousLabel={"Anterior"}
+                nextLabel={"Siguiente"}
+                breakLabel={"..."}
+                pageCount={pageCount}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageClick}
+                containerClassName={"pagination"}
+                subContainerClassName={"pages pagination"}
+                activeClassName={"active"}
+              />
+            </div>
 
             {/* <ReactPaginate
               previousLabel="Anterior"
