@@ -18,10 +18,21 @@ export const getProductById = async(id,state) => {
     return data;
 }
 
+export const getCoffee = async() => {
+    
+    let data = await api.get(`product/coffee`).then(result => result.data);
+    return data;
+}
+
 export const checkCodeAvailability = async(id) => {
     
     let data = await api.get(`product/CheckCodeAvailability?code=${id}`).then(result => result.data);
+    return data;
+}
+
+export const checkProductStock = async(productid, quantity) => {
     
+    let data = await api.get(`product/CheckStockAvailability?productid=${productid}&quantity=${quantity}`).then(result => result.data);
     return data;
 }
 
@@ -43,6 +54,7 @@ export const editProduct = async (product) => {
         margin: product.margin,
         iva: product.iva,
         state: product.state,
+        stockable: product.stockable,
         categoryId: product.categoryId,
         image: product.image
     }

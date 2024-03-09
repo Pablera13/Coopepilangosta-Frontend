@@ -179,18 +179,16 @@ const costumerRegister = () => {
     return (
         <>
             <Container className='registerContainer'>
-            <Card>
+            <Card >
                 <Card.Body>
                 <Row>
-                    <h2 className='h3register'>Registro</h2>
+                    <h3 className='h3register'>Registro</h3>
                 </Row>
-                <Row>
-                    <h3>Información general</h3>
-                </Row>
-                
+                <br/>
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                     <Row className="mb-3">
-                        <Form.Group as={Col} md="4" controlId="validationCustom01">
+                    <Col xs={6} md={6} lg={6}> 
+                        <Form.Group md="4" controlId="validationCustom01">
                             <Form.Label>Cédula jurídica</Form.Label>
                             <Form.Control
                                 required
@@ -200,7 +198,10 @@ const costumerRegister = () => {
                             />
                             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group as={Col} md="4" controlId="validationCustom02">
+                        </Col>
+                        <Col xs={6} md={6} lg={6}> 
+
+                        <Form.Group md="4" controlId="validationCustom02">
                             <Form.Label>Nombre</Form.Label>
                             <Form.Control
                                 required
@@ -210,6 +211,8 @@ const costumerRegister = () => {
                             />
                             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                         </Form.Group>
+                        </Col>
+
 
                     </Row>
                     <Row className="mb-3">
@@ -243,35 +246,46 @@ const costumerRegister = () => {
                         </Form.Group>
                     </Row>
                     <Row>
-                        <Form.Group as={Col} md="4" controlId="validationCustom06">
+                    <Col xs={12} md={12} lg={12}> 
+
+                        <Form.Group md="4" controlId="validationCustom06">
                             <Form.Label>Dirección</Form.Label>
                             <Form.Control type="text" placeholder="Indique la dirección" ref={address} />
                             <Form.Control.Feedback type="invalid">
                                 Indique su dirección
                             </Form.Control.Feedback>
                         </Form.Group>
+                        </Col>    
+                    </Row>
 
-                        <Form.Group as={Col} md="3" controlId="validationCustom07">
+                    <br/>
+
+                    <Row>
+                    <Col xs={6} md={6} lg={6}> 
+
+                        <Form.Group controlId="validationCustom07">
                             <Form.Label>Código postal</Form.Label>
                             <Form.Control type="number" placeholder="Ingrese el código postal" required ref={postalCode} />
                             <Form.Control.Feedback type="invalid">
                                 Indique su código postal
                             </Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group as={Col} md="5" controlId="validationCustom08">
+                        </Col>
+                        <Col xs={6} md={6} lg={6}> 
+                        <Form.Group controlId="validationCustom08">
                             <Form.Label>Cuenta bancaria</Form.Label>
                             <Form.Control type="number" placeholder="Ingrese una cuenta bancaria" required ref={bankAccount} />
                             <Form.Control.Feedback type="invalid">
                                 Indique su código postal
                             </Form.Control.Feedback>
                         </Form.Group>
+                        </Col>
+
                     </Row>
-                        
+    
                         <hr />
                     <Row>
-                        <Col>
-                            <h3>Información de usuario</h3>
-                        </Col>
+                        
                     </Row>
                     <Row>
                         <Col>
@@ -305,7 +319,8 @@ const costumerRegister = () => {
                 </Card>
                 <Row className='justify-content-md-center'>
                     <Col >
-                        <Button onClick={handleSubmit}>Enviar</Button>
+                        <Button                 className="BtnStar"
+ onClick={handleSubmit}>Enviar</Button>
                     </Col>
                 </Row>
             </Container>

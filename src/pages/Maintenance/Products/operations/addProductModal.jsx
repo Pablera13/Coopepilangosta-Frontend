@@ -79,6 +79,8 @@ const addProductModal = () => {
     const iva = useRef();
     const state = useRef();
     const categoryId = useRef();
+    const stockable= useRef();
+
 
     const save = async (event) => {
         const form = event.currentTarget;
@@ -97,6 +99,7 @@ const addProductModal = () => {
                 margin: margin.current.value,
                 iva: iva.current.value,
                 state: state.current.value,
+                stockable: stockable.current.value,
                 categoryId: categoryId.current.value,
                 image: imageUrl,
             };
@@ -127,7 +130,7 @@ const addProductModal = () => {
                                 onClick={addToCart}
                               ></Button> */}
 
-            <Modal show={show} onHide={handleClose} size='lg'>
+            <Modal show={show} onHide={handleClose} >
                 <Modal.Header className='HeaderModal' closeButton>
                     <Modal.Title>Agregar nuevo producto</Modal.Title>
                 </Modal.Header>
@@ -242,6 +245,19 @@ const addProductModal = () => {
                                     </Form.Select>
                                 </Form.Group>
                             </Col>
+
+                            <Row>
+                <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Inventario</Form.Label>
+                      <Form.Select required ref={stockable}>
+                        <option value="true">Si</option>
+                        <option value="false">No</option>
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                </Row>
+
                         </Row>
                         <Row>
                             <Col xs={12} md={6}>

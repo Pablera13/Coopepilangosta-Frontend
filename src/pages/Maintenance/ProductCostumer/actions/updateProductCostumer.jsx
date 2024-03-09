@@ -30,7 +30,16 @@ const queryClient = new QueryClient();
     {
       onSettled: () => queryClient.invalidateQueries('productcostumer'),
       mutationKey: 'productcostumer',
-      onSuccess: () => window.location.reload(),
+      onSuccess: () => {
+        swal({
+          title: "Editado!",
+          text: "Se editó la cotización",
+          icon: "success",
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      },
     })
 
   const handleUpdate = () =>{
@@ -103,10 +112,11 @@ const queryClient = new QueryClient();
 
         </Modal.Body>
         <Modal.Footer>
+         
+          <Button className='BtnSave' size='sm' onClick={handleUpdate}>Guardar</Button>
           <Button className='BtnClose' size='sm' onClick={handleClose}>
             Cerrar
           </Button>
-          <Button className='BtnSave' size='sm' onClick={handleUpdate}>Guardar</Button>
         </Modal.Footer>
       </Modal>
     </>

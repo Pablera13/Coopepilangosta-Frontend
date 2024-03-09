@@ -14,21 +14,6 @@ const addProducerModal = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const buttonStyle = {
-        borderRadius: '5px',
-        backgroundColor: '#e0e0e0',
-        color: '#333',
-        border: '1px solid #e0e0e0',
-        padding: '8px 12px',
-        cursor: 'pointer',
-        transition: 'background-color 0.3s',
-        minWidth: '100px',
-        fontWeight: 'bold',
-        hover: {
-            backgroundColor: '#b8a49f',
-        },
-    };
-
     const [validated, setValidated] = useState(false);
 
     const mutation = useMutation('producer', createProducer, {
@@ -40,9 +25,11 @@ const addProducerModal = () => {
                 text: 'El productor ha sido agregado',
                 icon: 'success',
             });
-            
-
-
+          handleClose();
+    
+          setTimeout(function () {
+            window.location.reload();
+          }, 2000);
         },
     });
 

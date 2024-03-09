@@ -4,6 +4,8 @@ import swal from 'sweetalert';
 import { format } from 'date-fns';
 import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { createCostumerOrder } from '../../services/costumerorderService';
+import { checkProductStock } from '../../services/productService';
+
 import { createSale } from '../../services/saleService';
 import { Form, Row, Col, Button, Container, InputGroup, Collapse, Table } from 'react-bootstrap'
 import Select from 'react-select'
@@ -92,6 +94,31 @@ const ShoppingCart = () => {
     setLocalShopping(updatedCart);
   };
 
+  const checkStockAvailability = async () => {
+    let QuantityValidation = true; // Inicialmente, asumimos que la cantidad es válida
+    console.log("Valor de quantityvalidation: " + QuantityValidation);
+
+    const promises = LocalShopping.map(async (sale) => {
+        let IsQuantityAvailable = await checkProductStock(sale.ProductId, sale.Quantity);
+        if (IsQuantityAvailable === false) {
+            QuantityValidation = false;
+            swal({
+                title: 'Lo sentimos',
+                text: `La cantidad seleccionada de ` + sale.ProductName + ` excede nuestro inventario actual`,
+                icon: "warning"
+            });
+        }
+    });
+
+    await Promise.all(promises);
+
+    console.log("Valor de quantityvalidation: " + QuantityValidation);
+    if (QuantityValidation === true) {
+        saveProducerOrder();
+    }
+}
+
+
   const saveProducerOrder = async () => {
 
     const currentDate = new Date();
@@ -131,6 +158,34 @@ const ShoppingCart = () => {
 
       mutationSale.mutateAsync(newSale);
     })
+
+  //   const editProductData = {
+  //     id: product.id,
+  //     code: product.code,
+  //     name: product.name,
+  //     description: product.description,
+  //     stock: stock.current.value,
+  //     unit: product.unit,
+  //     price: product.price,
+  //     margin: product.margin,
+  //     iva: product.iva,
+  //     state: product.state,
+  //     categoryId: product.categoryId,
+  //     image: product.image,
+  // };
+
+  // const stockReportData = {
+  //     ProductId: product.id,
+  //     ProductName: product.name,
+  //     CambioFecha: new Date(cambioFecha),
+  //     OldStock: initialStock,
+  //     NewStock: stock.current.value,
+  //     motive: selectedMotive,
+  //     Email: userEmail,
+  // };
+
+  // mutationProduct.mutateAsync(editProductData)
+  // mutationStock.mutateAsync(stockReportData)
 
     setLocalShopping([])
     localStorage.setItem('ShoppingCar', JSON.stringify(LocalShopping));
@@ -188,6 +243,7 @@ const ShoppingCart = () => {
                                   className="form-control"
                                   style={{ textAlign: 'center' }}
                                   defaultValue={Sale.Quantity}
+                                  max={Sale.Stockable == true? Sale.Stock : false}
                                   type="number"
                                   min="1"
                                   onChange={(e) => {
@@ -357,18 +413,21 @@ const ShoppingCart = () => {
                 
               </div>
               <Row>
-                  <Col xs={12} lg={12}>
-                    <Button variant="primary" className="BtnTrash" onClick={saveProducerOrder}>Realizar pedido</Button>
+              <Col xl={6} lg={6} md={6} sm={6} xs={6}>
+                    <Button className="BtnBrown" onClick={checkStockAvailability}>Realizar pedido</Button>
                     
                   </Col>
-                  <Col lg={12}>
-                  <NavLink to={`/home`} className="BtnUpdate">Seguir comprando</NavLink>
+                  <Col xl={3} lg={3} md={3} sm={3} xs={3}>
+                  <Button className='BtnAdd'
+                                    onClick={() => navigate(`/home`)}>
+                                    Seguir comprando
+                                   </Button>
 
                   </Col>
-                </Row>
-                <Row>
 
                 </Row>
+                <br/>
+
             </div>
           </div>
 

@@ -88,10 +88,9 @@ const listCostumers = () => {
                     <tr >
                         <th>Cédula</th>
                         <th>Nombre</th>
-                        {/* <th>Provincia</th>
+                        <th>Provincia</th>
                         <th>Cantón</th>
-                        <th>Distrito</th> */}
-                        <th>Dirección</th>
+                        <th>Distrito</th>
                         <th>Verificado</th>
                         <th>Acciones</th>
                     </tr>
@@ -104,10 +103,9 @@ const listCostumers = () => {
                             <tr key={costumer.id}>
                                 <td>{costumer.cedulaJuridica}</td>
                                 <td>{costumer.name}</td>
-                                {/* <td>{costumer.province}</td>
+                                <td>{costumer.province}</td>
                                 <td>{costumer.canton}</td>
-                                <td>{costumer.district}</td> */}
-                                <td>{costumer.address}, {costumer.district}, {costumer.canton}</td>
+                                <td>{costumer.district}</td>
                                 <td>{costumer.verified==true? "Verificado": "No verificado"}</td>
                                 <td>
                                     <DetailsCostumer props={costumer}/>      
