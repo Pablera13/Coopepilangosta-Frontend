@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react'
-import { Row, Col, Container, Form, Button, Spinner } from 'react-bootstrap'
-import { loginUser, getUserInformation } from '../../services/loginService';
-import { NavLink } from 'react-router-dom';
-import './login.css'
-import swal from 'sweetalert';
+import React, { useRef, useState } from "react";
+import { Row, Col, Container, Form, Button, Spinner } from "react-bootstrap";
+import { loginUser, getUserInformation } from "../../services/loginService";
+import { NavLink } from "react-router-dom";
+import "./login.css";
+import swal from "sweetalert";
 
 const login = () => {
   const [loginLoading, setLoginLoading] = useState(false);
@@ -11,51 +11,54 @@ const login = () => {
   const email = useRef();
   const password = useRef();
 
-  let token = ""
+  let token = "";
 
   const handleLogin = async () => {
-
     let userLogin = {
       email: email.current.value,
       password: password.current.value,
-    }
+    };
     //console.log(userLogin)
     try {
-
-      token = await loginUser(userLogin).then(data => data).then(setLoginLoading(true)).finally(setLoginLoading(false));
-      localStorage.setItem('bearer', token);
+      token = await loginUser(userLogin)
+        .then((data) => data)
+        .then(setLoginLoading(true))
+        .finally(setLoginLoading(false));
+      localStorage.setItem("bearer", token);
       if (token != "") {
         switch (token) {
-          case "Wrong password": swal("Contraseña incorrecta", "La clave no coincide", "error"); break;
-          case "User not found": swal("Correo no valido", "No se encontró un usuario asociado a ese correo electrónico", "warning"); break;
+          case "Wrong password":
+            swal("Contraseña incorrecta", "La clave no coincide", "error");
+            break;
+          case "User not found":
+            swal(
+              "Correo no valido",
+              "No se encontró un usuario asociado a ese correo electrónico",
+              "warning"
+            );
+            break;
           default:
             try {
-              let user = await getUserInformation(userLogin)
+              let user = await getUserInformation(userLogin);
               if (user) {
-                localStorage.setItem('user', JSON.stringify(user));
-                window.location = '/';
+                localStorage.setItem("user", JSON.stringify(user));
+                window.location = "/";
               }
-
-
             } catch (error) {
-              console.log(error)
-            } break;
+              console.log(error);
+            }
+            break;
         }
-
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-
-
-  }
+  };
 
   return (
     <>
-
       <div class="imagen-de-fondo"></div>
-      <Container className='loginContainer'>
-
+      <Container className="loginContainer">
         <Row>
           <Col>
             <br />
@@ -66,43 +69,45 @@ const login = () => {
           <Row>
             <Col xs={12} lg={12}>
               <Form.Group cla2ssName="mb-3" controlId="formPlaintextEmail">
-                <Form.Label className='labelLogin'>
-                  Correo
-                </Form.Label>
-                <Form.Control type='text' placeholder="Ingrese su correo" ref={email} />
+                <Form.Label className="labelLogin">Correo</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Ingrese su correo"
+                  ref={email}
+                />
               </Form.Group>
             </Col>
           </Row>
           <Row>
-            <Col lg={12}> 
+            <Col lg={12}>
               <Form.Group className="mb-3" controlId="formPlaintextPassword">
-                <Form.Label className='labelLogin'>
-                  Contraseña
-                </Form.Label>
-                <Form.Control type="password" placeholder="Ingrese su Contraseña" ref={password} />
+                <Form.Label className="labelLogin">Contraseña</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Ingrese su Contraseña"
+                  ref={password}
+                />
               </Form.Group>
             </Col>
           </Row>
-          <Row className='justify-content-md-center'>
-            <Col xs={12} lg={7}>
-
-              <Button className='BtnStar' onClick={handleLogin}>
-                {
-                  loginLoading ? (<Spinner animation="border" variant="light" size='sm' />) : ("")
-                }
-
-                Iniciar sesión</Button>
-            </Col>
-
-            <Col xs={12} lg={5} sm={3}>
-              <Button className='BtnStar' href={'/registerCostumer'}>
+          <Row className="justify-content-md-center">
+            <Col xs={24} lg={12}>
+              <Button className="BtnStar" onClick={handleLogin}>
+                {loginLoading ? (
+                  <Spinner animation="border" variant="light" size="sm" />
+                ) : (
+                  ""
+                )}
+                Iniciar sesión
+              </Button>
+              <Button className="BtnStar" href={"/registerCostumer"}>
                 Registrarme
               </Button>
             </Col>
           </Row>
           <br />
           <Row>
-            <NavLink className={'btn-btn-secondary'} to={'/forgotPassword'}>
+            <NavLink className={"btn-btn-secondary"} to={"/forgotPassword"}>
               ¿Olvidó su contraseña?
             </NavLink>
           </Row>
@@ -111,7 +116,7 @@ const login = () => {
       </Container>
       <br />
     </>
-  )
-}
+  );
+};
 
-export default login
+export default login;
