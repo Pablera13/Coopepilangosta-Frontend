@@ -17,20 +17,6 @@ const listCostumers = () => {
     const [filterState, setFilterState] = useState(null);
 
     const navigate = useNavigate()
-  const buttonStyle = {
-    borderRadius: '5px',
-    backgroundColor: '#e0e0e0',
-    color: '#333',
-    border: '1px solid #e0e0e0',
-    padding: '8px 12px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s',
-    minWidth: '100px',
-    fontWeight: 'bold',
-    hover: {
-      backgroundColor: '#c0c0c0', 
-    },
-  };
 
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -97,15 +83,14 @@ const listCostumers = () => {
             </Col>
         </Row>
         <Row>
-            <Table striped bordered hover variant="light" responsive>
+            <Table className='Table' striped bordered hover variant="light" responsive>
                 <thead className="bg-dark text-white">
                     <tr >
-                        <th>Cédula jurídica</th>
+                        <th>Cédula</th>
                         <th>Nombre</th>
                         <th>Provincia</th>
                         <th>Cantón</th>
                         <th>Distrito</th>
-                        <th>Dirección</th>
                         <th>Verificado</th>
                         <th>Acciones</th>
                     </tr>
@@ -121,7 +106,6 @@ const listCostumers = () => {
                                 <td>{costumer.province}</td>
                                 <td>{costumer.canton}</td>
                                 <td>{costumer.district}</td>
-                                <td>{costumer.address}</td>
                                 <td>{costumer.verified==true? "Verificado": "No verificado"}</td>
                                 <td>
                                     <DetailsCostumer props={costumer}/>      
@@ -129,7 +113,7 @@ const listCostumers = () => {
 
                                     {costumer.verified==true? 
                                     
-                                    <Button
+                                    <Button className='BtnBrown'
                                     onClick={() => navigate(`/listProductCostumer/${costumer.name}/${costumer.id}`)}>
                                     Cotizaciones
                                    </Button>

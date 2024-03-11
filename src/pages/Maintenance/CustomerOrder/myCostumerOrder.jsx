@@ -4,15 +4,20 @@ import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { format } from 'date-fns';
-
+import { Form } from 'react-bootstrap';
 import { getCostumerOrder } from '../../../services/costumerorderService';
 import { getUserById } from '../../../services/userService';
 import PrintCustomerOrder from '../../Maintenance/CustomerOrder/actions/printCustomerOrder.jsx';
+import ReactPaginate from 'react-paginate';
 
 const myCostumerOrder = () => {
     const userStorage = JSON.parse(localStorage.getItem('user'));
     const [user, setUser] = useState(null);
     const { data: customerorderData, isLoading, isError } = useQuery('customerorder', getCostumerOrder);
+    const navigate = useNavigate()
+
+    const [currentPage, setCurrentPage] = useState(0);
+    const [selectedDate, setSelectedDate] = useState('');
 
     useEffect(() => {
         if (customerorderData) {
@@ -20,20 +25,57 @@ const myCostumerOrder = () => {
         }
     }, [customerorderData]);
 
+    const filteredByDate = customerorderData ? customerorderData.filter((miPedido) => {
+        if (selectedDate) {
+          const pedidoDate = new Date(miPedido.confirmedDate);
+          const selected = new Date(selectedDate);
+          return pedidoDate.toDateString() === selected.toDateString();
+        }
+        return true;
+      }) : [];
+
+      const recordsPerPage = 10;
+      const offset = currentPage * recordsPerPage;
+      const paginatedOrders = filteredByDate.slice(offset, offset + recordsPerPage);
+
+  const pageCount = Math.ceil(filteredByDate.length / recordsPerPage);
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
+
 
     return (
         <Container>
             <h2 className="text-center">Mis Pedidos</h2>
             <br /> <br />
+
+            <Form>
+        <Row className="mb-3">
+
+        <Col md={3}>
+            <Form.Label>Fecha Inicial</Form.Label>
+            <Form.Control
+              type="datetime-local"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+            />
+          </Col>
+
+        </Row>
+      </Form>
+
+      <br></br>
+
             <Col xs={8} md={2} lg={12}>
                 {user != null && customerorderData != null ? (
                     <>
                         <Row>
                             {customerorderData ? (
-                                <Table striped bordered hover variant="light" responsive>
+                                <Table className='Table' striped bordered hover variant="light" responsive>
                                     <thead>
                                         <tr>
-                                            <th>Número de pedido</th>
+                                            <th>#</th>
                                             <th>Fecha del pedido</th>
                                             <th>Fecha de pago</th>
                                             <th>Fecha de entrega</th>
@@ -43,7 +85,7 @@ const myCostumerOrder = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {customerorderData
+                                        {paginatedOrders
                                             .filter((order) => order.costumerId === userStorage.costumer.id)
                                             .map((order) => (
                                                 <tr key={order.id}>
@@ -65,7 +107,7 @@ const myCostumerOrder = () => {
                                                     }</td>
                                                     <td>{order.stage}</td>
                                                     <td>
-                                                        <NavLink
+                                                        {/* <NavLink
                                                             to={`/userOrder/${order.id}`}
                                                             style={{
                                                                 textDecoration: 'underline',
@@ -78,7 +120,12 @@ const myCostumerOrder = () => {
                                                             }}
                                                         >
                                                             Detalles
-                                                        </NavLink>
+                                                        </NavLink> */}
+
+                                                        <Button className='BtnBrown'
+                                                            onClick={() => navigate(`/userOrder/${order.id}`)}>
+                                                            Detalles
+                                                        </Button>
 
                                                         <PrintCustomerOrder props={order.id} />
 
@@ -90,6 +137,18 @@ const myCostumerOrder = () => {
                             ) : (
                                 'Cargando'
                             )}
+                            <ReactPaginate
+            previousLabel="Anterior"
+            nextLabel="Siguiente"
+            breakLabel="..."
+            pageCount={pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageClick}
+            containerClassName="pagination"
+            subContainerClassName="pages pagination"
+            activeClassName="active"
+          />
                         </Row>
                     </>
                 ) : (

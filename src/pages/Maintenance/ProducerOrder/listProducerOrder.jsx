@@ -2,15 +2,15 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Table, Container, Col, Row, Button } from 'react-bootstrap';
+import { Table, Container, Col, Row, Button, Form } from 'react-bootstrap';
 import { deleteProducerOrder } from '../../../services/producerorderService';
 import { getProducerOrder } from '../../../services/producerorderService';
 import { getPurchase } from '../../../services/purchaseService';
 import Select from 'react-select';
 import PrintProducerOrder from './actions/printProducerOrder.jsx';
 import AddProducerOrderModal from './actions/addProducerOrderModal.jsx';
-
-import styles from './listProducerOrder.css'
+import { MdDelete } from "react-icons/md";
+// import styles from './listProducerOrder.css'
 import CheckEntryModal from '../../Inventory/Entries/actions/checkEntryModal.jsx';
 
 import ReactPaginate from 'react-paginate';
@@ -21,6 +21,10 @@ const listProducerOrders = () => {
 
   const { data: producerorderData, isLoading, isError } = useQuery('producerorder', getProducerOrder);
   let dataFiltered = []
+  console.log(producerorderData)
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const [selectedDate, setSelectedDate] = useState('');
 
   const filter = params.filter
 
@@ -71,24 +75,30 @@ const listProducerOrders = () => {
     }
   }, [selectedOption]);
 
+  const filteredByDate = producerorderData ? producerorderData.filter((pedido) => {
+    if (selectedDate) {
+      const pedidoDate = new Date(pedido.confirmedDate);
+      const selected = new Date(selectedDate);
+      return pedidoDate.toDateString() === selected.toDateString();
+    }
+    return true;
+  }) : [];
 
   const recordsPerPage = 10;
-  const [currentPage, setCurrentPage] = useState(0);
   const offset = currentPage * recordsPerPage;
+  const paginatedPedidos = filteredByDate.slice(offset, offset + recordsPerPage);
+
+  const pageCount = Math.ceil(filteredByDate.length / recordsPerPage);
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
 
   if (isLoading)
     return <div>Loading...</div>
 
   if (isError)
     return <div>Error</div>
-
-  const paginatedEntries = producerorderData.slice(offset, offset + recordsPerPage);
-
-  const pageCount = Math.ceil(producerorderData.length / recordsPerPage);
-
-  const handlePageClick = (data) => {
-    setCurrentPage(data.selected);
-  };
 
 
   const showAlert = (id) => {
@@ -118,33 +128,44 @@ const listProducerOrders = () => {
   return (
     <Container>
       <h2 className="text-center">Pedidos a productores</h2>
+      <br></br>
 
-      <Row>
-        <Col xs={8} lg={8}>
+<Form>
+        <Row className="mb-3">
+
+        <Col xs={2} md={3}>
+          <AddProducerOrderModal />
+        </Col>
+
+        <Col md={3}>
+            <Form.Label>Fecha Inicial</Form.Label>
+            <Form.Control
+              type="datetime-local"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+            />
+          </Col>
+
+          <Col xs={8} lg={8}>
           <span>Seleccione los pedidos que desea ver:</span>
           <Select onChange={(selected) => setSelectedOption(selected)} options={optionsSelect} />
           {/* <Button className='BtnAddProducerModal' onClick={() => navigate("/addProducerOrder")}size='sm'>
             Crear Pedido
           </Button> */}
         </Col>
-        <Col xs={2} md={3}>
-          <AddProducerOrderModal />
-        </Col>
 
+        </Row>
+      </Form>
 
-
-
-
-      </Row>
       <br></br>
 
       {producerorderData ? (
         <Row>
           <Col xs={12}>
-            <Table className='TableProducerOrder' striped bordered hover variant="light" responsive>
+          <Table className='Table' striped bordered hover variant="light" responsive>
               <thead>
                 <tr className='TblProducerOrder'>
-                  <th>Número de pedido</th>
+                  <th>#</th>
                   <th>Fecha del pedido</th>
                   <th>Total</th>
                   <th>Estado del pago</th>
@@ -153,7 +174,7 @@ const listProducerOrders = () => {
                 </tr>
               </thead>
               <tbody>
-                {dataFiltered.map((ProducerOrder) => (
+                {paginatedPedidos.map((ProducerOrder) => (
                   <tr key={ProducerOrder.id}>
                     <td>{ProducerOrder.id}</td>
                     <td>{format(new Date(ProducerOrder.confirmedDate), 'yyyy-MM-dd')}</td>
@@ -170,7 +191,7 @@ const listProducerOrders = () => {
                     </td>
                     <td>
 
-                      <Button className='BtnEdit' onClick={() => navigate(`/editProducerOrder/${ProducerOrder.id}`)} size='sm'>
+                      <Button className='BtnBrown' onClick={() => navigate(`/editProducerOrder/${ProducerOrder.id}`)} size='sm'>
                         Editar
                       </Button>
 
@@ -178,8 +199,9 @@ const listProducerOrders = () => {
                         <CheckEntryModal props={ProducerOrder} />
                       ) : null}
 
-                      <Button className='BtnTrash' onClick={() => showAlert(ProducerOrder.id)} size='sm'>
-                        Eliminar
+                      <Button className='BtnRed' onClick={() => showAlert(ProducerOrder.id)} size='sm'>
+                        Eliminar <MdDelete />
+
                       </Button>
 
                       {/* <Button

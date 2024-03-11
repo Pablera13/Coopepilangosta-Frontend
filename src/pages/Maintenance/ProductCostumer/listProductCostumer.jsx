@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { getProductCostumer } from '../../../services/productCostumerService.js';
 import { NavLink } from 'react-router-dom';
 import { deleteProductCostumer } from '../../../services/productCostumerService.js';
-import { Table, Container, Col, Row, Button } from 'react-bootstrap';
+import { Table, Container, Col, Row, Button, Form} from 'react-bootstrap';
 import AddProductCostumer from './actions/addProductCostumer.jsx';
 import ReactPaginate from 'react-paginate';
 import syles from '../ProductCostumer/listProductCostumer.css'
@@ -11,7 +11,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import UpdateProductCostumer from './actions/updateProductCostumer'
 import VolumeDiscountModal from './actions/volumeDiscountModal'
 import ExportProductCostumer from './actions/exportProductCostumer'
-
+import { MdDelete } from "react-icons/md";
 import { getProductById2 } from '../../../services/productService';
 
 const listProductCostumer = () => {
@@ -19,6 +19,11 @@ const listProductCostumer = () => {
 
   const [ProductCostumers, setProductCostumers] = useState([]);
   const [Cotizaciones, setCotizaciones] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const navigate = useNavigate()
+  const recordsPerPage = 6;
+  const [currentPage, setCurrentPage] = useState(0); 
 
   useEffect(() => {
     async function obtainProductCostumer() {
@@ -61,22 +66,7 @@ const listProductCostumer = () => {
           cotizaciones.push(cotizacion)
         } setCotizaciones(cotizaciones)}
 };
-
-  const navigate = useNavigate()
-  const buttonStyle = {
-    borderRadius: '5px',
-    backgroundColor: '#e0e0e0',
-    color: '#333',
-    border: '1px solid #e0e0e0',
-    padding: '8px 12px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s',
-    minWidth: '100px',
-    fontWeight: 'bold',
-    hover: {
-      backgroundColor: '#c0c0c0', 
-    },
-  };
+  
 
   // const showAlert = (id) => {
   //   swal({
@@ -99,6 +89,22 @@ const listProductCostumer = () => {
   //   });
   // };
 
+  const filteredCotizaciones = Cotizaciones.filter(cotizacion =>
+    cotizacion.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    cotizacion.productUnit.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const offset = currentPage * recordsPerPage;
+  const paginatedCotizaciones = filteredCotizaciones.slice(offset, offset + recordsPerPage);
+
+  const pageCount = Math.ceil(Cotizaciones.length / recordsPerPage);
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+    console.log("paginatedCotizaciones = " + paginatedCotizaciones.length)
+  };
+  //const paginatedFilter = filteredBySearch.slice(offset, offset + recordsPerPage);
+
   const showAlert = (id) => {
     swal({
       title: 'Eliminar',
@@ -120,17 +126,34 @@ const listProductCostumer = () => {
       }
     });
   };
+
   
   return (
     <Container>
       <h2 className="text-center">Cotizaciones para {Params.costumername} </h2>
-      <div className="buttons">
-        <AddProductCostumer />
-      </div>
+      <br></br>
+
+      <Form>
+        <Row className="mb-3">
+          <Col md={3}>
+            <AddProductCostumer />
+          </Col>
+          <Col md={3}>
+            <Form.Label>Buscar</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Por nombre o unidad comercial..."
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </Col>
+        </Row>
+      </Form>
+
+
       <Col xs={8} md={2} lg={12}>
         {Cotizaciones && Cotizaciones.length > 0?(
           <Row>
-            <Table striped bordered hover variant="light" responsive>
+            <Table className='Table' striped bordered hover variant="light" responsive>
               <thead>
                 <tr>
                   <th>Producto</th>
@@ -144,7 +167,7 @@ const listProductCostumer = () => {
                 </tr>
               </thead>
               <tbody>
-              {Cotizaciones.map((cotizacion) => (
+              {paginatedCotizaciones.map((cotizacion) => (
                 // <tr key={productcostumer.id}>
                 <tr>
                   <td>{cotizacion.productName}</td>
@@ -158,15 +181,15 @@ const listProductCostumer = () => {
 
                   <UpdateProductCostumer props={cotizacion}/>
 
-                  <Button
+                  <Button className='BtnRed'
                   onClick={() => showAlert(cotizacion.id)}
-                  size='sm'
-                  >
-                  Eliminar
+                  > 
+                  Eliminar <MdDelete />
                   </Button>
 
-                  <ExportProductCostumer props={cotizacion}/>
                   <VolumeDiscountModal props={cotizacion.id}/>
+                  <ExportProductCostumer props={cotizacion}/>
+                  
 
 
                   </td>
@@ -174,6 +197,21 @@ const listProductCostumer = () => {
               ))}
               </tbody>
             </Table>
+
+            <div className='Pagination-Container'>
+              <ReactPaginate
+                previousLabel={"Anterior"}
+                nextLabel={"Siguiente"}
+                breakLabel={"..."}
+                pageCount={pageCount}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageClick}
+                containerClassName={"pagination"}
+                subContainerClassName={"pages pagination"}
+                activeClassName={"active"}
+              />
+            </div>
 
             {/* <ReactPaginate
               previousLabel="Anterior"

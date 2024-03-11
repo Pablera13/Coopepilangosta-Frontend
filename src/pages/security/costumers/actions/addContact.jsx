@@ -52,12 +52,12 @@ const addContact = (props) => {
 
     return (
         <>
-            <Button variant="primary" onClick={handleShow}>
+            <Button className='BtnBrown' onClick={handleShow}>
                 Agregar contacto
             </Button>
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
+                <Modal.Header  className="HeaderModal" closeButton>
                     <Modal.Title>Agregar contacto</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -90,12 +90,13 @@ const addContact = (props) => {
                                 ref={contact}
                             />
                         </Form.Group>
-                        <Button type='submit'>Guardar</Button>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
+                <Button className='BtnSave'onClick={handleSubmit}  type='submit'>Guardar</Button>
+
+                    <Button className='BtnClose' variant="secondary" onClick={handleClose}>
+                        Cerrar
                     </Button>
                     
                 </Modal.Footer>

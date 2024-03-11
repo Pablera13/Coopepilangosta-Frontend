@@ -96,7 +96,7 @@ export const exportProductCostumer = (props) => {
     return (
         <>
             <Button variant="info" onClick={handleShow} size='sm'>
-                Exportar cotización
+                Exportar
             </Button>
 
 
@@ -106,7 +106,7 @@ export const exportProductCostumer = (props) => {
                 backdrop="static"
                 keyboard={false}
             >
-                <Modal.Header closeButton>
+                <Modal.Header className='HeaderModal' closeButton>
                     <Modal.Title>Exportar cotización</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -158,10 +158,11 @@ export const exportProductCostumer = (props) => {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" size='sm' onClick={handleClose}>
+                   
+                    <Button className='BtnSave' size='sm' onClick={saveProductCostumer}>Exportar</Button>
+                    <Button className='BtnClose' size='sm' onClick={handleClose}>
                         Cerrar
                     </Button>
-                    <Button variant="primary" size='sm' onClick={saveProductCostumer}>Exportar</Button>
                 </Modal.Footer>
             </Modal>
         </>

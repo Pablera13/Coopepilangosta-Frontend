@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap'
 import { useMutation, QueryClient } from 'react-query';
 import { editCostumerContact } from '../../../../services/CostumerContactService';
+import { TiEdit } from "react-icons/ti";
 const updateContact = (props) => {
     const queryClient = new QueryClient()
     const [show, setShow] = useState(false);
@@ -27,7 +28,9 @@ const updateContact = (props) => {
                     text: 'Se edito el contacto',
                     icon: 'success',
                 });
-                         
+                setTimeout(() => {
+                    deleteContact(id);
+                  }, 1500);       
             },
             onError: () => {
                 console.log("Error creating the costumer")
@@ -54,12 +57,13 @@ const updateContact = (props) => {
 
   return (
     <>
-            <Button variant="primary" onClick={handleShow} size='sm'>
-                Editar
+            <Button className='BtnBrown' variant="primary" onClick={handleShow} size='sm'>
+                Editar <TiEdit />
+
             </Button>
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
+                <Modal.Header className='HeaderModal' closeButton>
                     <Modal.Title>Editar</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -95,13 +99,16 @@ const updateContact = (props) => {
                                 ref={contact}
                             />
                         </Form.Group>
-                        <Button type='submit'>Guardar</Button>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                <Button className='BtnSave' type='submit'  onClick={handleSubmit} >Guardar</Button>
+
+                    <Button className='BtnClose' variant="secondary" onClick={handleClose}>
                         Cerrar
                     </Button>
+                    
+
                     
                 </Modal.Footer>
             </Modal>

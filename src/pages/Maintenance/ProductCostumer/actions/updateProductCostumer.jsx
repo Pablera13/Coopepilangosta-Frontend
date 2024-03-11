@@ -3,6 +3,7 @@ import { Modal, Col, Row, Container, Button, Form } from 'react-bootstrap'
 import {QueryClient, useMutation, useQuery } from 'react-query';
 import { format } from 'date-fns';
 import {  editProductCostumerById} from '../../../../services/productCostumerService';
+import { TiEdit } from "react-icons/ti";
 
 const updateProductCostumer = (cotizacion) => {
 
@@ -29,7 +30,16 @@ const queryClient = new QueryClient();
     {
       onSettled: () => queryClient.invalidateQueries('productcostumer'),
       mutationKey: 'productcostumer',
-      onSuccess: () => window.location.reload(),
+      onSuccess: () => {
+        swal({
+          title: "Editado!",
+          text: "Se editó la cotización",
+          icon: "success",
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      },
     })
 
   const handleUpdate = () =>{
@@ -50,9 +60,9 @@ const queryClient = new QueryClient();
   }
   return (
     <>
-      <Button onClick={handleOpen} 
-      style={{marginRight:'7% '}}>
-        Editar
+      <Button  className='BtnBrown' onClick={handleOpen} 
+     >
+        Editar <TiEdit/>
       </Button>
 
       <Modal
@@ -61,7 +71,7 @@ const queryClient = new QueryClient();
         backdrop="static"
         keyboard={false}
       >
-        <Modal.Header closeButton>
+        <Modal.Header className='HeaderModal' closeButton>
           <Modal.Title>Actualizar cotización</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -102,10 +112,11 @@ const queryClient = new QueryClient();
 
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" size='sm' onClick={handleClose}>
+         
+          <Button className='BtnSave' size='sm' onClick={handleUpdate}>Guardar</Button>
+          <Button className='BtnClose' size='sm' onClick={handleClose}>
             Cerrar
           </Button>
-          <Button variant="primary" size='sm' onClick={handleUpdate}>Guardar</Button>
         </Modal.Footer>
       </Modal>
     </>

@@ -59,7 +59,7 @@ async function star5Checked() {setStarsChecked(5)}
   return (
     <>
       <Button onClick={handleOpen} 
-      className="BtnEditReview"
+      className="BtnBrown"
      >
         Editar <TiEdit/>
       </Button>
@@ -103,8 +103,8 @@ async function star5Checked() {setStarsChecked(5)}
 
         </Modal.Body>
         <Modal.Footer>
-          <Button className='BtnSaveReview' variant="primary" size='sm' onClick={handleUpdate}>Guardar</Button>
-          <Button className='BtnReturnReview' variant="secondary" size='sm' onClick={handleClose}>
+          <Button className='BtnSave' variant="primary" size='sm' onClick={handleUpdate}>Guardar</Button>
+          <Button className='BtnClose' variant="secondary" size='sm' onClick={handleClose}>
             Cerrar
           </Button>
         </Modal.Footer>

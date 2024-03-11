@@ -2,9 +2,33 @@ import React from 'react';
 import { Container, Row, Col, Card, ListGroup, Button } from 'react-bootstrap';
 import UpdateEmployee from '../employee/actions/updateEmployee';
 import './employeeProfile.css';
+import { MdDelete } from "react-icons/md";
 
 const employeeProfile = () => {
   const user = JSON.parse(localStorage.getItem('user'));
+
+  const handleLogout = () => {
+    swal({
+        title: "Cerrar session",
+        text: "Esta seguro?",
+        icon: "warning",
+        buttons: ["Cancelar", "Aceptar"]
+    }).then(answer => {
+        if (answer) {
+            swal({
+                title: 'Se cerro la sesión!',
+                text: `Volverá a sitio principal`,
+                icon: "success"
+
+            })
+            setTimeout(function () {
+                localStorage.removeItem('user');
+                localStorage.removeItem('bearer');
+                window.location = '/';
+            }, 2000)
+        }
+    })
+}
 
   return (
     <Container>
@@ -20,7 +44,7 @@ const employeeProfile = () => {
                   <h5 className='user-name'>{user.employee.name} {user.employee.lastName1} {user.employee.lastName2}</h5>
                   <h6 className='user-email'>{user.email}</h6>
                 </div>
-                <div className='about'>
+                <div className='about' >
                   <h5>{user.idRole==1? 'Administrador':'Super Administrador'}</h5>
                 </div>
               </div>
@@ -33,59 +57,64 @@ const employeeProfile = () => {
             <Card.Body>
               <Row className='gutters'>
                 <Col xl={12} lg={12} md={12} sm={12} xs={12}>
-                  <h6 className='mb-2 text-primary'>Información Personal</h6>
+                  <h6 className='ProfileText' >Información Personal</h6>
+                  <br/>
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                   <div className='form-group'>
-                    <label htmlFor='fullName'>Nombre</label>
+                    <h5 htmlFor='fullName'>Nombre</h5>
                     <input type='text' className='form-control' id='fullName' placeholder={user.employee.name} readOnly />
                   </div>
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                   <div className='form-group'>
-                    <label htmlFor='eMail'>Primer Apellido</label>
+                    <h5 htmlFor='eMail'>Primer Apellido</h5>
                     <input type='email' className='form-control' id='eMail' placeholder={user.employee.lastName1} readOnly />
                   </div>
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                   <div className='form-group'>
-                    <label htmlFor='phone'>Segundo Apellido</label>
+                    <h5 htmlFor='phone'>Segundo Apellido</h5>
                     <input type='text' className='form-control' id='phone' placeholder={user.employee.lastName2} readOnly />
                   </div>
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                   <div className='form-group'>
-                    <label htmlFor='website'>Cédula</label>
+                    <h5 htmlFor='website'>Cédula</h5>
                     <input type='url' className='form-control' id='website' placeholder={user.employee.cedula} readOnly />
                   </div>
                 </Col>
 
                 <Col xl={12} lg={12} md={12} sm={12} xs={12}>
-                  <h6 className='mt-3 mb-2 text-primary'>Información de Usuario</h6>
+                <br/>
+                  <h6 className='ProfileText'>Información de Usuario</h6>
+                  <br/>
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                   <div className='form-group'>
-                    <label htmlFor='Street'>Correo Electrónico</label>
+                    <h5 htmlFor='Street'>Correo Electrónico</h5>
                     <input type='text' className='form-control' id='Street' placeholder={user.email} readOnly />
                   </div>
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                   <div className='form-group'>
-                    <label htmlFor='ciTy'>Nombre de Usuario</label>
+                    <h5 htmlFor='ciTy'>Usuario</h5>
                     <input type='text' className='form-control' id='ciTy' placeholder={user.userName} readOnly />
                   </div>
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                   <div className='form-group'>
-                    <label htmlFor='sTate'>Permisos</label>
+                    <h5 htmlFor='sTate'>Permisos</h5>
                     <input type='text' className='form-control' id='sTate' placeholder={user.idRole==1? 'Administrador':'Super Administrador'} readOnly />
                   </div>
                 </Col>
 
-                <Col xl={12} lg={12} md={12} sm={12} xs={12}>
-                  <div className='text-right'>
+                <Col xl={7} lg={11} md={11} sm={11} xs={11}>
+                <br/>
+
                   <UpdateEmployee props={user.employee}/>
-                  </div>
+                  <Button  onClick={handleLogout} className='BtnRed' >Cerrar sesión 
+                        </Button>
                 </Col>
               </Row>
             </Card.Body>

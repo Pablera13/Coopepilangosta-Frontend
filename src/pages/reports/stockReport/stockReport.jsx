@@ -93,7 +93,7 @@ const stockReport = () => {
       <Col xs={12} md={2} lg={12}>
         {stocksData ? (
           <Row>
-            <Table className='TableProducts' striped bordered hover variant="light" responsive>
+            <Table className='Table' striped bordered hover variant="light" responsive>
               <thead>
                 <tr>
                   <th>Producto</th>

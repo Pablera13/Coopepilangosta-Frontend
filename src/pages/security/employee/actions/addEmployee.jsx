@@ -140,13 +140,12 @@ export const AddEmployee = () => {
         backdrop="static"
         keyboard={false}
       >
-        <Modal.Header closeButton>
+        <Modal.Header className="HeaderModal"  closeButton>
           <Modal.Title>Agregar empleado</Modal.Title>
         </Modal.Header>
         <Modal.Body>
 
           <Form noValidate validated={validated}>
-            <Row><h3>Datos personales</h3></Row>
             <Row>
               <Col>
                 <Form.Label>Cédula</Form.Label>
@@ -174,7 +173,6 @@ export const AddEmployee = () => {
               </Col>
             </Row>
             <Row>
-              <h3>Usuario</h3>
             </Row>
             <Row>
               <Col>
@@ -201,10 +199,10 @@ export const AddEmployee = () => {
 
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" size='sm' onClick={handleClose}>
+          <Button className="BtnClose" variant="secondary" size='sm' onClick={handleClose}>
             Cerrar
           </Button>
-          <Button variant="primary" size='sm' onClick={handleSubmit}>Guardar</Button>
+          <Button className="BtnSave" variant="primary" size='sm' onClick={handleSubmit}>Guardar</Button>
         </Modal.Footer>
       </Modal>
     </>

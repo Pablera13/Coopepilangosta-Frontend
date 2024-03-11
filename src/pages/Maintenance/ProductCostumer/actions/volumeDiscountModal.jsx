@@ -93,7 +93,7 @@ const volumeDiscountModal = (props) => {
 
     return (
         <>
-            <Button className='xd' onClick={handleShow} size='sm'>
+            <Button className='BtnAdd' onClick={handleShow} size='sm'>
                 Volúmenes
             </Button>
 
@@ -113,6 +113,7 @@ const volumeDiscountModal = (props) => {
                                         type="number"
                                         placeholder="Ingrese el precio unitario"
                                         autoFocus
+                                        min={1}
                                         ref={price} />
                                 </Form.Group>
                             </Col>
@@ -123,7 +124,9 @@ const volumeDiscountModal = (props) => {
                                         required
                                         type="number"
                                         placeholder="Ingrese el volumen"
+                                        min={1}
                                         ref={volume} />
+                                        
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -137,7 +140,7 @@ const volumeDiscountModal = (props) => {
                                     <Form.Group className="mb-3">
                                         <Form.Label>Lista de descuentos por volúmenes</Form.Label>
 
-                                        <Table>
+                                        <Table className='Table'>
                                             <thead>
                                                 <tr>
                                                     <th>Precio</th>

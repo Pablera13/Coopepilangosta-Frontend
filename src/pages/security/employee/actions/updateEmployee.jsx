@@ -3,10 +3,15 @@ import { Modal, Col, Row, Container, Button, Form } from 'react-bootstrap'
 import { useMutation } from 'react-query';
 import { editEmployee } from '../../../../services/employeeService';
 import swal from 'sweetalert';
+
+import { TiEdit } from "react-icons/ti";
+
 const updateEmployee = (props) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [validated, setValidated] = useState(false);
 
   const [employee, setEmployee] = useState(null);
   const handleOpen = () => {
@@ -24,19 +29,19 @@ const updateEmployee = (props) => {
     {
       onSettled: () => queryClient.invalidateQueries('employee'),
       mutationKey: 'employee',
-      onSuccess: () => {
-        swal('Informacion actualizada!','El registro del empleado fue actualizado exitosamente.','success')
-        setTimeout(() => {
-          window.location.reload()          
-        }, 2000);
-      }
-      ,
-      onError:()=>{
-        swal('Error','Algo salio mal durante la operacion.','error')
-      }
+      onSuccess: () => window.location.reload(),
     })
 
-  const handleUpdate = () =>{
+  const handleUpdate = (event) =>{
+    const form = document.getElementById('form-updateuser');
+
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+  } else {
+
+    setValidated(true);
+    
     let toUpdateEmployee={
       id: employee.id,
       cedula:employee.cedula,
@@ -48,11 +53,12 @@ const updateEmployee = (props) => {
     }
     console.log(toUpdateEmployee)
     updateEmployeeMutation.mutateAsync(toUpdateEmployee);
-  }
+  }}
   return (
     <>
-      <Button variant="primary" onClick={handleOpen} size='sm'>
-        Actualizar
+      <Button className="BtnBrown" variant="primary" onClick={handleOpen} size='sm'>
+        Editar
+
       </Button>
 
       <Modal
@@ -61,36 +67,35 @@ const updateEmployee = (props) => {
         backdrop="static"
         keyboard={false}
       >
-        <Modal.Header closeButton>
+        <Modal.Header  className="HeaderModal" closeButton>
           <Modal.Title>Actualizar datos del empleado</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {
             employee != null ? (
-              <Form>
-                <Row><h3>Datos personales</h3></Row>
+              <Form validated={validated}>
                 <Row>
                   <Col>
                     <Form.Label>Nombre</Form.Label>
-                    <Form.Control placeholder="Ingrese su nombre" defaultValue={employee.name} ref={name}/>
+                    <Form.Control required placeholder="Ingrese su nombre" defaultValue={employee.name} ref={name}/>
                   </Col>
                 </Row>
                 <Row>
                   <Col>
                     <Form.Label>Primer apellido</Form.Label>
-                    <Form.Control defaultValue={employee.lastName1} ref={lastName1}/>
+                    <Form.Control required defaultValue={employee.lastName1} ref={lastName1}/>
                   </Col>
                 </Row>
                 <Row>
                   <Col>
                     <Form.Label>Segundo apellido</Form.Label>
-                    <Form.Control defaultValue={employee.lastName2} ref={lastName2}/>
+                    <Form.Control required defaultValue={employee.lastName2} ref={lastName2}/>
                   </Col>
                 </Row>
                 <Row>
                   <Col>
                     <Form.Label>Departamento</Form.Label>
-                    <Form.Control defaultValue={employee.department} ref={department}/>
+                    <Form.Control required defaultValue={employee.department} ref={department}/>
                   </Col>
                 </Row>
               </Form>
@@ -99,10 +104,10 @@ const updateEmployee = (props) => {
 
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" size='sm' onClick={handleClose}>
+          <Button className="BtnClose" variant="secondary" size='sm' onClick={handleClose}>
             Cerrar
           </Button>
-          <Button variant="primary" size='sm' onClick={handleUpdate}>Guardar</Button>
+          <Button  className="BtnSave" variant="primary" size='sm' onClick={handleUpdate}>Guardar</Button>
         </Modal.Footer>
       </Modal>
     </>
