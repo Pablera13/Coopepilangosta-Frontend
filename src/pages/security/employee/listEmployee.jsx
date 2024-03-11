@@ -68,9 +68,9 @@ const listEmployee = () => {
               
               })
               deleteEmployeeMethod(idEmployee);
+              deleteUser(idUser);
               setTimeout(function(){
                 
-                deleteUser(idUser);
                 window.location.reload();
             }, 2000)
               
