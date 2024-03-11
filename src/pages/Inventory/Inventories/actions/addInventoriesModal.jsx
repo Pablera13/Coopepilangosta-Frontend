@@ -3,7 +3,7 @@ import { QueryClient, useMutation } from 'react-query';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import swal from 'sweetalert';
 import { createStockReport } from '../../../../services/reportServices/stockreportService';
-import { editProduct } from '../../../../services/productService';
+import { updateStock } from '../../../../services/productService';
 import { TiEdit } from "react-icons/ti";
 
 const addInventoriesModal = (props) => {
@@ -15,26 +15,16 @@ const addInventoriesModal = (props) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const buttonStyle = {
-        borderRadius: '5px',
-        backgroundColor: '#e0e0e0',
-        color: '#333',
-        border: '1px solid #e0e0e0',
-        padding: '8px 12px',
-        cursor: 'pointer',
-        transition: 'background-color 0.3s',
-        minWidth: '100px',
-        fontWeight: 'bold',
-        hover: {
-            backgroundColor: '#c0c0c0',
-        },
-    };
 
     const [validated, setValidated] = useState(false);
 
-    const mutationProduct = useMutation('product', editProduct, {
-        onSettled: () => queryClient.invalidateQueries('product'),
-        mutationKey: 'product',
+    useEffect(() => {
+        setInitialStock(product.stock);
+    }, []);
+
+    const mutationStock = useMutation('stock', createStockReport, {
+        onSettled: () => queryClient.invalidateQueries('stock'),
+        mutationKey: 'stock',
         onSuccess: () => {
             swal({
                 title: 'Editado!',
@@ -48,15 +38,6 @@ const addInventoriesModal = (props) => {
         },
     });
 
-    useEffect(() => {
-        setInitialStock(product.stock);
-    }, []);
-
-    const mutationStock = useMutation('stock', createStockReport, {
-        onSettled: () => queryClient.invalidateQueries('stock'),
-        mutationKey: 'stock',
-    });
-
     const stock = useRef();
     const userEmail = JSON.parse(localStorage.getItem('user')).email;
     const [selectedMotive, setSelectedMotive] = useState('');
@@ -64,9 +45,6 @@ const addInventoriesModal = (props) => {
     const [cambioFecha, setCambioFecha] = useState('');
 
     const saveEdit = async (event) => {
-        console.log("dx")
-
-
         const form = event.currentTarget;
         event.preventDefault();
         if (form.checkValidity() === false) {
@@ -74,23 +52,9 @@ const addInventoriesModal = (props) => {
             event.stopPropagation();
             console.log("No esta entrando")
         } else {
-            setValidated(true);
 
-            console.log("No esta entrando")
-            const editProductData = {
-                id: product.id,
-                code: product.code,
-                name: product.name,
-                description: product.description,
-                stock: stock.current.value,
-                unit: product.unit,
-                price: product.price,
-                margin: product.margin,
-                iva: product.iva,
-                state: product.state,
-                categoryId: product.categoryId,
-                image: product.image,
-            };
+            setValidated(true);
+            await updateStock(product.id, stock.current.value)
 
             const stockReportData = {
                 ProductId: product.id,
@@ -102,7 +66,6 @@ const addInventoriesModal = (props) => {
                 Email: userEmail,
             };
 
-            mutationProduct.mutateAsync(editProductData)
             mutationStock.mutateAsync(stockReportData)
         };
     }
