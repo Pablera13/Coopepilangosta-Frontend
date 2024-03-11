@@ -4,6 +4,11 @@ import swal from 'sweetalert';
 import { format } from 'date-fns';
 import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { createCostumerOrder } from '../../services/costumerorderService';
+import { checkProductStock } from '../../services/productService';
+import { reduceStock } from '../../services/productService';
+import { createStockReport } from '../../services/reportServices/stockreportService';
+
+
 import { createSale } from '../../services/saleService';
 import { Form, Row, Col, Button, Container, InputGroup, Collapse, Table } from 'react-bootstrap'
 import Select from 'react-select'
@@ -72,16 +77,22 @@ const ShoppingCart = () => {
 
       setTimeout(() => {
         // history.back();
+        setLocalShopping([])
+        localStorage.setItem('ShoppingCar', JSON.stringify(LocalShopping));
         navigate(`/myCustomerOrders`)
       }, 2000);
     },
   })
 
-
   const mutationSale = useMutation("sale ", createSale, {
     onSettled: () => queryClient.invalidateQueries("sales"),
     mutationKey: "sale"
   })
+
+  const mutationStock = useMutation('stock', createStockReport, {
+    onSettled: () => queryClient.invalidateQueries('stock'),
+    mutationKey: 'stock',
+});
 
   const DeleteProduct = (ProductId) => {
     const updatedCart = LocalShopping.filter(sale => sale.ProductId !== ProductId);
@@ -91,6 +102,32 @@ const ShoppingCart = () => {
     const updatedCart = LocalShopping.filter(sale => sale.CotizacionId !== CotizacionId);
     setLocalShopping(updatedCart);
   };
+
+  const checkStockAvailability = async () => {
+    let QuantityValidation = true; 
+
+    const promises = LocalShopping.map(async (sale) => {
+
+        let QuantityAvailable = await checkProductStock(sale.ProductId);
+        
+        if (sale.Quantity > QuantityAvailable ) {
+            QuantityValidation = false;
+            swal({
+                title: 'Lo sentimos',
+                text: `La cantidad seleccionada de ` + sale.ProductName + ` excede nuestro inventario actual`,
+                icon: "warning"
+            });
+        }
+    });
+
+    await Promise.all(promises);
+
+    console.log("Valor de quantityvalidation: " + QuantityValidation);
+    if (QuantityValidation === true) {
+        saveProducerOrder();
+    }
+}
+
 
   const saveProducerOrder = async () => {
 
@@ -119,7 +156,7 @@ const ShoppingCart = () => {
 
     const costumerOrder = await mutationCostumerOrder.mutateAsync(newCostumerOrder).finally(data => data)
 
-    LocalShopping.map((sale) => {
+    LocalShopping.map(async (sale) => {
       let newSale = {
         ProductId: sale.ProductId,
         Quantity: sale.Quantity,
@@ -128,13 +165,25 @@ const ShoppingCart = () => {
         UnitPrice: sale.PrecioConMargen,
         Unit: sale.ProductUnit,
       };
-
       mutationSale.mutateAsync(newSale);
+
+      if(sale.Stockable == true){
+
+        let QuantityAvailable = await checkProductStock(sale.ProductId);
+
+        const stockReportData = {
+          ProductId: sale.ProductId,
+          ProductName: sale.ProductName,
+          CambioFecha: formattedDate,
+          OldStock: QuantityAvailable,
+          NewStock: QuantityAvailable - sale.Quantity,
+          motive: "Venta",
+          Email: user.email,
+      };
+      mutationStock.mutateAsync(stockReportData)
+      reduceStock(sale.ProductId, sale.Quantity)
+      }
     })
-
-    setLocalShopping([])
-    localStorage.setItem('ShoppingCar', JSON.stringify(LocalShopping));
-
   }
 
   return (
@@ -188,6 +237,7 @@ const ShoppingCart = () => {
                                   className="form-control"
                                   style={{ textAlign: 'center' }}
                                   defaultValue={Sale.Quantity}
+                                  max={Sale.Stockable == true? Sale.Stock : false}
                                   type="number"
                                   min="1"
                                   onChange={(e) => {
@@ -357,18 +407,21 @@ const ShoppingCart = () => {
                 
               </div>
               <Row>
-                  <Col xs={12} lg={12}>
-                    <Button variant="primary" className="BtnTrash" onClick={saveProducerOrder}>Realizar pedido</Button>
+              <Col xl={6} lg={6} md={6} sm={6} xs={6}>
+                    <Button className="BtnBrown" onClick={checkStockAvailability}>Realizar pedido</Button>
                     
                   </Col>
-                  <Col lg={12}>
-                  <NavLink to={`/home`} className="BtnUpdate">Seguir comprando</NavLink>
+                  <Col xl={3} lg={3} md={3} sm={3} xs={3}>
+                  <Button className='BtnAdd'
+                                    onClick={() => navigate(`/home`)}>
+                                    Seguir comprando
+                                   </Button>
 
                   </Col>
-                </Row>
-                <Row>
 
                 </Row>
+                <br/>
+
             </div>
           </div>
 

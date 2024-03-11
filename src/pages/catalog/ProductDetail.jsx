@@ -182,6 +182,8 @@ const ProductDetail = () => {
             ProductImage: productRequest.image,
             Quantity: parseInt(quantity.current.value),
             Volumes: Volumes,
+            Stockable: productRequest.stockable,
+            Stock: productRequest.stock
           };
           setLocalShopping((prevProducts) => [...prevProducts, newProductToCart]);
         }
@@ -213,6 +215,8 @@ const ProductDetail = () => {
             ProductUnit: productRequest.unit,
             ProductImage: productRequest.image,
             Quantity: parseInt(quantity.current.value),
+            Stockable: productRequest.stockable,
+            Stock: productRequest.stock
           };
           // console.log("No encontro el producto y lo seteo")
 
@@ -252,7 +256,6 @@ const ProductDetail = () => {
                       {productRequest.image != null ? (
 
                         <div className="ImgFluid">
-
                           {
                             productRequest.image.split(',').map((image) => (
                               <a onClick={() => switchImage(image)}>
@@ -277,12 +280,9 @@ const ProductDetail = () => {
                             ★
                           </span>
                         ))}
-
                       </h4>
-                      <br />
-                      <form>
 
-                      </form>
+                      <br />
 
                       <p>
                         {productRequest.description}
@@ -293,7 +293,8 @@ const ProductDetail = () => {
                           <strong>Categoría:</strong> <a className='CategoryName' rel="tag" href="#">
                             {categoryRequest.name}
                           </a>
-                          <br />
+                          <br /><br />
+
                         </span>
 
                         <span className="tagged_as">
@@ -303,77 +304,132 @@ const ProductDetail = () => {
                         </span>
                       </div>
 
-                      <br />
-                      {cotizacionRequest != null && cotizacionRequest.length > 0 ? (
-                        <><>
-                          <Col>
-
-                            <span className="tagged_as">
-                              <strong>Seleccione su cotización</strong> <a className='ProductName' rel="tag" href="#">
-                              </a>
-                            </span>
-                            <Select
-                              options={cotizacionOptions}
-                              placeholder='Mis cotizaciones'
-                              onChange={(selectedOption) => setCotizacion(selectedOption.value)}
-                              className="small-input" />
-                          </Col>
-
-                        </></>
-
-                      ) : (
-
-                        <span className="posted_in">
-                          <strong>Consulta por nuestras cotizaciones</strong> <a className='CategoryName' rel="tag" href="#">
-                          </a>
-                          <br />
-                        </span>
-
-                      )}
-
-                      {FixedCotizacion ? (
-                        <>
-                          <br></br>
-                          <Col>
-                            <span className="posted_in">
-                              <strong>Precio unitario: ₡{FixedCotizacion.finalPrice}</strong> <a className='CategoryName' rel="tag" href="#">
-                              </a>
-                              <br />
-                            </span>
-                          </Col>
-                        </>
-
-                      ) : (""
-
-                      )}
-
-
-
-                      <br />
-                      <div className="form-group">
-                        <label >Ingrese la cantidad</label>
-
-                        <Form.Control
-                          type="number"
-                          placeholder="1"
-                          className="form-control quantity"
-                          defaultValue={1}
-                          ref={quantity}
-                          min="1"
-                        />
-                      </div>
                       <p>
                         <br />
                         {UserRole === 'Cliente' ? (
-                          <Button
-                            variant="danger"
-                            className="BtnStar"
-                            type="button"
-                            onClick={addToCart}
-                          >
+                          <>
 
-                            <i className="fa fa-shopping-cart"></i> Agregar al carrito
-                          </Button>
+                            {cotizacionRequest != null && cotizacionRequest.length > 0 ? (
+                              <>
+                                <Col>
+                                  <span className="tagged_as">
+                                    <strong>Mis cotizaciones</strong> <a className='ProductName' rel="tag" href="#">
+                                    </a>
+                                  </span>
+                                  <Select
+                                    options={cotizacionOptions}
+                                    placeholder='Seleccione'
+                                    onChange={(selectedOption) => setCotizacion(selectedOption.value)}
+                                    className="small-input" />
+                                  <br />
+                                </Col>
+
+                                {FixedCotizacion != null ? (
+                                  <>
+                                    <Col>
+                                      <span className="posted_in">
+                                        <strong>Precio unitario: ₡{FixedCotizacion.finalPrice}</strong> <a className='CategoryName' rel="tag" href="#">
+                                        </a>
+                                      </span>
+                                      <br />
+                                    </Col>
+                                  </>
+                                ) : (""
+                                )}
+
+                              </>
+                            ) : (
+                              <>
+                                <span className="posted_in">
+                                  <strong>Consulta por nuestras cotizaciones</strong> <a className='CategoryName' rel="tag" href="#">
+                                  </a>
+                                </span>
+                                <br />
+                              </>
+                            )}
+
+                            {productRequest.stockable == true ? (
+
+                              productRequest.stock >= 1
+                                ? (
+                                  <>
+                                    <br />
+                                    <div className="form-group">
+                                      <Row>
+                                        <Col xl={2} lg={2} md={2} sm={2} xs={2}>
+                                          <label>Cantidad:</label>
+                                        </Col>
+                                        <Col xl={5} lg={5} md={5} sm={5} xs={5}>
+                                          <Form.Control
+                                            type="number"
+                                            placeholder="Ingrese la cantidad"
+                                            className="form-control quantity"
+                                            defaultValue={1}
+                                            ref={quantity}
+                                            size='lg'
+                                            style={{ width: "50%" }}
+                                            min="1" 
+                                            max={productRequest.stock}/>
+                                            
+                                            
+                                          <br />
+                                        </Col>
+                                      </Row>
+                                    </div>
+
+
+                                    <Button
+                                      variant="danger"
+                                      className="BtnStar"
+                                      type="button"
+                                      onClick={addToCart}
+                                    >
+                                      <i className="fa fa-shopping-cart"></i> Agregar al carrito
+                                    </Button>
+                                  </>
+                                ) : (
+
+                                  <><br /><p className="verify warning">Sin Existencias</p></>
+                                )
+
+                            ) : (
+                              <>
+                                <div className="form-group">
+                                <br />
+
+                                      <Row>
+                                        <Col xl={2} lg={2} md={2} sm={2} xs={2}>
+                                          <label>Cantidad:</label>
+                                        </Col>
+                                        <Col xl={5} lg={5} md={5} sm={5} xs={5}>
+                                          <Form.Control
+                                            type="number"
+                                            placeholder="Ingrese la cantidad"
+                                            className="form-control quantity"
+                                            defaultValue={1}
+                                            ref={quantity}
+                                            size='lg'
+                                            style={{ width: "50%" }}
+                                            min="1" />
+                                          <br />
+                                        </Col>
+                                      </Row>
+                                    </div>
+
+                                <br />
+
+                                <Button
+                                  variant="danger"
+                                  className="BtnStar"
+                                  type="button"
+                                  onClick={addToCart}
+                                >
+                                  <i className="fa fa-shopping-cart"></i> Agregar al carrito
+                                </Button>
+                              </>
+                            )}
+                          </>
+
                         ) : (
 
                           <Button
@@ -385,19 +441,10 @@ const ProductDetail = () => {
                             <i className="fa fa-shopping-cart"></i> Inicie sesión para comprar
                           </Button>
                         )}
+
                       </p>
                     </Col>
                   </Row>
-
-                  {/* {productParams != null? (
-
-                          <Listreview productid={productParams.idproduct}/>    
-
-                          ) : (
-                            'No hay reviews'
-                          )} */}
-
-
                 </Card.Body>
               </Card>
             </div>

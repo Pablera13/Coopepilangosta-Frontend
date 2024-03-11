@@ -99,6 +99,8 @@ const editProductModal = (props) => {
   const iva = useRef();
   const state = useRef();
   const categoryId = useRef();
+  const stockable= useRef();
+
 
   const save = async (event) => {
     const form = event.currentTarget;
@@ -121,6 +123,7 @@ const editProductModal = (props) => {
         margin: margin.current.value,
         iva: iva.current.value,
         state: state.current.value,
+        stockable: stockable.current.value,
         categoryId: categoryId.current.value,
         image: serializedImages,
       };
@@ -200,6 +203,7 @@ const editProductModal = (props) => {
                           className="custom-select"
                           id="unitOptions"
                           ref={unit}
+                          defaultValue={productRequest.unit}
                         >
                           <option value="Kilogramo">Kilogramo</option>
                           <option value="Rollo">Rollo</option>
@@ -247,7 +251,8 @@ const editProductModal = (props) => {
                   <Col md={6}>
                     <Form.Group className="mb-3">
                       <Form.Label>Estado</Form.Label>
-                      <Form.Select required ref={state}>
+                      <Form.Select required ref={state}
+                        defaultValue={productRequest.state}>
                         <option value="true">Activo</option>
                         <option value="false">Inactivo</option>
                       </Form.Select>
@@ -268,12 +273,27 @@ const editProductModal = (props) => {
                     </Form.Group>
                   </Col>
                 </Row>
+
+                <Row>
+                <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Inventario</Form.Label>
+                      <Form.Select required ref={stockable}
+                      defaultValue={productRequest.stockable}>
+                        <option value="true">Si</option>
+                        <option value="false">No</option>
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                </Row>
+
+
                 <Row>
                   <Col md={6}>
                     <Form.Group className="mb-3">
                       <Form.Label>Imagen</Form.Label>
 
-                      <Table >
+                      <Table className='Table'>
                         <thead>
                           <tr>
                             <th>Imagen</th>

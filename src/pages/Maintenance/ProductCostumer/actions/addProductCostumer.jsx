@@ -167,10 +167,11 @@ const mutation = useMutation('productcostumer', createProductCostumer, {
 
         </Modal.Body>
         <Modal.Footer>
+          
+          <Button className='BtnSave' size='sm' onClick={saveProductCostumer}>Guardar</Button>
           <Button className='BtnClose' size='sm' onClick={handleClose}>
             Cerrar
           </Button>
-          <Button className='BtnSave' size='sm' onClick={saveProductCostumer}>Guardar</Button>
         </Modal.Footer>
       </Modal>
     </>

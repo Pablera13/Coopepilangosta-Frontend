@@ -158,10 +158,11 @@ export const exportProductCostumer = (props) => {
 
                 </Modal.Body>
                 <Modal.Footer>
+                   
+                    <Button className='BtnSave' size='sm' onClick={saveProductCostumer}>Exportar</Button>
                     <Button className='BtnClose' size='sm' onClick={handleClose}>
                         Cerrar
                     </Button>
-                    <Button className='BtnSave' size='sm' onClick={saveProductCostumer}>Exportar</Button>
                 </Modal.Footer>
             </Modal>
         </>
