@@ -29,7 +29,16 @@ const listWarehouse = () => {
   const recordsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(0);
 
-  if (WarehousesLoading) return <div>Loading...</div>;
+  if (WarehousesLoading)
+    return (
+      <div className="Loading">
+        <ul>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
+    );
 
   if (WarehousesError) return <div>Error</div>;
 
@@ -136,9 +145,16 @@ const listWarehouse = () => {
       <Col xs={12} md={2} lg={12}>
         {Warehouses ? (
           <Row>
-            <Table className='Table' striped bordered hover variant="light" responsive >
+            <Table
+              className="Table"
+              striped
+              bordered
+              hover
+              variant="light"
+              responsive
+            >
               <thead>
-                <tr >
+                <tr>
                   <th>Código</th>
                   <th>Descripción</th>
                   <th>Dirección</th>
