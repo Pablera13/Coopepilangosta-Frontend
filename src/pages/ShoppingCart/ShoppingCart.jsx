@@ -5,6 +5,9 @@ import { format } from 'date-fns';
 import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { createCostumerOrder } from '../../services/costumerorderService';
 import { checkProductStock } from '../../services/productService';
+import { reduceStock } from '../../services/productService';
+import { createStockReport } from '../../services/reportServices/stockreportService';
+
 
 import { createSale } from '../../services/saleService';
 import { Form, Row, Col, Button, Container, InputGroup, Collapse, Table } from 'react-bootstrap'
@@ -74,16 +77,22 @@ const ShoppingCart = () => {
 
       setTimeout(() => {
         // history.back();
+        setLocalShopping([])
+        localStorage.setItem('ShoppingCar', JSON.stringify(LocalShopping));
         navigate(`/myCustomerOrders`)
       }, 2000);
     },
   })
 
-
   const mutationSale = useMutation("sale ", createSale, {
     onSettled: () => queryClient.invalidateQueries("sales"),
     mutationKey: "sale"
   })
+
+  const mutationStock = useMutation('stock', createStockReport, {
+    onSettled: () => queryClient.invalidateQueries('stock'),
+    mutationKey: 'stock',
+});
 
   const DeleteProduct = (ProductId) => {
     const updatedCart = LocalShopping.filter(sale => sale.ProductId !== ProductId);
@@ -95,12 +104,13 @@ const ShoppingCart = () => {
   };
 
   const checkStockAvailability = async () => {
-    let QuantityValidation = true; // Inicialmente, asumimos que la cantidad es válida
-    console.log("Valor de quantityvalidation: " + QuantityValidation);
+    let QuantityValidation = true; 
 
     const promises = LocalShopping.map(async (sale) => {
-        let IsQuantityAvailable = await checkProductStock(sale.ProductId, sale.Quantity);
-        if (IsQuantityAvailable === false) {
+
+        let QuantityAvailable = await checkProductStock(sale.ProductId);
+        
+        if (sale.Quantity > QuantityAvailable ) {
             QuantityValidation = false;
             swal({
                 title: 'Lo sentimos',
@@ -146,7 +156,7 @@ const ShoppingCart = () => {
 
     const costumerOrder = await mutationCostumerOrder.mutateAsync(newCostumerOrder).finally(data => data)
 
-    LocalShopping.map((sale) => {
+    LocalShopping.map(async (sale) => {
       let newSale = {
         ProductId: sale.ProductId,
         Quantity: sale.Quantity,
@@ -155,41 +165,25 @@ const ShoppingCart = () => {
         UnitPrice: sale.PrecioConMargen,
         Unit: sale.ProductUnit,
       };
-
       mutationSale.mutateAsync(newSale);
+
+      if(sale.Stockable == true){
+
+        let QuantityAvailable = await checkProductStock(sale.ProductId);
+
+        const stockReportData = {
+          ProductId: sale.ProductId,
+          ProductName: sale.ProductName,
+          CambioFecha: formattedDate,
+          OldStock: QuantityAvailable,
+          NewStock: QuantityAvailable - sale.Quantity,
+          motive: "Venta",
+          Email: user.email,
+      };
+      mutationStock.mutateAsync(stockReportData)
+      reduceStock(sale.ProductId, sale.Quantity)
+      }
     })
-
-  //   const editProductData = {
-  //     id: product.id,
-  //     code: product.code,
-  //     name: product.name,
-  //     description: product.description,
-  //     stock: stock.current.value,
-  //     unit: product.unit,
-  //     price: product.price,
-  //     margin: product.margin,
-  //     iva: product.iva,
-  //     state: product.state,
-  //     categoryId: product.categoryId,
-  //     image: product.image,
-  // };
-
-  // const stockReportData = {
-  //     ProductId: product.id,
-  //     ProductName: product.name,
-  //     CambioFecha: new Date(cambioFecha),
-  //     OldStock: initialStock,
-  //     NewStock: stock.current.value,
-  //     motive: selectedMotive,
-  //     Email: userEmail,
-  // };
-
-  // mutationProduct.mutateAsync(editProductData)
-  // mutationStock.mutateAsync(stockReportData)
-
-    setLocalShopping([])
-    localStorage.setItem('ShoppingCar', JSON.stringify(LocalShopping));
-
   }
 
   return (

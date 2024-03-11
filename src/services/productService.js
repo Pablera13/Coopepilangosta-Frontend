@@ -32,7 +32,20 @@ export const checkCodeAvailability = async(id) => {
 
 export const checkProductStock = async(productid, quantity) => {
     
-    let data = await api.get(`product/CheckStockAvailability?productid=${productid}&quantity=${quantity}`).then(result => result.data);
+    let data = await api.get(`product/CheckStockAvailability?productid=${productid}`).then(result => result.data);
+    return data;
+}
+
+
+export const updateStock = async(productid, newStock) => {
+    
+    let data = await api.patch(`product/${productid}/UpdateStock?NewStock=${newStock}`).then(result => result.data);
+    return data;
+}
+
+export const reduceStock = async(productid, newStock) => {
+
+    let data = await api.patch(`product/${productid}/ReduceStock?NewStock=${newStock}`).then(result => result.data);
     return data;
 }
 

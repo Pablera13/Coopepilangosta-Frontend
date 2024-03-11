@@ -29,8 +29,15 @@ const listProducts = () => {
   const [currentPage, setCurrentPage] = useState(0);
 
   if (ProductsLoading)
-    return <div>Loading...</div>
-
+  return (
+    <div className="Loading">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+  );
   if (ProductsError)
     return <div>Error</div>
 
