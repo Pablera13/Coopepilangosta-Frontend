@@ -8,9 +8,9 @@ import {
   createWarehouse,
   checkWarehouseCodeAvailability,
 } from "../../../../services/warehouseService";
-import '../../../../css/Pagination.css'
-import '../../../../css/StylesBtn.css'
-import { MdAdd } from "react-icons/md";
+import "../../../../css/Pagination.css";
+import "../../../../css/StylesBtn.css";
+import { GrAddCircle } from "react-icons/gr";
 
 const addWarehouseModal = () => {
   const queryClient = new QueryClient();
@@ -85,14 +85,9 @@ const addWarehouseModal = () => {
 
   return (
     <>
-
-      <Button
-                onClick={handleShow}
-                className="BtnAdd"
-            >
-<MdAdd  />
-            </Button>
-
+      <Button onClick={handleShow} className="BtnAdd">
+        <GrAddCircle />
+      </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header className="HeaderModal" closeButton>
@@ -137,10 +132,20 @@ const addWarehouseModal = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button className="BtnSave" variant="primary" size="sm" onClick={saveWarehouse}>
+          <Button
+            className="BtnSave"
+            variant="primary"
+            size="sm"
+            onClick={saveWarehouse}
+          >
             Guardar Bodega
           </Button>
-          <Button className="BtnClose" variant="secondary" size="sm" onClick={handleClose}>
+          <Button
+            className="BtnClose"
+            variant="secondary"
+            size="sm"
+            onClick={handleClose}
+          >
             Cerrar
           </Button>
         </Modal.Footer>

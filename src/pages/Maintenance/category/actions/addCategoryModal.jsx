@@ -9,8 +9,7 @@ import { useRef } from "react";
 import swal from "sweetalert";
 import "../../../../css/Pagination.css";
 import "../../../../css/StylesBtn.css";
-import { MdAdd } from "react-icons/md";
-
+import { GrAddCircle } from "react-icons/gr";
 
 const addCategoryModal = () => {
   const [validated, setValidated] = useState(false);
@@ -61,7 +60,7 @@ const addCategoryModal = () => {
   return (
     <>
       <Button onClick={handleShow} className="BtnAdd">
-      <MdAdd  />
+        <GrAddCircle />
       </Button>
 
       <Modal show={show} onHide={handleClose}>

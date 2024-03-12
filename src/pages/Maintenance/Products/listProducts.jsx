@@ -1,27 +1,29 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import { useQuery } from "react-query";
-import { getProducts } from '../../../services/productService';
-import { NavLink } from 'react-router-dom'
-import { deleteProduct } from '../../../services/productService';
-import { Table, Container, Col, Row, Button } from 'react-bootstrap';
-import AddProductModal from './operations/addProductModal.jsx'
-import { Form } from 'react-bootstrap';
-import EditProductModal from './operations/editProductModal.jsx'
-import ReactPaginate from 'react-paginate';
-import { useNavigate } from 'react-router-dom';
+import { getProducts } from "../../../services/productService";
+import { NavLink } from "react-router-dom";
+import { deleteProduct } from "../../../services/productService";
+import { Table, Container, Col, Row, Button } from "react-bootstrap";
+import AddProductModal from "./operations/addProductModal.jsx";
+import { Form } from "react-bootstrap";
+import EditProductModal from "./operations/editProductModal.jsx";
+import ReactPaginate from "react-paginate";
+import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
-
-import '../../../css/StylesBtn.css'
-import '../../../css/Pagination.css'
+import "../../../css/StylesBtn.css";
+import "../../../css/Pagination.css";
 
 const listProducts = () => {
+  const {
+    data: Products,
+    isLoading: ProductsLoading,
+    isError: ProductsError,
+  } = useQuery("product", getProducts);
 
-  const { data: Products, isLoading: ProductsLoading, isError: ProductsError } = useQuery('product', getProducts);
-
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [filterState, setFilterState] = useState(null);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const recordsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(0);
@@ -36,20 +38,21 @@ const listProducts = () => {
         </ul>
       </div>
     );
-  if (ProductsError)
-    return <div>Error</div>
+  if (ProductsError) return <div>Error</div>;
 
-  const filteredBySearch = Products.filter(product => {
-    const matchesSearchTerm = (
+  const filteredBySearch = Products.filter((product) => {
+    const matchesSearchTerm =
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.unit.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+      product.unit.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesState = filterState === null || product.state === filterState;
     return matchesSearchTerm && matchesState;
   });
 
   const offset = currentPage * recordsPerPage;
-  const paginatedProducts = filteredBySearch.slice(offset, offset + recordsPerPage);
+  const paginatedProducts = filteredBySearch.slice(
+    offset,
+    offset + recordsPerPage
+  );
 
   const pageCount = Math.ceil(Products.length / recordsPerPage);
 
@@ -57,26 +60,25 @@ const listProducts = () => {
 
   const handlePageClick = (data) => {
     setCurrentPage(data.selected);
-    console.log("paginatedProducts = " + paginatedProducts.length)
+    console.log("paginatedProducts = " + paginatedProducts.length);
   };
-
 
   const showAlert = (id) => {
     swal({
-      title: 'Eliminar',
-      text: '¿Está seguro de que desea eliminar este producto?',
-      icon: 'warning',
-      buttons: ['Cancelar', 'Aceptar'],
+      title: "Eliminar",
+      text: "¿Está seguro de que desea eliminar este producto?",
+      icon: "warning",
+      buttons: ["Cancelar", "Aceptar"],
     }).then((answer) => {
       if (answer) {
         deleteProduct(id);
         swal({
-          title: 'Eliminado',
-          text: 'El producto ha sido eliminada',
-          icon: 'success',
+          title: "Eliminado",
+          text: "El producto ha sido eliminada",
+          icon: "success",
         });
         setTimeout(function () {
-          console.log("Review eliminada" + id)
+          console.log("Review eliminada" + id);
           window.location.reload();
         }, 2000);
       }
@@ -84,7 +86,6 @@ const listProducts = () => {
   };
 
   return (
-
     <Container>
       <div className="table-container">
         <h2 className="table-title">Productos</h2>
@@ -107,7 +108,15 @@ const listProducts = () => {
             </Col>
             <Col xs={4} md={3}>
               <Form.Select
-                onChange={(e) => setFilterState(e.target.value === "true" ? true : e.target.value === "false" ? false : null)}
+                onChange={(e) =>
+                  setFilterState(
+                    e.target.value === "true"
+                      ? true
+                      : e.target.value === "false"
+                      ? false
+                      : null
+                  )
+                }
                 className="filter-input"
                 placeholder="Filtrar por estado"
               >
@@ -119,11 +128,10 @@ const listProducts = () => {
           </Row>
         </Form>
 
-
         <Col xs={12} md={2} lg={12}>
           {Products ? (
             <Row>
-              <Table className='Table' striped bordered hover variant="light" responsive>
+              <Table className="Table" responsive>
                 <thead>
                   <tr>
                     <th>Código</th>
@@ -135,27 +143,33 @@ const listProducts = () => {
                     <th>Acciones</th>
                   </tr>
                 </thead>
-                {paginatedProducts.map((product) => (
-                  <tr key={product.id}>
-                    <td>{product.code}</td>
-                    <td>{product.name}</td>
-                    <td>{product.unit}</td>
-                    <td>{product.iva}%</td>
-                    <td>{product.margin}%</td>
-                    <td>{product.state === true ? 'Activo' : 'De baja'}</td>
-                    <td>
-                      <EditProductModal props={product} />
-
-                      <Button className='BtnRed' onClick={() => showAlert(product.id)}>
-                        <MdDelete />
-                      </Button>
-
-                    </td>
-                  </tr>
-                ))}
-
+                <tbody>
+                  {" "}
+                  {paginatedProducts.map((product) => (
+                    <tr key={product.id}>
+                      <td>{product.code}</td>
+                      <td>{product.name}</td>
+                      <td>{product.unit}</td>
+                      <td>{product.iva}%</td>
+                      <td>{product.margin}%</td>
+                      <td>{product.state === true ? "Activo" : "De baja"}</td>
+                      <td>
+                        <div className="BtnContainer">
+                          {" "}
+                          <EditProductModal props={product} />
+                          <Button
+                            className="BtnRed"
+                            onClick={() => showAlert(product.id)}
+                          >
+                            <MdDelete />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}{" "}
+                </tbody>
               </Table>
-              <div className='Pagination-Container'>
+              <div className="Pagination-Container">
                 <ReactPaginate
                   previousLabel={"<"}
                   nextLabel={">"}
@@ -169,7 +183,6 @@ const listProducts = () => {
                   activeClassName={"active"}
                 />
               </div>
-
             </Row>
           ) : (
             "Cargando"

@@ -19,7 +19,7 @@ import './addProducerOrderModal.css'
 
 import { getProductById } from '../../../../services/productService';
 import formatRelativeWithOptions from 'date-fns/esm/fp/formatRelativeWithOptions/index.js';
-import { MdAdd } from "react-icons/md";
+import { GrAddCircle } from "react-icons/gr";
 
 const addProducerOrderModal = () => {
     const [show, setShow] = useState(false);
@@ -303,7 +303,7 @@ const addProducerOrderModal = () => {
                 onClick={handleShow}
                 className="BtnAdd"
             >
-                <MdAdd  />
+                     <GrAddCircle />
 
             </Button>
 

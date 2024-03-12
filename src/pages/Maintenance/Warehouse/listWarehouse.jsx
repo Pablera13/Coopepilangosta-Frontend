@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useQuery } from "react-query";
 import { getWarehouse } from "../../../services/warehouseService";
-import { NavLink } from "react-router-dom";
 import { deleteWarehouse } from "../../../services/warehouseService";
 import swal from "sweetalert";
 import { Table, Container, Col, Row, Button } from "react-bootstrap";
@@ -70,7 +69,6 @@ const listWarehouse = () => {
     setCurrentPage(data.selected);
   };
 
-
   const showAlert = (id) => {
     swal({
       title: "Eliminar",
@@ -104,7 +102,7 @@ const listWarehouse = () => {
         <Form>
           <Row className="mb-3 filters-container">
             <Col xs={12} md={6}>
-            <AddWarehouseModal />
+              <AddWarehouseModal />
             </Col>
             <Col xs={12} md={3}>
               <Form.Control
@@ -115,24 +113,23 @@ const listWarehouse = () => {
               />
             </Col>
             <Col xs={12} md={3}>
-            <Form.Select
-            className="filter-input"
-            placeholder="Filtrar por estado"
-              onChange={(e) =>
-                setFilterState(
-                  e.target.value === "true"
-                    ? true
-                    : e.target.value === "false"
-                    ? false
-                    : null
-                )
-              }
-            >
-              <option value="">Todos</option>
-              <option value="true">Activo</option>
-              <option value="false">Inactivo</option>
-            </Form.Select>
-              
+              <Form.Select
+                onChange={(e) =>
+                  setFilterState(
+                    e.target.value === "true"
+                      ? true
+                      : e.target.value === "false"
+                      ? false
+                      : null
+                  )
+                }
+                className="filter-input"
+                placeholder="Filtrar por estado"
+              >
+                <option value="">Todos</option>
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
+              </Form.Select>
             </Col>
           </Row>
         </Form>
@@ -140,7 +137,7 @@ const listWarehouse = () => {
         <Col xs={12} md={2} lg={12}>
           {Warehouses ? (
             <Row>
-              <Table className='Table' striped bordered hover variant="light" responsive>
+              <Table className="Table" responsive>
                 <thead>
                   <tr>
                     <th>Código</th>
@@ -151,6 +148,7 @@ const listWarehouse = () => {
                   </tr>
                 </thead>
                 <tbody>
+                  {" "}
                   {paginatedWarehouses.map((warehouse) => (
                     <tr key={warehouse.id}>
                       <td>{warehouse.code}</td>
@@ -158,13 +156,19 @@ const listWarehouse = () => {
                       <td>{warehouse.address}</td>
                       <td>{warehouse.state ? "Activo" : "Inactivo"}</td>
                       <td>
-                        <EditWarehouseModal props={warehouse} />
-                        <Button className="BtnRed" onClick={() => showAlert(warehouse.id)} size="sm">
-                           <MdDelete />
-                        </Button>
+                        <div className="BtnContainer">
+                          <EditWarehouseModal props={warehouse} />
+                          <Button
+                            className="BtnRed"
+                            onClick={() => showAlert(warehouse.id)}
+                            size="sm"
+                          >
+                            <MdDelete />
+                          </Button>
+                        </div>
                       </td>
                     </tr>
-                  ))}
+                  ))}{" "}
                 </tbody>
               </Table>
               <ReactPaginate
@@ -184,11 +188,9 @@ const listWarehouse = () => {
             "Cargando"
           )}
         </Col>
-        </div>
-
+      </div>
     </Container>
   );
 };
-
 
 export default listWarehouse;

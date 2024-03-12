@@ -1,18 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useQuery } from "react-query";
 import { getProducers } from "../../../services/producerService";
-import { NavLink } from "react-router-dom";
 import { deleteProducerService } from "../../../services/producerService";
 import { Table, Container, Col, Row, Button } from "react-bootstrap";
 import AddProducerModal from "./actions/addProducerModal.jsx";
 import { Form } from "react-bootstrap";
 import EditProducerModal from "./actions/editProducerModal";
 import ReactPaginate from "react-paginate";
-import "../../../css/StylesBtn.css";
 import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
-import "../../../css/Pagination.css";
 
+import "../../../css/Pagination.css";
+import "../../../css/StylesBtn.css";
 const listProducers = () => {
   const {
     data: Producers,
@@ -103,14 +102,12 @@ const listProducers = () => {
 
         <br></br>
 
-
         <Form>
           <Row className="mb-3 filters-container">
             <Col xs={6} md={6}>
               <AddProducerModal />
             </Col>
-            <Col xs={0} md={0}>
-            </Col>
+            <Col xs={0} md={0}></Col>
             <Col xs={12} md={3}>
               <Form.Control
                 type="text"
@@ -125,11 +122,7 @@ const listProducers = () => {
         <Col xs={12} md={2} lg={12}>
           {Producers ? (
             <Row>
-              <Table
-                className="Table"
-           
-                responsive
-              >
+              <Table className="Table" responsive>
                 <thead>
                   <tr>
                     <th>Cédula</th>
@@ -146,22 +139,25 @@ const listProducers = () => {
                     <tr key={producer.id}>
                       <td>{producer.cedula}</td>
                       <td>
-                        {producer.name} {producer.lastname1} {producer.lastname2}
+                        {producer.name} {producer.lastname1}{" "}
+                        {producer.lastname2}
                       </td>
                       <td>{producer.phoneNumber}</td>
                       <td>{producer.email}</td>
                       <td>{producer.address}</td>
                       <td>{producer.bankAccount}</td>
                       <td>
-                        <EditProducerModal props={producer} />
+                        <div className="BtnContainer">
+                          <EditProducerModal props={producer} />
 
-                        <Button
-                          className="BtnRed"
-                          onClick={() => showAlert(producer.id)}
-                          size="sm"
-                        >
-                           <MdDelete />
-                        </Button>
+                          <Button
+                            className="BtnRed"
+                            onClick={() => showAlert(producer.id)}
+                            size="sm"
+                          >
+                            <MdDelete />
+                          </Button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -186,7 +182,7 @@ const listProducers = () => {
             "Cargando"
           )}
         </Col>
-        </div>
+      </div>
     </Container>
   );
 };
