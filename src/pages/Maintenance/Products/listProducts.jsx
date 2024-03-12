@@ -72,13 +72,10 @@ const listProducts = () => {
         deleteProduct(id);
         swal({
           title: 'Eliminado',
-          text: 'El producto ha sido eliminada',
+          text: 'El producto ha sido eliminado',
           icon: 'success',
-        });
-        setTimeout(function () {
-          console.log("Review eliminada" + id)
-          window.location.reload();
-        }, 2000);
+        }).then(function(){window.location.reload()});
+        
       }
     });
   };
