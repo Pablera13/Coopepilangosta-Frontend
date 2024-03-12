@@ -64,28 +64,20 @@ const listEmployee = () => {
     }).then(answer => {
       if (answer) {
         swal({
-            title:"Eliminar",
-            text:"Esta seguro que desea eliminar este empleado?",
-            icon:"warning",
-            buttons:["Cancelar","Aceptar"]
-          }).then(answer=>{
-            if(answer){
-              swal({
-                title:'Eliminado!',
-                text:`El empleado ha sido eliminada`,
-                icon:"success"
-              
-              })
-              deleteEmployeeMethod(idEmployee);
-              deleteUser(idUser);
-              setTimeout(function(){
-                
-                window.location.reload();
-            }, 2000)
-              
-            }
-          })
-    }
+          title: 'Eliminado!',
+          text: `El empleado ha sido eliminado`,
+          icon: "success"
+
+        })
+        setTimeout(function () {
+          deleteEmployee(idEmployee);
+          deleteUser(idUser);
+          window.location.reload();
+        }, 2000)
+
+      }
+    })
+  }
 
   const recordsPerPage = 10;
 

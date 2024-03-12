@@ -7,8 +7,7 @@ import { createCostumerOrder } from '../../services/costumerorderService';
 import { checkProductStock } from '../../services/productService';
 import { reduceStock } from '../../services/productService';
 import { createStockReport } from '../../services/reportServices/stockreportService';
-
-
+import { locations } from '../../utils/provinces';
 import { createSale } from '../../services/saleService';
 import { Form, Row, Col, Button, Container, InputGroup, Collapse, Table } from 'react-bootstrap'
 import Select from 'react-select'
@@ -78,7 +77,7 @@ const ShoppingCart = () => {
       setTimeout(() => {
         // history.back();
         setLocalShopping([])
-        localStorage.setItem('ShoppingCar', JSON.stringify(LocalShopping));
+        localStorage.setItem('ShoppingCar', null);
         navigate(`/myCustomerOrders`)
       }, 2000);
     },
@@ -92,7 +91,7 @@ const ShoppingCart = () => {
   const mutationStock = useMutation('stock', createStockReport, {
     onSettled: () => queryClient.invalidateQueries('stock'),
     mutationKey: 'stock',
-});
+  });
 
   const DeleteProduct = (ProductId) => {
     const updatedCart = LocalShopping.filter(sale => sale.ProductId !== ProductId);
@@ -104,29 +103,31 @@ const ShoppingCart = () => {
   };
 
   const checkStockAvailability = async () => {
-    let QuantityValidation = true; 
+    let QuantityValidation = true;
 
     const promises = LocalShopping.map(async (sale) => {
-
+      if (sale.Stockable) {
         let QuantityAvailable = await checkProductStock(sale.ProductId);
-        
-        if (sale.Quantity > QuantityAvailable ) {
-            QuantityValidation = false;
-            swal({
-                title: 'Lo sentimos',
-                text: `La cantidad seleccionada de ` + sale.ProductName + ` excede nuestro inventario actual`,
-                icon: "warning"
-            });
+
+        if (sale.Quantity > QuantityAvailable) {
+          QuantityValidation = false;
+          swal({
+            title: 'Lo sentimos',
+            text: `La cantidad seleccionada de ` + sale.ProductName + ` excede nuestro inventario actual`,
+            icon: "warning"
+          });
         }
+      }
+
     });
 
     await Promise.all(promises);
 
     console.log("Valor de quantityvalidation: " + QuantityValidation);
     if (QuantityValidation === true) {
-        saveProducerOrder();
+      saveProducerOrder();
     }
-}
+  }
 
 
   const saveProducerOrder = async () => {
@@ -151,7 +152,7 @@ const ShoppingCart = () => {
       DeliveredDate: "0001-01-01T00:00:00",
       Detail: Detail.current.value,
       Stage: "Sin confirmar",
-      Address: `${Address.current.value}, ${District.current.value}, ${Canton.current.value}, ${Province.current.value}`,
+      Address: `${Address.current.value}, ${selectedDistrito}, ${selectedCanton}, ${selectedProvincia}`,
     };
 
     const costumerOrder = await mutationCostumerOrder.mutateAsync(newCostumerOrder).finally(data => data)
@@ -167,7 +168,7 @@ const ShoppingCart = () => {
       };
       mutationSale.mutateAsync(newSale);
 
-      if(sale.Stockable == true){
+      if (sale.Stockable == true) {
 
         let QuantityAvailable = await checkProductStock(sale.ProductId);
 
@@ -179,11 +180,64 @@ const ShoppingCart = () => {
           NewStock: QuantityAvailable - sale.Quantity,
           motive: "Venta",
           Email: user.email,
-      };
-      mutationStock.mutateAsync(stockReportData)
-      reduceStock(sale.ProductId, sale.Quantity)
+        };
+        mutationStock.mutateAsync(stockReportData)
+        reduceStock(sale.ProductId, sale.Quantity)
       }
     })
+  }
+
+  const [selectedProvincia, setSelectedProvincia] = useState(user.costumer.province);
+  const [selectedCanton, setSelectedCanton] = useState(user.costumer.canton)
+  const [selectedDistrito, setSelectedDistrito] = useState(user.costumer.district);
+
+  const provinciasArray = Object.keys(locations.provincias).map((index) => {
+
+    const indexNumber = parseInt(index, 10);
+
+    return {
+      value: indexNumber,
+      label: locations.provincias[index].nombre
+    };
+  });
+
+
+  const [cantonesOptions, setCantonesOptions] = useState();
+  let cantones = []
+  const handleProvinciasSelectChange = (provinceIndex) => {
+
+    let cantones = locations.provincias[provinceIndex].cantones
+
+    const cantonesOptions = Object.keys(cantones).map((index) => {
+      const indexNumber = parseInt(index, 10);
+
+      return {
+        value: indexNumber,
+        label: cantones[index].nombre
+      };
+    });
+
+    setCantonesOptions(cantonesOptions)
+  }
+
+  const [distritosOptions, setDistritosOptions] = useState();
+  let distritos = []
+
+
+  const handlecantonesSelectChange = (cantonIndex) => {
+    console.log(cantonIndex)
+    let distritos = locations.provincias[selectedProvincia.value].cantones[cantonIndex].distritos
+    console.log(selectedProvincia.value)
+    const distritosOpt = Object.keys(distritos).map((index) => {
+      const indexNumber = parseInt(index, 10);
+
+      return {
+        value: indexNumber,
+        label: distritos[index].toString()
+      };
+    });
+    console.log(distritosOpt)
+    setDistritosOptions(distritosOpt)
   }
 
   return (
@@ -237,7 +291,7 @@ const ShoppingCart = () => {
                                   className="form-control"
                                   style={{ textAlign: 'center' }}
                                   defaultValue={Sale.Quantity}
-                                  max={Sale.Stockable == true? Sale.Stock : false}
+                                  max={Sale.Stockable == true ? Sale.Stock : false}
                                   type="number"
                                   min="1"
                                   onChange={(e) => {
@@ -370,22 +424,38 @@ const ShoppingCart = () => {
                   <div className="col-md-6">
                     <h5 className="card-title">Dirección de Envío</h5>
                     <div className="row">
-                      <div className="col-md-4">
-                        <Form.Group>
+                      <div className="col lg-12">
+                        <Form.Group controlId="validationCustom03">
                           <Form.Label>Provincia</Form.Label>
-                          <Form.Control type="text" defaultValue={user.costumer.province} ref={Province} />
+                          <Select placeholder={user.costumer.province} options={provinciasArray}
+                            onChange={(selected) => { handleProvinciasSelectChange(selected.value); setSelectedProvincia(selected); }}
+                            on
+                          ></Select>
+                          <Form.Control.Feedback type="invalid">
+                            Ingrese su provincia
+                          </Form.Control.Feedback>
                         </Form.Group>
                       </div>
                       <div className="col-md-4">
-                        <Form.Group>
-                          <Form.Label>Cantón</Form.Label>
-                          <Form.Control type="text" defaultValue={user.costumer.canton} ref={Canton} />
+                        <Form.Group md="4" controlId="validationCustom04">
+                          <Form.Label>Canton</Form.Label>
+                          <Select placeholder={user.costumer.canton} options={cantonesOptions}
+                            onChange={(selected) => { setSelectedCanton(selected); handlecantonesSelectChange(selected.value); }}
+                          ></Select>
+                          <Form.Control.Feedback type="invalid">
+                            Por favor indique el canton
+                          </Form.Control.Feedback>
                         </Form.Group>
                       </div>
                       <div className="col-md-4">
-                        <Form.Group>
+                        <Form.Group md="4" controlId="validationCustom05">
                           <Form.Label>Distrito</Form.Label>
-                          <Form.Control type="text" defaultValue={user.costumer.district} ref={District} />
+                          <Select placeholder={user.costumer.district} options={distritosOptions}
+                            onChange={(selected) => setSelectedDistrito(selected)}
+                          ></Select>
+                          <Form.Control.Feedback type="invalid">
+                            Indique su distrito!.
+                          </Form.Control.Feedback>
                         </Form.Group>
                       </div>
                     </div>
@@ -404,23 +474,23 @@ const ShoppingCart = () => {
                   </div>
 
                 </div>
-                
+
               </div>
               <Row>
-              <Col xl={6} lg={6} md={6} sm={6} xs={6}>
-                    <Button className="BtnBrown" onClick={checkStockAvailability}>Realizar pedido</Button>
-                    
-                  </Col>
-                  <Col xl={3} lg={3} md={3} sm={3} xs={3}>
+                <Col xl={6} lg={6} md={6} sm={6} xs={6}>
+                  <Button className="BtnBrown" onClick={checkStockAvailability}>Realizar pedido</Button>
+
+                </Col>
+                <Col xl={3} lg={3} md={3} sm={3} xs={3}>
                   <Button className='BtnAdd'
-                                    onClick={() => navigate(`/home`)}>
-                                    Seguir comprando
-                                   </Button>
+                    onClick={() => navigate(`/home`)}>
+                    Seguir comprando
+                  </Button>
 
-                  </Col>
+                </Col>
 
-                </Row>
-                <br/>
+              </Row>
+              <br />
 
             </div>
           </div>
@@ -430,8 +500,8 @@ const ShoppingCart = () => {
         <div className="empty-cart-message">
           <p>No has realizado compras aún</p>
           <Button className='BtnBrown'
-                                    onClick={() => navigate(`/home`)}>
-Ir a comprar                                   </Button>
+            onClick={() => navigate(`/home`)}>
+            Ir a comprar                                   </Button>
         </div>
       )}
     </>

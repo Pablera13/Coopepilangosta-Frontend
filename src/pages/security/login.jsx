@@ -91,7 +91,7 @@ const login = () => {
             </Col>
           </Row>
           <Row className="justify-content-md-center">
-            <Col xs={24} lg={12}>
+            <Col xs={12} lg={7}>
               <Button className="BtnStar" onClick={handleLogin}>
                 {loginLoading ? (
                   <Spinner animation="border" variant="light" size="sm" />
@@ -100,10 +100,12 @@ const login = () => {
                 )}
                 Iniciar sesión
               </Button>
+              </Col>
+              <Col lg={5}>
               <Button className="BtnStar" href={"/registerCostumer"}>
                 Registrarme
               </Button>
-            </Col>
+              </Col>
           </Row>
           <br />
           <Row>

@@ -1,11 +1,12 @@
 import React, { useState, useRef } from 'react'
-import { Button, Row, Col, Form, InputGroup, Container, Alert } from 'react-bootstrap'
+import { Button, Row, Col, Form, InputGroup, Container, Alert, Card } from 'react-bootstrap'
 import emailjs from 'emailjs-com'
 import CheckCode from './checkCode'
 import ChangePassword from './changePassword'
 const forgotPassword = () => {
 
     const [isSending, setIsSending] = useState(false);
+    const [isError, setIsError] = useState(false)
     const [isSucces, setIsSucces] = useState(false);
 
     function generateCode() {
@@ -39,6 +40,7 @@ const forgotPassword = () => {
                     setIsSending(false)
                     setIsSucces(true)
                 }, (err) => {
+                    setIsError(true)
                     console.log('FAILED...', err);
                     console.log(contact)
                 });
@@ -50,47 +52,60 @@ const forgotPassword = () => {
         <>
             <br />
             <Container>
-                <Row>
-                    <Form>
-                        <Row className="mb-3">
-                            <Form.Group as={Col} controlId="formGridEmail">
-                                <Form.Label>Correo electrónico</Form.Label>
-                                <Form.Control type="email" placeholder="Ingrese su correo" ref={email} />
-                            </Form.Group>
+                <Card>
+                    <Card.Title style={{paddingLeft:'32px',paddingTop:'10px'}}>Restablecer contraseña</Card.Title>
+
+                    <Card.Body>
+                        <Row>
+                            <Form>
+                                <Row className="mb-3">
+                                    <Form.Group as={Col} controlId="formGridEmail">
+                                        <Form.Label>Correo electrónico</Form.Label>
+                                        <Form.Control type="email" placeholder="Ingrese su correo" ref={email} disabled={isSucces}/>
+                                    </Form.Group>
+                                </Row>
+                                <Button onClick={handleSubmit} className='BtnBrown' disabled={isSucces}>
+                                    Enviar correo para restablecer
+                                </Button>
+                            </Form>
                         </Row>
-                        <Button onClick={handleSubmit}>
-                            Enviar correo para restablecer
-                        </Button>
-                    </Form>
-                </Row>
-                <Row>
-                    <br />
-                    <Col>
-                        {isSending ?
-                            (
-                                <Alert variant={'info'}>
-                                    Enviando correo...
-                                </Alert>
-                            ) : ("")}
+                        <Row>
+                            <br />
+                            <Col>
+                                {isSending ?
+                                    (
+                                        <Alert variant={'info'}>
+                                            Enviando correo...
+                                        </Alert>
+                                    ) : ("")}
 
-                        {isSucces ? (
-                            <Alert variant={'success'}>
-                                El correo a sido enviado, con el código.
-                            </Alert>)
-                            : ("")}
-                    </Col>
-                </Row>
-                <Row>
-                    {
-                        isSucces ? (
-                            <CheckCode props={toCheck} />
-                        ) : ("")
-                    }
-                </Row>
+                                {isSucces ? (
+                                    <Alert variant={'success'}>
+                                        El correo a sido enviado, con el código para restaurar su contraseña.
+                                    </Alert>)
+                                    : ("")}
+                                    {
+                                        isError?(<Alert variant={'danger'}>
+                                        Ocurrio un error al enviar el correo, intentelo mas tardes.
+                                    </Alert>):("")
+                                    }
+                            </Col>
+                        </Row>
+                        <Row>
+                            {
+                                isSucces ? (
+                                    <CheckCode props={toCheck} />
+                                ) : ("")
+                            }
+                        </Row>
 
-                {/* <Row>
+                        {/* <Row>
                 <ChangePassword/>
                 </Row> */}
+                    </Card.Body>
+
+                </Card>
+
             </Container>
         </>
     )

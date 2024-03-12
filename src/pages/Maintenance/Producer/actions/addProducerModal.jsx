@@ -286,10 +286,7 @@ const addProducerModal = () => {
                                 ref={bankAccount}
                             />
                         </Form.Group>
-
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
+                        <Modal.Footer>
                     <Button className='BtnSave' variant="primary" size="sm" type="submit">
                         Guardar productor
                     </Button>
@@ -298,6 +295,9 @@ const addProducerModal = () => {
                     </Button>
 
                 </Modal.Footer>
+                    </Form>
+                </Modal.Body>
+                
             </Modal>
         </>
     );
