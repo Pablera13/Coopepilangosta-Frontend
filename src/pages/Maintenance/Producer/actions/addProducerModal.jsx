@@ -7,7 +7,7 @@ import { locations } from '../../../../utils/provinces'
 import Select from 'react-select'
 import './addProducerModal.css';
 import '../../../../css/StylesBtn.css'
-import { MdAdd } from "react-icons/md";
+import { GrAddCircle } from "react-icons/gr";
 
 const addProducerModal = () => {
     const [show, setShow] = useState(false);
@@ -154,7 +154,7 @@ const addProducerModal = () => {
                 onClick={handleShow}
                 className="BtnAdd"
             >
-                <MdAdd  />
+              <GrAddCircle />
 
             </Button>
 

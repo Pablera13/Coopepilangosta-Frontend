@@ -54,7 +54,6 @@ const listCategories = () => {
     setCurrentPage(data.selected);
   };
 
-
   const showAlert = (id) => {
     swal({
       title: "Eliminar",
@@ -86,8 +85,7 @@ const listCategories = () => {
             <Col xs={6} md={6}>
               <AddCategoryModal />
             </Col>
-            <Col xs={0} md={0}>
-            </Col>
+            <Col xs={0} md={0}></Col>
             <Col xs={12} md={3}>
               <Form.Control
                 type="text"
@@ -102,36 +100,34 @@ const listCategories = () => {
         <Col xs={12} md={2} lg={12}>
           {Categories ? (
             <Row>
-              <Table
-                className="Table"
-                striped
-                bordered
-                hover
-                variant="light"
-                responsive
-              >
+              <Table className="Table" responsive>
                 <thead>
                   <tr>
                     <th>Nombre de la categoría</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
-                {paginatedCategories.map((category) => (
-                  <tr key={category.id}>
-                    <td>{category.name}</td>
-                    <td>
-                      <EditCategoryModal props={category} />
+                <tbody>
+                  {" "}
+                  {paginatedCategories.map((category) => (
+                    <tr key={category.id}>
+                      <td>{category.name}</td>
+                      <td>
+                        <div className="BtnContainer">
+                          <EditCategoryModal props={category} />
 
-                      <Button
-                        className="BtnRed"
-                        onClick={() => showAlert(category.id)}
-                        size="sm"
-                      >
-                        <MdDelete />
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
+                          <Button
+                            className="BtnRed"
+                            onClick={() => showAlert(category.id)}
+                            size="sm"
+                          >
+                            <MdDelete />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}{" "}
+                </tbody>
               </Table>
               <ReactPaginate
                 previousLabel={"<"}
@@ -150,7 +146,7 @@ const listCategories = () => {
             "Cargando"
           )}
         </Col>
-        </div>
+      </div>
     </Container>
   );
 };

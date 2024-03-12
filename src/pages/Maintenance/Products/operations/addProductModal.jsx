@@ -6,7 +6,7 @@ import { getCategories } from '../../../../services/categoryService';
 import swal from 'sweetalert';
 import './addProductModal.css';
 import { MdAdd } from "react-icons/md";
-
+import { GrAddCircle } from "react-icons/gr";
 const addProductModal = () => {
     const [validated, setValidated] = useState(false);
     const queryClient = new QueryClient();
@@ -118,7 +118,7 @@ const addProductModal = () => {
                 onClick={handleShow}
                 className="BtnAdd"
             >
-                <MdAdd  />
+                <GrAddCircle />
 
             </Button>
 
