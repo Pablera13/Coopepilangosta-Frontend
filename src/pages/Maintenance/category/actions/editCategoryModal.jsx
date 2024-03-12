@@ -61,7 +61,7 @@ const editCategoryModal = (props) => {
   return (
     <>
       <Button className="BtnBrown" onClick={handleShow} size="sm">
-        Editar <TiEdit />
+         <TiEdit />
       </Button>
 
       <Modal show={show} onHide={handleClose}>

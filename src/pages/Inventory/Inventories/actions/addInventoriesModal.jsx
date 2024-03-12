@@ -78,7 +78,7 @@ const addInventoriesModal = (props) => {
                 className='BtnBrown
 '
             >
-                Editar <TiEdit />
+                 <TiEdit />
             </Button>
 
             <Modal show={show} onHide={handleClose}>

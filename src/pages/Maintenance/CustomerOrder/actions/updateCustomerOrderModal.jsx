@@ -142,7 +142,7 @@ const updateCustomerOrderModal = (props) => {
     return (
         <>
             <Button className='BtnBrown' onClick={handleOpen} size='sm' >
-                Editar <TiEdit />
+                 <TiEdit />
             </Button>
             
 

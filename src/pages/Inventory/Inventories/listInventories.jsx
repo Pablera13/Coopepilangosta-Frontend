@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { getCoffee } from '../../../services/productService';
 import { getCategories } from '../../../services/categoryService';
-import { Table,Container,Col,Row, Button } from 'react-bootstrap';
+import { Table,Container,Col,Row, Form } from 'react-bootstrap';
 import AddInventoryModal from './actions/addInventoriesModal';
 import ReactPaginate from 'react-paginate';
 import {useNavigate} from 'react-router-dom';
@@ -16,6 +16,8 @@ const ListInventories = () => {
 
   
   const [currentPage, setCurrentPage] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterState, setFilterState] = useState(null);
 
     if (categoriesLoading || productsLoading) {
       return <div>Cargando...</div>;
@@ -27,8 +29,18 @@ const ListInventories = () => {
 
   const recordsPerPage = 10;
 
+  const filteredBySearch = productsData.filter(product => {
+    const matchesSearchTerm = (
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.unit.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    const matchesState = filterState === null || product.state === filterState;
+    return matchesSearchTerm && matchesState;
+  });
+
   const offset = currentPage * recordsPerPage;
-  const paginatedProducts = productsData.slice(offset, offset + recordsPerPage);
+  const paginatedProducts = filteredBySearch.slice(offset, offset + recordsPerPage);
+
   const pageCount = Math.ceil(productsData.length / recordsPerPage);
     
   const handlePageClick = (data) => {
@@ -37,8 +49,26 @@ const ListInventories = () => {
   
     return (
       <Container>
-        <h2 className="text-center">Existencias</h2>
+      <div className="table-container">
+        <h2 className="table-title">Existencias</h2>
+        <hr className="divider" />
+
         <br></br>
+
+        <Form>
+          <Row className="mb-3 filters-container">
+            <Col xs={12} md={3}>
+              <Form.Control
+                type="text"
+                placeholder="Buscar coincidencias"
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="filter-input"
+              />
+            </Col>
+          </Row>
+        </Form>
+
+
         <Col xs={12} md={10} lg={12}>
         {
         productsData !=null?(
@@ -72,8 +102,8 @@ const ListInventories = () => {
                 }
               </Table>
               <ReactPaginate
-              previousLabel={"Anterior"}
-              nextLabel={"Siguiente"}
+              previousLabel={"<"}
+              nextLabel={">"}
               breakLabel={"..."}
               pageCount={pageCount}
               marginPagesDisplayed={2}
@@ -89,6 +119,7 @@ const ListInventories = () => {
         }
 
       </Col>
+      </div>
     </Container>
   );
 };

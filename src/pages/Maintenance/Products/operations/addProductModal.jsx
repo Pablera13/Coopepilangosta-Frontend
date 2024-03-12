@@ -1,13 +1,11 @@
 import React, { useRef, useState } from 'react';
-
 import { QueryClient, useMutation, useQuery } from 'react-query';
-// import { Container, Row, Col, Button, Form, Modal, InputGroup } from 'react-bootstrap';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
-
 import { createProduct, checkCodeAvailability } from '../../../../services/productService';
 import { getCategories } from '../../../../services/categoryService';
 import swal from 'sweetalert';
 import './addProductModal.css';
+import { MdAdd } from "react-icons/md";
 
 const addProductModal = () => {
     const [validated, setValidated] = useState(false);
@@ -118,9 +116,10 @@ const addProductModal = () => {
         <>
             <Button
                 onClick={handleShow}
-                className="BtnStar"
+                className="BtnAdd"
             >
-                Agregar Producto
+                <MdAdd  />
+
             </Button>
 
             {/* <Button

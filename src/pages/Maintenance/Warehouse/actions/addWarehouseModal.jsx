@@ -10,6 +10,8 @@ import {
 } from "../../../../services/warehouseService";
 import '../../../../css/Pagination.css'
 import '../../../../css/StylesBtn.css'
+import { MdAdd } from "react-icons/md";
+
 const addWarehouseModal = () => {
   const queryClient = new QueryClient();
   const [show, setShow] = useState(false);
@@ -86,9 +88,9 @@ const addWarehouseModal = () => {
 
       <Button
                 onClick={handleShow}
-                className="BtnStar"
+                className="BtnAdd"
             >
-                Agregar Bodega
+<MdAdd  />
             </Button>
 
 

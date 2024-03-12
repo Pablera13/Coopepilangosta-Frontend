@@ -9,6 +9,8 @@ import { useRef } from "react";
 import swal from "sweetalert";
 import "../../../../css/Pagination.css";
 import "../../../../css/StylesBtn.css";
+import { MdAdd } from "react-icons/md";
+
 
 const addCategoryModal = () => {
   const [validated, setValidated] = useState(false);
@@ -58,8 +60,8 @@ const addCategoryModal = () => {
 
   return (
     <>
-      <Button onClick={handleShow} className="BtnStar">
-        Agregar Categoría
+      <Button onClick={handleShow} className="BtnAdd">
+      <MdAdd  />
       </Button>
 
       <Modal show={show} onHide={handleClose}>

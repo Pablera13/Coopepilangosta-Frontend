@@ -6,6 +6,7 @@ import { getCostumerById } from '../../../../services/costumerService';
 import logoCope from '../../../../assets/logoCoopepilangosta.png'
 import { getCostumerOrderById } from '../../../../services/costumerorderService';
 
+import { IoMdPrint } from "react-icons/io";
 
 import { getProducerOrderSales } from '../../../../services/saleService';
 
@@ -187,8 +188,8 @@ const printCustomerOrder = (props) => {
             //Impresion
             const currentDate = new Date();
             const formattedDate = format(currentDate, 'yyyy-MM-dd');
-           doc.save(`Factura_${customerorder.id}_${customer.name}_${formattedDate}.pdf`);
-           //doc.output('dataurlnewwindow');
+           //doc.save(`Factura_${customerorder.id}_${customer.name}_${formattedDate}.pdf`);
+           doc.output('dataurlnewwindow');
             setMyOrders([])
 
         } catch (error) {
@@ -201,7 +202,8 @@ const printCustomerOrder = (props) => {
             onClick={() => generatePDF(props.props)}
             size='sm'
         >
-            Imprimir
+            <IoMdPrint />
+
         </Button>
     );
 };

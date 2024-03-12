@@ -70,10 +70,6 @@ const listWarehouse = () => {
     setCurrentPage(data.selected);
   };
 
-  // const deletewarehouse = (id) => {
-  //   console.log('Id de la bodega: ', id);
-  //   deleteWarehouse(id);
-  // };
 
   const showAlert = (id) => {
     swal({
@@ -99,31 +95,29 @@ const listWarehouse = () => {
 
   return (
     <Container>
-      <h2 className="text-center">Bodegas</h2>
-      <br></br>
+      <div className="table-container">
+        <h2 className="table-title">Bodegas</h2>
+        <hr className="divider" />
 
-      {/* <div className="buttons">
-        <AddWarehouseModal />
-      </div> */}
+        <br></br>
 
-      <Form>
-        <Row className="mb-3">
-          <Col md={3}>
+        <Form>
+          <Row className="mb-3 filters-container">
+            <Col xs={12} md={6}>
             <AddWarehouseModal />
-          </Col>
-
-          <Col md={3}>
-            <Form.Label>Buscar</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Por código, descripción, dirección o estado..."
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </Col>
-
-          <Col md={3}>
-            <Form.Label>Filtrar por estado</Form.Label>
+            </Col>
+            <Col xs={12} md={3}>
+              <Form.Control
+                type="text"
+                placeholder="Buscar coincidencias"
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="filter-input"
+              />
+            </Col>
+            <Col xs={12} md={3}>
             <Form.Select
+            className="filter-input"
+            placeholder="Filtrar por estado"
               onChange={(e) =>
                 setFilterState(
                   e.target.value === "true"
@@ -138,79 +132,63 @@ const listWarehouse = () => {
               <option value="true">Activo</option>
               <option value="false">Inactivo</option>
             </Form.Select>
-          </Col>
-        </Row>
-      </Form>
-
-      <Col xs={12} md={2} lg={12}>
-        {Warehouses ? (
-          <Row>
-            <Table
-              className="Table"
-              striped
-              bordered
-              hover
-              variant="light"
-              responsive
-            >
-              <thead>
-                <tr>
-                  <th>Código</th>
-                  <th>Descripción</th>
-                  <th>Dirección</th>
-                  <th>Estado</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              {paginatedWarehouses.map((warehouse) => (
-                <tr key={warehouse.id}>
-                  <td>{warehouse.code}</td>
-                  <td>{warehouse.description}</td>
-                  <td>{warehouse.address}</td>
-                  <td>{warehouse.state ? "Activo" : "Inactivo"}</td>
-                  <td>
-                    {/* <Button
-                  onClick={() => navigate(`/editWarehouse/${warehouse.id}`)}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
-                  >
-                  Editar
-                  </Button> */}
-
-                    <EditWarehouseModal props={warehouse} />
-
-                    <Button
-                      className="BtnRed"
-                      onClick={() => showAlert(warehouse.id)}
-                      size="sm"
-                    >
-                      Eliminar <MdDelete />
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </Table>
-            <ReactPaginate
-              previousLabel="Anterior"
-              nextLabel="Siguiente"
-              breakLabel="..."
-              pageCount={pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={handlePageClick}
-              containerClassName="pagination"
-              subContainerClassName="pages pagination"
-              activeClassName="active"
-            />
+              
+            </Col>
           </Row>
-        ) : (
-          "Cargando"
-        )}
-      </Col>
+        </Form>
+
+        <Col xs={12} md={2} lg={12}>
+          {Warehouses ? (
+            <Row>
+              <Table className='Table' striped bordered hover variant="light" responsive>
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Descripción</th>
+                    <th>Dirección</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {paginatedWarehouses.map((warehouse) => (
+                    <tr key={warehouse.id}>
+                      <td>{warehouse.code}</td>
+                      <td>{warehouse.description}</td>
+                      <td>{warehouse.address}</td>
+                      <td>{warehouse.state ? "Activo" : "Inactivo"}</td>
+                      <td>
+                        <EditWarehouseModal props={warehouse} />
+                        <Button className="BtnRed" onClick={() => showAlert(warehouse.id)} size="sm">
+                           <MdDelete />
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+              <ReactPaginate
+                previousLabel="<"
+                nextLabel=">"
+                breakLabel="..."
+                pageCount={pageCount}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageClick}
+                containerClassName="pagination"
+                subContainerClassName="pages pagination"
+                activeClassName="active"
+              />
+            </Row>
+          ) : (
+            "Cargando"
+          )}
+        </Col>
+        </div>
+
     </Container>
   );
 };
+
 
 export default listWarehouse;

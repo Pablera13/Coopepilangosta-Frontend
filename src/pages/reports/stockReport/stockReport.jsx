@@ -3,7 +3,8 @@ import { getstocks } from '../../../services/reportServices/stockreportService';
 import { useQuery } from 'react-query';
 import { Table, Form, Container, Col, Row, Button } from 'react-bootstrap';
 import ReactPaginate from 'react-paginate';
-
+import '../../../css/StylesBtn.css'
+import '../../../css/Pagination.css'
 import { format } from 'date-fns';
 
 const stockReport = () => {
@@ -54,46 +55,45 @@ const stockReport = () => {
   return (
 
     <Container>
-      <h2 className="text-center">Historial de Inventario</h2>
-      <br></br>
+      <div className="table-container">
+        <h2 className="table-title">Historial de Inventario</h2>
+        <hr className="divider" />
 
-      <Form>
-        <Row className="mb-3">
+        <br></br>
 
-          <Col md={3}>
-            <Form.Label>Buscar</Form.Label>
+        <Form>
+          <Row className="mb-3 filters-container">
+          <Col xs={6} md={3}>
             <Form.Control
-              type="text"
-              placeholder="Por nombre, motivo o correo electrónico..."
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </Col>
-
-          <Col md={3}>
+                type="text"
+                placeholder="Buscar coincidencias"
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="filter-input"
+              />
+            </Col>
+            <Col xs={6} md={3}>
             <Form.Label>Fecha Inicial</Form.Label>
             <Form.Control
               type="datetime-local"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
             />
-          </Col>
-
-          <Col md={3}>
+            </Col>
+            <Col xs={6} md={3}>
             <Form.Label>Fecha Final</Form.Label>
             <Form.Control
               type="datetime-local"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
             />
-          </Col>
-
-        </Row>
-      </Form>
-
+            </Col>
+          </Row>
+        </Form>
+      
       <Col xs={12} md={2} lg={12}>
         {stocksData ? (
           <Row>
-            <Table className='Table' striped bordered hover variant="light" responsive>
+            <Table className='Table' responsive>
               <thead>
                 <tr>
                   <th>Producto</th>
@@ -119,8 +119,8 @@ const stockReport = () => {
             </Table>
             <div className='Pagination-Container'>
               <ReactPaginate
-                previousLabel={'Anterior'}
-                nextLabel={'Siguiente'}
+                previousLabel={'<'}
+                nextLabel={'>'}
                 breakLabel={'...'}
                 pageCount={pageCount}
                 marginPagesDisplayed={2}
@@ -136,6 +136,7 @@ const stockReport = () => {
           "Cargando"
         )}
       </Col>
+      </div>
     </Container>
   );
 };

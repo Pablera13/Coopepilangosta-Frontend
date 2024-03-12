@@ -7,6 +7,8 @@ import { locations } from '../../../../utils/provinces'
 import Select from 'react-select'
 import './addProducerModal.css';
 import '../../../../css/StylesBtn.css'
+import { MdAdd } from "react-icons/md";
+
 const addProducerModal = () => {
     const [show, setShow] = useState(false);
     const queryClient = new QueryClient();
@@ -61,7 +63,7 @@ const addProducerModal = () => {
                 phoneNumber: phoneNumber.current.value,
                 email: email.current.value,
                 province: selectedProvincia.label,
-                canton: selectedDistrito.label,
+                canton: selectedCanton.label,
                 district: selectedDistrito.label,
                 address: address.current.value,
                 bankAccount: bankAccount.current.value,
@@ -150,9 +152,10 @@ const addProducerModal = () => {
 
             <Button
                 onClick={handleShow}
-                className="BtnSave"
+                className="BtnAdd"
             >
-                Agregar Productor
+                <MdAdd  />
+
             </Button>
 
             <Modal show={show} onHide={handleClose}>
@@ -290,7 +293,7 @@ const addProducerModal = () => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='BtnSave' variant="primary" size="sm" type="submit">
+                    <Button className='BtnSave' variant="primary" size="sm" type="submit" onClick={saveProducer}>
                         Guardar productor
                     </Button>
                     <Button className='BtnClose' variant="secondary" size="sm" onClick={handleClose}>

@@ -54,16 +54,11 @@ const listCategories = () => {
     setCurrentPage(data.selected);
   };
 
-  // const deleteCategoryItem = async (id) => {
-  //   console.log("Id de la categoría: ", id);
-  //   await deleteCategory(id);
-  //   window.location.reload();
-  // };
 
   const showAlert = (id) => {
     swal({
       title: "Eliminar",
-      text: "¿Está seguro de que desea eliminar esta valoración?",
+      text: "¿Está seguro de que desea eliminar esta categoría?",
       icon: "warning",
       buttons: ["Cancelar", "Aceptar"],
     }).then((answer) => {
@@ -71,11 +66,10 @@ const listCategories = () => {
         deleteCategory(id);
         swal({
           title: "Eliminado",
-          text: "La valoración ha sido eliminada",
+          text: "La categoría ha sido eliminada",
           icon: "success",
         });
         setTimeout(function () {
-          console.log("Review eliminada" + id);
           window.location.reload();
         }, 2000);
       }
@@ -85,77 +79,80 @@ const listCategories = () => {
   //
   return (
     <Container>
-      <h2 className="text-center">Categorías</h2>
-      <br></br>
+      <div className="table-container">
+        <h2 className="table-title">Categorías</h2>
+        <hr className="divider" />
 
-      <Form>
-        <Row className="mb-3">
-          <Col md={3}>
-            <AddCategoryModal />
-          </Col>
-
-          <Col md={3}>
-            <Form.Label>Buscar</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Buscar categoria..."
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </Col>
-        </Row>
-      </Form>
-
-      <Col xs={12} md={2} lg={12}>
-        {Categories ? (
-          <Row>
-            <Table
-              className="Table"
-              striped
-              bordered
-              hover
-              variant="light"
-              responsive
-            >
-              <thead>
-                <tr>
-                  <th>Nombre de la categoría</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              {paginatedCategories.map((category) => (
-                <tr key={category.id}>
-                  <td>{category.name}</td>
-                  <td>
-                    <EditCategoryModal props={category} />
-
-                    <Button
-                      className="BtnRed"
-                      onClick={() => showAlert(category.id)}
-                      size="sm"
-                    >
-                      Eliminar <MdDelete />
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </Table>
-            <ReactPaginate
-              previousLabel={"Anterior"}
-              nextLabel={"Siguiente"}
-              breakLabel={"..."}
-              pageCount={pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={handlePageClick}
-              containerClassName={"pagination"}
-              subContainerClassName={"pages pagination"}
-              activeClassName={"active"}
-            />
+        <Form>
+          <Row className="mb-3 filters-container">
+            <Col xs={6} md={6}>
+              <AddCategoryModal />
+            </Col>
+            <Col xs={0} md={0}>
+            </Col>
+            <Col xs={12} md={3}>
+              <Form.Control
+                type="text"
+                placeholder="Buscar coincidencias"
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="filter-input"
+              />
+            </Col>
           </Row>
-        ) : (
-          "Cargando"
-        )}
-      </Col>
+        </Form>
+
+        <Col xs={12} md={2} lg={12}>
+          {Categories ? (
+            <Row>
+              <Table
+                className="Table"
+                striped
+                bordered
+                hover
+                variant="light"
+                responsive
+              >
+                <thead>
+                  <tr>
+                    <th>Nombre de la categoría</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                {paginatedCategories.map((category) => (
+                  <tr key={category.id}>
+                    <td>{category.name}</td>
+                    <td>
+                      <EditCategoryModal props={category} />
+
+                      <Button
+                        className="BtnRed"
+                        onClick={() => showAlert(category.id)}
+                        size="sm"
+                      >
+                        <MdDelete />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </Table>
+              <ReactPaginate
+                previousLabel={"<"}
+                nextLabel={">"}
+                breakLabel={"..."}
+                pageCount={pageCount}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageClick}
+                containerClassName={"pagination"}
+                subContainerClassName={"pages pagination"}
+                activeClassName={"active"}
+              />
+            </Row>
+          ) : (
+            "Cargando"
+          )}
+        </Col>
+        </div>
     </Container>
   );
 };

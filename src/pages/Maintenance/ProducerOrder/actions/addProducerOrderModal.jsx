@@ -19,6 +19,7 @@ import './addProducerOrderModal.css'
 
 import { getProductById } from '../../../../services/productService';
 import formatRelativeWithOptions from 'date-fns/esm/fp/formatRelativeWithOptions/index.js';
+import { MdAdd } from "react-icons/md";
 
 const addProducerOrderModal = () => {
     const [show, setShow] = useState(false);
@@ -300,9 +301,10 @@ const addProducerOrderModal = () => {
 
             <Button
                 onClick={handleShow}
-                className="BtnStar"
+                className="BtnAdd"
             >
-                Nuevo Pedido
+                <MdAdd  />
+
             </Button>
 
             <Modal show={show} onHide={handleClose} size='lg'>

@@ -12,6 +12,7 @@ import logoCope from '../../../../assets/logoCoopepilangosta.png'
 import jsPDF from 'jspdf';
 import { getProductById } from '../../../../services/productService';
 import { getProductProducer } from '../../../../services/productProducerService';
+import { IoMdPrint } from "react-icons/io";
 
 const printProducerOrder = (props) => {
 
@@ -140,13 +141,13 @@ const printProducerOrder = (props) => {
             doc.text(`Cuenta Bancaria: ${producer.bankAccount}`, 10, 130);
 
             //Datos factura
-            doc.text("Fecha de factura:", 100, 116);
-            doc.text(format(new Date(producerorder.confirmedDate), 'yyyy-MM-dd'), 150, 116);
+            doc.text("Fecha de factura:", 100, 123);
+            doc.text(format(new Date(producerorder.confirmedDate), 'yyyy-MM-dd'), 150, 123);
 
-            doc.text("Fecha de pago:", 100, 123);
+            doc.text("Fecha de pago:", 100, 130);
             doc.text(
                 producerorder.paidDate === "0001-01-01T00:00:00" ? "Sin pagar" : 
-                format(new Date(producerorder.paidDate), 'yyyy-MM-dd'), 150, 123
+                format(new Date(producerorder.paidDate), 'yyyy-MM-dd'), 150, 130
             );
 
             // Tercera linea
@@ -211,8 +212,8 @@ const printProducerOrder = (props) => {
             //Impresion
             const currentDate = new Date();
             const formattedDate = format(currentDate, 'yyyy-MM-dd');
-           doc.save(`Factura_${producerorder.id}_${producer.cedula}_${formattedDate}.pdf`);
-           //doc.output('dataurlnewwindow');
+            //doc.save(`Factura_${producerorder.id}_${producer.cedula}_${formattedDate}.pdf`);
+           doc.output('dataurlnewwindow');
             setMyOrders([])
 
         } catch (error) {
@@ -228,7 +229,8 @@ const printProducerOrder = (props) => {
             onClick={() => generatePDF(props.props)}
             size='sm'
         >
-            Imprimir
+            <IoMdPrint />
+
         </Button>
     );
 };

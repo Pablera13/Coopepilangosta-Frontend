@@ -1,3 +1,76 @@
+/* Form de la tabla */
+
+.filter-input {
+  width: 150px; 
+  margin-left: 10px; 
+}
+
+.table-container {
+  border: 1px solid #ddd; 
+  border-radius: 5px; 
+  padding: 20px; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  background-color: #fff; 
+}
+
+.table-title {
+  margin-bottom: 20px; 
+  color: #333; 
+}
+
+.divider {
+  border-top: 2px solid #555; 
+  margin: 20px 0; 
+}
+
+.filters-container {
+  display: flex;
+  justify-content: flex-start; 
+  align-items: center;
+}
+
+.filter-input {
+  width: 100%; 
+}
+
+
+/* Tabla */
+
+.Table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); */
+}
+
+.Table th,
+.Table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.Table th {
+  background-color: #f8f9fa; /* Cambia el color de fondo del encabezado */
+  font-weight: bold;
+}
+
+.Table td {
+  background-color: #fff; /* Cambia el color de fondo de las celdas */
+}
+
+.Table tr:nth-child(even) {
+  background-color: #f2f2f2; /* Cambia el color de fondo de las filas pares */
+}
+
+.Table tr:hover {
+  background-color: #f0f0f0; /* Cambia el color de fondo al pasar el mouse sobre las filas */
+}
+
+
+
+/* Modal */
+
 .HeaderModal {
   background-color: #3c3019;
   color: #fff;
@@ -7,13 +80,8 @@
   color: #9b7122d2;
 }
 
-.Table th{
-  padding: 12px;
-  border: 2px solid #111;
-  text-align: center;
-  background-color: #3c3019 !important;
-  color: white !important;
-}
+
+/* Botones */
 
 button.BtnRed {
   border-radius: 5px;
@@ -261,60 +329,3 @@ button.BtnPrint:hover {
   color: #fff;
 }
 
-
-
-/* Prueba zona de carga */
-.Loading{
-  margin: 100px;
-  
-  }
-  @keyframes loading {
-    0% {
-      transform: rotate(0deg);
-    }
-  
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  
-  .Loading ul {
-    position: relative;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  
-  .Loading li {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    border: 5px solid #fff;
-    border-radius: 100%;
-  }
-  
-  .Loading li:nth-child(1) {
-    margin: -30px 0 0 -30px;
-    border-top-color: #3c3019;
-    width: 60px;
-    height: 60px;
-    animation: loading 3s infinite linear;
-  }
-  
-  .Loading li:nth-child(2) {
-    margin: -20px 0 0 -20px;
-    border-top-color: #3c3019;
-    width: 40px;
-    height: 40px;
-    animation: loading 2s infinite linear;
-  }
-  
-  .Loading li:nth-child(3) {
-    margin: -10px 0 0 -10px;
-    border-top-color: #3c3019;
-    width: 20px;
-    height: 20px;
-    animation: loading 1s infinite linear;
-  }
-  
-  
