@@ -292,6 +292,7 @@ const addProducerModal = () => {
 
                     </Form>
                 </Modal.Body>
+
                 <Modal.Footer>
                     <Button className='BtnSave' variant="primary" size="sm" type="submit" onClick={saveProducer}>
                         Guardar productor
@@ -299,11 +300,7 @@ const addProducerModal = () => {
                     <Button className='BtnClose' variant="secondary" size="sm" onClick={handleClose}>
                         Cerrar
                     </Button>
-
-                </Modal.Footer>
-                    </Form>
-                </Modal.Body>
-                
+                </Modal.Footer>                
             </Modal>
         </>
     );
