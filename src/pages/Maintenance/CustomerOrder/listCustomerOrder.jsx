@@ -72,8 +72,23 @@ const listCustomerOrder = () => {
   const paginatedProducers = filteredCustomerOrders.slice(currentPage * recordsPerPage, (currentPage + 1) * recordsPerPage);
   const pageCount = Math.ceil(filteredCustomerOrders.length / recordsPerPage);
 
-  const deleteObject = (id) => {
-    deleteCostumerOrder(id);
+  const showAlert = (id) => {
+    swal({
+      title: "Eliminar",
+      text: "¿Está seguro de que desea eliminar este pedido?",
+      icon: "warning",
+      buttons: ["Cancelar", "Aceptar"],
+    }).then((answer) => {
+      if (answer) {
+        deleteCostumerOrder(id).then(
+          swal({
+            title: "Eliminado",
+            text: "El pedido ha sido eliminado",
+            icon: "success",
+          }).then(function(){window.location.reload()})
+        );     
+      }
+    });
   };
 
   return (
@@ -102,9 +117,9 @@ const listCustomerOrder = () => {
             </Col>
           </Row>
         </Form>
-        <Col xs={12} md={2} lg={12}>
+        <Col xs={12} md={12} lg={12}>
           <Row>
-            <Col xs={12}>
+            <Col xs={12} sm={12} md={12}>
               <Table className='Table' responsive>
                 <thead>
                   <tr>

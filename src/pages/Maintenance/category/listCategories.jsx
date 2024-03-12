@@ -63,15 +63,13 @@ const listCategories = () => {
       buttons: ["Cancelar", "Aceptar"],
     }).then((answer) => {
       if (answer) {
-        deleteCategory(id);
+        deleteCategory(id).then(
         swal({
           title: "Eliminado",
           text: "La categoría ha sido eliminada",
           icon: "success",
-        });
-        setTimeout(function () {
-          window.location.reload();
-        }, 2000);
+        }).then(function(){window.location.reload()}))
+        
       }
     });
   };

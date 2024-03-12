@@ -76,21 +76,18 @@ const listProducers = () => {
   const showAlert = (id) => {
     swal({
       title: "Eliminar",
-      text: "¿Está seguro de que desea eliminar esta valoración?",
+      text: "¿Está seguro de que desea eliminar este productor?",
       icon: "warning",
       buttons: ["Cancelar", "Aceptar"],
     }).then((answer) => {
       if (answer) {
-        deleteProducerService(id);
+        deleteProducerService(id).then(
         swal({
           title: "Eliminado",
-          text: "La valoración ha sido eliminada",
+          text: "El productor ha sido eliminado",
           icon: "success",
-        });
-        setTimeout(function () {
-          console.log("Review eliminada" + id);
-          window.location.reload();
-        }, 2000);
+        }).then(function(){window.location.reload()}));
+        
       }
     });
   };
