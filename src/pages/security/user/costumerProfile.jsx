@@ -185,7 +185,7 @@ const costumerProfile = () => {
 
                     <Card.Body>
 
-                      <UpdateCostumer costumer={user.costumer} />
+                      <UpdateCostumer props={user.costumer} />
                       <AddContact props={user.costumer.id} />
 
                       <Button onClick={handleLogout} className='BtnRed' >Cerrar sesión

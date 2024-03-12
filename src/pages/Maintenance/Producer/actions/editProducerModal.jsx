@@ -250,7 +250,7 @@ const editProducerModal = (props) => {
                         </Row>
                         <Row>
                             <Col md={4}>
-                                <Form.Group as={Col} md="4" lg="12" controlId="validationCustom03">
+                                <Form.Group controlId="validationCustom03">
                                     <Form.Label>Provincia</Form.Label>
                                     <Select placeholder={producer.province} options={provinciasArray}
                                         onChange={(selected) => { handleProvinciasSelectChange(selected.value); setSelectedProvincia(selected); }}
@@ -262,7 +262,7 @@ const editProducerModal = (props) => {
                                 </Form.Group>
                             </Col>
                             <Col md={4}>
-                                <Form.Group as={Col} md="4" lg="12" controlId="validationCustom04">
+                                <Form.Group controlId="validationCustom04">
                                     <Form.Label>Canton</Form.Label>
                                     <Select placeholder={producer.canton} options={cantonesOptions}
                                         onChange={(selected) => { setSelectedCanton(selected); handlecantonesSelectChange(selected.value); }}
@@ -273,7 +273,7 @@ const editProducerModal = (props) => {
                                 </Form.Group>
                             </Col>
                             <Col md={4}>
-                                <Form.Group as={Col} md="4" lg="12" controlId="validationCustom05">
+                                <Form.Group controlId="validationCustom05">
                                     <Form.Label>Distrito</Form.Label>
                                     <Select placeholder={producer.district} options={distritosOptions}
                                         onChange={(selected) => setSelectedDistrito(selected)}

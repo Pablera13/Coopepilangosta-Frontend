@@ -43,7 +43,6 @@ const ResponsiveNavbar = () => {
         }
     }, [])
 
-    console.log(menu)
 
     return (
         <Navbar expand="lg" className="bg-body-tertiary" id='navbarHead' sticky='top'>

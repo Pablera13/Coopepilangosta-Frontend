@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react'
-import { Form, Row, Col, Button, Container, InputGroup, Collapse,Card } from 'react-bootstrap'
+import { Form, Row, Col, Button, Container, InputGroup, Collapse, Card } from 'react-bootstrap'
 import { QueryClient } from 'react-query'
 import { createuser } from '../../../services/userService'
-import { createCostumer,checkCedula } from '../../../services/costumerService'
+import { createCostumer, checkCedula } from '../../../services/costumerService'
 import { createContactCostumer } from '../../../services/CostumerContactService'
 import '../costumers/register.css'
 import { useMutation } from 'react-query'
@@ -36,7 +36,7 @@ const costumerRegister = () => {
         {
             onSettled: () => queryClient.invalidateQueries('users'),
             mutationKey: 'users',
-            onSuccess: () => swal('Registro existoso!','Su registro realizado exitosamente!','success'),
+            onSuccess: () => swal('Registro existoso!', 'Su registro realizado exitosamente!', 'success'),
             onError: () => {
                 swal({
                     title: 'Error!',
@@ -60,11 +60,13 @@ const costumerRegister = () => {
                 const currentDate = new Date();
                 const formattedDate = format(currentDate, 'yyyy-MM-dd');
 
-                emailjs.send('service_segj454', 'template_0w3fvg4', 
-                {name: name.current.value,
-                 cedulaJuridica: cedulaJuridica.current.value,
-                 date: formattedDate}
-                , 'VLTRXG-aDYJG_QYt-').then(history.back())
+                emailjs.send('service_segj454', 'template_0w3fvg4',
+                    {
+                        name: name.current.value,
+                        cedulaJuridica: cedulaJuridica.current.value,
+                        date: formattedDate
+                    }
+                    , 'VLTRXG-aDYJG_QYt-').then(history.back())
 
             },
             onError: () => {
@@ -88,8 +90,8 @@ const costumerRegister = () => {
                 idRole: 2
             }
 
-            const cedulaAvailability = await checkCedula(cedulaJuridica.current.value).then(data=>data)
-            const emailAvailability = await checkEmailAvailability(email.current.value).then(data=>data)
+            const cedulaAvailability = await checkCedula(cedulaJuridica.current.value).then(data => data)
+            const emailAvailability = await checkEmailAvailability(email.current.value).then(data => data)
             const validPasswordFormat = checkPasswordFormat(password.current.value)
 
             if (cedulaAvailability == true && emailAvailability == true && validPasswordFormat == true) {
@@ -107,222 +109,224 @@ const costumerRegister = () => {
                     verified: false,
                     userId: createdUser.id
                 }
-                await addCostumerMutation.mutateAsync(newCostumer); 
-                
-            }else{
+                await addCostumerMutation.mutateAsync(newCostumer);
+
+            } else {
                 if (cedulaAvailability == false) {
-                    swal("Cedula se encuentra registrada","Ya existe un usuario con la cedula ingresada","warning")
+                    swal("Cedula se encuentra registrada", "Ya existe un usuario con la cedula ingresada", "warning")
                 }
                 if (emailAvailability == false) {
-                    swal("Correo electronico se encuentra registrada","Ya existe un usuario con el correo ingresado","warning")
+                    swal("Correo electronico se encuentra registrada", "Ya existe un usuario con el correo ingresado", "warning")
                 }
                 if (validPasswordFormat == false) {
-                    swal('Contraseña invalida!','La contraseña deseada, no es valida, debe contener minimo 8 caracteres de longitud.','warning')
+                    swal('Contraseña invalida!', 'La contraseña deseada, no es valida, debe contener minimo 8 caracteres de longitud.', 'warning')
                 }
             }
         }
     };
 
-    const [selectedProvincia,setSelectedProvincia] = useState();
-    const [selectedCanton,setSelectedCanton] = useState()
-    const [selectedDistrito,setSelectedDistrito] = useState(); 
+    const [selectedProvincia, setSelectedProvincia] = useState();
+    const [selectedCanton, setSelectedCanton] = useState()
+    const [selectedDistrito, setSelectedDistrito] = useState();
 
     const provinciasArray = Object.keys(locations.provincias).map((index) => {
-        
+
         const indexNumber = parseInt(index, 10);
-        
+
         return {
-          value: indexNumber,
-          label: locations.provincias[index].nombre
+            value: indexNumber,
+            label: locations.provincias[index].nombre
         };
-      });
-    
-   
-    const [cantonesOptions,setCantonesOptions] = useState();
+    });
+
+
+    const [cantonesOptions, setCantonesOptions] = useState();
     let cantones = []
     const handleProvinciasSelectChange = (provinceIndex) => {
-       
-        let cantones = locations.provincias[provinceIndex].cantones
-        
-        const cantonesOptions = Object.keys(cantones).map((index) => {           
-            const indexNumber = parseInt(index, 10);
-            
-            return {
-              value: indexNumber,
-              label: cantones[index].nombre
-            };
-          });
-        
-        setCantonesOptions(cantonesOptions)
-    }  
 
-    const [distritosOptions,setDistritosOptions] = useState();
+        let cantones = locations.provincias[provinceIndex].cantones
+
+        const cantonesOptions = Object.keys(cantones).map((index) => {
+            const indexNumber = parseInt(index, 10);
+
+            return {
+                value: indexNumber,
+                label: cantones[index].nombre
+            };
+        });
+
+        setCantonesOptions(cantonesOptions)
+    }
+
+    const [distritosOptions, setDistritosOptions] = useState();
     let distritos = []
-    
+
 
     const handlecantonesSelectChange = (cantonIndex) => {
         console.log(cantonIndex)
         let distritos = locations.provincias[selectedProvincia.value].cantones[cantonIndex].distritos
         console.log(selectedProvincia.value)
-        const distritosOpt = Object.keys(distritos).map((index) => {           
+        const distritosOpt = Object.keys(distritos).map((index) => {
             const indexNumber = parseInt(index, 10);
-            
+
             return {
-              value: indexNumber,
-              label: distritos[index].toString()
+                value: indexNumber,
+                label: distritos[index].toString()
             };
-          });
+        });
         console.log(distritosOpt)
         setDistritosOptions(distritosOpt)
-    }      
+    }
 
     return (
         <>
             <Container className='registerContainer'>
-            <Card >
-                <Card.Body>
-                <Row>
-                    <h3 className='h3register'>Registro</h3>
+                <Row xs={12} lg={12} className='rowCard'>
+                    <Card className='cardRegister'>
+                        <Card.Body>
+                            <Card.Title>Registro</Card.Title>
+                            <br />
+
+                            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                                <Row className="mb-3">
+                                    <Col xs={6} md={6} lg={6}>
+                                        <Form.Group md="4" controlId="validationCustom01">
+                                            <Form.Label>Cédula jurídica</Form.Label>
+                                            <Form.Control
+                                                required
+                                                type="number"
+                                                placeholder="Ingrese la cédula"
+                                                ref={cedulaJuridica}
+                                            />
+                                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col xs={6} md={6} lg={6}>
+
+                                        <Form.Group md="4" controlId="validationCustom02">
+                                            <Form.Label>Nombre</Form.Label>
+                                            <Form.Control
+                                                required
+                                                type="text"
+                                                placeholder="Ingrese el nombre"
+                                                ref={name}
+                                            />
+                                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                        </Form.Group>
+                                    </Col>
+
+
+                                </Row>
+                                <Row className="mb-3">
+                                    <Form.Group as={Col} md="4" controlId="validationCustom03">
+                                        <Form.Label>Provincia</Form.Label>
+                                        <Select placeholder='Provincia' options={provinciasArray}
+                                            onChange={(selected) => { handleProvinciasSelectChange(selected.value); setSelectedProvincia(selected); }}
+                                            on
+                                        ></Select>
+                                        <Form.Control.Feedback type="invalid">
+                                            Ingrese su provincia
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
+                                    <Form.Group as={Col} md="4" controlId="validationCustom04">
+                                        <Form.Label>Canton</Form.Label>
+                                        <Select placeholder='Canton' options={cantonesOptions}
+                                            onChange={(selected) => { setSelectedCanton(selected); handlecantonesSelectChange(selected.value); }}
+                                        ></Select>
+                                        <Form.Control.Feedback type="invalid">
+                                            Por favor indique el canton
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
+                                    <Form.Group as={Col} md="4" controlId="validationCustom05">
+                                        <Form.Label>Distrito</Form.Label>
+                                        <Select placeholder='Distrito' options={distritosOptions}
+                                            onChange={(selected) => setSelectedDistrito(selected)}
+                                        ></Select>
+                                        <Form.Control.Feedback type="invalid">
+                                            Indique su distrito!.
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
+                                </Row>
+                                <Row>
+                                    <Col xs={12} md={12} lg={12}>
+
+                                        <Form.Group md="4" controlId="validationCustom06">
+                                            <Form.Label>Dirección</Form.Label>
+                                            <Form.Control type="text" placeholder="Indique la dirección" ref={address} />
+                                            <Form.Control.Feedback type="invalid">
+                                                Indique su dirección
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+
+                                <br />
+
+                                <Row>
+                                    <Col xs={6} md={6} lg={6}>
+
+                                        <Form.Group controlId="validationCustom07">
+                                            <Form.Label>Código postal</Form.Label>
+                                            <Form.Control type="number" placeholder="Ingrese el código postal" required ref={postalCode} />
+                                            <Form.Control.Feedback type="invalid">
+                                                Indique su código postal
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col xs={6} md={6} lg={6}>
+                                        <Form.Group controlId="validationCustom08">
+                                            <Form.Label>Cuenta bancaria</Form.Label>
+                                            <Form.Control type="number" placeholder="Ingrese una cuenta bancaria" required ref={bankAccount} />
+                                            <Form.Control.Feedback type="invalid">
+                                                Indique su código postal
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
+                                    </Col>
+
+                                </Row>
+
+                                <hr />
+                                <Row>
+
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Form.Group controlId="validationCustom09">
+                                            <Form.Label>Correo</Form.Label>
+                                            <Form.Control type="text" placeholder="Ingrese su correo" required ref={email} />
+                                            <Form.Control.Feedback type="invalid">
+                                                Indique su correo
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group controlId="validationCustom10">
+                                            <Form.Label>Usuario</Form.Label>
+                                            <Form.Control type="text" placeholder="Ingrese nombre de usuario" required ref={userName} />
+                                            <Form.Control.Feedback type="invalid">
+                                                Indique su usuario
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Form.Label>Contraseña</Form.Label>
+                                        <Form.Control placeholder="Ingrese la contraseña" ref={password} type='password' required />
+                                    </Col>
+
+                                </Row>
+                            </Form>
+                            <br />
+                            <Col className='btnContainer'>
+                                <Button className="BtnStar"
+                                    onClick={handleSubmit}>Enviar</Button>
+                            </Col>
+                        </Card.Body>
+                    </Card>
+
                 </Row>
-                <br/>
-                <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                    <Row className="mb-3">
-                    <Col xs={6} md={6} lg={6}> 
-                        <Form.Group md="4" controlId="validationCustom01">
-                            <Form.Label>Cédula jurídica</Form.Label>
-                            <Form.Control
-                                required
-                                type="number"
-                                placeholder="Ingrese la cédula"
-                                ref={cedulaJuridica}
-                            />
-                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                        </Form.Group>
-                        </Col>
-                        <Col xs={6} md={6} lg={6}> 
-
-                        <Form.Group md="4" controlId="validationCustom02">
-                            <Form.Label>Nombre</Form.Label>
-                            <Form.Control
-                                required
-                                type="text"
-                                placeholder="Ingrese el nombre"
-                                ref={name}
-                            />
-                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                        </Form.Group>
-                        </Col>
-
-
-                    </Row>
-                    <Row className="mb-3">
-                        <Form.Group as={Col} md="4" controlId="validationCustom03">
-                            <Form.Label>Provincia</Form.Label>
-                            <Select placeholder='Provincia' options={provinciasArray}
-                                onChange={(selected)=>{handleProvinciasSelectChange(selected.value);setSelectedProvincia(selected);}}
-                                on
-                            ></Select>
-                            <Form.Control.Feedback type="invalid">
-                                Ingrese su provincia
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                        <Form.Group as={Col} md="4" controlId="validationCustom04">
-                            <Form.Label>Canton</Form.Label>
-                            <Select placeholder='Canton' options={cantonesOptions}
-                                onChange={(selected)=>{setSelectedCanton(selected);handlecantonesSelectChange(selected.value);}}
-                            ></Select>
-                            <Form.Control.Feedback type="invalid">
-                                Por favor indique el canton
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                        <Form.Group as={Col} md="4" controlId="validationCustom05">
-                            <Form.Label>Distrito</Form.Label>
-                            <Select placeholder='Distrito' options={distritosOptions}
-                                onChange={(selected)=>setSelectedDistrito(selected)}
-                            ></Select>
-                            <Form.Control.Feedback type="invalid">
-                                Indique su distrito!.
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                    </Row>
-                    <Row>
-                    <Col xs={12} md={12} lg={12}> 
-
-                        <Form.Group md="4" controlId="validationCustom06">
-                            <Form.Label>Dirección</Form.Label>
-                            <Form.Control type="text" placeholder="Indique la dirección" ref={address} />
-                            <Form.Control.Feedback type="invalid">
-                                Indique su dirección
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                        </Col>    
-                    </Row>
-
-                    <br/>
-
-                    <Row>
-                    <Col xs={6} md={6} lg={6}> 
-
-                        <Form.Group controlId="validationCustom07">
-                            <Form.Label>Código postal</Form.Label>
-                            <Form.Control type="number" placeholder="Ingrese el código postal" required ref={postalCode} />
-                            <Form.Control.Feedback type="invalid">
-                                Indique su código postal
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                        </Col>
-                        <Col xs={6} md={6} lg={6}> 
-                        <Form.Group controlId="validationCustom08">
-                            <Form.Label>Cuenta bancaria</Form.Label>
-                            <Form.Control type="number" placeholder="Ingrese una cuenta bancaria" required ref={bankAccount} />
-                            <Form.Control.Feedback type="invalid">
-                                Indique su código postal
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                        </Col>
-
-                    </Row>
-    
-                        <hr />
-                    <Row>
-                        
-                    </Row>
-                    <Row>
-                        <Col>
-                            <Form.Group controlId="validationCustom09">
-                                <Form.Label>Correo</Form.Label>
-                                <Form.Control type="text" placeholder="Ingrese su correo" required ref={email} />
-                                <Form.Control.Feedback type="invalid">
-                                    Indique su correo
-                                </Form.Control.Feedback>
-                            </Form.Group>
-                        </Col>
-                        <Col>
-                            <Form.Group controlId="validationCustom10">
-                                <Form.Label>Usuario</Form.Label>
-                                <Form.Control type="text" placeholder="Ingrese nombre de usuario" required ref={userName} />
-                                <Form.Control.Feedback type="invalid">
-                                    Indique su usuario
-                                </Form.Control.Feedback>
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <Form.Label>Contraseña</Form.Label>
-                            <Form.Control placeholder="Ingrese la contraseña" ref={password} type='password' required />
-                        </Col>
-
-                    </Row>
-                </Form>
-                </Card.Body>
-                </Card>
-                <Row className='justify-content-md-center'>
-                    <Col >
-                        <Button                 className="BtnStar"
- onClick={handleSubmit}>Enviar</Button>
-                    </Col>
-                </Row>
+                
             </Container>
         </>
     )

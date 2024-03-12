@@ -301,6 +301,9 @@ const addProducerModal = () => {
                     </Button>
 
                 </Modal.Footer>
+                    </Form>
+                </Modal.Body>
+                
             </Modal>
         </>
     );
