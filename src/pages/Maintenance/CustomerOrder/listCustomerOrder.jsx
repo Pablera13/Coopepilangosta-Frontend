@@ -1,37 +1,41 @@
-import { React, useState, useEffect } from 'react'
-import { useQuery } from 'react-query';
-import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
-import { format } from 'date-fns';
-import { Table, Container, Col, Row, Button, Form } from 'react-bootstrap';
-import { deleteCostumerOrder } from '../../../services/costumerorderService';
-import { getCostumerOrder } from '../../../services/costumerorderService';
-import Select from 'react-select';
-import PrintCustomerOrder from './actions/printCustomerOrder.jsx';
+import { React, useState, useEffect } from "react";
+import { useQuery } from "react-query";
+import { NavLink, Navigate, useNavigate, useParams } from "react-router-dom";
+import { format } from "date-fns";
+import { Table, Container, Col, Row, Button, Form } from "react-bootstrap";
+import { deleteCostumerOrder } from "../../../services/costumerorderService";
+import { getCostumerOrder } from "../../../services/costumerorderService";
+import Select from "react-select";
+import PrintCustomerOrder from "./actions/printCustomerOrder.jsx";
 
 import { MdDelete } from "react-icons/md";
 
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
-import ReactPaginate from 'react-paginate';
+import ReactPaginate from "react-paginate";
 
-import UpdateCustomerOrderModal from './actions/updateCustomerOrderModal.jsx';
+import UpdateCustomerOrderModal from "./actions/updateCustomerOrderModal.jsx";
 
 const listCustomerOrder = () => {
   const params = useParams();
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedOption, setSelectedOption] = useState('all'); // Default filter option
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedOption, setSelectedOption] = useState("all"); // Default filter option
   const navigate = useNavigate();
-  const { data: customerorderData, isLoading, isError } = useQuery('customerorder', getCostumerOrder);
+  const {
+    data: customerorderData,
+    isLoading,
+    isError,
+  } = useQuery("customerorder", getCostumerOrder);
   const recordsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(0);
 
   const optionsSelect = [
-    { value: 'all', label: 'Todos los pedidos' },
-    { value: 'paid', label: 'Pedidos pagados' },
-    { value: 'notpaid', label: 'Pedidos sin pagar' },
-    { value: 'delivered', label: 'Pedidos recibidos' },
-    { value: 'notdelivered', label: 'Pedidos sin recibir' }
+    { value: "all", label: "Todos los pedidos" },
+    { value: "paid", label: "Pedidos pagados" },
+    { value: "notpaid", label: "Pedidos sin pagar" },
+    { value: "delivered", label: "Pedidos recibidos" },
+    { value: "notdelivered", label: "Pedidos sin recibir" },
   ];
 
   useEffect(() => {
@@ -58,18 +62,29 @@ const listCustomerOrder = () => {
   }
 
   if (params.filter) {
-    if (params.filter === 'paid') {
-      filteredCustomerOrders = filteredCustomerOrders.filter((prodorder) => prodorder.paidDate !== "0001-01-01T00:00:00");
-    } else if (params.filter === 'notpaid') {
-      filteredCustomerOrders = filteredCustomerOrders.filter((prodorder) => prodorder.paidDate === "0001-01-01T00:00:00");
-    } else if (params.filter === 'delivered') {
-      filteredCustomerOrders = filteredCustomerOrders.filter((prodorder) => prodorder.deliveredDate !== "0001-01-01T00:00:00");
-    } else if (params.filter === 'notdelivered') {
-      filteredCustomerOrders = filteredCustomerOrders.filter((prodorder) => prodorder.deliveredDate === "0001-01-01T00:00:00");
+    if (params.filter === "paid") {
+      filteredCustomerOrders = filteredCustomerOrders.filter(
+        (prodorder) => prodorder.paidDate !== "0001-01-01T00:00:00"
+      );
+    } else if (params.filter === "notpaid") {
+      filteredCustomerOrders = filteredCustomerOrders.filter(
+        (prodorder) => prodorder.paidDate === "0001-01-01T00:00:00"
+      );
+    } else if (params.filter === "delivered") {
+      filteredCustomerOrders = filteredCustomerOrders.filter(
+        (prodorder) => prodorder.deliveredDate !== "0001-01-01T00:00:00"
+      );
+    } else if (params.filter === "notdelivered") {
+      filteredCustomerOrders = filteredCustomerOrders.filter(
+        (prodorder) => prodorder.deliveredDate === "0001-01-01T00:00:00"
+      );
     }
   }
 
-  const paginatedProducers = filteredCustomerOrders.slice(currentPage * recordsPerPage, (currentPage + 1) * recordsPerPage);
+  const paginatedProducers = filteredCustomerOrders.slice(
+    currentPage * recordsPerPage,
+    (currentPage + 1) * recordsPerPage
+  );
   const pageCount = Math.ceil(filteredCustomerOrders.length / recordsPerPage);
 
   const showAlert = (id) => {
@@ -85,8 +100,10 @@ const listCustomerOrder = () => {
             title: "Eliminado",
             text: "El pedido ha sido eliminado",
             icon: "success",
-          }).then(function(){window.location.reload()})
-        );     
+          }).then(function () {
+            window.location.reload();
+          })
+        );
       }
     });
   };
@@ -109,8 +126,10 @@ const listCustomerOrder = () => {
             </Col>
             <Col xs={12} md={3}>
               <Select
-                placeholder='Todos los pedidos'
-                value={optionsSelect.find(option => option.value === selectedOption)}
+                placeholder="Todos los pedidos"
+                value={optionsSelect.find(
+                  (option) => option.value === selectedOption
+                )}
                 onChange={(option) => setSelectedOption(option.value)}
                 options={optionsSelect}
               />
@@ -120,11 +139,11 @@ const listCustomerOrder = () => {
         <Col xs={12} md={12} lg={12}>
           <Row>
             <Col xs={12} sm={12} md={12}>
-              <Table className='Table' responsive>
+              <Table className="Table" responsive>
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Fecha recibido</th>
+                    <th>Recibido</th>
                     <th>Total</th>
                     <th>Estado Pago</th>
                     <th>Estado Entrega</th>
@@ -136,29 +155,43 @@ const listCustomerOrder = () => {
                   {paginatedProducers.map((CustomerOrder) => (
                     <tr key={CustomerOrder.id}>
                       <td>{CustomerOrder.id}</td>
-                      <td>{format(new Date(CustomerOrder.confirmedDate), 'yyyy-MM-dd')}</td>
+                      <td>
+                        {format(
+                          new Date(CustomerOrder.confirmedDate),
+                          "yyyy-MM-dd"
+                        )}
+                      </td>
                       <td>₡{CustomerOrder.total.toFixed(2)}</td>
                       <td>
                         {CustomerOrder.paidDate === "0001-01-01T00:00:00"
                           ? "Sin pagar"
-                          : format(new Date(CustomerOrder.paidDate), 'yyyy-MM-dd')}
+                          : format(
+                              new Date(CustomerOrder.paidDate),
+                              "yyyy-MM-dd"
+                            )}
                       </td>
                       <td>
                         {CustomerOrder.deliveredDate === "0001-01-01T00:00:00"
                           ? "No entregado"
-                          : format(new Date(CustomerOrder.deliveredDate), 'yyyy-MM-dd')}
+                          : format(
+                              new Date(CustomerOrder.deliveredDate),
+                              "yyyy-MM-dd"
+                            )}
                       </td>
+
                       <td>{CustomerOrder.stage}</td>
                       <td>
-                        <UpdateCustomerOrderModal props={CustomerOrder} />
-                        <Button
-                          onClick={() => showAlert(CustomerOrder.id)}
-                          size='sm'
-                          className='BtnRed'
-                        >
-                          <MdDelete />
-                        </Button>
-                        <PrintCustomerOrder props={CustomerOrder.id} />
+                        <div className="BtnContainer">
+                          <UpdateCustomerOrderModal props={CustomerOrder} />
+                          <Button
+                            onClick={() => showAlert(CustomerOrder.id)}
+                            size="sm"
+                            className="BtnRed"
+                          >
+                            <MdDelete />
+                          </Button>
+                          <PrintCustomerOrder props={CustomerOrder.id} />
+                        </div>
                       </td>
                     </tr>
                   ))}

@@ -4,7 +4,7 @@ import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import { editCostumer } from '../../../../services/costumerService';
 import { useRef } from 'react';
 import Select from 'react-select';
-
+import { RiPassValidLine } from "react-icons/ri";
 const verifyCostumer = (props) => {
     const queryClient = new QueryClient();
     const [show, setShow] = useState(false);
@@ -71,8 +71,8 @@ const verifyCostumer = (props) => {
 
     return (
         <>
-            <Button className='BtnBrown' variant="primary" onClick={handleShow} size="sm">
-                Verificación
+            <Button className='BtnBrown' variant="primary" onClick={handleShow}>
+            <RiPassValidLine />
             </Button>
 
             <Modal show={show} onHide={handleClose}>

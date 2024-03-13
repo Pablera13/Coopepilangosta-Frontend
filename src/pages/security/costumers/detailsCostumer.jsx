@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Modal, Row, Col, Table, Button, Form } from 'react-bootstrap'
-
+import { LuListChecks } from "react-icons/lu";
 const detailsCostumer = (props) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -17,7 +17,7 @@ const detailsCostumer = (props) => {
     return (
         <>
             <Button className='BtnBrown' variant="outline-primary" onClick={handleOpen} size='sm' >
-                Detalles
+            <LuListChecks />
             </Button>
 
             <Modal show={show} onHide={handleClose} size='lg'>
