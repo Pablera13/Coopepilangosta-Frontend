@@ -7,6 +7,9 @@ import { getRoles } from '../../../../services/rolesService';
 import Select from 'react-select';
 import { QueryClient } from 'react-query';
 import { checkCedulaFormat } from '../../../../utils/validateCedulaFormat';
+
+import { GrAddCircle } from "react-icons/gr"; 
+
 export const AddEmployee = () => {
   const queryClient = new QueryClient();
   const [show, setShow] = useState(false);
@@ -129,8 +132,8 @@ export const AddEmployee = () => {
 
   return (
     <>
-      <Button variant="info" onClick={handleShow} size='sm'>
-        Agregar nuevo empleado
+      <Button className="BtnAdd" onClick={handleShow} size='sm'>
+      <GrAddCircle />
       </Button>
       
 

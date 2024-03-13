@@ -6,6 +6,9 @@ import Select from 'react-select';
 import { checkEmailAvailability, editUser } from '../../../../services/userService';
 import { QueryClient } from 'react-query';
 import swal from 'sweetalert';
+import { FaUserLock } from "react-icons/fa";
+
+
 const updateEmployeeUser = (props) => {
     const queryClient = new QueryClient();
     const [show, setShow] = useState(false);
@@ -102,8 +105,8 @@ const updateEmployeeUser = (props) => {
 
     return (
         <>
-            <Button className="BtnAdd"  onClick={handleOpen} size='sm'>
-                Roles 
+            <Button className="BtnPrint"  onClick={handleOpen} size='sm'>
+            <FaUserLock />
             </Button>
 
             <Modal
