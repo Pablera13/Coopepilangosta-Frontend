@@ -85,6 +85,10 @@ const listProducerOrder = () => {
   );
   const pageCount = Math.ceil(filteredByDate.length / recordsPerPage);
 
+  if (producerorderData) {
+    console.log(producerorderData)
+  }
+
   const showAlert = (id) => {
     swal({
       title: "Eliminar",
@@ -93,15 +97,13 @@ const listProducerOrder = () => {
       buttons: ["Cancelar", "Aceptar"],
     }).then((answer) => {
       if (answer) {
+        deleteProducerOrder(id).then(
         swal({
           title: "Eliminado!",
           text: `El pedido ha sido eliminado`,
-          icon: "success",
-        });
-        setTimeout(function () {
-          deleteProducerOrder(id);
-          window.location.reload();
-        }, 2000);
+          icon: "success"
+        }).then(function(){window.location.reload()}))
+        
       }
     });
   };

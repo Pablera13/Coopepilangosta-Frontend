@@ -72,7 +72,7 @@ const listWarehouse = () => {
   const showAlert = (id) => {
     swal({
       title: "Eliminar",
-      text: "¿Está seguro de que desea eliminar esta valoración?",
+      text: "¿Está seguro de que desea eliminar esta bodega?",
       icon: "warning",
       buttons: ["Cancelar", "Aceptar"],
     }).then((answer) => {
@@ -80,13 +80,10 @@ const listWarehouse = () => {
         deleteWarehouse(id);
         swal({
           title: "Eliminado",
-          text: "La valoración ha sido eliminada",
+          text: "La bodega ha sido eliminada",
           icon: "success",
-        });
-        setTimeout(function () {
-          console.log("Review eliminada" + id);
-          window.location.reload();
-        }, 2000);
+        }).then(function(){window.location.reload()});
+        
       }
     });
   };

@@ -118,11 +118,8 @@ const listProductCostumer = () => {
           title: 'Eliminado',
           text: 'La cotización ha sido eliminada',
           icon: 'success',
-        });
-        setTimeout(function () {
-          console.log("cotización eliminada" + id)
-          window.location.reload();
-        }, 2000);
+        }).then(function(){window.location.reload()});
+        
       }
     });
   };

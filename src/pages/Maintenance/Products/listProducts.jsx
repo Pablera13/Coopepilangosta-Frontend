@@ -73,14 +73,11 @@ const listProducts = () => {
       if (answer) {
         deleteProduct(id);
         swal({
-          title: "Eliminado",
-          text: "El producto ha sido eliminada",
-          icon: "success",
-        });
-        setTimeout(function () {
-          console.log("Review eliminada" + id);
-          window.location.reload();
-        }, 2000);
+          title: 'Eliminado',
+          text: 'El producto ha sido eliminado',
+          icon: 'success',
+        }).then(function(){window.location.reload()});
+        
       }
     });
   };
