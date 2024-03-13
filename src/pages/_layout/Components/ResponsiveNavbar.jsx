@@ -18,12 +18,13 @@ const ResponsiveNavbar = () => {
 
         } else {
 
-            let CartValue
+            if (localStorage.getItem('ShoppingCar')){
+            var CartValue
             localStorage.getItem('ShoppingCar').length >= 1? (
                 CartValue = "lleno"
             ) : (
                 CartValue = "vacio"
-            )
+            )}
 
             switch (user.role.name) {
                 case "Cliente":
