@@ -61,7 +61,7 @@ async function star5Checked() {setStarsChecked(5)}
       <Button onClick={handleOpen} 
       className="BtnBrown"
      >
-        Editar <TiEdit/>
+         <TiEdit/>
       </Button>
 
       <Modal

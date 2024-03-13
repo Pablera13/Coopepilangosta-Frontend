@@ -8,23 +8,26 @@ import navbarstyles from '../../../Styles/responsiveNavbar.css'
 import { Link } from 'react-router-dom';
 
 const ResponsiveNavbar = () => {
-    const [MenuItemsInUse, setMenuItems] = useState();
 
     const [menu, setMenu] = useState([])
     const user = JSON.parse(localStorage.getItem('user'));
 
     useEffect(() => {
-
         if (user == null) {
             setMenu(menuItemsNotLogin)
 
         } else {
 
-            //setMenu(menuItemsEmployee)
+            let CartValue
+            localStorage.getItem('ShoppingCar').length >= 1? (
+                CartValue = "lleno"
+            ) : (
+                CartValue = "vacio"
+            )
 
             switch (user.role.name) {
                 case "Cliente":
-                    setMenu(menuItemsCostumer)
+                    setMenu(menuItemsCostumer(CartValue))
                     break;
 
                 case "Admin":
@@ -58,23 +61,23 @@ const ResponsiveNavbar = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         {
-                            menu.map((menuIt) => 
-                                menuIt.submenu?(
-                                    
+                            menu.map((menuIt) =>
+                                menuIt.submenu ? (
+
                                     <NavDropdown title={menuIt.title} id="basic-nav-dropdown" key={menuIt.title}>
                                         {
-                                            menuIt.submenu.map((subMenuItem)=>
-                                            <NavDropdown.Item href={subMenuItem.url} key={subMenuItem.title}>{subMenuItem.title}</NavDropdown.Item>
+                                            menuIt.submenu.map((subMenuItem) =>
+                                                <NavDropdown.Item href={subMenuItem.url} key={subMenuItem.title}>{subMenuItem.title}</NavDropdown.Item>
                                             )
                                         }
                                     </NavDropdown>
-                                    
-                                ):(
+
+                                ) : (
                                     <Nav.Link href={menuIt.url}>{menuIt.title}</Nav.Link>
                                 )
                             )
                         }
-                        
+
                     </Nav>
                 </Navbar.Collapse>
             </Container>

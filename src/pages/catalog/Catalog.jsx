@@ -23,37 +23,39 @@ const catalog = () => {
 
   //const [UserRole,setUserRole] = useState('');
 
-  let optionsSelect = [];
+  var optionsSelect = [];
+
   if (Categories) {
-    optionsSelect = Categories.map((category) => ({
+    Categories.map(async(category) => {
+      let categoryObject = {
       value: category.id,
-      label: category.name,
-    }));
+      label: category.name,}
+      optionsSelect.push(categoryObject)
+      });
+
+    let nofilterOption = {
+      value: 0, 
+      label: "Todos los productos"
+    }
+    optionsSelect.unshift(nofilterOption)
   }
-  //console.log("token: "+localStorage.getItem('bearer')+" User: "+localStorage.getItem('user'))
 
-  const handleSearch = () => {
+  function handleSearch() {
     setSearch(searchValue.current.value);
-  };
-
-  // useEffect(() => {
-  //   const User = localStorage.getItem('user');
-  //   if (User) {
-  //     const UserObjet = JSON.parse(User)
-  //     const UserRole = UserObjet.role.name
-  //     UserRole === 'Cliente' ? setUserRole('Cliente') : setUserRole('No Cliente')
-  //   } else {
-  //     console.log("No habia usuario")
-  //   }
-  // }, []);
+  }
 
   if (!SelectedCategory) {
     products = data;
   } else {
+
+    if(SelectedCategory.value == 0){
+      products = data
+    } else {
     products = data.filter(
       (product) => product.categoryId == SelectedCategory.value
-    );
+    )};
   }
+
   if (search) {
     products = products.filter((product) =>
       product.name
@@ -93,18 +95,14 @@ const catalog = () => {
             ></Select>
           </Col>
 
-          <Col xs={6} sm={4} md={3} lg={2}>
-            <Button className="resetFilter" onClick={resetFilter} size="sm">
-              Deshacer filtro
-            </Button>
-          </Col>
-
           <Col xs={12} sm={3} md={4} lg={2}>
             <input
               type="text"
               placeholder="Búsqueda..."
               ref={searchValue}
               onChange={handleSearch}
+              className="form-control"
+              style={{height:"100%"}}
             />
           </Col>
         </Row>

@@ -3,32 +3,34 @@ import { Container, Row, Col, Card, ListGroup, Button } from 'react-bootstrap';
 import UpdateEmployee from '../employee/actions/updateEmployee';
 import './employeeProfile.css';
 import { MdDelete } from "react-icons/md";
+import { MdLogout } from "react-icons/md";
+
 
 const employeeProfile = () => {
   const user = JSON.parse(localStorage.getItem('user'));
 
   const handleLogout = () => {
     swal({
-        title: "Cerrar session",
-        text: "Esta seguro?",
-        icon: "warning",
-        buttons: ["Cancelar", "Aceptar"]
+      title: "Cerrar session",
+      text: "Esta seguro?",
+      icon: "warning",
+      buttons: ["Cancelar", "Aceptar"]
     }).then(answer => {
-        if (answer) {
-            swal({
-                title: 'Se cerro la sesión!',
-                text: `Volverá a sitio principal`,
-                icon: "success"
+      if (answer) {
+        swal({
+          title: 'Se cerro la sesión!',
+          text: `Volverá a sitio principal`,
+          icon: "success"
 
-            })
-            setTimeout(function () {
-                localStorage.removeItem('user');
-                localStorage.removeItem('bearer');
-                window.location = '/';
-            }, 2000)
-        }
+        })
+        setTimeout(function () {
+          localStorage.removeItem('user');
+          localStorage.removeItem('bearer');
+          window.location = '/';
+        }, 2000)
+      }
     })
-}
+  }
 
   return (
     <Container>
@@ -45,7 +47,7 @@ const employeeProfile = () => {
                   <h6 className='user-email'>{user.email}</h6>
                 </div>
                 <div className='about' >
-                  <h5>{user.idRole==1? 'Administrador':'Super Administrador'}</h5>
+                  <h5>{user.idRole == 1 ? 'Administrador' : 'Super Administrador'}</h5>
                 </div>
               </div>
             </Card.Body>
@@ -58,7 +60,7 @@ const employeeProfile = () => {
               <Row className='gutters'>
                 <Col xl={12} lg={12} md={12} sm={12} xs={12}>
                   <h6 className='ProfileText' >Información Personal</h6>
-                  <br/>
+                  <br />
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                   <div className='form-group'>
@@ -86,9 +88,9 @@ const employeeProfile = () => {
                 </Col>
 
                 <Col xl={12} lg={12} md={12} sm={12} xs={12}>
-                <br/>
+                  <br />
                   <h6 className='ProfileText'>Información de Usuario</h6>
-                  <br/>
+                  <br />
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                   <div className='form-group'>
@@ -105,17 +107,29 @@ const employeeProfile = () => {
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                   <div className='form-group'>
                     <h5 htmlFor='sTate'>Permisos</h5>
-                    <input type='text' className='form-control' id='sTate' placeholder={user.idRole==1? 'Administrador':'Super Administrador'} readOnly />
+                    <input type='text' className='form-control' id='sTate' placeholder={user.idRole == 1 ? 'Administrador' : 'Super Administrador'} readOnly />
                   </div>
                 </Col>
+                <br />
 
-                <Col xl={7} lg={11} md={11} sm={11} xs={11}>
-                <br/>
+                <Col xl={12} lg={12} md={12} sm={12} xs={12}>
+                  <Row>
+                    <Col md={10} sm={10} lg={10}>
+                    </Col>
+                    
+                    <Col md={1} sm={1} lg={1}>
+                      <UpdateEmployee props={user.employee} />
+                    </Col>
+                    <Col md={1} sm={1} lg={1}>
 
-                  <UpdateEmployee props={user.employee}/>
-                  <Button  onClick={handleLogout} className='BtnRed' >Cerrar sesión 
-                        </Button>
+                      <Button onClick={handleLogout} className='BtnRed' ><MdLogout />
+
+                      </Button>
+                    </Col>
+
+                  </Row>
                 </Col>
+                
               </Row>
             </Card.Body>
           </Card>

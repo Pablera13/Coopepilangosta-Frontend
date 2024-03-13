@@ -499,7 +499,7 @@ const ShoppingCart = () => {
       ) : (
         <div className="empty-cart-message">
           <p>No has realizado compras aún</p>
-          <Button className='BtnBrown'
+          <Button className='BtnStar' style={{alignContent:"center"}}
             onClick={() => navigate(`/home`)}>
             Ir a comprar                                   </Button>
         </div>

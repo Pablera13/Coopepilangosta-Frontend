@@ -227,16 +227,19 @@ const showAlert = (id) => {
                   <p>{review.description}</p>
 
                    {costumerId == review.customerid? 
-                   <>
-                      
-                       <ReviewEdit props={review}/>
-                    
-                        <Button className="BtnRed"
-                        onClick={() => showAlert(review.id)}>
-                          Eliminar <MdDelete/>
-                        </Button>
-                      </>
-
+                    <Row>
+                    <Col md={10}>
+                    </Col>
+                    <Col md={1}>
+                      <ReviewEdit props={review} />
+                    </Col>
+                    <Col md={1}>
+                    <Button className="BtnRed"
+                      onClick={() => showAlert(review.id)}>
+                      <MdDelete />
+                    </Button>
+                    </Col>
+                  </Row>
                   : (
                     ''
                   )}

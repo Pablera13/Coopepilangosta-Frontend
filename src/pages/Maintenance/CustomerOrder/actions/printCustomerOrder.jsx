@@ -5,11 +5,8 @@ import { Button } from 'react-bootstrap';
 import { getCostumerById } from '../../../../services/costumerService';
 import logoCope from '../../../../assets/logoCoopepilangosta.png'
 import { getCostumerOrderById } from '../../../../services/costumerorderService';
-
 import { IoMdPrint } from "react-icons/io";
-
 import { getProducerOrderSales } from '../../../../services/saleService';
-
 import jsPDF from 'jspdf';
 import { getProductById } from '../../../../services/productService';
 
@@ -17,10 +14,10 @@ const printCustomerOrder = (props) => {
 
     useEffect(() => {
         async function settingSales() {
-        getProducerOrderSales(props.props, setMySales)
+            getProducerOrderSales(props.props, setMySales)
         }
         settingSales();
-      }, []);
+    }, []);
 
     const [MySales, setMySales] = useState([])
     const [MyOrders, setMyOrders] = useState([]);
@@ -66,10 +63,10 @@ const printCustomerOrder = (props) => {
 
             const doc = new jsPDF();
 
-            const imgWidth = 65; 
-            const imgHeight = 20; 
-            const x = 10; 
-            const y = 10; 
+            const imgWidth = 65;
+            const imgHeight = 20;
+            const x = 10;
+            const y = 10;
             doc.addImage(logoCope, 'JPEG', x, y, imgWidth, imgHeight);
 
             // tamano de fuente y fuente
@@ -117,7 +114,7 @@ const printCustomerOrder = (props) => {
 
             // Datos factura
             doc.text("Fecha de factura:", 100, 116);
-            doc.text(format(new Date(customerorder.confirmedDate),'yyyy-MM-dd'), 150, 116); 
+            doc.text(format(new Date(customerorder.confirmedDate), 'yyyy-MM-dd'), 150, 116);
             doc.text("Fecha de pago:", 100, 123);
             doc.text(
                 customerorder.paidDate === "0001-01-01T00:00:00" ? "Sin pagar" : `${customerorder.paidDate}`,
@@ -180,7 +177,6 @@ const printCustomerOrder = (props) => {
             doc.text(customerorder.detail, 20, doc.autoTable.previous.finalY + 25);
             doc.text(customerorder.address, 20, doc.autoTable.previous.finalY + 32); // Ajusta la posición Y y el margen
 
-
             //ultima linea
             doc.setLineWidth(0.2);
             doc.line(10, doc.autoTable.previous.finalY + 12, 200, doc.autoTable.previous.finalY + 12); // Línea horizontal
@@ -188,8 +184,8 @@ const printCustomerOrder = (props) => {
             //Impresion
             const currentDate = new Date();
             const formattedDate = format(currentDate, 'yyyy-MM-dd');
-           //doc.save(`Factura_${customerorder.id}_${customer.name}_${formattedDate}.pdf`);
-           doc.output('dataurlnewwindow');
+            doc.save(`Factura_${customerorder.id}_${customer.name}_${formattedDate}.pdf`);
+            doc.output('dataurlnewwindow');
             setMyOrders([])
 
         } catch (error) {
