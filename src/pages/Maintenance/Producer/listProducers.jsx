@@ -42,9 +42,23 @@ const listProducers = () => {
   const filteredBySearch = Producers.filter(
     (producer) =>
       producer.name
-        .toString()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f\s]/g, "")
+        .trim() 
         .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
+        .includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
+      producer.lastname1
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f\s]/g, "")
+        .trim() 
+        .toLowerCase()
+        .includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
+      producer.lastname2
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f\s]/g, "")
+        .trim() 
+        .toLowerCase()
+        .includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
       producer.cedula
         .toString()
         .toLowerCase()
