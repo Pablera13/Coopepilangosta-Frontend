@@ -50,7 +50,7 @@ const updateProducerOrderModal = (props) => {
             mutationKey: "producerorder",
             onSuccess: () => {
                 swal('Actualizado!', 'Se actualizo la informacion del pedido.', 'success')
-                .then(function(){window.location.reload()})
+                    .then(function () { window.location.reload() })
             }
         })
 
@@ -123,37 +123,41 @@ const updateProducerOrderModal = (props) => {
                 <Modal.Body>
                     <Card>
                         <Card.Body>
-                            <div>
-                                <span>Estado de pago:</span>
-                                <Select
-                                    options={optionsPaid}
-                                    placeholder='Seleccione'
-                                    name="state"
-                                    id="1"
-                                    ref={paid}
-                                    onChange={(selectedOption) => setSelectedPaid(selectedOption)}
-                                />
-                            </div>
+                            {producerorderRequest != null ? (
+                                <>
+                                    <div>
+                                        <span>Estado de pago:</span>
+                                        <Select
+                                            options={optionsPaid}
+                                            placeholder={producerorderRequest.paidDate == "0001-01-01T00:00:00"?("Sin pagar"):("Pagado")}
+                                            name="state"
+                                            id="1"
+                                            ref={paid}
+                                            onChange={(selectedOption) => setSelectedPaid(selectedOption)}
+                                        />
+                                    </div>
 
-                            <div>
-                                <span>Estado de entrega:</span>
-                                <Select
-                                    options={optionsDelivered}
-                                    placeholder='Seleccione'
-                                    name="state"
-                                    id="2"
-                                    ref={delivered}
-                                    onChange={(selectedOption) => setSelectedDelivered(selectedOption)}
-                                />
-                            </div>
+                                    <div>
+                                        <span>Estado de entrega:</span>
+                                        <Select
+                                            options={optionsDelivered}
+                                            placeholder={producerorderRequest.deliveredDate == "0001-01-01T00:00:00"?("No recibido"):("Recibido")}
+                                            name="state"
+                                            id="2"
+                                            ref={delivered}
+                                            onChange={(selectedOption) => setSelectedDelivered(selectedOption)}
+                                        />
+                                    </div>
+                                </>
+                            ) : ("Cargando")}
+
                         </Card.Body>
                     </Card>
                 </Modal.Body>
                 <Modal.Footer>
-                    <div>
-                        <button onClick={saveEdit} className="BtnAdd">Aceptar</button>
 
-                    </div>
+                    <button onClick={saveEdit} className="BtnSave">Aceptar</button>
+
                 </Modal.Footer>
 
             </Modal>
