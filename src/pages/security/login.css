@@ -185,3 +185,15 @@ button.BtnStar:hover::after {
     opacity: 1;
     width: 120%;
 }
+
+.justify-content-md-center {
+
+    text-align: center;
+}
+
+.btn-forgotpasswords {
+
+color: white;
+font-weight: bolder;
+
+}

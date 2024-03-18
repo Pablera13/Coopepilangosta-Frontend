@@ -308,13 +308,12 @@ const ProductDetail = () => {
                           <a className="CategoryName" rel="tag" href="#">
                             {categoryRequest.name}
                           </a>
-                          <br />
-                          <br />
+                          <br /><br />
+
                         </span>
 
                         <span className="tagged_as">
-                          <strong>Unidad comercial:</strong>{" "}
-                          <a className="ProductName" rel="tag" href="#">
+                          <strong>Unidad comercial:</strong> <a className='ProductName' rel="tag" href="#">
                             {productRequest.unit}
                           </a>
                         </span>
@@ -385,74 +384,72 @@ const ProductDetail = () => {
                             )}
 
                             {productRequest.stockable == true ? (
-                              productRequest.stock >= 1 ? (
-                                <>
-                                  <br />
-                                  <div className="form-group">
-                                    <Row>
-                                      <Col xl={2} lg={2} md={2} sm={2} xs={2}>
-                                        <label>Cantidad:</label>
-                                      </Col>
-                                      <Col xl={5} lg={5} md={5} sm={5} xs={5}>
-                                        <Form.Control
-                                          type="number"
-                                          placeholder="Ingrese la cantidad"
-                                          className="form-control quantity"
-                                          defaultValue={1}
-                                          ref={quantity}
-                                          size="lg"
-                                          style={{ width: "50%" }}
-                                          min="1"
-                                          max={productRequest.stock}
-                                        />
 
-                                        <br />
-                                      </Col>
-                                    </Row>
-                                  </div>
+                              productRequest.stock >= 1
+                                ? (
+                                  <>
+                                    <br />
+                                    <div className="form-group">
+                                      <Row>
+                                        <Col xl={2} lg={2} md={2} sm={2} xs={2}>
+                                          <label>Cantidad:</label>
+                                        </Col>
+                                        <Col xl={5} lg={5} md={5} sm={5} xs={5}>
+                                          <Form.Control
+                                            type="number"
+                                            placeholder="Ingrese la cantidad"
+                                            className="form-control quantity"
+                                            defaultValue={1}
+                                            ref={quantity}
+                                            size='lg'
+                                            style={{ width: "50%" }}
+                                            min="1" 
+                                            max={productRequest.stock}/>
+                                            
+                                            
+                                          <br />
+                                        </Col>
+                                      </Row>
+                                    </div>
 
-                                  <Button
-                                    variant="danger"
-                                    className="BtnStar"
-                                    type="button"
-                                    onClick={addToCart}
-                                  >
-                                    <i className="fa fa-shopping-cart"></i>{" "}
-                                    Agregar al carrito
-                                  </Button>
-                                </>
-                              ) : (
-                                <>
-                                  <br />
-                                  <p className="verify warning">
-                                    Sin Existencias
-                                  </p>
-                                </>
-                              )
+
+                                    <Button
+                                      variant="danger"
+                                      className="BtnStar"
+                                      type="button"
+                                      onClick={addToCart}
+                                    >
+                                      <i className="fa fa-shopping-cart"></i> Agregar al carrito
+                                    </Button>
+                                  </>
+                                ) : (
+
+                                  <><br /><p className="verify warning">Sin Existencias</p></>
+                                )
+
                             ) : (
                               <>
                                 <div className="form-group">
-                                  <br />
+                                <br />
 
-                                  <Row>
-                                    <Col xl={2} lg={2} md={2} sm={2} xs={2}>
-                                      <label>Cantidad:</label>
-                                    </Col>
-                                    <Col xl={5} lg={5} md={5} sm={5} xs={5}>
-                                      <Form.Control
-                                        type="number"
-                                        placeholder="Ingrese la cantidad"
-                                        className="form-control quantity"
-                                        defaultValue={1}
-                                        ref={quantity}
-                                        size="lg"
-                                        style={{ width: "50%" }}
-                                        min="1"
-                                      />
-                                      <br />
-                                    </Col>
-                                  </Row>
-                                </div>
+                                      <Row>
+                                        <Col xl={2} lg={2} md={2} sm={2} xs={2}>
+                                          <label>Cantidad:</label>
+                                        </Col>
+                                        <Col xl={5} lg={5} md={5} sm={5} xs={5}>
+                                          <Form.Control
+                                            type="number"
+                                            placeholder="Ingrese la cantidad"
+                                            className="form-control quantity"
+                                            defaultValue={1}
+                                            ref={quantity}
+                                            size='lg'
+                                            style={{ width: "50%" }}
+                                            min="1" />
+                                          <br />
+                                        </Col>
+                                      </Row>
+                                    </div>
 
                                 <br />
 
@@ -462,8 +459,7 @@ const ProductDetail = () => {
                                   type="button"
                                   onClick={addToCart}
                                 >
-                                  <i className="fa fa-shopping-cart"></i>{" "}
-                                  Agregar al carrito
+                                  <i className="fa fa-shopping-cart"></i> Agregar al carrito
                                 </Button>
                               </>
                             )}
