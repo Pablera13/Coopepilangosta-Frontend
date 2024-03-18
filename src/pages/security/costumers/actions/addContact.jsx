@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import { useMutation, QueryClient } from 'react-query';
 import { createContactCostumer } from '../../../../services/CostumerContactService';
+import { FaAddressBook } from "react-icons/fa";
 const addContact = (props) => {
     const queryClient = new QueryClient()
     const [show, setShow] = useState(false);
@@ -53,7 +54,8 @@ const addContact = (props) => {
     return (
         <>
             <Button className='BtnBrown' onClick={handleShow}>
-                Agregar contacto
+            <FaAddressBook />
+
             </Button>
 
             <Modal show={show} onHide={handleClose}>

@@ -5,8 +5,10 @@ import { editCostumer } from '../../../../services/costumerService';
 import { useRef } from 'react';
 import { provinces } from '../../../../utils/provinces';
 import { TiEdit } from "react-icons/ti";
+
 import { locations } from '../../../../utils/provinces';
 import Select from 'react-select';
+
 const updateCostumer = (props) => {
     const queryClient = new QueryClient();
     const [show, setShow] = useState(false);
@@ -129,7 +131,7 @@ const updateCostumer = (props) => {
     return (
         <>
             <Button className="BtnBrown" onClick={handleShow} size="sm">
-                Editar
+                <TiEdit/>
             </Button>
 
             <Modal show={show} onHide={handleClose}>

@@ -81,12 +81,14 @@ const listProducers = () => {
     }).then((answer) => {
       if (answer) {
         deleteProducerService(id).then(
-        swal({
-          title: "Eliminado",
-          text: "El productor ha sido eliminado",
-          icon: "success",
-        }).then(function(){window.location.reload()}));
-        
+          swal({
+            title: "Eliminado",
+            text: "El productor ha sido eliminado",
+            icon: "success",
+          }).then(function () {
+            window.location.reload();
+          })
+        );
       }
     });
   };
@@ -154,6 +156,7 @@ const listProducers = () => {
                           >
                             <MdDelete />
                           </Button>
+
                         </div>
                       </td>
                     </tr>

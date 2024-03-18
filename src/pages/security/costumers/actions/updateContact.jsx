@@ -58,7 +58,7 @@ const updateContact = (props) => {
   return (
     <>
             <Button className='BtnBrown' variant="primary" onClick={handleShow} size='sm'>
-                Editar <TiEdit />
+                 <TiEdit />
 
             </Button>
 

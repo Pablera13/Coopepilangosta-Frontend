@@ -11,6 +11,8 @@ import { useQuery } from 'react-query';
 import { deleteCostumerContact } from '../../../services/CostumerContactService';
 import swal from 'sweetalert';
 import { format } from 'date-fns';
+import { MdLogout } from "react-icons/md";
+
 
 import UpdateCostumer from '../costumers/actions/updateCostumer';
 
@@ -31,26 +33,26 @@ const costumerProfile = () => {
 
   const handleLogout = () => {
     swal({
-        title: "Cerrar session",
-        text: "Esta seguro?",
-        icon: "warning",
-        buttons: ["Cancelar", "Aceptar"]
+      title: "Cerrar session",
+      text: "Esta seguro?",
+      icon: "warning",
+      buttons: ["Cancelar", "Aceptar"]
     }).then(answer => {
-        if (answer) {
-            swal({
-                title: 'Se cerro la sesión!',
-                text: `Volverá a sitio principal`,
-                icon: "success"
+      if (answer) {
+        swal({
+          title: 'Se cerro la sesión!',
+          text: `Volverá a sitio principal`,
+          icon: "success"
 
-            })
-            setTimeout(function () {
-                localStorage.removeItem('user');
-                localStorage.removeItem('bearer');
-                window.location = '/';
-            }, 2000)
-        }
+        })
+        setTimeout(function () {
+          localStorage.removeItem('user');
+          localStorage.removeItem('bearer');
+          window.location = '/';
+        }, 2000)
+      }
     })
-}
+  }
 
   const deleteContact = (id) => {
     deleteCostumerContact(id).finally(() => window.location.reload());
@@ -185,12 +187,23 @@ const costumerProfile = () => {
 
                     <Card.Body>
 
-                      <UpdateCostumer props={user.costumer} />
-                      <AddContact props={user.costumer.id} />
+                      <Row>
+                      <Col md={8} sm={8} lg={8}>
+                        </Col>
+                        <Col md={1} sm={1} lg={1}>
+                          <UpdateCostumer props={user.costumer} />
+                        </Col>
+                        <Col md={1} sm={1} lg={1}>
 
-                      <Button onClick={handleLogout} className='BtnRed' >Cerrar sesión
-                      </Button>
+                          <AddContact props={user.costumer.id} />
+                        </Col>
+                        <Col md={1} sm={1} lg={1}>
 
+                          <Button onClick={handleLogout} className='BtnRed' ><MdLogout />
+                          </Button>
+                        </Col>
+
+                      </Row>
                     </Card.Body>
 
                   </Row>
@@ -210,16 +223,16 @@ const costumerProfile = () => {
                         <Card.Title>{contact.name}</Card.Title>
                         <Card.Text>Contacto: {contact.contact}</Card.Text>
                         <div className="d-flex justify-content-between">
-                        <UpdateContact props={contact} />
+                          <UpdateContact props={contact} />
 
                           <Button
                             className="BtnRed"
                             onClick={() => showAlert(contact.id)}
                             size="sm"
-                          > 
-                            Eliminar <MdDelete />
+                          >
+                            <MdDelete />
 
-                          </Button> 
+                          </Button>
                         </div>
                         <hr />
                       </Card.Body>

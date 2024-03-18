@@ -5,7 +5,6 @@ import swal from 'sweetalert';
 import { createProducer,CheckCedulaProducerAvailability } from '../../../../services/producerService';
 import { locations } from '../../../../utils/provinces'
 import Select from 'react-select'
-import './addProducerModal.css';
 import '../../../../css/StylesBtn.css'
 import { GrAddCircle } from "react-icons/gr";
 

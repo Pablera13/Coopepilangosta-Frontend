@@ -4,7 +4,6 @@ import swal from 'sweetalert'
 import CostumerProfile from './costumerProfile'
 import EmployeeProfile from './employeeProfile'
 
-import { MdDelete } from "react-icons/md";
 
 export const UserProfile = () => {
     const [isCostumer, setIsCostumer] = useState(false);
