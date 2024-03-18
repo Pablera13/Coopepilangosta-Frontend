@@ -11,8 +11,9 @@ import swal from 'sweetalert';
 import { createForesight } from '../../../../services/foresightService';
 import { getProducts } from '../../../../services/productService';
 import { getProducers } from '../../../../services/producerService';
-import './addForesight.css'
-
+import "../../../../css/Pagination.css";
+import "../../../../css/StylesBtn.css";
+import { GrAddCircle } from "react-icons/gr";
 const addForesight = () => {
   const queryClient = new QueryClient();
   //Logica del modal para mostrar y ocultar
@@ -96,10 +97,7 @@ const addForesight = () => {
           text: `Se agrego la prevision`,
           icon: "success"
         })
-        setTimeout(() => {
-          handleClose()
-          window.location.reload()
-        }, 2000);
+       .then(function(){window.location.reload()});
       }
     })
 
@@ -138,8 +136,8 @@ const addForesight = () => {
 
   return (
     <>
-      <Button className='BtnAddForecast' variant="info" size='sm' onClick={handleShow}>
-        Agregar prevision
+      <Button className='BtnSave' onClick={handleShow}>
+        Agregar
       </Button>
 
       <Modal show={show} onHide={handleClose} size='lg' scrollable backdrop="static">
@@ -153,7 +151,7 @@ const addForesight = () => {
                 <Col xs={12} md={8} lg={12}>
                   <h3 className="text-center">Seleccione un producto</h3><hr />
                   <Select options={optionsProduct} onChange=
-                    {(selectedOption) => setSelectedProduct(selectedOption)} placeholder='Seleccione un producto' isDisabled={isProductDisabled}>
+                    {(selectedOption) => setSelectedProduct(selectedOption)} placeholder='Seleccione un producto'>
                   </Select>
                   {/* <Button variant='secondary' size='sm' >Consultar previsiones</Button> */}
                 </Col>
@@ -166,7 +164,8 @@ const addForesight = () => {
                   <Select options={optionsProducer} onChange=
                     {(selectedOption) => setSelecterProducer(selectedOption)} placeholder='Busqueda'>
                   </Select>
-                  <Button variant='secondary' size='sm' onClick={handleProducerAdded}>Agregar a la lista</Button>
+                  <br />
+                  <Button className='BtnAdd' variant='secondary' size='sm' onClick={handleProducerAdded}><GrAddCircle /></Button>
 
                 </Col>
               </Row>
@@ -201,10 +200,10 @@ const addForesight = () => {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" size='sm' onClick={handleClose}>
+          <Button className='BtnClose' variant="secondary" size='sm' onClick={handleClose}>
             Cerrar
           </Button>
-          <Button variant="primary" size='sm' onClick={saveForesight}>
+          <Button className='BtnSave' variant="primary" size='sm' onClick={saveForesight}>
             Guardar prevision
           </Button>
         </Modal.Footer>

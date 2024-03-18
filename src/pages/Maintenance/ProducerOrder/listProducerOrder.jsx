@@ -11,6 +11,8 @@ import AddProducerOrderModal from "./actions/addProducerOrderModal.jsx";
 import { MdDelete } from "react-icons/md";
 import ReactPaginate from "react-paginate";
 import { TiEdit } from "react-icons/ti";
+import CheckEntryModal from '../../Inventory/Entries/actions/checkEntryModal.jsx'
+import UpdateProducerOrderModal from "./actions/updateProducerOrderModal.jsx";
 
 const listProducerOrder = () => {
   const params = useParams();
@@ -117,7 +119,7 @@ const listProducerOrder = () => {
         <Form>
           <Row className="mb-3 filters-container">
             <Col xs={12} md={6}>
-              <AddProducerOrderModal />
+              <AddProducerOrderModal/>
             </Col>
             <Col xs={12} md={3}>
               <Form.Control
@@ -182,17 +184,7 @@ const listProducerOrder = () => {
                         </td>
                         <td>
                           <div className="BtnContainer">
-                            <Button
-                              className="BtnBrown"
-                              onClick={() =>
-                                navigate(
-                                  `/editProducerOrder/${ProducerOrder.id}`
-                                )
-                              }
-                              size="sm"
-                            >
-                              <TiEdit />
-                            </Button>
+                            <UpdateProducerOrderModal props={ProducerOrder.id}/>
                             {ProducerOrder.deliveredDate !==
                               "0001-01-01T00:00:00" && (
                               <CheckEntryModal props={ProducerOrder} />

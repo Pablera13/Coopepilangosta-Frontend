@@ -28,12 +28,8 @@ const addCategoryModal = () => {
         title: "Agregado!",
         text: "Se agregó la categoria",
         icon: "success",
-      });
-      handleClose();
-
-      setTimeout(function () {
-        window.location.reload();
-      }, 2000);
+      }).then(function(){window.location.reload()});
+      
     },
   });
 

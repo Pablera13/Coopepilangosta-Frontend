@@ -16,7 +16,10 @@ import { getProducts } from "../../../services/productService";
 import { getForesightById } from "../../../services/foresightService";
 import { ListGroup } from "react-bootstrap";
 import UpdateForesight from "./actions/updateForesight";
-import styles from "./listForesight.css";
+import "../../../css/Pagination.css";
+import "../../../css/StylesBtn.css";
+import "./listForesight.css";
+
 const listForesight = () => {
   const product = useRef();
   //State para el producto seleccionado en el select
@@ -46,110 +49,112 @@ const listForesight = () => {
   return (
     <>
       <Container className="foresights-container">
-        <br />
-        <Row className="titleForesight">
-          <div>
-            <h2>Previsiones</h2>
-          </div>
-          <br />
-        </Row>
+        <div className="table-container">
+          <h2 className="table-title">Previsiones</h2>
+          <hr className="divider" />
 
+          <br></br>
 
-        <Stack direction="horizontal" gap={3}>
-          <Row>
-            <Col  lg={3}>
-              <h3>Producto a Consultar</h3>
-            </Col>
-            <Col lg={2}>
-              <Select
+          <Stack direction="horizontal" gap={3}>
+            <Row>
+              <Col lg={3}>
+                <h3>Producto a Consultar</h3>
+              </Col>
+              <Col lg={2}>
+                <div>
+                  {" "}
+                  <Select
+                    className="SelectListForesight"
+                    options={optionsProduct}
+                    ref={product}
+                    onChange={(selectedOption) =>
+                      setSelectedProduct(selectedOption)
+                    }
+                    placeholder="Seleccione..."
+                  ></Select>
+                </div>
+              </Col>
+              <Col>
+                <div className="BtnContainer">
+                  {" "}
+                  <Button className="BtnSave" onClick={handleConsult}>
+                    Consultar
+                  </Button>
+                  <AddForesight />{" "}
+                </div>
+              </Col>
+            </Row>
+          </Stack>
 
-                options={optionsProduct}
-                ref={product}
-                onChange={(selectedOption) => setSelectedProduct(selectedOption)}
-                placeholder="Seleccione..."
-              ></Select>
-            </Col>
-            <Col >
-              <Button
-                className="BtnConsult"
-                variant="info"
-                size="sm"
-                onClick={handleConsult}
-              >
-                Consultar previsiones
-              </Button>
-              <div className="vr" />
-              <AddForesight />
-            </Col>
-          </Row>
-        </Stack>
+          {ForesightConsult != null ? (
+            <>
+              {ForesightConsult.initialDate != "0001-01-01T00:00:00" ? (
+                <>
+                  <div className="foresight-details">
+                    <Row className="justify-content-md-center">
+                      <Col xs={12} sm={4} md={4}>
+                        <Card>
+                          <Card.Body>
+                            <Card.Title>Plazo de la prevision</Card.Title>
+                            <ListGroup className="list-group-flush">
+                              <ListGroup.Item>
+                                Fecha inicial:{" "}
+                                {ForesightConsult.initialDate.slice(0, 10)}
+                              </ListGroup.Item>
+                              <ListGroup.Item>
+                                Fecha final:{" "}
+                                {ForesightConsult.endDate.slice(0, 10)}
+                              </ListGroup.Item>
+                            </ListGroup>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                      <Col xs={12} sm={8} md={6} lg={5}>
+                        <Card>
+                          <Card.Title>Productores para el plazo</Card.Title>
+                          <ListGroup key={ForesightConsult.id}>
+                            {ForesightConsult.foresightproducers != null
+                              ? ForesightConsult.foresightproducers.map(
+                                  (fproducer) => (
+                                    <>
+                                      <Card.Body>
+                                        <ListGroup.Item key={fproducer.id}>
+                                          {fproducer.producer.name +
+                                            " " +
+                                            fproducer.producer.lastname1 +
+                                            ", Telefono: " +
+                                            fproducer.producer.phoneNumber}
+                                        </ListGroup.Item>
+                                      </Card.Body>
+                                    </>
+                                  )
+                                )
+                              : "No se agregaron productores del producto: " +
+                                selectedProduct.label}
 
-
-        {ForesightConsult != null ? (
-          <>
-            {ForesightConsult.initialDate != "0001-01-01T00:00:00" ? (
-              <>
-                <div className="foresight-details">
+                            <UpdateForesight props={ForesightConsult} />
+                          </ListGroup>
+                        </Card>
+                      </Col>
+                    </Row>
+                  </div>
+                </>
+              ) : (
+                <>
                   <Row className="justify-content-md-center">
-                    <Col xs={12} sm={4} md={4}>
-                    <Card>
-                      <Card.Body>
-                        <Card.Title>Plazo de la prevision</Card.Title>
-                        <ListGroup className="list-group-flush">
-                          <ListGroup.Item>
-                            Fecha inicial:{" "}
-                            {ForesightConsult.initialDate.slice(0, 10)}
-                          </ListGroup.Item>
-                          <ListGroup.Item>
-                            Fecha final: {ForesightConsult.endDate.slice(0, 10)}
-                          </ListGroup.Item>
-                        </ListGroup>
-                      </Card.Body>
-                    </Card>
-                    </Col>
-                    <Col xs={12} sm={8} md={6} lg={5}>
-                      <Card>
-                        <Card.Title>Productores para el plazo</Card.Title>
-                        <ListGroup key={ForesightConsult.id}>
-                          {ForesightConsult.foresightproducers != null
-                            ? ForesightConsult.foresightproducers.map(
-                              (fproducer) => (
-                                <>
-                                  <Card.Body>
-                                    <ListGroup.Item key={fproducer.id}>
-                                      {fproducer.producer.name +
-                                        " " +
-                                        fproducer.producer.lastname1 +
-                                        ", Telefono: " +
-                                        fproducer.producer.phoneNumber}
-                                    </ListGroup.Item>
-                                  </Card.Body>
-                                </>
-                              )
-                            )
-                            : "No se agregaron productores del producto: " +
-                            selectedProduct.label}
-
-                          <UpdateForesight props={ForesightConsult} />
-                        </ListGroup>
-                      </Card>
+                    <Col lg={5}>
+                      <span>
+                        No se han creado previsiones para este producto
+                      </span>
                     </Col>
                   </Row>
-                </div>
-              </>
-            ) : (
-              <>
-                <Row className="justify-content-md-center">
-                  <Col lg={5}>
-                    <span>No se han creado previsiones para este producto</span>
-                  </Col>
-                </Row>
-              </>
-            )}
-          </>
-        ) : (
-          ""
-        )}
+                </>
+              )}
+            </>
+          ) : (
+            ""
+          )}
+        </div>
       </Container>
     </>
   );
