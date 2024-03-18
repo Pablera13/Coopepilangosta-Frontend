@@ -83,15 +83,14 @@ const listCostumers = () => {
             <Row className="mb-3 filters-container">
               <Col xs={0} md={0}></Col>
               <Col xs={12} md={3}>
-                <Form.Label>Buscar:</Form.Label>
                 <Form.Control
                   type="text"
+                  placeholder="Buscar coincidencias"
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="filter-input"
                 />
               </Col>
               <Col md={3}>
-                <Form.Label>Filtrar por estado:</Form.Label>
                 <Form.Select
                   onChange={(e) =>
                     setFilterState(
@@ -165,8 +164,8 @@ const listCostumers = () => {
                   </tbody>
                 </Table>
                 <ReactPaginate
-                  previousLabel={"Anterior"}
-                  nextLabel={"Siguiente"}
+                  previousLabel={"<"}
+                  nextLabel={">"}
                   breakLabel={"..."}
                   pageCount={pageCount}
                   marginPagesDisplayed={2}

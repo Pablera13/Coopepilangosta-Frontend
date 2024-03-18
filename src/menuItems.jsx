@@ -1,3 +1,8 @@
+import { PiShoppingCartFill } from "react-icons/pi";
+import { PiShoppingCartLight } from "react-icons/pi";
+import React, { useEffect } from 'react';
+
+
 export const menuItemsNotLogin = [
     {
         title: 'Catálogo',
@@ -9,24 +14,42 @@ export const menuItemsNotLogin = [
     }
 ]
 
-export const menuItemsCostumer = [
+
+export const menuItemsCostumer = (CartValue) => {
     {
-        title: 'Catálogo',
-        url: '/home',
-    },
-    {
-        title:'Carro de compras ', 
-        url: '/ShoppingCart',
-    },
-    {
-        title: 'Mis Pedidos',
-        url: '/myCustomerOrders',
-    },
-    {
-        title: 'Perfil',
-        url: '/userProfile',
+
+        // console.log(CartValue)
+
+        let iCON
+        if (CartValue == "lleno") {iCON = <PiShoppingCartLight style={{fontSize:"150%"}}/>} 
+        else if (CartValue == "vacio") { iCON = <PiShoppingCartFill style={{fontSize:"150%"}} />}
+
+
+        let array = [
+            {
+                title: 'Catálogo',
+                url: '/home',
+            },
+            
+            {
+                title: 'Mis Pedidos',
+                url: '/myCustomerOrders',
+            },
+            {
+                title: 'Perfil',
+                url: '/userProfile',
+            },
+            {
+
+                title: iCON,
+                url: '/ShoppingCart',
+            }
+        ]
+
+        return array
+
     }
-]
+}
 
 export const menuItemsEmployee = [
     {
@@ -156,7 +179,7 @@ export const menuItems = [
             {
                 title: 'Pedidos Recibidos',
                 url: '/listCustomerOrder/all',
-                
+
             },
             {
                 title: 'Reporte de Ventas',
@@ -168,7 +191,7 @@ export const menuItems = [
             },
         ],
     },
-    
+
     {
         title: 'Usuarios',
         submenu: [
