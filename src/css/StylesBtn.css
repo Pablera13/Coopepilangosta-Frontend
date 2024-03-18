@@ -345,3 +345,25 @@ button.BtnPrint:hover {
   display: flex;
   background-color: white !important;
 }
+
+button.BtnBuy {
+  border-radius: 5px;
+  background-color: white;
+  border: 1px solid #e0e0e0 !important;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: bold;
+  font-size: 30px;
+  color: #111;
+  padding: 8px 64px;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  margin: 5px;
+}
+
+button.BtnBuy:hover {
+  background-color: #3c3019 !important;
+  color: #fff;
+}
