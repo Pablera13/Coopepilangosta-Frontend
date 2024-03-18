@@ -1,44 +1,34 @@
-import React, { useState, useEffect, useRef } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Image,
-  Button,
-  Form,
-  Card,
-} from "react-bootstrap";
-import { NavLink, Navigate, useNavigate, useParams } from "react-router-dom";
-import { getProductById } from "../../services/productService";
-import { getCategoryById } from "../../services/categoryService";
-import { getProductCostumerById } from "../../services/productCostumerService.js";
-import { getSingleProductCostumerById } from "../../services/productCostumerService.js";
-import { getVolumeDiscount } from "../../services/volumeDiscount.js";
-import { getStarsAverage } from "../../services/reviewService";
-import "../../css/Pagination.css";
-import "../../css/StylesBtn.css";
-import Select from "react-select";
+import React, { useState, useEffect, useRef } from 'react';
+import { Container, Row, Col, Image, Button, Form, Card } from 'react-bootstrap';
+import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { getProductById } from '../../services/productService';
+import { getCategoryById } from '../../services/categoryService';
+import { getProductCostumerById } from '../../services/productCostumerService.js';
+import { getSingleProductCostumerById } from '../../services/productCostumerService.js';
+import { getVolumeDiscount } from '../../services/volumeDiscount.js';
+import { getStarsAverage } from '../../services/reviewService';
 
-import Listreview from "./listReview";
+import Select from 'react-select';
 
-import "./ProductDetail.css";
+import Listreview from './listReview';
+
+import './ProductDetail.css';
 
 const ProductDetail = () => {
-  const productParams = useParams();
-  const user = JSON.parse(localStorage.getItem("user"));
-  const navigate = useNavigate();
 
-  const [UserRole, setUserRole] = useState("");
+  const productParams = useParams();
+  const user = JSON.parse(localStorage.getItem('user'));
+  const navigate = useNavigate()
+
+  const [UserRole, setUserRole] = useState('');
   const [StarsAverage, setStarsAverage] = useState(0);
 
   useEffect(() => {
-    const User = localStorage.getItem("user");
+    const User = localStorage.getItem('user');
     if (User) {
-      const UserObjet = JSON.parse(User);
-      const UserRole = UserObjet.role.name;
-      UserRole === "Cliente"
-        ? setUserRole("Cliente")
-        : setUserRole("No Cliente");
+      const UserObjet = JSON.parse(User)
+      const UserRole = UserObjet.role.name
+      UserRole === 'Cliente' ? setUserRole('Cliente') : setUserRole('No Cliente')
     } else {
     }
   }, []);
@@ -57,26 +47,26 @@ const ProductDetail = () => {
 
   const setCotizacion = async (id) => {
     await getSingleProductCostumerById(id, setMyCotizacion);
-  };
+  }
 
   useEffect(() => {
     async function fetchCotizacion() {
       if (MyCotizacion != null && productRequest != null) {
-        const MargenGanancia =
-          MyCotizacion.purchasePrice * (MyCotizacion.margin / 100);
-        const PrecioConMargen = MyCotizacion.purchasePrice + MargenGanancia;
-        const IVA = PrecioConMargen * (productRequest.iva / 100);
-        const finalPrice = PrecioConMargen + IVA;
+
+        const MargenGanancia = MyCotizacion.purchasePrice * (MyCotizacion.margin / 100)
+        const PrecioConMargen = MyCotizacion.purchasePrice + MargenGanancia
+        const IVA = PrecioConMargen * (productRequest.iva / 100)
+        const finalPrice = PrecioConMargen + IVA
 
         const FixedCotizacion = {
           cotizacionId: MyCotizacion.id,
           priceWithMargin: PrecioConMargen,
           iva: productRequest.iva,
           unit: MyCotizacion.unit,
-          finalPrice: finalPrice.toFixed(0),
-        };
-        setFixedCotizacion(FixedCotizacion);
-        getVolumeDiscount(MyCotizacion.id, setVolumes);
+          finalPrice: finalPrice.toFixed(0)
+        }
+        setFixedCotizacion(FixedCotizacion)
+        getVolumeDiscount(MyCotizacion.id, setVolumes)
         // console.log("FixedCotizacion =" + JSON.stringify(FixedCotizacion))
       }
     }
@@ -101,11 +91,7 @@ const ProductDetail = () => {
       await getProductById(productParams.idproduct, setProduct);
       await getCategoryById(productParams.idcategory, setCategory);
       await getStarsAverage(productParams.idproduct, setStarsAverage);
-      await getProductCostumerById(
-        productParams.idproduct,
-        user.costumer.id,
-        setCotizacionRequest
-      );
+      await getProductCostumerById(productParams.idproduct, user.costumer.id, setCotizacionRequest);
     }
     MeCagoEnLasRestricciones();
   }, []);
@@ -118,15 +104,14 @@ const ProductDetail = () => {
 
   const FillSelect = async () => {
     if (cotizacionRequest) {
-      let cotizacionOptions = [];
+      let cotizacionOptions = []
       for (const cotizacion of cotizacionRequest) {
         let cotizacionOption = {
           value: cotizacion.id,
-          label: cotizacion.description + " - " + cotizacion.unit,
-        };
-        cotizacionOptions.push(cotizacionOption);
-      }
-      setCotizacionOptions(cotizacionOptions);
+          label: cotizacion.description + ' - ' + cotizacion.unit,
+        }
+        cotizacionOptions.push(cotizacionOption)
+      } setCotizacionOptions(cotizacionOptions)
     }
   };
 
@@ -141,7 +126,7 @@ const ProductDetail = () => {
   // }, []);
 
   useEffect(() => {
-    const storedCar = localStorage.getItem("ShoppingCar");
+    const storedCar = localStorage.getItem('ShoppingCar');
     if (storedCar) {
       setLocalShopping(JSON.parse(storedCar));
       //console.log("Carrito recuperado : " + storedCar)
@@ -150,31 +135,37 @@ const ProductDetail = () => {
     }
   }, []);
 
+
   const quantity = useRef();
 
   useEffect(() => {
-    localStorage.setItem("ShoppingCar", JSON.stringify(LocalShopping));
+    localStorage.setItem('ShoppingCar', JSON.stringify(LocalShopping));
     //console.log(JSON.parse(localStorage.getItem('ShoppingCar')))
   }, [LocalShopping]);
 
   const toLogin = () => {
-    navigate(`/login`);
-  };
+    navigate(`/login`)
+  }
 
   const addToCart = () => {
-    if (quantity.current.value !== "0") {
+
+    if (quantity.current.value !== '0') {
+
       if (FixedCotizacion != null) {
+
         const existingCotizacion = LocalShopping.findIndex(
-          (product) => product.CotizacionId === FixedCotizacion.cotizacionId
-        );
+          (product) => product.CotizacionId === FixedCotizacion.cotizacionId)
 
         if (existingCotizacion !== -1) {
+
           const updatedLocalShopping = [...LocalShopping];
           updatedLocalShopping[existingCotizacion].Quantity += parseInt(
             quantity.current.value
           );
           setLocalShopping(updatedLocalShopping);
+
         } else {
+
           const newProductToCart = {
             CotizacionId: FixedCotizacion.cotizacionId,
             CostumerId: user.costumer.id,
@@ -183,11 +174,8 @@ const ProductDetail = () => {
             PrecioConMargen: FixedCotizacion.priceWithMargin,
             iva: FixedCotizacion.iva,
             PrecioFinal: FixedCotizacion.finalPrice,
-            SubTotal:
-              FixedCotizacion.priceWithMargin *
-              parseInt(quantity.current.value),
-            TotalVenta:
-              FixedCotizacion.finalPrice * parseInt(quantity.current.value),
+            SubTotal: FixedCotizacion.priceWithMargin * parseInt(quantity.current.value),
+            TotalVenta: (FixedCotizacion.finalPrice * parseInt(quantity.current.value)),
             ProductName: productRequest.name,
             ProductDescription: productRequest.description,
             ProductUnit: FixedCotizacion.unit,
@@ -195,27 +183,24 @@ const ProductDetail = () => {
             Quantity: parseInt(quantity.current.value),
             Volumes: Volumes,
             Stockable: productRequest.stockable,
-            Stock: productRequest.stock,
+            Stock: productRequest.stock
           };
-          setLocalShopping((prevProducts) => [
-            ...prevProducts,
-            newProductToCart,
-          ]);
+          setLocalShopping((prevProducts) => [...prevProducts, newProductToCart]);
         }
       } else {
+
         const existingProduct = LocalShopping.findIndex(
-          (product) =>
-            product.ProductId === productParams.idproduct &&
-            product.CotizacionId === 0
-        );
+          (product) => product.ProductId === productParams.idproduct && product.CotizacionId === 0)
 
         if (existingProduct !== -1) {
+
           const updatedLocalShopping = [...LocalShopping];
           updatedLocalShopping[existingProduct].Quantity += parseInt(
             quantity.current.value
           );
           setLocalShopping(updatedLocalShopping);
         } else {
+
           const newProductToCart = {
             CotizacionId: 0,
             CostumerId: user.costumer.id,
@@ -231,21 +216,18 @@ const ProductDetail = () => {
             ProductImage: productRequest.image,
             Quantity: parseInt(quantity.current.value),
             Stockable: productRequest.stockable,
-            Stock: productRequest.stock,
+            Stock: productRequest.stock
           };
           // console.log("No encontro el producto y lo seteo")
 
-          setLocalShopping((prevProducts) => [
-            ...prevProducts,
-            newProductToCart,
-          ]);
+          setLocalShopping((prevProducts) => [...prevProducts, newProductToCart]);
         }
       }
 
       swal({
-        title: "Agregado!",
-        text: "El producto se añadió correctamente",
-        icon: "success",
+        title: 'Agregado!',
+        text: 'El producto se añadió correctamente',
+        icon: 'success',
       });
       setTimeout(() => {
         history.back();
@@ -257,63 +239,66 @@ const ProductDetail = () => {
     <>
       {productRequest != null && categoryRequest != null ? (
         <Container className="bootdey">
+
           <Row>
             <div className="col-lg-12">
-              <Card
-                className="cardDetails"
-                style={{ width: "100%", height: "auto" }}
-              >
+              <Card className="cardDetails" style={{ width: '100%', height: 'auto' }}>
                 <Card.Body>
+
                   <Row>
-                    <Col xs={9} md={6}>
+
+                    <Col xs={9} md={6} >
+
                       <div className="ImgDetails">
-                        <Image
-                          src={currentImage}
-                          alt={productRequest.name}
-                          fluid
-                        />
+                        <Image src={currentImage} alt={productRequest.name} fluid />
                       </div>
 
                       {productRequest.image != null ? (
+
                         <div className="ImgFluid">
-                          {productRequest.image.split(",").map((image) => (
-                            <a onClick={() => switchImage(image)}>
-                              <Image src={image} width={"100px"} />
-                            </a>
-                          ))}
+                          {
+                            productRequest.image.split(',').map((image) => (
+                              <a onClick={() => switchImage(image)}>
+                                <Image src={image} width={'100px'}
+                                />
+                              </a>
+
+                            ))}
+
                         </div>
                       ) : null}
                     </Col>
                     <Col md={6}>
-                      <h4 className="pro-d-title">
-                        <a
-                          className="TitleProducts"
-                          style={{ marginRight: "5%" }}
-                        >
+
+                      <h4 className="pro-d-title" >
+                        <a className="TitleProducts" style={{ marginRight: '5%' }}>
                           {productRequest.name}
                         </a>
 
                         {Array.from({ length: StarsAverage }, () => (
-                          <span className="Rating">★</span>
+                          <span className="Rating">
+                            ★
+                          </span>
                         ))}
                       </h4>
 
                       <br />
 
-                      <p>{productRequest.description}</p>
+                      <p>
+                        {productRequest.description}
+                      </p>
 
                       <div className="product_meta">
                         <span className="posted_in">
-                          <strong>Categoría:</strong>{" "}
-                          <a className="CategoryName" rel="tag" href="#">
+                          <strong>Categoría:</strong> <a className='CategoryName' rel="tag" href="#">
                             {categoryRequest.name}
                           </a>
-                          <br /><br />
+                          <br />
 
                         </span>
 
                         <span className="tagged_as">
-                          <strong>Unidad comercial:</strong> <a className='ProductName' rel="tag" href="#">
+                          <strong>Unidad:</strong> <a className='ProductName' rel="tag" href="#">
                             {productRequest.unit}
                           </a>
                         </span>
@@ -321,28 +306,21 @@ const ProductDetail = () => {
 
                       <p>
                         <br />
-                        {UserRole === "Cliente" ? (
+                        {UserRole === 'Cliente' ? (
                           <>
-                            {cotizacionRequest != null &&
-                            cotizacionRequest.length > 0 ? (
+
+                            {cotizacionRequest != null && cotizacionRequest.length > 0 ? (
                               <>
                                 <Col>
                                   <span className="tagged_as">
-                                    <strong>Mis cotizaciones</strong>{" "}
-                                    <a
-                                      className="ProductName"
-                                      rel="tag"
-                                      href="#"
-                                    ></a>
+                                    <strong>Mis cotizaciones</strong> <a className='ProductName' rel="tag" href="#">
+                                    </a>
                                   </span>
                                   <Select
                                     options={cotizacionOptions}
-                                    placeholder="Seleccione"
-                                    onChange={(selectedOption) =>
-                                      setCotizacion(selectedOption.value)
-                                    }
-                                    className="small-input"
-                                  />
+                                    placeholder='Seleccione'
+                                    onChange={(selectedOption) => setCotizacion(selectedOption.value)}
+                                    className="small-input" />
                                   <br />
                                 </Col>
 
@@ -350,34 +328,21 @@ const ProductDetail = () => {
                                   <>
                                     <Col>
                                       <span className="posted_in">
-                                        <strong>
-                                          Precio unitario: ₡
-                                          {FixedCotizacion.finalPrice}
-                                        </strong>{" "}
-                                        <a
-                                          className="CategoryName"
-                                          rel="tag"
-                                          href="#"
-                                        ></a>
+                                        <strong>Precio unitario: ₡{FixedCotizacion.finalPrice}</strong> <a className='CategoryName' rel="tag" href="#">
+                                        </a>
                                       </span>
                                       <br />
                                     </Col>
                                   </>
-                                ) : (
-                                  ""
+                                ) : (""
                                 )}
+
                               </>
                             ) : (
                               <>
                                 <span className="posted_in">
-                                  <strong>
-                                    Consulta por nuestras cotizaciones
-                                  </strong>{" "}
-                                  <a
-                                    className="CategoryName"
-                                    rel="tag"
-                                    href="#"
-                                  ></a>
+                                  <strong>Consulta por nuestras cotizaciones</strong> <a className='CategoryName' rel="tag" href="#">
+                                  </a>
                                 </span>
                                 <br />
                               </>
@@ -389,38 +354,27 @@ const ProductDetail = () => {
                                 ? (
                                   <>
                                     <br />
-                                    <div className="form-group">
+                                    <div className="form-group text-center" >
+                                    <div className="oval-button text-center" style={{marginLeft:'22%'}}>
                                       <Row>
-                                        <Col xl={2} lg={2} md={2} sm={2} xs={2}>
-                                          <label>Cantidad:</label>
-                                        </Col>
-                                        <Col xl={5} lg={5} md={5} sm={5} xs={5}>
-                                          <Form.Control
+                                        <Col xs={4} className="d-flex">
+                                          <input
                                             type="number"
-                                            placeholder="Ingrese la cantidad"
-                                            className="form-control quantity"
-                                            defaultValue={1}
+                                            className="quantity-input"
+                                            min="1"
+                                             defaultValue={1}
                                             ref={quantity}
-                                            size='lg'
-                                            style={{ width: "50%" }}
-                                            min="1" 
-                                            max={productRequest.stock}/>
-                                            
-                                            
-                                          <br />
+                                            max={productRequest.stock} />
+                                        </Col>
+                                        <Col xs={8}>
+                                          <Button className="add-to-cart-btn" onClick={addToCart}>
+                                            Agregar al carro
+                                          </Button>
                                         </Col>
                                       </Row>
                                     </div>
+                                    </div>
 
-
-                                    <Button
-                                      variant="danger"
-                                      className="BtnStar"
-                                      type="button"
-                                      onClick={addToCart}
-                                    >
-                                      <i className="fa fa-shopping-cart"></i> Agregar al carrito
-                                    </Button>
                                   </>
                                 ) : (
 
@@ -429,52 +383,48 @@ const ProductDetail = () => {
 
                             ) : (
                               <>
-                                <div className="form-group">
-                                <br />
+                                <div className="form-group ">
+                                  <br />
 
+                                  <Row>
+                                  <div className="oval-button text-center" style={{marginLeft:'22%'}}>
                                       <Row>
-                                        <Col xl={2} lg={2} md={2} sm={2} xs={2}>
-                                          <label>Cantidad:</label>
-                                        </Col>
-                                        <Col xl={5} lg={5} md={5} sm={5} xs={5}>
-                                          <Form.Control
+                                        <Col xs={4} className="d-flex">
+                                          <input
                                             type="number"
-                                            placeholder="Ingrese la cantidad"
-                                            className="form-control quantity"
-                                            defaultValue={1}
+                                            className="quantity-input"
+                                            min="1"
+                                             defaultValue={1}
                                             ref={quantity}
-                                            size='lg'
-                                            style={{ width: "50%" }}
-                                            min="1" />
-                                          <br />
+                                            />
+                                        </Col>
+                                        <Col xs={8}>
+                                          <Button className="add-to-cart-btn" onClick={addToCart}>
+                                            Agregar al carro
+                                          </Button>
                                         </Col>
                                       </Row>
                                     </div>
+                                  </Row>
+                                </div>
 
                                 <br />
-
-                                <Button
-                                  variant="danger"
-                                  className="BtnStar"
-                                  type="button"
-                                  onClick={addToCart}
-                                >
-                                  <i className="fa fa-shopping-cart"></i> Agregar al carrito
-                                </Button>
                               </>
                             )}
                           </>
+
                         ) : (
+
                           <Button
                             variant="danger"
                             className="BtnStar"
                             type="button"
                             onClick={toLogin}
                           >
-                            <i className="fa fa-shopping-cart"></i> Inicie
-                            sesión para comprar
+                            <i className="fa fa-shopping-cart"></i> Inicie sesión para comprar
                           </Button>
                         )}
+
                       </p>
                     </Col>
                   </Row>
@@ -483,22 +433,19 @@ const ProductDetail = () => {
             </div>
           </Row>
           {productParams != null ? (
+
             <Listreview productid={productParams.idproduct} />
+
           ) : (
-            "No hay reviews"
+            'No hay reviews'
           )}
+
+
         </Container>
       ) : (
-        <div className="Loading">
-          {" "}
-          <ul>
-            <li></li>
-            <li></li>
-            <li></li>
-          </ul>
-        </div>
+        'Espere'
       )}
     </>
   );
-};
+}
 export default ProductDetail;

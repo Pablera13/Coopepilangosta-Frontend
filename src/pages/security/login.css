@@ -195,5 +195,6 @@ button.BtnStar:hover::after {
 
 color: white;
 font-weight: bolder;
+margin-top: -20px;
 
 }
