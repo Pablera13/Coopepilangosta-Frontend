@@ -42,6 +42,7 @@ const listProducts = () => {
 
   const filteredBySearch = Products.filter((product) => {
     const matchesSearchTerm =
+      product.code.toString().toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
       product.name.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "").toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
       product.unit.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "").toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase());
     const matchesState = filterState === null || product.state === filterState;
