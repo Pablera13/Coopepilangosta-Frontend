@@ -293,12 +293,12 @@ const ProductDetail = () => {
                           <strong>Categoría:</strong> <a className='CategoryName' rel="tag" href="#">
                             {categoryRequest.name}
                           </a>
-                          <br /><br />
+                          <br />
 
                         </span>
 
                         <span className="tagged_as">
-                          <strong>Unidad comercial:</strong> <a className='ProductName' rel="tag" href="#">
+                          <strong>Unidad:</strong> <a className='ProductName' rel="tag" href="#">
                             {productRequest.unit}
                           </a>
                         </span>
@@ -354,38 +354,27 @@ const ProductDetail = () => {
                                 ? (
                                   <>
                                     <br />
-                                    <div className="form-group">
+                                    <div className="form-group text-center" >
+                                    <div className="oval-button text-center" style={{marginLeft:'21%'}}>
                                       <Row>
-                                        <Col xl={2} lg={2} md={2} sm={2} xs={2}>
-                                          <label>Cantidad:</label>
-                                        </Col>
-                                        <Col xl={5} lg={5} md={5} sm={5} xs={5}>
-                                          <Form.Control
+                                        <Col xs={4} className="d-flex">
+                                          <input
                                             type="number"
-                                            placeholder="Ingrese la cantidad"
-                                            className="form-control quantity"
+                                            className="quantity-input"
+                                            min="1"
                                             defaultValue={1}
                                             ref={quantity}
-                                            size='lg'
-                                            style={{ width: "50%" }}
-                                            min="1" 
-                                            max={productRequest.stock}/>
-                                            
-                                            
-                                          <br />
+                                            max={productRequest.stock} />
+                                        </Col>
+                                        <Col xs={8}>
+                                          <Button className="add-to-cart-btn" onClick={addToCart}>
+                                            Agregar al carro
+                                          </Button>
                                         </Col>
                                       </Row>
                                     </div>
+                                    </div>
 
-
-                                    <Button
-                                      variant="danger"
-                                      className="BtnStar"
-                                      type="button"
-                                      onClick={addToCart}
-                                    >
-                                      <i className="fa fa-shopping-cart"></i> Agregar al carrito
-                                    </Button>
                                   </>
                                 ) : (
 
@@ -394,38 +383,32 @@ const ProductDetail = () => {
 
                             ) : (
                               <>
-                                <div className="form-group">
-                                <br />
+                                <div className="form-group ">
+                                  <br />
 
+                                  <Row>
+                                  <div className="oval-button text-center" style={{marginLeft:'21%'}}>
                                       <Row>
-                                        <Col xl={2} lg={2} md={2} sm={2} xs={2}>
-                                          <label>Cantidad:</label>
-                                        </Col>
-                                        <Col xl={5} lg={5} md={5} sm={5} xs={5}>
-                                          <Form.Control
+                                        <Col xs={4} className="d-flex">
+                                          <input
                                             type="number"
-                                            placeholder="Ingrese la cantidad"
-                                            className="form-control quantity"
+                                            className="quantity-input"
+                                            min="1"
                                             defaultValue={1}
                                             ref={quantity}
-                                            size='lg'
-                                            style={{ width: "50%" }}
-                                            min="1" />
-                                          <br />
+                                            max={productRequest.stock} />
+                                        </Col>
+                                        <Col xs={8}>
+                                          <Button className="add-to-cart-btn" onClick={addToCart}>
+                                            Agregar al carro
+                                          </Button>
                                         </Col>
                                       </Row>
                                     </div>
+                                  </Row>
+                                </div>
 
                                 <br />
-
-                                <Button
-                                  variant="danger"
-                                  className="BtnStar"
-                                  type="button"
-                                  onClick={addToCart}
-                                >
-                                  <i className="fa fa-shopping-cart"></i> Agregar al carrito
-                                </Button>
                               </>
                             )}
                           </>
