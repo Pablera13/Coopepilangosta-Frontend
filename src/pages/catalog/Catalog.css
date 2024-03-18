@@ -193,8 +193,9 @@ button.resetFilter:hover::after {
   display: flex;
   align-items: center;
   justify-content: center;
-
+  background: none !important; 
 }
+
 
 a.BtnDetail {
   text-align: center;
@@ -218,6 +219,7 @@ a.BtnDetail {
   background-color: #3c3019 !important;
   color: #fff;
   font-weight: bold;
+  margin-top: 20px;
   cursor: pointer;
   margin: 1%;
   margin-bottom: 20px;

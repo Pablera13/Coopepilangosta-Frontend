@@ -69,7 +69,7 @@ const login = () => {
           <Row>
             <Col xs={12} lg={12}>
               <Form.Group cla2ssName="mb-3" controlId="formPlaintextEmail">
-                <Form.Label className="labelLogin">Correo</Form.Label>
+                <Form.Label  className="labelLogin">Correo</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Ingrese su correo"
@@ -81,7 +81,7 @@ const login = () => {
           <Row>
             <Col lg={12}>
               <Form.Group className="mb-3" controlId="formPlaintextPassword">
-                <Form.Label className="labelLogin">Contraseña</Form.Label>
+                <Form.Label  className="labelLogin">Contraseña</Form.Label>
                 <Form.Control
                   type="password"
                   placeholder="Ingrese su Contraseña"
@@ -100,8 +100,6 @@ const login = () => {
                 )}
                 Iniciar sesión
               </Button>
-              </Col>
-              <Col lg={5}>
               <Button className="BtnStar" href={"/registerCostumer"}>
                 Registrarme
               </Button>
@@ -109,8 +107,8 @@ const login = () => {
           </Row>
           <br />
           <Row>
-            <NavLink className={"btn-btn-secondary"} to={"/forgotPassword"}>
-              ¿Olvidó su contraseña?
+            <NavLink className="btn-forgotpasswords" to={"/forgotPassword"}>
+               ¿Olvidó su contraseña? 
             </NavLink>
           </Row>
           <br />
