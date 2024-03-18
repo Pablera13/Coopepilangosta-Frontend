@@ -12,7 +12,7 @@ export const Layout = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname == '/login') {
+    if (location.pathname == '/login' || location.pathname == '/registerCostumer') {
       document.body.classList.add('login-body');
       document.body.classList.add('header');
     }

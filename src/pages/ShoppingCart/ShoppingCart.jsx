@@ -105,6 +105,7 @@ const ShoppingCart = () => {
   };
 
   const checkStockAvailability = async () => {
+    let FailedProducts = []
     let QuantityValidation = true;
 
     const promises = LocalShopping.map(async (sale) => {
@@ -113,11 +114,7 @@ const ShoppingCart = () => {
 
         if (sale.Quantity > QuantityAvailable) {
           QuantityValidation = false;
-          swal({
-            title: 'Lo sentimos',
-            text: `La cantidad seleccionada de ` + sale.ProductName + ` excede nuestro inventario actual`,
-            icon: "warning"
-          });
+          FailedProducts.push(sale.ProductName)
         }
       }
 
@@ -128,7 +125,21 @@ const ShoppingCart = () => {
     console.log("Valor de quantityvalidation: " + QuantityValidation);
     if (QuantityValidation === true) {
       saveProducerOrder();
-    }
+    } else {
+      
+      let message = ""
+      FailedProducts.map(async (sale) => {
+        message = message + sale + ', '
+      })
+
+        swal({
+          title: 'Lo sentimos',
+          text: `Las cantidades seleccionadas de ` + message +` exceden nuestro inventario actual`,
+          icon: "warning",
+          timer: 4000
+        });
+        
+      }
   }
 
 

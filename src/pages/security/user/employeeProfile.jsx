@@ -63,25 +63,25 @@ const employeeProfile = () => {
                   <br />
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
-                  <div className='form-group'>
+                  <div className='EmployeeLabel'>
                     <h5 htmlFor='fullName'>Nombre</h5>
                     <input type='text' className='form-control' id='fullName' placeholder={user.employee.name} readOnly />
                   </div>
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
-                  <div className='form-group'>
+                  <div className='EmployeeLabel'>
                     <h5 htmlFor='eMail'>Primer Apellido</h5>
                     <input type='email' className='form-control' id='eMail' placeholder={user.employee.lastName1} readOnly />
                   </div>
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
-                  <div className='form-group'>
+                  <div className='EmployeeLabel'>
                     <h5 htmlFor='phone'>Segundo Apellido</h5>
                     <input type='text' className='form-control' id='phone' placeholder={user.employee.lastName2} readOnly />
                   </div>
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
-                  <div className='form-group'>
+                  <div className='EmployeeLabel'>
                     <h5 htmlFor='website'>Cédula</h5>
                     <input type='url' className='form-control' id='website' placeholder={user.employee.cedula} readOnly />
                   </div>
@@ -93,28 +93,27 @@ const employeeProfile = () => {
                   <br />
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
-                  <div className='form-group'>
+                  <div className='EmployeeLabel'>
                     <h5 htmlFor='Street'>Correo Electrónico</h5>
                     <input type='text' className='form-control' id='Street' placeholder={user.email} readOnly />
                   </div>
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
-                  <div className='form-group'>
+                  <div className='EmployeeLabel'>
                     <h5 htmlFor='ciTy'>Usuario</h5>
                     <input type='text' className='form-control' id='ciTy' placeholder={user.userName} readOnly />
                   </div>
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
-                  <div className='form-group'>
+                  <div className='EmployeeLabel'>
                     <h5 htmlFor='sTate'>Permisos</h5>
                     <input type='text' className='form-control' id='sTate' placeholder={user.idRole == 1 ? 'Administrador' : 'Super Administrador'} readOnly />
                   </div>
                 </Col>
                 <br />
 
-                <Col xl={12} lg={12} md={12} sm={12} xs={12}>
                   <Row>
-                    <Col md={10} sm={10} lg={10}>
+                    <Col md={9} sm={9} lg={9}>
                     </Col>
                     
                     <Col md={1} sm={1} lg={1}>
@@ -128,7 +127,6 @@ const employeeProfile = () => {
                     </Col>
 
                   </Row>
-                </Col>
                 
               </Row>
             </Card.Body>

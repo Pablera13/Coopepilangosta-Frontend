@@ -180,18 +180,25 @@ const costumerRegister = () => {
 
     return (
         <>
-            <Container className='registerContainer'>
+              <div class="imagen-de-fondo"></div>
+
+            <Container className='registerContainer '>
                 <Row xs={12} lg={12} className='rowCard'>
-                    <Card className='cardRegister'>
+                    {/* <Card className='cardRegister'> */}
                         <Card.Body>
-                            <Card.Title>Registro</Card.Title>
+                        <Row>
+          <Col>
+            <br />
+            <h3>Registro</h3>
+          </Col>
+        </Row>
                             <br />
 
                             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                 <Row className="mb-3">
                                     <Col xs={6} md={6} lg={6}>
                                         <Form.Group md="4" controlId="validationCustom01">
-                                            <Form.Label>Cédula jurídica</Form.Label>
+                                        <Form.Label  className="labelLogin">Cédula</Form.Label>
                                             <Form.Control
                                                 required
                                                 type="number"
@@ -204,7 +211,7 @@ const costumerRegister = () => {
                                     <Col xs={6} md={6} lg={6}>
 
                                         <Form.Group md="4" controlId="validationCustom02">
-                                            <Form.Label>Nombre</Form.Label>
+                                        <Form.Label  className="labelLogin">Nombre</Form.Label>
                                             <Form.Control
                                                 required
                                                 type="text"
@@ -219,7 +226,7 @@ const costumerRegister = () => {
                                 </Row>
                                 <Row className="mb-3">
                                     <Form.Group as={Col} md="4" controlId="validationCustom03">
-                                        <Form.Label>Provincia</Form.Label>
+                                    <Form.Label  className="labelLogin">Provincia</Form.Label>
                                         <Select placeholder='Provincia' options={provinciasArray}
                                             onChange={(selected) => { handleProvinciasSelectChange(selected.value); setSelectedProvincia(selected); }}
                                             on
@@ -229,7 +236,7 @@ const costumerRegister = () => {
                                         </Form.Control.Feedback>
                                     </Form.Group>
                                     <Form.Group as={Col} md="4" controlId="validationCustom04">
-                                        <Form.Label>Canton</Form.Label>
+                                    <Form.Label  className="labelLogin"><Form.Label>Cantón</Form.Label></Form.Label>
                                         <Select placeholder='Canton' options={cantonesOptions}
                                             onChange={(selected) => { setSelectedCanton(selected); handlecantonesSelectChange(selected.value); }}
                                         ></Select>
@@ -238,7 +245,7 @@ const costumerRegister = () => {
                                         </Form.Control.Feedback>
                                     </Form.Group>
                                     <Form.Group as={Col} md="4" controlId="validationCustom05">
-                                        <Form.Label>Distrito</Form.Label>
+                                    <Form.Label  className="labelLogin"><Form.Label>Distrito</Form.Label></Form.Label>
                                         <Select placeholder='Distrito' options={distritosOptions}
                                             onChange={(selected) => setSelectedDistrito(selected)}
                                         ></Select>
@@ -251,7 +258,7 @@ const costumerRegister = () => {
                                     <Col xs={12} md={12} lg={12}>
 
                                         <Form.Group md="4" controlId="validationCustom06">
-                                            <Form.Label>Dirección</Form.Label>
+                                            <Form.Label  className="labelLogin"><Form.Label>Dirección</Form.Label></Form.Label>
                                             <Form.Control type="text" placeholder="Indique la dirección" ref={address} />
                                             <Form.Control.Feedback type="invalid">
                                                 Indique su dirección
@@ -266,7 +273,8 @@ const costumerRegister = () => {
                                     <Col xs={6} md={6} lg={6}>
 
                                         <Form.Group controlId="validationCustom07">
-                                            <Form.Label>Código postal</Form.Label>
+                                            <Form.Label  className="labelLogin"><Form.Label>Código postal</Form.Label></Form.Label>
+
                                             <Form.Control type="number" placeholder="Ingrese el código postal" required ref={postalCode} />
                                             <Form.Control.Feedback type="invalid">
                                                 Indique su código postal
@@ -275,10 +283,10 @@ const costumerRegister = () => {
                                     </Col>
                                     <Col xs={6} md={6} lg={6}>
                                         <Form.Group controlId="validationCustom08">
-                                            <Form.Label>Cuenta bancaria</Form.Label>
+                                        <Form.Label  className="labelLogin"><Form.Label>Cuneta IBAN</Form.Label></Form.Label>
                                             <Form.Control type="number" placeholder="Ingrese una cuenta bancaria" required ref={bankAccount} />
                                             <Form.Control.Feedback type="invalid">
-                                                Indique su código postal
+                                                Indique su cuenta IBAN
                                             </Form.Control.Feedback>
                                         </Form.Group>
                                     </Col>
@@ -292,7 +300,7 @@ const costumerRegister = () => {
                                 <Row>
                                     <Col>
                                         <Form.Group controlId="validationCustom09">
-                                            <Form.Label>Correo</Form.Label>
+                                        <Form.Label  className="labelLogin"><Form.Label>Correo</Form.Label></Form.Label>
                                             <Form.Control type="text" placeholder="Ingrese su correo" required ref={email} />
                                             <Form.Control.Feedback type="invalid">
                                                 Indique su correo
@@ -301,7 +309,7 @@ const costumerRegister = () => {
                                     </Col>
                                     <Col>
                                         <Form.Group controlId="validationCustom10">
-                                            <Form.Label>Usuario</Form.Label>
+                                        <Form.Label  className="labelLogin"><Form.Label>Usuario</Form.Label></Form.Label>
                                             <Form.Control type="text" placeholder="Ingrese nombre de usuario" required ref={userName} />
                                             <Form.Control.Feedback type="invalid">
                                                 Indique su usuario
@@ -311,19 +319,20 @@ const costumerRegister = () => {
                                 </Row>
                                 <Row>
                                     <Col>
-                                        <Form.Label>Contraseña</Form.Label>
+                                        <Form.Label  className="labelLogin"><Form.Label>Contraseña</Form.Label></Form.Label>
+
                                         <Form.Control placeholder="Ingrese la contraseña" ref={password} type='password' required />
                                     </Col>
 
                                 </Row>
                             </Form>
                             <br />
-                            <Col className='btnContainer'>
+                            <Col className='btnContainer text-center'>
                                 <Button className="BtnStar"
                                     onClick={handleSubmit}>Enviar</Button>
                             </Col>
                         </Card.Body>
-                    </Card>
+                    {/* </Card> */}
 
                 </Row>
                 

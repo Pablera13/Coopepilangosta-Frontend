@@ -62,13 +62,13 @@ const login = () => {
         <Row>
           <Col>
             <br />
-            <h3>Bienvenido!</h3>
+            <h3>Bienvenido</h3>
           </Col>
         </Row>
         <Form>
           <Row>
             <Col xs={12} lg={12}>
-              <Form.Group cla2ssName="mb-3" controlId="formPlaintextEmail">
+              <Form.Group cla2ssName="mb-3" controlId="formPlaintextEmail" style={{marginTop:'4%'}}>
                 <Form.Label  className="labelLogin">Correo</Form.Label>
                 <Form.Control
                   type="text"
@@ -80,7 +80,7 @@ const login = () => {
           </Row>
           <Row>
             <Col lg={12}>
-              <Form.Group className="mb-3" controlId="formPlaintextPassword">
+              <Form.Group className="mb-3" controlId="formPlaintextPassword" style={{marginTop:'4%'}}>
                 <Form.Label  className="labelLogin">Contraseña</Form.Label>
                 <Form.Control
                   type="password"
