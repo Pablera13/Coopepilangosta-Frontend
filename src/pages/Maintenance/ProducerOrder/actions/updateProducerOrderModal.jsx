@@ -150,8 +150,9 @@ const updateProducerOrderModal = (props) => {
                     </Card>
                 </Modal.Body>
                 <Modal.Footer>
-                    <div>
-                        <button onClick={saveEdit} className="BtnAdd">Aceptar</button>
+                   
+                    <div className='BtnContainer'>
+                        <button onClick={saveEdit} className="BtnSave">ACTUALIZAR PRODUCTO</button>
 
                     </div>
                 </Modal.Footer>

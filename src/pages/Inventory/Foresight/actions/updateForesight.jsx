@@ -5,6 +5,10 @@ import { getProducers } from '../../../../services/producerService';
 import { useQuery, QueryClient, useMutation } from 'react-query';
 import { createForesightProducer, deleteForesightProducer } from '../../../../services/foresightProducerService';
 import { Alert } from 'react-bootstrap';
+import { TiEdit } from "react-icons/ti";
+import "../../../../css/Pagination.css";
+import "../../../../css/StylesBtn.css";
+
 const updateForesight = (props) => {
     const queryClient = new QueryClient();
     //Capturar las props y metodos del modal
@@ -140,8 +144,8 @@ const updateForesight = (props) => {
 
     return (
         <>
-            <Button variant="outline-secondary" onClick={handleShow} size='sm'>
-                Editar
+            <Button className='BtnBrown' onClick={handleShow} size='sm'>
+            <TiEdit />
             </Button>
 
             <Modal
