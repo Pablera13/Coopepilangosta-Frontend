@@ -28,11 +28,11 @@ const editProducerModal = (props) => {
                 title: 'Editado!',
                 text: 'Se edito el productor',
                 icon: 'success',
-            });
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000);
-        },
+            }).then(function(){window.location.reload()});
+            
+        },onSettled:()=>{
+            swal('Error','No se logro editar la informacion','error')
+        }
     });
 
     const cedula = useRef();

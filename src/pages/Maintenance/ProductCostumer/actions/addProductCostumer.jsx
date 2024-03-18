@@ -74,9 +74,7 @@ const mutation = useMutation('productcostumer', createProductCostumer, {
           title: 'Agregado!',
           text: 'Gracias por su tiempo',
           icon: 'success',
-      });  setTimeout(function () {
-        window.location.reload();
-      }, 2000);
+      }).then(function(){window.location.reload()});  
   },
 });
 

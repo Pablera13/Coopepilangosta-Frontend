@@ -26,12 +26,8 @@ const addProducerModal = () => {
                 title: 'Agregado!',
                 text: 'El productor ha sido agregado',
                 icon: 'success',
-            });
-          handleClose();
-    
-          setTimeout(function () {
-            window.location.reload();
-          }, 2000);
+            }).then(function(){window.location.reload()});
+          
         },
     });
 
