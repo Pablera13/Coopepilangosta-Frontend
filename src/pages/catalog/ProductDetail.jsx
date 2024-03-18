@@ -362,7 +362,7 @@ const ProductDetail = () => {
                                             type="number"
                                             className="quantity-input"
                                             min="1"
-                                            defaultValue={1}
+                                             defaultValue={1}
                                             ref={quantity}
                                             max={productRequest.stock} />
                                         </Col>
@@ -394,9 +394,9 @@ const ProductDetail = () => {
                                             type="number"
                                             className="quantity-input"
                                             min="1"
-                                            defaultValue={1}
+                                             defaultValue={1}
                                             ref={quantity}
-                                            max={productRequest.stock} />
+                                            />
                                         </Col>
                                         <Col xs={8}>
                                           <Button className="add-to-cart-btn" onClick={addToCart}>
