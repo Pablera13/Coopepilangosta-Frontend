@@ -6,9 +6,12 @@ import Select from 'react-select';
 import { QueryClient, useMutation, useQuery } from 'react-query';
 import { Container, Col, Row } from 'react-bootstrap';
 import swal from 'sweetalert';
-import moment from 'moment/moment';
+import { updateStock } from '../../../../services/productService';
+import { FaWarehouse } from "react-icons/fa";
+import { createStockReport } from '../../../../services/reportServices/stockreportService';
+import { checkProductStock } from '../../../../services/productService';
+import { format } from 'date-fns';
 
-import { getDate } from 'date-fns';
 const addToWarehouse = (props) => {
   const queryClient = new QueryClient();
   //Metodos del modal
@@ -17,6 +20,7 @@ const addToWarehouse = (props) => {
   const handleShow = () => setShow(true);
   //Capturar el el pedido de las props
   const [purchase, SetPurchase] = useState();
+  const [validated, setValidated] = useState(false);
 
   const open = () => {
     SetPurchase(props)
@@ -24,8 +28,7 @@ const addToWarehouse = (props) => {
     handleShow()
   }
 
-  //console.log(producerOrder.purchases.length)
-  //Conocer la bodega seleccionado con un usestate
+
   const [selectedWarehouse, setSelectedWarehouse] = useState()
   const { data: warehouse, isLoading: warehouseLoading, isError: warehouseError } = useQuery('warehouse', getWarehouse);
   //Llenar las opciones del select
@@ -57,29 +60,59 @@ const addToWarehouse = (props) => {
 
   const entryDate = useRef();
   const expireDate = useRef()
-  const saveEntry = () => {
-    let newEntry = {
-      quantity: props.props.quantity,
-      entryDate: entryDate.current.value,
-      expireDate: expireDate.current.value,
-      producerOrderId: props.props.producerOrderId,
-      productId: props.props.productId,
-      warehouseId: selectedWarehouse
-    }
-    console.log(newEntry)
-    mutationEntry.mutateAsync(newEntry);
-  }
 
-  var now = new Date();
+  const saveEntry = async (event) => {
+    const form = event.currentTarget;
+    event.preventDefault();
+    if (form.checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
 
-  const currentDate = now.toISOString();
-  console.log(moment(now).format("yyyy-MM-ddThh:mm"))
-  const dateInput = moment(now).format("yyyy-MM-ddThh:mm:ss.SSS")
+      } else {
+
+        setValidated(true);
+        const userEmail = JSON.parse(localStorage.getItem('user')).email;
+
+        let newEntry = {
+              quantity: props.props.quantity,
+              entryDate: entryDate.current.value,
+              expireDate: expireDate.current.value,
+              producerOrderId: props.props.producerOrderId,
+              productId: props.props.productId,
+              warehouseId: selectedWarehouse
+            }
+            mutationEntry.mutateAsync(newEntry);
+
+            let oldQuantity = await checkProductStock(props.props.productId);
+            let newQuantity = oldQuantity + props.props.quantity
+
+            const currentDate = new Date();
+    const formattedDate = format(currentDate, 'yyyy-MM-dd');
+
+        const stockReportData = {
+            ProductId: props.props.productId,
+            ProductName: props.props.product.name,
+            CambioFecha: formattedDate,
+            OldStock: oldQuantity,
+            NewStock: newQuantity ,
+            motive: "Ingreso",
+            Email: userEmail,
+        };
+
+        await updateStock(props.props.productId, newQuantity)
+        await createStockReport(stockReportData)
+    };
+}
+
   return (
     <>
-      <Button className='BtnBrown' onClick={open} size='sm'>
-        Agregar a una bodega
-      </Button>
+
+<div className="text-center">
+<Button className='BtnBrown' onClick={open} size='sm'>
+      <FaWarehouse />
+      </Button> </div>
+
+     
 
       <Modal
         show={show}
@@ -95,7 +128,7 @@ const addToWarehouse = (props) => {
             <Row>
               <Col>
                 <span>Seleccione la bodega</span>
-                <Select options={warehouseOptions} onChange=
+                <Select  required options={warehouseOptions} onChange=
                   {(selectedOption) => setSelectedWarehouse(selectedOption.value)} placeholder='Seleccione la bodega'>
                 </Select>
                 <br/>
@@ -104,7 +137,7 @@ const addToWarehouse = (props) => {
             <Row>
               <Col lg={10}>
                 <span>Fecha de entrada</span><br />
-                <input type="datetime-local" ref={entryDate}/>
+                <input required type="datetime-local" ref={entryDate}/>
                 <br/>
                 <br/>
 
@@ -113,7 +146,7 @@ const addToWarehouse = (props) => {
             <Row>
               <Col>
                 <span>Fecha de vencimiento</span><br />
-                <input type="datetime-local" ref={expireDate} min={currentDate}/>
+                <input required type="datetime-local" ref={expireDate}/>
               </Col>
             </Row>
           </Container>

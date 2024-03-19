@@ -36,13 +36,11 @@ const forgotPassword = () => {
             setIsSending(true)
             await emailjs.send('service_segj454', 'template_4bv71ze', { message: generatedCode, emailto: contact }, 'VLTRXG-aDYJG_QYt-')
                 .then((response) => {
-                    console.log('SUCCESS!', response.status, response.text);
                     setIsSending(false)
                     setIsSucces(true)
                 }, (err) => {
                     setIsError(true)
-                    console.log('FAILED...', err);
-                    console.log(contact)
+                    
                 });
 
         }
@@ -55,7 +53,7 @@ const forgotPassword = () => {
                 <Card>
                     <Card.Title style={{paddingLeft:'32px',paddingTop:'10px'}}>Restablecer contraseña</Card.Title>
 
-                    <Card.Body>
+                    <Card.Body className='shadow-lg'>
                         <Row>
                             <Form>
                                 <Row className="mb-3">
@@ -81,12 +79,12 @@ const forgotPassword = () => {
 
                                 {isSucces ? (
                                     <Alert variant={'success'}>
-                                        El correo a sido enviado, con el código para restaurar su contraseña.
+                                        El correo a sido enviado con el código para restaurar su contraseña.
                                     </Alert>)
                                     : ("")}
                                     {
                                         isError?(<Alert variant={'danger'}>
-                                        Ocurrio un error al enviar el correo, intentelo mas tardes.
+                                        Ocurrio un error al enviar el correo, intentelo mas tarde.
                                     </Alert>):("")
                                     }
                             </Col>
@@ -99,9 +97,7 @@ const forgotPassword = () => {
                             }
                         </Row>
 
-                        {/* <Row>
-                <ChangePassword/>
-                </Row> */}
+                    
                     </Card.Body>
 
                 </Card>

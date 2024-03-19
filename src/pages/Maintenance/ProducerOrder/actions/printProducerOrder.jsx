@@ -210,11 +210,14 @@ const printProducerOrder = (props) => {
             doc.line(10, doc.autoTable.previous.finalY + 12, 200, doc.autoTable.previous.finalY + 12); // Línea horizontal
 
             //Impresion
+           
             const currentDate = new Date();
             const formattedDate = format(currentDate, 'yyyy-MM-dd');
-            //doc.save(`Factura_${producerorder.id}_${producer.cedula}_${formattedDate}.pdf`);
-           doc.output('dataurlnewwindow');
-            setMyOrders([])
+            const fileName = `Factura_${producerorder.id}_${producer.cedula}_${formattedDate}.pdf`;
+
+            doc.save(fileName);
+            doc.output('dataurlnewwindow', { filename: fileName });
+            setMyOrders([]);
 
         } catch (error) {
             console.error("Error al obtener datos:", error);

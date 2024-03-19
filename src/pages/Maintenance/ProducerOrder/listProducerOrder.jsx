@@ -195,7 +195,7 @@ const listProducerOrder = () => {
                         </td>
                         <td>
                           <div className="BtnContainer">
-                            <UpdateProducerOrderModal props={ProducerOrder.id}/>
+                            <UpdateProducerOrderModal props={ProducerOrder}/>
                             {ProducerOrder.deliveredDate !==
                               "0001-01-01T00:00:00" && (
                               <CheckEntryModal props={ProducerOrder} />

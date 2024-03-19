@@ -18,13 +18,14 @@ const ResponsiveNavbar = () => {
 
         } else {
 
-            if (localStorage.getItem('ShoppingCar')){
-            var CartValue
-            localStorage.getItem('ShoppingCar').length >= 1? (
-                CartValue = "lleno"
-            ) : (
-                CartValue = "vacio"
-            )}
+            if (localStorage.getItem('ShoppingCar')) {
+                var CartValue
+                localStorage.getItem('ShoppingCar').length >= 1 ? (
+                    CartValue = "lleno"
+                ) : (
+                    CartValue = "vacio"
+                )
+            }
 
             switch (user.role.name) {
                 case "Cliente":
@@ -49,8 +50,9 @@ const ResponsiveNavbar = () => {
 
 
     return (
-        <Navbar expand="lg" className="bg-body-tertiary" id='navbarHead' sticky='top'>
-            <Container id='navbarContainer'>
+        <Container fluid  className='navbarContainer'>
+            <Navbar bg="light" data-bs-theme="light" expand="lg" className="bg-body-tertiary" id='navbarHead' sticky='top'>
+
                 <Link to="/" className="logo">
 
                     <img src="https://coopepilangosta.com/wp-content/uploads/2022/09/Copia-de-Logo-CoopePilangosta-couleur.png"
@@ -81,8 +83,9 @@ const ResponsiveNavbar = () => {
 
                     </Nav>
                 </Navbar.Collapse>
-            </Container>
-        </Navbar>
+
+            </Navbar>
+        </Container>
     )
 }
 
