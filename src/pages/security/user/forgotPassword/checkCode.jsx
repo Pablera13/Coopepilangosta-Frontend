@@ -3,6 +3,10 @@ import { useRef } from 'react'
 import { Container, Form, Button, InputGroup,Row,Col} from 'react-bootstrap'
 import ChangePassword from './changePassword'
 import swal from 'sweetalert'
+import './forgotPassword.css'
+
+
+
 const checkCode = (props) => {
     const email = props.props.email;
     const [emailProps,setEmailProps] = useState()
@@ -31,11 +35,11 @@ const checkCode = (props) => {
                     <Form>
                         <Row className="mb-3">
                             <Form.Group as={Col} controlId="formGridEmail">
-                                <Form.Label>Ingrese el código que recibio: </Form.Label>
+                                <Form.Label className='labelPass'>Ingrese el código que recibio: </Form.Label>
                                 <Form.Control type="text" placeholder="Ingrese el código" ref={code} disabled={isChecked}/>
                             </Form.Group>
                         </Row>
-                        <Button onClick={verifyCode} className='BtnBrown' disabled={isChecked}>
+                        <Button onClick={verifyCode} className='BtnStar' disabled={isChecked}>
                             Confirmar
                         </Button>
                     </Form>

@@ -14,7 +14,7 @@ export const Layout = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname == '/login' || location.pathname == '/registerCostumer') {
+    if (location.pathname == '/login' || location.pathname == '/registerCostumer' || location.pathname == '/forgotPassword') { 
       document.body.classList.add('login-body');
       document.body.classList.add('header');
     }
