@@ -83,7 +83,7 @@ const catalog = () => {
 
   return (
     <>
-      <br />
+      
 
       <Container>
         <Row className="searchContainer gap-2">

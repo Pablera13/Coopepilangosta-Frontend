@@ -22,13 +22,14 @@ const login = () => {
     try {
       token = await loginUser(userLogin)
         .then((data) => data)
-        .then(setLoginLoading(true))
-        .finally(setLoginLoading(false));
+        .then(setLoginLoading(true)).catch(function(){setLoginLoading(false)})
+        ;
       localStorage.setItem("bearer", token);
       if (token != "") {
         switch (token) {
           case "Wrong password":
             swal("Contraseña incorrecta", "La clave no coincide", "error");
+            setLoginLoading(false)
             break;
           case "User not found":
             swal(
@@ -36,6 +37,7 @@ const login = () => {
               "No se encontró un usuario asociado a ese correo electrónico",
               "warning"
             );
+            setLoginLoading(false)
             break;
           default:
             try {
@@ -47,6 +49,7 @@ const login = () => {
             } catch (error) {
               console.log(error);
             }
+            setLoginLoading(false)
             break;
         }
       }
@@ -68,8 +71,8 @@ const login = () => {
         <Form>
           <Row>
             <Col xs={12} lg={12}>
-              <Form.Group cla2ssName="mb-3" controlId="formPlaintextEmail" style={{marginTop:'4%'}}>
-                <Form.Label  className="labelLogin">Correo</Form.Label>
+              <Form.Group cla2ssName="mb-3" controlId="formPlaintextEmail" style={{ marginTop: '4%' }}>
+                <Form.Label className="labelLogin">Correo</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Ingrese su correo"
@@ -80,9 +83,10 @@ const login = () => {
           </Row>
           <Row>
             <Col lg={12}>
-              <Form.Group className="mb-3" controlId="formPlaintextPassword" style={{marginTop:'4%'}}>
-                <Form.Label  className="labelLogin">Contraseña</Form.Label>
+              <Form.Group className="mb-3" controlId="formPlaintextPassword" style={{ marginTop: '4%' }} >
+                <Form.Label className="labelLogin">Contraseña</Form.Label>
                 <Form.Control
+                required
                   type="password"
                   placeholder="Ingrese su Contraseña"
                   ref={password}
@@ -92,7 +96,7 @@ const login = () => {
           </Row>
           <Row className="justify-content-md-center">
             <Col xs={12} lg={7}>
-              <Button className="BtnStar" onClick={handleLogin}>
+              <Button className="BtnStar" onClick={handleLogin} disabled={loginLoading}>
                 {loginLoading ? (
                   <Spinner animation="border" variant="light" size="sm" />
                 ) : (
@@ -103,12 +107,12 @@ const login = () => {
               <Button className="BtnStar" href={"/registerCostumer"}>
                 Registrarme
               </Button>
-              </Col>
+            </Col>
           </Row>
           <br />
           <Row>
             <NavLink className="btn-forgotpasswords" to={"/forgotPassword"}>
-               ¿Olvidó su contraseña? 
+              ¿Olvidó su contraseña?
             </NavLink>
           </Row>
           <br />
