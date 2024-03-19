@@ -11,6 +11,11 @@ const login = () => {
   const email = useRef();
   const password = useRef();
 
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user) {
+    window.location = '/'
+  }
+
   let token = "";
 
   const handleLogin = async () => {
@@ -34,7 +39,7 @@ const login = () => {
           case "User not found":
             swal(
               "Correo no valido",
-              "No se encontró un usuario asociado a ese correo electrónico",
+              "No se encontró un usuario asociado al correo electrónico brindado.",
               "warning"
             );
             setLoginLoading(false)

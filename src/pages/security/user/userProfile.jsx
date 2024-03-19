@@ -18,6 +18,10 @@ export const UserProfile = () => {
         if (user.employee != null) {
             setIesEmployee(true)
         }
+        if (user.employee == null && user.costumer == null) {
+            localStorage.clear()
+            window.location = '/'
+        }
     }, [])
 
     return (
