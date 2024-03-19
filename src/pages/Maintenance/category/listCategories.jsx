@@ -39,7 +39,7 @@ const listCategories = () => {
   if (CategoriesError) return <div>Error</div>;
 
   const filteredBySearch = Categories.filter((category) =>
-    category.name.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    category.name.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "").toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase())
   );
 
   const offset = currentPage * recordsPerPage;

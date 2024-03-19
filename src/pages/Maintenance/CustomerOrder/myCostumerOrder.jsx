@@ -20,6 +20,7 @@ const myCostumerOrder = () => {
 
     const [currentPage, setCurrentPage] = useState(0);
     const [selectedDate, setSelectedDate] = useState('');
+    const [selectedStage, setSelectedStage] = useState('');
 
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -53,10 +54,20 @@ const myCostumerOrder = () => {
         }
         return true;
     }) : [];
+    
+    const filteredByStage = filteredByDate.filter((miPedido) => {
+        if (miPedido.stage === 'Sin confirmar' || miPedido.stage === 'En preparación' || miPedido.stage === 'Confirmado') {
+            return true;
+        }
+        return false;
+    });
 
-    const recordsPerPage = 10;
-    const offset = currentPage * recordsPerPage;
-    const paginatedOrders = filteredByDate.slice(offset, offset + recordsPerPage);
+      
+
+      const recordsPerPage = 10;
+      const offset = currentPage * recordsPerPage;
+      const paginatedOrders = filteredByStage.slice(offset, offset + recordsPerPage);
+
 
     const pageCount = Math.ceil(filteredByDate.length / recordsPerPage);
 
@@ -68,6 +79,7 @@ const myCostumerOrder = () => {
     return (
 
         <Container>
+      
             <div className="table-container">
                 <h2 className="table-title">Mis Pedidos</h2>
 
@@ -89,14 +101,19 @@ const myCostumerOrder = () => {
             onChange={(e) => setSelectedDate(e.target.value)}
         />
     </Col>
-    <Col xs={3} md={3}>
-        <Form.Control
-            type="text"
-            placeholder="Buscar coincidencias"
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="filter-input"
-        />
-    </Col>
+    <Form.Group>
+                    <Form.Label>Estado:</Form.Label>
+                    <Form.Control
+                        as="select"
+                        value={selectedStage}
+                        onChange={(e) => setSelectedStage(e.target.value)}
+                    >
+                        <option value="">Todos</option>
+                        <option value="Sin confirmar">Sin confirmar</option>
+                        <option value="En preparación">En preparación</option>
+                        <option value="Confirmado">Confirmado</option>
+                    </Form.Control>
+                </Form.Group>
 </Row>
 
                 </Form>
@@ -180,6 +197,7 @@ const myCostumerOrder = () => {
                     )}
                 </Col>
             </div>
+
         </Container>
     );
 };
