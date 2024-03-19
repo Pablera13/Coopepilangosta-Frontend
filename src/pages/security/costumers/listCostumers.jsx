@@ -38,17 +38,20 @@ const listCostumers = () => {
         .toLowerCase()
         .includes(searchTerm.toLowerCase()) ||
       costumer.name
-        .toString()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f\s]/g, "")
         .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
+        .includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
       costumer.province
-        .toString()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f\s]/g, "")
         .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
+        .includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
       costumer.district
-        .toString()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f\s]/g, "")
         .toLowerCase()
-        .includes(searchTerm.toLowerCase());
+        .includes(searchTerm.replace(/\s/g, "").toLowerCase());
     const matchesVerify =
       filterState === null || costumer.verified === filterState;
     return matchesSearchTerm && matchesVerify;
