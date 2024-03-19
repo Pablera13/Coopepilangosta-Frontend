@@ -53,7 +53,7 @@ const forgotPassword = () => {
                 <Card>
                     <Card.Title style={{paddingLeft:'32px',paddingTop:'10px'}}>Restablecer contraseña</Card.Title>
 
-                    <Card.Body>
+                    <Card.Body className='shadow-lg'>
                         <Row>
                             <Form>
                                 <Row className="mb-3">

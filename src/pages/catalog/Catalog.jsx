@@ -85,9 +85,9 @@ const catalog = () => {
     <>
       <br />
 
-      <Container fluid="md">
-        <Row className="searchContainer">
-          <Col xs={6} sm={4} md={3} lg={3}>
+      <Container>
+        <Row className="searchContainer gap-2">
+          <Col xs={12} sm={12} md={3} lg={3}>
             <Select
               placeholder="Filtrar por categoría"
               options={optionsSelect}
@@ -95,7 +95,7 @@ const catalog = () => {
             ></Select>
           </Col>
 
-          <Col xs={12} sm={3} md={4} lg={2}>
+          <Col xs={12} sm={12} md={4} lg={2}>
             <input
               type="text"
               placeholder="Búsqueda..."
