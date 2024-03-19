@@ -18,6 +18,7 @@ const myCostumerOrder = () => {
 
     const [currentPage, setCurrentPage] = useState(0);
     const [selectedDate, setSelectedDate] = useState('');
+    const [selectedStage, setSelectedStage] = useState('');
 
     useEffect(() => {
         if (customerorderData) {
@@ -27,16 +28,25 @@ const myCostumerOrder = () => {
 
     const filteredByDate = customerorderData ? customerorderData.filter((miPedido) => {
         if (selectedDate) {
-          const pedidoDate = new Date(miPedido.confirmedDate);
-          const selected = new Date(selectedDate);
-          return pedidoDate.toDateString() === selected.toDateString();
+            const pedidoDate = new Date(miPedido.confirmedDate);
+            const selected = new Date(selectedDate);
+            return pedidoDate.toDateString() === selected.toDateString();
         }
         return true;
-      }) : [];
+    }) : [];
+    
+    const filteredByStage = filteredByDate.filter((miPedido) => {
+        if (miPedido.stage === 'Sin confirmar' || miPedido.stage === 'En preparación' || miPedido.stage === 'Confirmado') {
+            return true;
+        }
+        return false;
+    });
+
+      
 
       const recordsPerPage = 10;
       const offset = currentPage * recordsPerPage;
-      const paginatedOrders = filteredByDate.slice(offset, offset + recordsPerPage);
+      const paginatedOrders = filteredByStage.slice(offset, offset + recordsPerPage);
 
   const pageCount = Math.ceil(filteredByDate.length / recordsPerPage);
 
@@ -63,6 +73,20 @@ const myCostumerOrder = () => {
           </Col>
 
         </Row>
+
+        <Form.Group>
+                    <Form.Label>Estado:</Form.Label>
+                    <Form.Control
+                        as="select"
+                        value={selectedStage}
+                        onChange={(e) => setSelectedStage(e.target.value)}
+                    >
+                        <option value="">Todos</option>
+                        <option value="Sin confirmar">Sin confirmar</option>
+                        <option value="En preparación">En preparación</option>
+                        <option value="Confirmado">Confirmado</option>
+                    </Form.Control>
+                </Form.Group>
       </Form>
 
       <br></br>
