@@ -9,6 +9,8 @@ import { getCostumerOrder } from '../../../services/costumerorderService';
 import { getUserById } from '../../../services/userService';
 import PrintCustomerOrder from '../../Maintenance/CustomerOrder/actions/printCustomerOrder.jsx';
 import ReactPaginate from 'react-paginate';
+import "../../../css/StylesBtn.css";
+import { IoMdSearch } from 'react-icons/io';
 
 const myCostumerOrder = () => {
     const userStorage = JSON.parse(localStorage.getItem('user'));
@@ -67,12 +69,12 @@ const myCostumerOrder = () => {
 
       <br></br>
 
-            <Col xs={8} md={2} lg={12}>
+            <Col xs={12} md={12} lg={12}>
                 {user != null && customerorderData != null ? (
                     <>
                         <Row>
                             {customerorderData ? (
-                                <Table className='Table' striped bordered hover variant="light" responsive>
+                                <Table className='Table' hover responsive>
                                     <thead>
                                         <tr>
                                             <th>#</th>
@@ -107,24 +109,11 @@ const myCostumerOrder = () => {
                                                     }</td>
                                                     <td>{order.stage}</td>
                                                     <td>
-                                                        {/* <NavLink
-                                                            to={`/userOrder/${order.id}`}
-                                                            style={{
-                                                                textDecoration: 'underline',
-                                                                margin: '0 10px',
-                                                                border: 'none',
-                                                                background: 'none',
-                                                                padding: 0,
-                                                                color: 'inherit',
-                                                                cursor: 'pointer',
-                                                            }}
-                                                        >
-                                                            Detalles
-                                                        </NavLink> */}
+                                                        
 
                                                         <Button className='BtnBrown'
                                                             onClick={() => navigate(`/userOrder/${order.id}`)}>
-                                                            Detalles
+                                                            <IoMdSearch/>
                                                         </Button>
 
                                                         <PrintCustomerOrder props={order.id} />

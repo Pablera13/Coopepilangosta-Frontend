@@ -129,13 +129,13 @@ const userOrder = () => {
                             </Table>
                             <div className="card">
                                 <div className="card-body row">
-                                    <Col md={{ span: 1, offset: 10 }}>
+                                    <Col md={{ span: 12, offset: 10 }}>
                                         <strong>Subtotal</strong>
                                     </Col>
                                     <Col>
                                         {subTotal == 0 ? 'Por cotizar' : '₡' + subTotal.toFixed(2)}
                                     </Col>
-                                    <Col md={{ span: 1, offset: 10 }}>
+                                    <Col md={{ span: 12, offset: 10 }}>
                                         <strong>Total</strong>
                                     </Col>
                                     <Col>
