@@ -4,14 +4,9 @@ import { useParams } from 'react-router-dom'
 import { format } from 'date-fns';
 import Select from 'react-select';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
-import { getCostumerOrderById } from '../../../../services/costumerorderService';
 import { editCostumerOrder } from '../../../../services/costumerorderService';
 import { TiEdit } from "react-icons/ti";
-import { NavLink } from 'react-router-dom';
 
-// import styles from './updateCustomerOrder.css'
-
-import { getCostumerOrder } from '../../../../services/costumerorderService';
 import swal from 'sweetalert';
 
 const updateCustomerOrderModal = (props) => {
@@ -23,24 +18,11 @@ const updateCustomerOrderModal = (props) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    // const [CustomerOrderProps, setCustomerorderProps] = useState();
-
     const handleOpen = () => {
         handleShow()
     }
 
-    // const customerorder = useParams();
     const queryClient = new QueryClient();
-
-    const [customerorderRequest, setCustomerorder] = useState(null)
-
-    const { data, isLoading, isError } = useQuery('producerorder', getCostumerOrder);
-
-    // useEffect(() => {
-    //     getCostumerOrderById(CustomerOrderProps.id, setCustomerorder)
-
-    // }, [CustomerOrderProps])
-
     const mutation = useMutation("producerorder", editCostumerOrder,
         {
             onSettled: () => queryClient.invalidateQueries("producerorder"),
