@@ -3,6 +3,7 @@ import { Container, Row, Col, Form, Button, InputGroup } from 'react-bootstrap'
 import { getChangePasswordT, changePasswordT } from '../../../../services/loginService';
 import { useQuery, useMutation, QueryClient } from 'react-query';
 import swal from 'sweetalert';
+import './forgotPassword.css'
 
 const changePassword = (props) => {
     const queryClient = new QueryClient()
@@ -13,7 +14,7 @@ const changePassword = (props) => {
         getChangePasswordT(email, setToken)
     }, [])
 
-    
+
 
     const [isOk, setIsOk] = useState(false);
 
@@ -32,31 +33,31 @@ const changePassword = (props) => {
                 localStorage.clear();
                 window.location = '/login';
             }, 1500);
-            
+
         },
     });
 
     const confirmChange = () => {
         if (password == "" || passwordConfirm == "") {
-            swal('Complete ambas claves.','Debe llenar ambos espacios para continuar','warning')
-        } 
+            swal('Complete ambas claves.', 'Debe llenar ambos espacios para continuar', 'warning')
+        }
         if (password != passwordConfirm || passwordConfirm != password) {
             setIsOk(false)
-            swal('Las claves no coinciden.','Las claves deben coincidir.','warning')
-            
-        } 
-        if (password.length < 8 || passwordConfirm.length <8) {
-            setIsOk(false)
-            swal('Formato no valido.','La clave debe tener minimo 8 caracteres','warning')
+            swal('Las claves no coinciden.', 'Las claves deben coincidir.', 'warning')
+
         }
-        if(password == passwordConfirm && password.length >= 8){
+        if (password.length < 8 || passwordConfirm.length < 8) {
+            setIsOk(false)
+            swal('Formato no valido.', 'La clave debe tener minimo 8 caracteres', 'warning')
+        }
+        if (password == passwordConfirm && password.length >= 8) {
             setIsOk(true)
             if (token) {
                 localStorage.setItem('bearer', token)
             }
-            let newCredentials = { 
-                email: email, 
-                password: passwordConfirm 
+            let newCredentials = {
+                email: email,
+                password: passwordConfirm
             }
             changePasswordMutation.mutateAsync(newCredentials);
         }
@@ -68,15 +69,17 @@ const changePassword = (props) => {
                 <Form>
                     <Row className="mb-3">
                         <Form.Group as={Col} controlId="formGridEmail">
-                            <Form.Label>Nueva contraseña: </Form.Label>
+                            <Form.Label className='labelPass'
+                            >Nueva contraseña: </Form.Label>
                             <Form.Control required type="password" placeholder="Ingrese su nueva contraseña" onChange={(text) => setPassword(text.target.value)} />
                         </Form.Group>
                         <Form.Group as={Col} controlId="formGridEmail">
-                            <Form.Label>Confirmar contraseña: </Form.Label>
+                            <Form.Label className='labelPass'
+                            >Confirmar contraseña: </Form.Label>
                             <Form.Control required type="password" placeholder="Confirme su nueva contraseña" onChange={(text) => setPasswordConfirm(text.target.value)} />
                         </Form.Group>
                     </Row>
-                    <Button onClick={confirmChange} className='BtnBrown'>
+                    <Button onClick={confirmChange} className='BtnStar'>
                         Confirmar
                     </Button>
                 </Form>
