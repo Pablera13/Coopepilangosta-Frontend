@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import Header from './Header';
 import { Link } from 'react-router-dom';
 import '../../Styles/footer.css'
-import '../../Styles/ResponsiveNavbar.css'
+
 import swal from 'sweetalert'
 import emailjs2 from 'emailjs-com'
 import { Stack } from 'react-bootstrap';
