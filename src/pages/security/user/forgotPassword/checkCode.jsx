@@ -40,7 +40,7 @@ const checkCode = (props) => {
                             </Form.Group>
                         </Row>
                         <Button onClick={verifyCode} className='BtnStar' disabled={isChecked}>
-                            Confirmar
+                            Verificar
                         </Button>
                     </Form>
                 </Row>

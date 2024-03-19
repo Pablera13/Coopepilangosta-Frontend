@@ -29,6 +29,24 @@ const detailsCostumer = (props) => {
                     {costumerProps ? (
                         <>
 
+<Row>
+                            <Col xl={4} lg={4} md={4} sm={4} xs={4}>
+                                <Form.Group md="4">
+                                    <Form.Label>Teléfono</Form.Label>
+                                    <Form.Control type="textarea" readOnly 
+                                    defaultValue= {costumerProps.phoneNumber} />
+                                </Form.Group>
+                            </Col>
+                            <Col xl={4} lg={4} md={4} sm={4} xs={4}>
+                                <Form.Group md="4">
+                                    <Form.Label>Correo corporativo</Form.Label>
+                                    <Form.Control type="textarea" readOnly 
+                                    defaultValue= {costumerProps.email} />
+                                </Form.Group>
+                            </Col>
+                            </Row>
+                            <br/>
+
                             <Row>
                             <Col xl={4} lg={4} md={4} sm={4} xs={4}>
                                 <Form.Group md="4">
@@ -39,7 +57,7 @@ const detailsCostumer = (props) => {
                             </Col>
                             <Col xl={4} lg={4} md={4} sm={4} xs={4}>
                                 <Form.Group md="4">
-                                    <Form.Label>Correo</Form.Label>
+                                    <Form.Label>Correo de Usuario</Form.Label>
                                     <Form.Control type="textarea" readOnly 
                                     defaultValue= {costumerProps.user.email} />
                                 </Form.Group>

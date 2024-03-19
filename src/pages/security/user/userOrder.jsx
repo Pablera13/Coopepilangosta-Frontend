@@ -22,7 +22,7 @@ const userOrder = () => {
     const [MyOrders, setMyOrders] = useState([]);
     const [subTotal, setSubTotal] = useState(0);
     const navigate = useNavigate()
-
+   
 
     useEffect(() => {
         async function settingSales() {
@@ -70,33 +70,36 @@ const userOrder = () => {
             {customerorderRequest != null && MyOrders.length > 0 ? (
                 <>
                     <article className="card">
+
                         <header className="card-header">
                             <h6>Código de Pedido: #{order.orderid}</h6>
-                        </header>
-                        <div className="card-body">
+                            <br/>
                             <Row className="mb-3">
-                                <Col>
-                                    <strong>Fecha de pedido</strong>
+                            <Col xs={2} md={2} lg={2}>
+                                    <p>Fecha de pedido</p>
                                     <br />
                                     {customerorderRequest.confirmedDate === "0001-01-01T00:00:00"
                                         ? "Sin pagar"
                                         : format(new Date(customerorderRequest.confirmedDate), 'yyyy-MM-dd')}
                                 </Col>
-                                <Col>
-                                    <strong>Fecha de pago</strong>
+                                <Col xs={2} md={2} lg={2}>
+                                    Fecha de pago
                                     <br />
                                     {customerorderRequest.paidDate === "0001-01-01T00:00:00"
                                         ? "Sin pagar"
                                         : format(new Date(customerorderRequest.paidDate), 'yyyy-MM-dd')}
                                 </Col>
-                                <Col>
-                                    <strong>Fecha de entrega</strong>
+                                <Col xs={2} md={2} lg={2}>
+                                    Fecha de entrega
                                     <br />
                                     {customerorderRequest.deliveredDate === "0001-01-01T00:00:00"
                                         ? "Sin entregar"
                                         : format(new Date(customerorderRequest.deliveredDate), 'yyyy-MM-dd')}
                                 </Col>
                             </Row>
+                        </header>
+                        
+                        <div className="card-body">
                             <Table responsive className="table table-borderless table-shopping-cart">
                                 <thead>
                                     <tr>
@@ -127,8 +130,7 @@ const userOrder = () => {
                                     ))}
                                 </tbody>
                             </Table>
-                            <div className="card">
-                                <div className="card-body row">
+\                                <div className="card-body row">
                                     <Col md={{ span: 12, offset: 10 }}>
                                         <strong>Subtotal</strong>
                                     </Col>
@@ -141,8 +143,7 @@ const userOrder = () => {
                                     <Col>
                                         {customerorderRequest.total == 0 ? 'Por cotizar' : '₡' + customerorderRequest.total}
                                     </Col>
-                                </div>
-                            </div>
+\                            </div>
                         </div>
                     </article>
 
