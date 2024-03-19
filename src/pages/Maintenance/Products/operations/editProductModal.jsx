@@ -114,6 +114,8 @@ const editProductModal = (props) => {
       const updatedImages = [...productRequest.image, ...newImages];
       const serializedImages = updatedImages.join(",");
 
+      console.log("Category value = " + categoryId.current.value)
+
       let newProduct = {
         id: productRequest.id,
         code: code.current.value,

@@ -6,6 +6,7 @@ import { checkEntryStatus } from '../../../../services/entriesService'
 import './checkEntry.css'
 import AddToWarehouse from './addToWarehouse'
 import { TiArchive } from 'react-icons/ti'
+import { FaWarehouse } from "react-icons/fa";
 
 const checkEntryModal = (props) => {
     const [show, setShow] = useState(false);
@@ -47,7 +48,7 @@ const checkEntryModal = (props) => {
     return (
         <>
             <Button className="BtnAdd" variant="primary" onClick={open}>
-                <TiArchive/>
+                <FaWarehouse/>
             </Button>
             <Modal
                 show={show}

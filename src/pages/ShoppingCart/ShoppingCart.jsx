@@ -497,11 +497,11 @@ const ShoppingCart = () => {
                         <div className="row">
 
                             <div className="col-md-4">
-                              <Button className="BtnStar" onClick={checkStockAvailability}>Realizar Pedido</Button>
+                              <Button className="BtnBrown" onClick={checkStockAvailability}>Realizar Pedido</Button>
                             </div>
 
                             <div className="col-md-8">
-                            <Button className='BtnClose'
+                            <Button className='BtnRed'
                                 onClick={() => navigate(`/home`)}>
                                 Seguir Comprando
                               </Button>                              </div>

@@ -15,7 +15,6 @@ const addInventoriesModal = (props) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-
     const [validated, setValidated] = useState(false);
 
     useEffect(() => {
@@ -50,7 +49,6 @@ const addInventoriesModal = (props) => {
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
-            console.log("No esta entrando")
         } else {
 
             setValidated(true);
