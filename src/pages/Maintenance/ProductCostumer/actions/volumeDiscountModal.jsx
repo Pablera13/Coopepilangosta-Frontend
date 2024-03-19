@@ -9,6 +9,13 @@ import {deleteVolumeDiscount} from '../../../../services/volumeDiscount';
 import swal from 'sweetalert';
 import './volumeDiscountStyle.css';
 
+import "../../../../css/Pagination.css";
+import "../../../../css/StylesBtn.css";
+
+
+import { MdPercent } from "react-icons/md";
+
+
 const volumeDiscountModal = (props) => {
 
     const [cotizacionRequest, setCotizacion] = useState([]);
@@ -94,7 +101,7 @@ const volumeDiscountModal = (props) => {
     return (
         <>
             <Button className='BtnAdd' onClick={handleShow} size='sm'>
-                Volúmenes
+            <MdPercent />
             </Button>
 
             <Modal show={show} onHide={handleClose}>

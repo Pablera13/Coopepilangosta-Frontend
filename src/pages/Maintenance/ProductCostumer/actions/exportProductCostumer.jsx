@@ -5,6 +5,9 @@ import { QueryClient } from 'react-query';
 import { createProductCostumer } from '../../../../services/productCostumerService.js';
 import {getCostumers} from '../../../../services/costumerService';
 import './exportProductCostumer.css'
+import { LuListChecks } from "react-icons/lu";
+import "../../../../css/Pagination.css";
+import "../../../../css/StylesBtn.css";
 
 export const exportProductCostumer = (props) => {
 
@@ -95,8 +98,8 @@ export const exportProductCostumer = (props) => {
 
     return (
         <>
-            <Button variant="info" onClick={handleShow} size='sm'>
-                Exportar
+            <Button className='BtnBrown' onClick={handleShow} size='sm'>
+            <LuListChecks />
             </Button>
 
 

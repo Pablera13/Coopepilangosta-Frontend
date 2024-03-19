@@ -29,7 +29,9 @@ import YearlyPurchaseChart from './productTemp/YearlyPurchaseChart';
 
 import {DownloadTableExcel} from 'react-export-table-to-excel';
 
-import styles from './productReport.css'
+
+import "../../css/Pagination.css";
+import "../../css/StylesBtn.css";
 
 const buttonStyle = {
   borderRadius: '5px',
@@ -245,7 +247,15 @@ const productReport = () => {
     }}
     
   if(isLoading)
-  return <div>Loading...</div>
+  <div className="Loading">
+        <ul>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div> 
+      ;
+
   
   if(isError)
   return <div>Error</div>
@@ -285,12 +295,8 @@ const productReport = () => {
         
         <td></td>
 
-                  <Button
+                  <Button className='BtnBrown'
                   onClick={() => generateReport()}
-                  size='sm'
-                  style={{...buttonStyle, marginLeft: '5px',}}
-                  onMouseOver={(e) => e.target.style.backgroundColor = buttonStyle.hover.backgroundColor}
-                  onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
                   >
                   Generar
                   </Button>

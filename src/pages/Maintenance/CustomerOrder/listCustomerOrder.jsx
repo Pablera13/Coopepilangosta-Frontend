@@ -10,9 +10,8 @@ import PrintCustomerOrder from "./actions/printCustomerOrder.jsx";
 
 import { MdDelete } from "react-icons/md";
 
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
-
+import "../../../css/Pagination.css";
+import "../../../css/StylesBtn.css";
 import ReactPaginate from "react-paginate";
 
 import UpdateCustomerOrderModal from "./actions/updateCustomerOrderModal.jsx";
@@ -48,7 +47,16 @@ const listCustomerOrder = () => {
     setCurrentPage(data.selected);
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="Loading">
+        <ul>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
+    );
   if (isError) return <div>Error</div>;
 
   let filteredCustomerOrders = customerorderData || [];
