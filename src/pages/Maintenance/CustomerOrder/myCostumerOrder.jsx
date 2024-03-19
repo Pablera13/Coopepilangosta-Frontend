@@ -22,24 +22,6 @@ const myCostumerOrder = () => {
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedStage, setSelectedStage] = useState('');
 
-    const [searchTerm, setSearchTerm] = useState("");
-
-    // const filteredBySearch = Producers.filter(
-    //     (producer) =>
-    //       producer.name
-    //         .toString()
-    //         .toLowerCase()
-    //         .includes(searchTerm.toLowerCase()) ||
-    //       producer.cedula
-    //         .toString()
-    //         .toLowerCase()
-    //         .includes(searchTerm.toLowerCase()) ||
-    //       producer.phoneNumber
-    //         .toString()
-    //         .toLowerCase()
-    //         .includes(searchTerm.toLowerCase())
-    //   );
-      
     useEffect(() => {
         if (customerorderData) {
             getUserById(userStorage.id, setUser);
@@ -68,18 +50,15 @@ const myCostumerOrder = () => {
       const offset = currentPage * recordsPerPage;
       const paginatedOrders = filteredByStage.slice(offset, offset + recordsPerPage);
 
+  const pageCount = Math.ceil(filteredByDate.length / recordsPerPage);
 
-    const pageCount = Math.ceil(filteredByDate.length / recordsPerPage);
-
-    const handlePageClick = (data) => {
-        setCurrentPage(data.selected);
-    };
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
 
 
     return (
-
         <Container>
-      
             <div className="table-container">
                 <h2 className="table-title">Mis Pedidos</h2>
 
@@ -101,19 +80,14 @@ const myCostumerOrder = () => {
             onChange={(e) => setSelectedDate(e.target.value)}
         />
     </Col>
-    <Form.Group>
-                    <Form.Label>Estado:</Form.Label>
-                    <Form.Control
-                        as="select"
-                        value={selectedStage}
-                        onChange={(e) => setSelectedStage(e.target.value)}
-                    >
-                        <option value="">Todos</option>
-                        <option value="Sin confirmar">Sin confirmar</option>
-                        <option value="En preparación">En preparación</option>
-                        <option value="Confirmado">Confirmado</option>
-                    </Form.Control>
-                </Form.Group>
+    <Col xs={3} md={3}>
+        <Form.Control
+            type="text"
+            placeholder="Buscar coincidencias"
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="filter-input"
+        />
+    </Col>
 </Row>
 
                 </Form>
@@ -197,7 +171,6 @@ const myCostumerOrder = () => {
                     )}
                 </Col>
             </div>
-
         </Container>
     );
 };
