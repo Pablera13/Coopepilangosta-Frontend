@@ -30,10 +30,7 @@ const editCategoryModal = (props) => {
         title: "Editado!",
         text: "Se editó la categoría",
         icon: "success",
-      });
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      }).then(function(){window.location.reload()})
     },
   });
 

@@ -6,6 +6,7 @@ import { getCategories } from "../../../../services/categoryService";
 import swal from "sweetalert";
 import "./editProductModal.css";
 import { TiEdit } from "react-icons/ti";
+import { MdDelete } from "react-icons/md";
 
 const editProductModal = (props) => {
   const [productRequest, setProduct] = useState(null);
@@ -79,12 +80,8 @@ const editProductModal = (props) => {
         title: "Editado!",
         text: "Se editó el producto",
         icon: "success",
-      });
-      handleClose();
-
-      setTimeout(function () {
-        window.location.reload();
-      }, 2000);
+      }).then(function(){window.location.reload()});
+      
     },
     onError: () => {
       swal("Error", "Algo salio mal...", "error");
@@ -114,6 +111,8 @@ const editProductModal = (props) => {
       const updatedImages = [...productRequest.image, ...newImages];
       const serializedImages = updatedImages.join(",");
 
+      console.log("Category value = " + categoryId.current.value)
+
       let newProduct = {
         id: productRequest.id,
         code: code.current.value,
@@ -127,7 +126,7 @@ const editProductModal = (props) => {
         categoryId: categoryId.current.value,
         image: serializedImages,
       };
-
+      console.log(newProduct)
       // let CodeAvailability = await checkCodeAvailability(code.current.value).then(data=>data);
       // console.log(CodeAvailability)
       // if (CodeAvailability == true) {
@@ -137,6 +136,8 @@ const editProductModal = (props) => {
       // }
     }
   };
+
+  
 
   return (
     <>
@@ -261,14 +262,20 @@ const editProductModal = (props) => {
                   <Col md={6}>
                     <Form.Group className="mb-3">
                       <Form.Label>Categoría</Form.Label>
-                      <Form.Select required ref={categoryId}>
+                      <Form.Select required ref={categoryId} defaultValue={productRequest.categoryId}>
                         {Categories != null
                           ? Categories.map((category) => (
                               <option value={category.id} key={category.id}>
                                 {category.name}
                               </option>
                             ))
-                          : "Espere"}
+                          :  <div className="Loading">
+                          <ul>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                          </ul>
+                        </div>}
                       </Form.Select>
                     </Form.Group>
                   </Col>
@@ -315,11 +322,11 @@ const editProductModal = (props) => {
                               </td>
                               <td>
                                 <Button
-                                  className="BtnDeleteImg"
+                                className="BtnRed"
                                   variant="danger"
                                   onClick={() => removeImage(index)}
                                 >
-                                  Eliminar
+                                  <MdDelete />
                                 </Button>
                               </td>
                             </tr>

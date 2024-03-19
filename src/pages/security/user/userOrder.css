@@ -1,8 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
-/* body{background-color: #eeeeee;font-family: 'Open Sans',serif} */
+.labelMyOr {
+    text-align: center;     
+    color: black;
 
-.container{margin-top:50px;margin-bottom: 50px}
+}
+.container{
+    margin-top:50px;
+    margin-bottom: 50px;
+}
 
 .card{
     position: relative;
@@ -17,7 +23,7 @@
     word-wrap: break-word;
     background-color: #fff;
     background-clip: border-box;
-    /* border: 1px solid rgba(0, 0, 0, 0.1); */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     border-radius: 0.10rem}
     
     .card-header:first-child{
@@ -58,7 +64,7 @@
         top: 18px}
     
         .track .step.active .icon
-        {background:  #9b7122d2;
+        {background:   #3c3019;
         color: #fff}
         
     .track .icon{

@@ -5,7 +5,8 @@ import { Table, Button, Col, Row, Container, Card, ListGroup, Accordion, Modal }
 import { checkEntryStatus } from '../../../../services/entriesService'
 import './checkEntry.css'
 import AddToWarehouse from './addToWarehouse'
-
+import { TiArchive } from 'react-icons/ti'
+import { FaWarehouse } from "react-icons/fa";
 
 const checkEntryModal = (props) => {
     const [show, setShow] = useState(false);
@@ -47,7 +48,7 @@ const checkEntryModal = (props) => {
     return (
         <>
             <Button className="BtnAdd" variant="primary" onClick={open}>
-                Ingresar
+                <FaWarehouse/>
             </Button>
             <Modal
                 show={show}
@@ -58,49 +59,49 @@ const checkEntryModal = (props) => {
                 <Modal.Header className="HeaderModal" closeButton>
                     <Modal.Title>Ingreso de pedido</Modal.Title>
                 </Modal.Header>
-                
+
                 {
                     prodOrderById != null ? (
                         <>
                             <Modal.Body>
                                 <Row className='cards-order-producer'>
                                     <Col>
-                                    <Card xs={6}>
-                                        <Card.Body>
-                                            <Card.Title className='card-info-title'>Pedido #{prodOrderById.id}</Card.Title>
-                                            <Card.Text>
+                                        <Card xs={6}>
+                                            <Card.Body>
+                                                <Card.Title className='card-info-title'>Pedido #{prodOrderById.id}</Card.Title>
+                                                <Card.Text>
 
-                                            </Card.Text>
-                                        </Card.Body>
-                                        <ListGroup className="list-group-flush">
-                                            <ListGroup.Item>Fecha del pedido: {prodOrderById.confirmedDate.slice(0, 10)}</ListGroup.Item>
-                                            <ListGroup.Item>Fecha de recibido: {prodOrderById.deliveredDate.slice(0, 10)}</ListGroup.Item>
-                                            <ListGroup.Item>Total del pedido: ₡{prodOrderById.total}</ListGroup.Item>
-                                        </ListGroup>
-                                        <Card.Body>
+                                                </Card.Text>
+                                            </Card.Body>
+                                            <ListGroup className="list-group-flush">
+                                                <ListGroup.Item>Fecha del pedido: {prodOrderById.confirmedDate.slice(0, 10)}</ListGroup.Item>
+                                                <ListGroup.Item>Fecha de recibido: {prodOrderById.deliveredDate.slice(0, 10)}</ListGroup.Item>
+                                                <ListGroup.Item>Total del pedido: ₡{prodOrderById.total}</ListGroup.Item>
+                                            </ListGroup>
+                                            <Card.Body>
 
-                                        </Card.Body>
-                                    </Card>
+                                            </Card.Body>
+                                        </Card>
                                     </Col>
 
                                     <Col xs={6}>
-                                    <Card>
-                                        {/* <Card.Img variant="top" src="holder.js/100px180?text=Image cap" /> */}
-                                        <Card.Body>
-                                            <Card.Title className='card-info-title'>Productor</Card.Title>
-                                            <Card.Text>
+                                        <Card>
+                                            {/* <Card.Img variant="top" src="holder.js/100px180?text=Image cap" /> */}
+                                            <Card.Body>
+                                                <Card.Title className='card-info-title'>Productor</Card.Title>
+                                                <Card.Text>
 
-                                            </Card.Text>
-                                        </Card.Body>
-                                        <ListGroup className="list-group-flush">
-                                            <ListGroup.Item>Cédula: {prodOrderById.producer.cedula}</ListGroup.Item>
-                                            <ListGroup.Item>Nombre: {prodOrderById.producer.name + " " + prodOrderById.producer.lastname1 + " " + prodOrderById.producer.lastname2}</ListGroup.Item>
-                                            <ListGroup.Item>Teléfono: {prodOrderById.producer.phoneNumber}</ListGroup.Item>
-                                        </ListGroup>
-                                        <Card.Body>
+                                                </Card.Text>
+                                            </Card.Body>
+                                            <ListGroup className="list-group-flush">
+                                                <ListGroup.Item>Cédula: {prodOrderById.producer.cedula}</ListGroup.Item>
+                                                <ListGroup.Item>Nombre: {prodOrderById.producer.name + " " + prodOrderById.producer.lastname1 + " " + prodOrderById.producer.lastname2}</ListGroup.Item>
+                                                <ListGroup.Item>Teléfono: {prodOrderById.producer.phoneNumber}</ListGroup.Item>
+                                            </ListGroup>
+                                            <Card.Body>
 
-                                        </Card.Body>
-                                    </Card>
+                                            </Card.Body>
+                                        </Card>
                                     </Col>
                                 </Row>
 
@@ -108,8 +109,8 @@ const checkEntryModal = (props) => {
                                     <Col>
                                         <div className='purchaseProductsInformation'>
                                             <div><Card.Title className='card-info-title'>Productos sin ingresar</Card.Title>
-</div>
-<br/>
+                                            </div>
+                                            <br />
                                             <div className='purchaseProducts'>
                                                 <Table className='Table'>
                                                     <thead>
@@ -139,12 +140,12 @@ const checkEntryModal = (props) => {
                                                         <Accordion.Item eventKey="0">
                                                             <Accordion.Header>Todos los productos</Accordion.Header>
                                                             <Accordion.Body>
-                                                            <Table className='Table'>                                                                    <thead>
-                                                                        <tr>
-                                                                            <th>Producto</th>
-                                                                            <th>Cantidad</th>
-                                                                        </tr>
-                                                                    </thead>
+                                                                <Table className='Table'>                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>Producto</th>
+                                                                        <th>Cantidad</th>
+                                                                    </tr>
+                                                                </thead>
                                                                     <tbody>
                                                                         {
                                                                             prodOrderById.purchases.map((purchases) =>
@@ -172,7 +173,7 @@ const checkEntryModal = (props) => {
                                 <Button className="BtnClose" variant="secondary" onClick={handleClose}>
                                     Cerrar
                                 </Button>
-                                
+
                             </Modal.Footer>
                         </>
                     ) :

@@ -114,53 +114,65 @@ const costumerProfile = () => {
                       <br />
                     </Col>
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
-                      <div className='form-group'>
+                      <div className='CostumerLabel'>
                         <h5 htmlFor='fullName'>Nombre</h5>
                         <input type='text' className='form-control' id='fullName' placeholder={user.costumer.name} readOnly />
                       </div>
                     </Col>
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
-                      <div className='form-group'>
+                      <div className='CostumerLabel'>
                         <h5 htmlFor='eMail'>Cédula Juridica</h5>
                         <input type='text' className='form-control' id='eMail' placeholder={user.costumer.cedulaJuridica} readOnly />
                       </div>
                     </Col>
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
-                      <div className='form-group'>
+                      <div className='CostumerLabel'>
+                        <h5 htmlFor='fullName'>Correo Electrónico</h5>
+                        <input type='text' className='form-control' id='fullName' placeholder={user.costumer.email} readOnly />
+                      </div>
+                    </Col>
+                    <Col xl={6} lg={6} md={6} sm={6} xs={12}>
+                      <div className='CostumerLabel'>
+                        <h5 htmlFor='eMail'>Línea Telefónica</h5>
+                        <input type='text' className='form-control' id='eMail' placeholder={user.costumer.phoneNumber} readOnly />
+                      </div>
+                    </Col>
+                    <Col xl={6} lg={6} md={6} sm={6} xs={12}>
+                      <div className='CostumerLabel'>
                         <h5 htmlFor='phone'>Provincia</h5>
                         <input type='text' className='form-control' id='phone' placeholder={user.costumer.province} readOnly />
                       </div>
                     </Col>
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
-                      <div className='form-group'>
+                      <div className='CostumerLabel'>
                         <h5 htmlFor='website'>Cantón</h5>
                         <input type='text' className='form-control' id='website' placeholder={user.costumer.canton} readOnly />
                       </div>
                     </Col>
 
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
-                      <div className='form-group'>
+                      <div className='CostumerLabel'>
                         <h5 htmlFor='website'>Distrito</h5>
                         <input type='text' className='form-control' id='website' placeholder={user.costumer.district} readOnly />
                       </div>
                     </Col>
 
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
-                      <div className='form-group'>
+                      <div className='CostumerLabel'>
                         <h5 htmlFor='website'>Dirección</h5>
                         <input type='text' className='form-control' id='website' placeholder={user.costumer.address} readOnly />
                       </div>
                     </Col>
 
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
-                      <div className='form-group'>
+                      <div className='CostumerLabel'>
                         <h5 htmlFor='website'>Código Postal</h5>
                         <input type='text' className='form-control' id='website' placeholder={user.costumer.postalCode} readOnly />
                       </div>
                     </Col>
 
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
-                      <div className='form-group'>
+                      <div className='CostumerLabel'>
                         <h5 htmlFor='website'>Número de Cuenta</h5>
                         <input type='text' className='form-control' id='website' placeholder={user.costumer.bankAccount} readOnly />
                       </div>
@@ -173,13 +185,13 @@ const costumerProfile = () => {
 
                     </Col>
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
-                      <div className='form-group'>
+                      <div className='CostumerLabel'>
                         <h5 htmlFor='Street'>Correo Electrónico</h5>
                         <input type='text' className='form-control' id='Street' placeholder={user.email} readOnly />
                       </div>
                     </Col>
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
-                      <div className='form-group'>
+                      <div className='CostumerLabel'>
                         <h5 htmlFor='ciTy'>Nombre de Usuario</h5>
                         <input type='text' className='form-control' id='ciTy' placeholder={user.userName} readOnly />
                       </div>

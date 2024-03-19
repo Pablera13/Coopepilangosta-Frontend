@@ -9,8 +9,10 @@ import { reduceStock } from '../../services/productService';
 import { createStockReport } from '../../services/reportServices/stockreportService';
 import { locations } from '../../utils/provinces';
 import { createSale } from '../../services/saleService';
-import { Form, Row, Col, Button, Container, InputGroup, Collapse, Table } from 'react-bootstrap'
+import { Form, Row, Col, Button, Container, InputGroup, Collapse, Table, Card } from 'react-bootstrap'
 import Select from 'react-select'
+import { RiArrowGoBackFill } from "react-icons/ri";
+import { MdDelete } from "react-icons/md";
 
 import './ShoppingCart.css'
 
@@ -103,6 +105,7 @@ const ShoppingCart = () => {
   };
 
   const checkStockAvailability = async () => {
+    let FailedProducts = []
     let QuantityValidation = true;
 
     const promises = LocalShopping.map(async (sale) => {
@@ -111,11 +114,7 @@ const ShoppingCart = () => {
 
         if (sale.Quantity > QuantityAvailable) {
           QuantityValidation = false;
-          swal({
-            title: 'Lo sentimos',
-            text: `La cantidad seleccionada de ` + sale.ProductName + ` excede nuestro inventario actual`,
-            icon: "warning"
-          });
+          FailedProducts.push(sale.ProductName)
         }
       }
 
@@ -126,7 +125,21 @@ const ShoppingCart = () => {
     console.log("Valor de quantityvalidation: " + QuantityValidation);
     if (QuantityValidation === true) {
       saveProducerOrder();
-    }
+    } else {
+      
+      let message = ""
+      FailedProducts.map(async (sale) => {
+        message = message + sale + ', '
+      })
+
+        swal({
+          title: 'Lo sentimos',
+          text: `Las cantidades seleccionadas de ` + message +` exceden nuestro inventario actual`,
+          icon: "warning",
+          timer: 4000
+        });
+        
+      }
   }
 
 
@@ -282,7 +295,7 @@ const ShoppingCart = () => {
                             <tr key={Sale.ProductId}>
 
                               <td>
-                                <img src={Sale.ProductImage} className="img-sm border" alt={Sale.ProductName} />
+                                <img src={Sale.ProductImage} className="img-sm" alt={Sale.ProductName} />
                               </td>
                               <td>{Sale.ProductName}</td>
 
@@ -367,7 +380,7 @@ const ShoppingCart = () => {
                                       :
                                       DeleteProduct(Sale.ProductId)
                                   }}
-                                >Eliminar</button>
+                                ><MdDelete /></button>
                               </td>
 
                             </tr>
@@ -417,92 +430,118 @@ const ShoppingCart = () => {
             </Row>
           </Container>
 
-          <div className="container">
-            <div className="card">
+          <Container id='AdeContai'>
+            <Row className="mb-3">
+
               <div className="card-body">
                 <div className="row">
                   <div className="col-md-6">
-                    <h5 className="card-title">Dirección de Envío</h5>
-                    <div className="row">
-                      <div className="col lg-12">
-                        <Form.Group controlId="validationCustom03">
-                          <Form.Label>Provincia</Form.Label>
-                          <Select placeholder={user.costumer.province} options={provinciasArray}
-                            onChange={(selected) => { handleProvinciasSelectChange(selected.value); setSelectedProvincia(selected); }}
-                            on
-                          ></Select>
-                          <Form.Control.Feedback type="invalid">
-                            Ingrese su provincia
-                          </Form.Control.Feedback>
-                        </Form.Group>
-                      </div>
-                      <div className="col-md-4">
-                        <Form.Group md="4" controlId="validationCustom04">
-                          <Form.Label>Canton</Form.Label>
-                          <Select placeholder={user.costumer.canton} options={cantonesOptions}
-                            onChange={(selected) => { setSelectedCanton(selected); handlecantonesSelectChange(selected.value); }}
-                          ></Select>
-                          <Form.Control.Feedback type="invalid">
-                            Por favor indique el canton
-                          </Form.Control.Feedback>
-                        </Form.Group>
-                      </div>
-                      <div className="col-md-4">
-                        <Form.Group md="4" controlId="validationCustom05">
-                          <Form.Label>Distrito</Form.Label>
-                          <Select placeholder={user.costumer.district} options={distritosOptions}
-                            onChange={(selected) => setSelectedDistrito(selected)}
-                          ></Select>
-                          <Form.Control.Feedback type="invalid">
-                            Indique su distrito!.
-                          </Form.Control.Feedback>
-                        </Form.Group>
-                      </div>
-                    </div>
-                    <Form.Group>
-                      <Form.Label>Dirección de Envío</Form.Label>
-                      <Form.Control type="text" defaultValue={user.costumer.address} ref={Address} />
-                    </Form.Group>
+                    <Card>
+                      <Card.Body>
+                        <h5 className="card-title">Dirección de Envío</h5>
+                        <div className="row">
 
+                          <div className="col-lg-4">
+                            <Form.Group controlId="validationCustom03">
+                              <Form.Label>Provincia</Form.Label>
+                              <Select placeholder={user.costumer.province} options={provinciasArray}
+                                onChange={(selected) => { handleProvinciasSelectChange(selected.value); setSelectedProvincia(selected); }}
+                                on
+                              ></Select>
+                              <Form.Control.Feedback type="invalid">
+                                Ingrese su provincia
+                              </Form.Control.Feedback>
+                            </Form.Group>
+                          </div>
+
+                          <div className="col-md-4">
+                            <Form.Group md="4" controlId="validationCustom04">
+                              <Form.Label>Canton</Form.Label>
+                              <Select placeholder={user.costumer.canton} options={cantonesOptions}
+                                onChange={(selected) => { setSelectedCanton(selected); handlecantonesSelectChange(selected.value); }}
+                              ></Select>
+                              <Form.Control.Feedback type="invalid">
+                                Por favor indique el canton
+                              </Form.Control.Feedback>
+                            </Form.Group>
+                          </div>
+
+                          <div className="col-md-4">
+                            <Form.Group md="4" controlId="validationCustom05">
+                              <Form.Label>Distrito</Form.Label>
+                              <Select placeholder={user.costumer.district} options={distritosOptions}
+                                onChange={(selected) => setSelectedDistrito(selected)}
+                              ></Select>
+                              <Form.Control.Feedback type="invalid">
+                                Indique su distrito!.
+                              </Form.Control.Feedback>
+                            </Form.Group>
+                          </div>
+
+                          <div className="row">
+
+                            <div className="col-md-12">
+                              <Form.Group md="4" controlId="validationCustom05">
+                                <Form.Label>Dirección de Envío</Form.Label>
+                                <Form.Control type="text" defaultValue={user.costumer.address} ref={Address} />
+                                <Form.Control.Feedback type="invalid">
+                                  Indique su dirección!.
+                                </Form.Control.Feedback>
+                              </Form.Group>
+                              <br/>
+
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="row">
+
+                            <div className="col-md-4">
+                              <Button className="BtnBrown" onClick={checkStockAvailability}>Realizar Pedido</Button>
+                            </div>
+
+                            <div className="col-md-8">
+                            <Button className='BtnRed'
+                                onClick={() => navigate(`/home`)}>
+                                Seguir Comprando
+                              </Button>                              </div>
+                            </div>
+                      </Card.Body>
+
+                    </Card>
                   </div>
+
                   <div className="col-md-6">
-                    <h5 className="card-title">Detalle de Envío</h5>
-                    <Form.Group>
-                      <Form.Label></Form.Label>
-                      <Form.Control as="textarea" placeholder='Ingrese el detalle del envío' rows={5} ref={Detail} />
-                    </Form.Group>
+                    <Card>
+                      <Card.Body>
+                        <h5 className="card-title">Detalle de Envío</h5>
+                        <div className="row">
+
+                          <Form.Group>
+                            <Form.Label></Form.Label>
+                            <Form.Control as="textarea" placeholder='Ingrese el detalle del envío' rows={5} ref={Detail} />
+                          </Form.Group>
+                        </div>
+                      </Card.Body>
+
+
+                    </Card>
                   </div>
 
                 </div>
-
               </div>
-              <Row>
-                <Col xl={6} lg={6} md={6} sm={6} xs={6}>
-                  <Button className="BtnBrown" onClick={checkStockAvailability}>Realizar pedido</Button>
 
-                </Col>
-                <Col xl={3} lg={3} md={3} sm={3} xs={3}>
-                  <Button className='BtnAdd'
-                    onClick={() => navigate(`/home`)}>
-                    Seguir comprando
-                  </Button>
 
-                </Col>
 
-              </Row>
-              <br />
-
-            </div>
-          </div>
-
+            </Row>
+          </Container>
         </>
       ) : (
         <div className="empty-cart-message">
           <p>No has realizado compras aún</p>
-          <Button className='BtnStar' style={{alignContent:"center"}}
+          <Button className='BtnStar' style={{ alignContent: "center" }}
             onClick={() => navigate(`/home`)}>
-            Ir a comprar                                   </Button>
-        </div>
+            Ir a comprar                                   </Button>        </div>
       )}
     </>
   );

@@ -3,6 +3,9 @@ import { Button, Row, Col, Form, InputGroup, Container, Alert, Card } from 'reac
 import emailjs from 'emailjs-com'
 import CheckCode from './checkCode'
 import ChangePassword from './changePassword'
+import './forgotPassword.css'
+
+
 const forgotPassword = () => {
 
     const [isSending, setIsSending] = useState(false);
@@ -36,13 +39,11 @@ const forgotPassword = () => {
             setIsSending(true)
             await emailjs.send('service_segj454', 'template_4bv71ze', { message: generatedCode, emailto: contact }, 'VLTRXG-aDYJG_QYt-')
                 .then((response) => {
-                    console.log('SUCCESS!', response.status, response.text);
                     setIsSending(false)
                     setIsSucces(true)
                 }, (err) => {
                     setIsError(true)
-                    console.log('FAILED...', err);
-                    console.log(contact)
+                    
                 });
 
         }
@@ -50,22 +51,24 @@ const forgotPassword = () => {
 
     return (
         <>
-            <br />
-            <Container>
-                <Card>
-                    <Card.Title style={{paddingLeft:'32px',paddingTop:'10px'}}>Restablecer contraseña</Card.Title>
+                    <div class="imagen-de-fondo"></div>
 
-                    <Card.Body>
+            
+            <Container className='passContainer text-center"'>
+                
+                    <h3 style={{paddingLeft:'32px',paddingTop:'10px'}}>Restablecer contraseña</h3>
+                    <br></br>
+                    <Card.Body >
                         <Row>
                             <Form>
-                                <Row className="mb-3">
+                                <Row className="mb-3 text-center">
                                     <Form.Group as={Col} controlId="formGridEmail">
-                                        <Form.Label>Correo electrónico</Form.Label>
+                                        <Form.Label className='labelPass'>Correo electrónico</Form.Label>
                                         <Form.Control type="email" placeholder="Ingrese su correo" ref={email} disabled={isSucces}/>
                                     </Form.Group>
                                 </Row>
-                                <Button onClick={handleSubmit} className='BtnBrown' disabled={isSucces}>
-                                    Enviar correo para restablecer
+                                <Button onClick={handleSubmit} className='BtnStar text-center"' disabled={isSucces}>
+                                    Recibir código
                                 </Button>
                             </Form>
                         </Row>
@@ -81,12 +84,12 @@ const forgotPassword = () => {
 
                                 {isSucces ? (
                                     <Alert variant={'success'}>
-                                        El correo a sido enviado, con el código para restaurar su contraseña.
+                                        El correo a sido enviado con el código para restaurar su contraseña.
                                     </Alert>)
                                     : ("")}
                                     {
                                         isError?(<Alert variant={'danger'}>
-                                        Ocurrio un error al enviar el correo, intentelo mas tardes.
+                                        Ocurrio un error al enviar el correo, intentelo mas tarde.
                                     </Alert>):("")
                                     }
                             </Col>
@@ -99,12 +102,8 @@ const forgotPassword = () => {
                             }
                         </Row>
 
-                        {/* <Row>
-                <ChangePassword/>
-                </Row> */}
+                    
                     </Card.Body>
-
-                </Card>
 
             </Container>
         </>

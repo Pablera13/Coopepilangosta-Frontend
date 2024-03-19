@@ -35,18 +35,6 @@ const addProducerOrderModal = () => {
         setIsProducerSelectDisabled(false)
     }
 
-    // const handleValidation = () => {
-    //     return (
-    //         ProducerId.current.value === "" ||
-    //         ProductId.current.value === "" ||
-    //         Quantity.current.value === "" ||
-    //         PurchasePrice.current.value === "" ||
-    //         IVA.current.value === "" ||
-    //         PurchaseTotal.current.value === ""
-    //     );
-    // };
-    
-
     const handleShow = () => setShow(true);
 
     const [validated, setValidated] = useState(false);
@@ -80,7 +68,6 @@ const addProducerOrderModal = () => {
     const ObtainPurchasePrice = async (productId, producerId) => {
         try {
             let purchaseprice = await getProductProducer(productId, producerId);
-            console.log("precio de compra = " + purchaseprice);
             PurchasePrice.current.value = purchaseprice;
         } catch (error) {
             console.error("Error al obtener purchase price en el componente ", error);
@@ -220,11 +207,8 @@ const addProducerOrderModal = () => {
                 title: 'Agregado!',
                 text: 'El pedido ha sido agregado',
                 icon: 'success',
-            });
-            handleClose()
-            setTimeout(function () {
-                window.location.reload();
-            }, 2000)
+            }).then(function(){window.location.reload()});
+            
         },
         onError: () => {
             swal('Error', 'Algo salio mal...', 'error')

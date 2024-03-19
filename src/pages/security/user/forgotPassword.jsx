@@ -37,12 +37,14 @@ const forgotPassword = () => {
 
     return (
         <>
+
             <Button variant="outline-secondary" onClick={handleShow} size='sm' >
                 ¿Olvido su contraseña?
             </Button>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
+
                     <Modal.Title>Recuperar contraseña</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>

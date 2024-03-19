@@ -4,11 +4,15 @@ import { getProducerOrderSales } from '../../../services/saleService';
 import { getProductById2 } from '../../../services/productService';
 import { getCostumerOrderById } from '../../../services/costumerorderService';
 import { Form, Row, Col, Button, Container, InputGroup, Collapse, Table } from 'react-bootstrap'
-import {useNavigate} from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
+import { RiArrowGoBackFill } from "react-icons/ri";
+import { FaCheck } from "react-icons/fa";
 import { format } from 'date-fns';
-
 import './userOrder.css'
+import { FaTruck } from "react-icons/fa";
+import { FaBoxesPacking } from "react-icons/fa6";
+import { FaCheckDouble } from "react-icons/fa";
+
 
 const userOrder = () => {
 
@@ -18,7 +22,7 @@ const userOrder = () => {
     const [MyOrders, setMyOrders] = useState([]);
     const [subTotal, setSubTotal] = useState(0);
     const navigate = useNavigate()
-
+   
 
     useEffect(() => {
         async function settingSales() {
@@ -26,14 +30,14 @@ const userOrder = () => {
             getCostumerOrderById(order.orderid, setCustomerorder);
         }
         settingSales();
-      }, []);
+    }, []);
 
     useEffect(() => {
 
         async function MeCagoEnLasRestricciones() {
 
             let MySales = []
-            let subtotal=0
+            let subtotal = 0
 
             for (const sale of MyFilteredData) {
 
@@ -66,33 +70,36 @@ const userOrder = () => {
             {customerorderRequest != null && MyOrders.length > 0 ? (
                 <>
                     <article className="card">
+
                         <header className="card-header">
                             <h6>Código de Pedido: #{order.orderid}</h6>
-                        </header>
-                        <div className="card-body">
+                            <br/>
                             <Row className="mb-3">
-                                <Col>
-                                    <strong>Fecha de pedido</strong>
+                            <Col xs={2} md={2} lg={2}>
+                                    <p>Fecha de pedido</p>
                                     <br />
                                     {customerorderRequest.confirmedDate === "0001-01-01T00:00:00"
                                         ? "Sin pagar"
                                         : format(new Date(customerorderRequest.confirmedDate), 'yyyy-MM-dd')}
                                 </Col>
-                                <Col>
-                                    <strong>Fecha de pago</strong>
+                                <Col xs={2} md={2} lg={2}>
+                                    Fecha de pago
                                     <br />
                                     {customerorderRequest.paidDate === "0001-01-01T00:00:00"
                                         ? "Sin pagar"
                                         : format(new Date(customerorderRequest.paidDate), 'yyyy-MM-dd')}
                                 </Col>
-                                <Col>
-                                    <strong>Fecha de entrega</strong>
+                                <Col xs={2} md={2} lg={2}>
+                                    Fecha de entrega
                                     <br />
                                     {customerorderRequest.deliveredDate === "0001-01-01T00:00:00"
                                         ? "Sin entregar"
                                         : format(new Date(customerorderRequest.deliveredDate), 'yyyy-MM-dd')}
                                 </Col>
                             </Row>
+                        </header>
+                        
+                        <div className="card-body">
                             <Table responsive className="table table-borderless table-shopping-cart">
                                 <thead>
                                     <tr>
@@ -110,7 +117,7 @@ const userOrder = () => {
                                     {MyOrders.map((order, index) => (
                                         <tr key={index}>
                                             <td>
-                                                <img src={order.ProductImage} className="img-sm border" alt={order.ProductName} />
+                                                <img src={order.ProductImage} className="img-sm" alt={order.ProductName} />
                                             </td>
                                             <td>{order.ProductName}</td>
                                             <td>{order.Quantity}</td>
@@ -123,30 +130,28 @@ const userOrder = () => {
                                     ))}
                                 </tbody>
                             </Table>
-                            <div className="card">
-                                <div className="card-body row">
-                                    <Col md={{ span: 1, offset: 10 }}>
+\                                <div className="card-body row">
+                                    <Col md={{ span: 12, offset: 10 }}>
                                         <strong>Subtotal</strong>
                                     </Col>
                                     <Col>
                                         {subTotal == 0 ? 'Por cotizar' : '₡' + subTotal.toFixed(2)}
                                     </Col>
-                                    <Col md={{ span: 1, offset: 10 }}>
+                                    <Col md={{ span: 12, offset: 10 }}>
                                         <strong>Total</strong>
                                     </Col>
                                     <Col>
                                         {customerorderRequest.total == 0 ? 'Por cotizar' : '₡' + customerorderRequest.total}
                                     </Col>
-                                </div>
-                            </div>
-                            </div>
-                            </article>
+\                            </div>
+                        </div>
+                    </article>
 
-                            <article className="card">
-                            <div className="card-body">
+                    <article className="card">
+                        <div className="card-body">
 
                             {customerorderRequest.detail !== "" && (
-                                <article className="card">
+                                <article className="card" >
                                     <div className="card-body row">
                                         <Col>
                                             <strong>Detalle del pedido</strong>
@@ -155,7 +160,7 @@ const userOrder = () => {
                                     </div>
                                 </article>
                             )}
-                            
+
                             <div className="track">
                                 <div className={customerorderRequest.stage === "Confirmado" ||
                                     customerorderRequest.stage === "En preparación" ||
@@ -163,7 +168,8 @@ const userOrder = () => {
                                     customerorderRequest.stage === "Entregado"
                                     ? "step active"
                                     : "step"}>
-                                    <span className="icon"> <i className="fa fa-check"></i> </span>
+                                    <span className="icon"><FaCheck />
+                                        <i className="fa fa-check"></i> </span>
                                     <span className="text">Pedido confirmado</span>
                                 </div>
                                 <div className={customerorderRequest.stage === "En preparación" ||
@@ -171,20 +177,21 @@ const userOrder = () => {
                                     customerorderRequest.stage === "Entregado"
                                     ? "step active"
                                     : "step"}>
-                                    <span className="icon"> <i className="fa fa-user"></i> </span>
+                                    <span className="icon"><FaBoxesPacking /><i className="fa fa-user"></i> </span>
                                     <span className="text">En preparación</span>
                                 </div>
                                 <div className={customerorderRequest.stage === "En ruta de entrega" ||
                                     customerorderRequest.stage === "Entregado"
                                     ? "step active"
                                     : "step"}>
-                                    <span className="icon"> <i className="fa fa-truck"></i> </span>
+                                    <span className="icon"><FaTruck /><i className="fa fa-truck"></i> </span>
                                     <span className="text">En ruta de entrega</span>
                                 </div>
                                 <div className={customerorderRequest.stage === "Entregado"
                                     ? "step active"
                                     : "step"}>
-                                    <span className="icon"> <i className="fa fa-box"></i> </span>
+                                    <span className="icon"><FaCheckDouble />
+                                        <i className="fa fa-box"></i> </span>
                                     <span className="text">Entregado</span>
                                 </div>
                             </div>
@@ -193,13 +200,14 @@ const userOrder = () => {
                             {/* <NavLink to={`/userProfile`} className="BtnBrown">Volver a mi perfil</NavLink> */}
 
                             <Button className='BtnBrown'
-                                    onClick={() => navigate(`/userProfile`)}>
-                                    Volver a mi perfil
-                                   </Button>
+                                onClick={() => navigate(`/userProfile`)}>
+                                <RiArrowGoBackFill />
+
+                            </Button>
 
 
                             <br />
-                       </div> 
+                        </div>
                     </article>
                 </>
             ) : "Cargando..."}

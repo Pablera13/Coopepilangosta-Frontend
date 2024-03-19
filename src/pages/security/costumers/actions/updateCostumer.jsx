@@ -28,6 +28,8 @@ const updateCostumer = (props) => {
     const address = useRef();
     const postalCode = useRef();
     const bankAccount = useRef();
+    const phoneNumber = useRef();
+    const email = useRef();
 
     const editCostumerMutation = useMutation('Costumer', editCostumer, {
         onSettled: () => queryClient.invalidateQueries('Costumer'),
@@ -66,11 +68,13 @@ const updateCostumer = (props) => {
                 postalCode: postalCode.current.value,
                 bankAccount: bankAccount.current.value,
                 verified: costumer.verified,
+                email: email.current.value,
+                phoneNumber: phoneNumber.current.value,
                 userId: costumer.userId,
             };
             editCostumerMutation.mutateAsync(editCostumer).then(() => {
                 setValidated(true);
-                handleClose(); // Close the modal after editing.
+                handleClose(); 
             });
         }
     };
@@ -140,6 +144,7 @@ const updateCostumer = (props) => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form validated={validated} onSubmit={handleSubmit}>
+                   
                         <Row>
                             <Col lg={6}>
                                 <Form.Group controlId="validationCustom01">
@@ -168,7 +173,37 @@ const updateCostumer = (props) => {
                             </Col>
                         </Row>
 
+                        <Row>
+                            <Col lg={6}>
+                                <Form.Group controlId="validationCustom01">
+                                    <Form.Label>Teléfono</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="number"
+                                        placeholder="Ingrese el teléfono"
+                                        defaultValue={costumer.phoneNumber}
+                                        ref={phoneNumber}
+                                    />
+                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                </Form.Group>
+                            </Col>
+                            <Col lg={6}>
+                                <Form.Group controlId="validationCustom02">
+                                    <Form.Label>Correo Electrónico</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="text"
+                                        placeholder="Ingrese el correo"
+                                        ref={email}
+                                        defaultValue={costumer.email}
+                                    />
+                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
                         <Row className="mb-3">
+                            
                             <Col lg={4}>
                             <Form.Group controlId="validationCustom03">
                                 <Form.Label>Provincia</Form.Label>

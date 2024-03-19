@@ -4,15 +4,17 @@ import { useLocation } from 'react-router-dom';
 import Header from './Header';
 import { Link } from 'react-router-dom';
 import '../../Styles/footer.css'
+
 import swal from 'sweetalert'
 import emailjs2 from 'emailjs-com'
 import { Stack } from 'react-bootstrap';
+import ResponsiveNavbar from './Components/ResponsiveNavbar';
 export const Layout = () => {
 
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname == '/login') {
+    if (location.pathname == '/login' || location.pathname == '/registerCostumer' || location.pathname == '/forgotPassword') { 
       document.body.classList.add('login-body');
       document.body.classList.add('header');
     }
@@ -47,9 +49,9 @@ export const Layout = () => {
 
   return (
     <>
-      <div>
-        <Header />
-      </div>
+
+      <ResponsiveNavbar />
+
 
       <main style={{ marginBottom: '150px' }}>
 

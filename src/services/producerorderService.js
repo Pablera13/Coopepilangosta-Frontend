@@ -9,7 +9,6 @@ export const getProducerOrder = async () => {
 export const getProducerOrderById = async (id,state) => { 
     let data = await api.get(`producerorder/${id}`).then(result => result.data);
     state(data)
-    console.log(data)
     return data;
 };
 

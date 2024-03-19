@@ -42,7 +42,7 @@ margin: 100px;
 
 .Loading li:nth-child(1) {
   margin: -30px 0 0 -30px;
-  border-top-color: #3c3019;
+  border-top-color: #3c3019 !important;
   width: 60px;
   height: 60px;
   animation: loading 3s infinite linear;
@@ -193,8 +193,9 @@ button.resetFilter:hover::after {
   display: flex;
   align-items: center;
   justify-content: center;
-
+  background: none !important; 
 }
+
 
 a.BtnDetail {
   text-align: center;
@@ -218,6 +219,7 @@ a.BtnDetail {
   background-color: #3c3019 !important;
   color: #fff;
   font-weight: bold;
+  margin-top: 20px;
   cursor: pointer;
   margin: 1%;
   margin-bottom: 20px;
