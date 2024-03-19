@@ -14,6 +14,10 @@ import { TiEdit } from "react-icons/ti";
 import CheckEntryModal from '../../Inventory/Entries/actions/checkEntryModal.jsx'
 import UpdateProducerOrderModal from "./actions/updateProducerOrderModal.jsx";
 
+import "../../../css/Pagination.css";
+import "../../../css/StylesBtn.css";
+
+
 const listProducerOrder = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -44,7 +48,14 @@ const listProducerOrder = () => {
     { value: "notdelivered", label: "Pedidos sin recibir" },
   ];
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div className="Loading">
+  <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+</div>
+;
 
   if (isError) return <div>Error</div>;
 

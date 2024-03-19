@@ -6,6 +6,7 @@ import { getCategories } from "../../../../services/categoryService";
 import swal from "sweetalert";
 import "./editProductModal.css";
 import { TiEdit } from "react-icons/ti";
+import { MdDelete } from "react-icons/md";
 
 const editProductModal = (props) => {
   const [productRequest, setProduct] = useState(null);
@@ -268,7 +269,13 @@ const editProductModal = (props) => {
                                 {category.name}
                               </option>
                             ))
-                          : "Espere"}
+                          :  <div className="Loading">
+                          <ul>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                          </ul>
+                        </div>}
                       </Form.Select>
                     </Form.Group>
                   </Col>
@@ -315,11 +322,11 @@ const editProductModal = (props) => {
                               </td>
                               <td>
                                 <Button
-                                  className="BtnDeleteImg"
+                                className="BtnRed"
                                   variant="danger"
                                   onClick={() => removeImage(index)}
                                 >
-                                  Eliminar
+                                  <MdDelete />
                                 </Button>
                               </td>
                             </tr>
