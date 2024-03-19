@@ -79,12 +79,8 @@ const editProductModal = (props) => {
         title: "Editado!",
         text: "Se editó el producto",
         icon: "success",
-      });
-      handleClose();
-
-      setTimeout(function () {
-        window.location.reload();
-      }, 2000);
+      }).then(function(){window.location.reload()});
+      
     },
     onError: () => {
       swal("Error", "Algo salio mal...", "error");
@@ -129,7 +125,7 @@ const editProductModal = (props) => {
         categoryId: categoryId.current.value,
         image: serializedImages,
       };
-
+      console.log(newProduct)
       // let CodeAvailability = await checkCodeAvailability(code.current.value).then(data=>data);
       // console.log(CodeAvailability)
       // if (CodeAvailability == true) {
@@ -139,6 +135,8 @@ const editProductModal = (props) => {
       // }
     }
   };
+
+  
 
   return (
     <>
@@ -263,7 +261,7 @@ const editProductModal = (props) => {
                   <Col md={6}>
                     <Form.Group className="mb-3">
                       <Form.Label>Categoría</Form.Label>
-                      <Form.Select required ref={categoryId}>
+                      <Form.Select required ref={categoryId} defaultValue={productRequest.categoryId}>
                         {Categories != null
                           ? Categories.map((category) => (
                               <option value={category.id} key={category.id}>

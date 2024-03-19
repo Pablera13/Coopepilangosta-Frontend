@@ -1,45 +1,40 @@
-.nav-area {
-  height: 65px;
-  max-width: 1200px;
-  margin: auto;
-  margin-bottom: 20px;
-  font-family: "Montserrat", Sans-serif;
-  position: relative;
-  margin-bottom: 30px;
+.navbarContainer{
+  position: relative ;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
 }
+
+
 
 #navbarHead{
   position: relative;
-  height: 35px;
-  margin-top: 10px; 
-  margin-bottom: 20px;
+  width: min-content;
+  min-width: 300px;
 
   font-family: "Montserrat", Sans-serif;
-  font-size: 90%;
+  font-size: 100%;
   font-weight: 700;
-  margin-left: 2%;
   text-transform: uppercase;
+ 
+}
 
-  
+#basic-navbar-nav{
+  width: max-content;
+  background-color: white;
 }
 
 .navbar-nav .nav-link {
   margin-right: 20px; 
+  background-color: white;
+  height: max-content;
 }
 
 .dropdown-menu .nav-link {
   margin-right: 10px; 
 }
 
-
-
-#navbarContainer{
-  font-size: larger;
-  
-  background-color: white;
-  
-  
-}
 
 /*Styles for the button that shows the submenus once is clicked and showed his submenus*/
 .nav-item.show.dropdown{    
@@ -89,7 +84,6 @@ header {
 
 .logoImg{
 width: 220px;
-/* width: 20%; */
 
 
 }
