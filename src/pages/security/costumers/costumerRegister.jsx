@@ -21,15 +21,15 @@ const costumerRegister = () => {
     const [validated, setValidated] = useState(false);
 
     const cedulaJuridica = useRef();
-    const name = useRef();
-    const province = useRef();
-    const canton = useRef();
-    const district = useRef();
+    const name = useRef();;
     const address = useRef();
     const postalCode = useRef();
     const bankAccount = useRef();
     const email = useRef();
     const userName = useRef();
+    const phone = useRef();
+    const costumerEmail = useRef();
+    const confirmPassword = useRef();
     const password = useRef();
 
     const addUserMutation = useMutation('users', createuser,
@@ -92,9 +92,12 @@ const costumerRegister = () => {
 
             const cedulaAvailability = await checkCedula(cedulaJuridica.current.value).then(data => data)
             const emailAvailability = await checkEmailAvailability(email.current.value).then(data => data)
+            const costumerEmailAvailability = await checkEmailAvailability(costumerEmail.current.value).then(data => data)
             const validPasswordFormat = checkPasswordFormat(password.current.value)
 
-            if (cedulaAvailability == true && emailAvailability == true && validPasswordFormat == true) {
+            if (cedulaAvailability == true && emailAvailability == true && costumerEmailAvailability == true && validPasswordFormat == true &&
+                password.current.value == confirmPassword.current.value
+                ) {
                 console.log(cedulaAvailability)
                 const createdUser = await addUserMutation.mutateAsync(newCostumerUser)
                 let newCostumer = {
@@ -107,6 +110,8 @@ const costumerRegister = () => {
                     postalCode: postalCode.current.value,
                     bankAccount: bankAccount.current.value,
                     verified: false,
+                    email: costumerEmail.current.value,
+                    phoneNumber: phone.current.value,
                     userId: createdUser.id
                 }
                 await addCostumerMutation.mutateAsync(newCostumer);
@@ -116,10 +121,16 @@ const costumerRegister = () => {
                     swal("Cedula se encuentra registrada", "Ya existe un usuario con la cedula ingresada", "warning")
                 }
                 if (emailAvailability == false) {
-                    swal("Correo electronico se encuentra registrada", "Ya existe un usuario con el correo ingresado", "warning")
+                    swal("Correo de usuario se encuentra registrada", "Ya existe un usuario con el correo ingresado", "warning")
+                }
+                if (costumerEmailAvailability == false) {
+                    swal("Correo corporativo se encuentra registrada", "Ya existe un usuario con el correo ingresado", "warning")
                 }
                 if (validPasswordFormat == false) {
                     swal('Contraseña invalida!', 'La contraseña deseada, no es valida, debe contener minimo 8 caracteres de longitud.', 'warning')
+                }
+                if (password.current.value != confirmPassword.current.value) {
+                    swal('Contraseña invalida!', 'Las contraseñas ingresadas no coinciden', 'warning')
                 }
             }
         }
@@ -196,7 +207,9 @@ const costumerRegister = () => {
 
                         <Form noValidate validated={validated} onSubmit={handleSubmit}>
                             <Row className="mb-3">
-                                <Col xs={6} md={6} lg={6}>
+
+
+                                <Col xs={4} md={4} lg={4}>
                                     <Form.Group md="4" controlId="validationCustom01">
                                         <Form.Label className="labelLogin">Cédula</Form.Label>
                                         <Form.Control
@@ -208,7 +221,7 @@ const costumerRegister = () => {
                                         <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                     </Form.Group>
                                 </Col>
-                                <Col xs={6} md={6} lg={6}>
+                                <Col xs={4} md={4} lg={4}>
 
                                     <Form.Group md="4" controlId="validationCustom02">
                                         <Form.Label className="labelLogin">Nombre</Form.Label>
@@ -222,22 +235,79 @@ const costumerRegister = () => {
                                     </Form.Group>
                                 </Col>
 
+                                <Col xs={4} md={4} lg={4}>
+                                    <Form.Group md="4" controlId="validationCustom01">
+                                        <Form.Label className="labelLogin">Correo Electrónico</Form.Label>
+                                        <Form.Control
+                                            required
+                                            type="string"
+                                            placeholder="Ingrese su correo corporativo"
+                                            ref={costumerEmail}
+                                        />
+                                        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                    </Form.Group>
+                                </Col>
+
+
 
                             </Row>
+
                             <Row className="mb-3">
-                                <Col xs={12} lg={4}>
+
+
+                                <Col xs={4} md={4} lg={4}>
+                                    <Form.Group md="4" controlId="validationCustom02">
+                                    <Form.Label className="labelLogin"><Form.Label>Teléfono</Form.Label></Form.Label>
+                                        <Form.Control
+                                            required
+                                            type="number"
+                                            placeholder="Ingrese su teléfono corporativo"
+                                            ref={phone}
+                                        />
+                                        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                    </Form.Group>
+                                </Col>
+
+                                <Col xs={4} md={4} lg={4}>
+
+                                    <Form.Group controlId="validationCustom07">
+                                       <Form.Label className="labelLogin"><Form.Label>Código postal</Form.Label></Form.Label>
+
+                                        <Form.Control type="number" placeholder="Ingrese el código postal" required ref={postalCode} />
+                                        <Form.Control.Feedback type="invalid">
+                                            Indique su código postal
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
+                                </Col>
+                                <Col xs={4} md={4} lg={4}>
+                                    <Form.Group controlId="validationCustom08">
+                                        <Form.Label className="labelLogin"><Form.Label>Cuenta IBAN</Form.Label></Form.Label>
+                                        <Form.Control type="number" placeholder="Ingrese una cuenta bancaria" required ref={bankAccount} />
+                                        <Form.Control.Feedback type="invalid">
+                                            Indique su cuenta IBAN
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
+                                </Col>
+
+
+                            </Row>
+
+                            <Row className="mb-3">
+
+                                <Col xs={4} md={4} lg={4}>
                                     <Form.Group controlId="validationCustom03">
-                                        <Form.Label className="labelLogin">Provincia</Form.Label>
+                                        <Form.Label className="labelLogin"><Form.Label>Provincia</Form.Label></Form.Label>
+
                                         <Select placeholder='Provincia' options={provinciasArray}
                                             onChange={(selected) => { handleProvinciasSelectChange(selected.value); setSelectedProvincia(selected); }}
-
                                         ></Select>
                                         <Form.Control.Feedback type="invalid">
                                             Ingrese su provincia
                                         </Form.Control.Feedback>
                                     </Form.Group>
                                 </Col>
-                                <Col xs={12} lg={4}>
+
+                                <Col xs={4} md={4} lg={4}>
                                     <Form.Group controlId="validationCustom04">
                                         <Form.Label className="labelLogin"><Form.Label>Cantón</Form.Label></Form.Label>
                                         <Select placeholder='Canton' options={cantonesOptions}
@@ -248,7 +318,8 @@ const costumerRegister = () => {
                                         </Form.Control.Feedback>
                                     </Form.Group>
                                 </Col>
-                                <Col xs={12} lg={4}>
+
+                                <Col xs={4} md={4} lg={4}>
                                     <Form.Group controlId="validationCustom05">
                                         <Form.Label className="labelLogin"><Form.Label>Distrito</Form.Label></Form.Label>
                                         <Select placeholder='Distrito' options={distritosOptions}
@@ -260,6 +331,7 @@ const costumerRegister = () => {
                                     </Form.Group>
                                 </Col>
                             </Row>
+
                             <Row>
                                 <Col xs={12} md={12} lg={12}>
 
@@ -273,33 +345,6 @@ const costumerRegister = () => {
                                 </Col>
                             </Row>
 
-                            <br />
-
-                            <Row>
-                                <Col xs={6} md={6} lg={6}>
-
-                                    <Form.Group controlId="validationCustom07">
-                                        <Form.Label className="labelLogin"><Form.Label>Código postal</Form.Label></Form.Label>
-
-                                        <Form.Control type="number" placeholder="Ingrese el código postal" required ref={postalCode} />
-                                        <Form.Control.Feedback type="invalid">
-                                            Indique su código postal
-                                        </Form.Control.Feedback>
-                                    </Form.Group>
-                                </Col>
-                                <Col xs={6} md={6} lg={6}>
-                                    <Form.Group controlId="validationCustom08">
-                                        <Form.Label className="labelLogin"><Form.Label>Cuneta IBAN</Form.Label></Form.Label>
-                                        <Form.Control type="number" placeholder="Ingrese una cuenta bancaria" required ref={bankAccount} />
-                                        <Form.Control.Feedback type="invalid">
-                                            Indique su cuenta IBAN
-                                        </Form.Control.Feedback>
-                                    </Form.Group>
-                                </Col>
-
-                            </Row>
-
-                            <hr />
                             <Row>
 
                             </Row>
@@ -307,7 +352,7 @@ const costumerRegister = () => {
                                 <Col>
                                     <Form.Group controlId="validationCustom09">
                                         <Form.Label className="labelLogin"><Form.Label>Correo</Form.Label></Form.Label>
-                                        <Form.Control type="text" placeholder="Ingrese su correo" required ref={email} />
+                                        <Form.Control type="text" placeholder="Ingrese su correo de usuario" required ref={email} />
                                         <Form.Control.Feedback type="invalid">
                                             Indique su correo
                                         </Form.Control.Feedback>
@@ -326,10 +371,12 @@ const costumerRegister = () => {
                             <Row>
                                 <Col>
                                     <Form.Label className="labelLogin"><Form.Label>Contraseña</Form.Label></Form.Label>
-
                                     <Form.Control placeholder="Ingrese la contraseña" ref={password} type='password' required />
                                 </Col>
-
+                                <Col>
+                                    <Form.Label className="labelLogin"><Form.Label>Confirmar Contraseña</Form.Label></Form.Label>
+                                    <Form.Control placeholder="Confirme la contraseña" ref={confirmPassword} type='password' required />
+                                </Col>
                             </Row>
                         </Form>
                         <br />
