@@ -15,8 +15,14 @@ import "../../../css/StylesBtn.css";
 import ReactPaginate from "react-paginate";
 
 import UpdateCustomerOrderModal from "./actions/updateCustomerOrderModal.jsx";
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess.js";
 
 const listCustomerOrder = () => {
+
+  useEffect(() => {
+    validateAllowedPageAccess()
+  
+  }, [])
   const params = useParams();
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedOption, setSelectedOption] = useState("all"); // Default filter option

@@ -46,20 +46,6 @@ const listEmployee = () => {
     );
   }
 
-  const deleteEmployeeMethod = (idEmployee) => {
-    try {
-      deleteEmployee(idEmployee);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const deleteUserEmployee = (idUser) => {
-    try {
-      deleteUser(idUser);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const deleteEmployee = (idEmployee) => {
     try {
       deleteEmployee(idEmployee);

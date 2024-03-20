@@ -11,8 +11,15 @@ import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess";
 
 const listCategories = () => {
+  useEffect(() => {
+    validateAllowedPageAccess()
+  
+  }, [])
+  
+
   const {
     data: Categories,
     isLoading: CategoriesLoading,

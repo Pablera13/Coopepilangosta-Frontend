@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 import './listInventories.css';
 import { NavLink } from 'react-router-dom';
@@ -9,8 +9,14 @@ import { Table,Container,Col,Row, Form } from 'react-bootstrap';
 import AddInventoryModal from './actions/addInventoriesModal';
 import ReactPaginate from 'react-paginate';
 import {useNavigate} from 'react-router-dom';
+import { validateAllowedPageAccess } from '../../../utils/validatePageAccess';
 
 const ListInventories = () => {
+  useEffect(() => {
+    validateAllowedPageAccess()
+  
+  }, [])
+
   const { data: categoriesData, isLoading: categoriesLoading, isError: categoriesError } = useQuery('categories', getCategories);
   const { data: productsData, isLoading: productsLoading, isError: productsError } = useQuery('products', getCoffee);
 

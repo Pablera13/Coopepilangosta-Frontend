@@ -12,7 +12,14 @@ import { MdDelete } from "react-icons/md";
 
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess.js";
 const listProducers = () => {
+
+  useEffect(() => {
+    validateAllowedPageAccess()
+  
+  }, [])
+  
   const {
     data: Producers,
     isLoading: ProducersLoading,
