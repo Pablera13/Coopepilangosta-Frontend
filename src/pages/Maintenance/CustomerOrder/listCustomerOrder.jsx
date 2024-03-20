@@ -169,7 +169,7 @@ const listCustomerOrder = () => {
                           "yyyy-MM-dd"
                         )}
                       </td>
-                      <td>₡{CustomerOrder.total.toFixed(2)}</td>
+                      <td>{CustomerOrder.total === 0? "Por cortizar" : "₡" + CustomerOrder.total.toFixed(2)} </td>
                       <td>
                         {CustomerOrder.paidDate === "0001-01-01T00:00:00"
                           ? "Sin pagar"

@@ -6,10 +6,17 @@
 
 .oval-button {
   display: flex;
-  align-items: center; 
-  border-radius: 20px; 
-  overflow: hidden; 
+  align-items: center;
+  justify-content: center; /* Agregar esta línea para centrar horizontalmente */
+  border-radius: 20px;
+  overflow: hidden;
 }
+
+/* Si deseas centrar el texto verticalmente dentro del botón */
+.oval-button > * {
+  margin: auto;
+}
+
 
 .quantity-input {
   flex: 1; 
