@@ -1,20 +1,22 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Row, Col, Container, Form, Button, Spinner } from "react-bootstrap";
 import { loginUser, getUserInformation } from "../../services/loginService";
 import { NavLink } from "react-router-dom";
 import "./login.css";
 import swal from "sweetalert";
+import { validateLogForLogin } from "../../utils/validatePageAccess";
+
 
 const login = () => {
   const [loginLoading, setLoginLoading] = useState(false);
 
+  useEffect(() => {
+    validateLogForLogin()
+  }, [])
+  
+
   const email = useRef();
   const password = useRef();
-
-  const user = JSON.parse(localStorage.getItem('user'));
-  if (user) {
-    window.location = '/'
-  }
 
   let token = "";
 
@@ -23,7 +25,6 @@ const login = () => {
       email: email.current.value,
       password: password.current.value,
     };
-    //console.log(userLogin)
     try {
       token = await loginUser(userLogin)
         .then((data) => data)

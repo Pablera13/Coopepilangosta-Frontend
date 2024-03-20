@@ -3,6 +3,7 @@ import { Container, Row, Col, Button, Card, ListGroup, CardGroup } from 'react-b
 import swal from 'sweetalert'
 import CostumerProfile from './costumerProfile'
 import EmployeeProfile from './employeeProfile'
+import { validateLogStatus } from '../../../utils/validatePageAccess'
 
 
 export const UserProfile = () => {
@@ -12,16 +13,16 @@ export const UserProfile = () => {
     const user = JSON.parse(localStorage.getItem('user'));
 
     useEffect(() => {
+            validateLogStatus()
+
         if (user.costumer != null) {
             setIsCostumer(true)
         }
         if (user.employee != null) {
             setIesEmployee(true)
         }
-        if (user.employee == null && user.costumer == null) {
-            localStorage.clear()
-            window.location = '/'
-        }
+    
+        
     }, [])
 
     return (
