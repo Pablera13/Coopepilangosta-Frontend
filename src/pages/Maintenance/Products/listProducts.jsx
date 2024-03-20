@@ -12,8 +12,14 @@ import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import "../../../css/StylesBtn.css";
 import "../../../css/Pagination.css";
-
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess.js";
 const listProducts = () => {
+
+  useEffect(() => {
+    validateAllowedPageAccess()
+  }, [])
+  
+
   const {
     data: Products,
     isLoading: ProductsLoading,

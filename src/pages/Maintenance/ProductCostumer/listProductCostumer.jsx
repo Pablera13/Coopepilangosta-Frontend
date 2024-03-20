@@ -15,10 +15,15 @@ import { MdDelete } from "react-icons/md";
 import { getProductById2 } from "../../../services/productService";
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess.js";
 
 const listProductCostumer = () => {
   const Params = useParams();
 
+  useEffect(() => {
+    validateAllowedPageAccess()
+  }, [])
+  
   const [ProductCostumers, setProductCostumers] = useState([]);
   const [Cotizaciones, setCotizaciones] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");

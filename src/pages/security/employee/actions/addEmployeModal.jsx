@@ -88,10 +88,13 @@ export const AddEmployee = () => {
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+      setValidated(false)
+    } else {
+      event.preventDefault();
+      handleSave();
+      setValidated(true);
     }
-    event.preventDefault();
-    handleSave();
-    setValidated(true);
+
   };
 
   const handleSave = async () => {
@@ -162,11 +165,12 @@ export const AddEmployee = () => {
         backdrop="static"
         keyboard={false}
       >
-        <Modal.Header className="HeaderModal" closeButton>
-          <Modal.Title>Agregar empleado</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form noValidate validated={validated}>
+        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Modal.Header className="HeaderModal" closeButton>
+            <Modal.Title>Agregar empleado</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+
             <Row>
               <Col>
                 <Form.Label>Cédula</Form.Label>
@@ -256,26 +260,27 @@ export const AddEmployee = () => {
                 ></Select>
               </Col>
             </Row>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            className="BtnClose"
-            variant="secondary"
-            size="sm"
-            onClick={handleClose}
-          >
-            Cerrar
-          </Button>
-          <Button
-            className="BtnSave"
-            variant="primary"
-            size="sm"
-            onClick={handleSubmit}
-          >
-            Guardar empleado
-          </Button>
-        </Modal.Footer>
+
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              className="BtnClose"
+              variant="secondary"
+              size="sm"
+              onClick={handleClose}
+            >
+              Cerrar
+            </Button>
+            <Button
+              className="BtnSave"
+
+              size="sm"
+              type="submit"
+            >
+              Guardar empleado
+            </Button>
+          </Modal.Footer>
+        </Form>
       </Modal>
     </>
   );

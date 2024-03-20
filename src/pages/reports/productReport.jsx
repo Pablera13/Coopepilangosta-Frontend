@@ -32,6 +32,7 @@ import {DownloadTableExcel} from 'react-export-table-to-excel';
 
 import "../../css/Pagination.css";
 import "../../css/StylesBtn.css";
+import { validateAllowedPageAccess } from '../../utils/validatePageAccess';
 
 const buttonStyle = {
   borderRadius: '5px',
@@ -49,6 +50,11 @@ const buttonStyle = {
 };
 
 const productReport = () => {
+
+  useEffect(() => {
+    validateAllowedPageAccess()
+  
+  }, [])
 
   const params = useParams();
 

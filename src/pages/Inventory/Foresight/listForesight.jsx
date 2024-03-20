@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
   Container,
@@ -19,8 +19,15 @@ import UpdateForesight from "./actions/updateForesight";
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
 import "./listForesight.css";
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess";
 
 const listForesight = () => {
+
+  useEffect(() => {
+    validateAllowedPageAccess()
+  
+  }, [])
+
   const product = useRef();
   //State para el producto seleccionado en el select
   const [selectedProduct, setSelectedProduct] = useState();
@@ -58,9 +65,9 @@ const listForesight = () => {
           <Stack direction="horizontal" gap={3}>
             <Row>
               <Col lg={3}>
-                <h3>Producto a Consultar</h3>
+                <h3>Consultar:</h3>
               </Col>
-              <Col lg={2}>
+              <Col lg={4}>
                 <div>
                   {" "}
                   <Select
@@ -74,7 +81,7 @@ const listForesight = () => {
                   ></Select>
                 </div>
               </Col>
-              <Col>
+              <Col lg={5}>
                 <div className="BtnContainer">
                   {" "}
                   <Button className="BtnSave" onClick={handleConsult}>

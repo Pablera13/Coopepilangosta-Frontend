@@ -16,9 +16,15 @@ import UpdateProducerOrderModal from "./actions/updateProducerOrderModal.jsx";
 
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess.js";
 
 
 const listProducerOrder = () => {
+
+  useEffect(() => {
+    validateAllowedPageAccess()
+  
+  }, [])
   const params = useParams();
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState("");

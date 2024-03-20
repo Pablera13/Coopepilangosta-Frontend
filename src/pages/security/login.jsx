@@ -1,9 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Row, Col, Container, Form, Button, Spinner,Card } from "react-bootstrap";
 import { loginUser, getUserInformation } from "../../services/loginService";
 import { NavLink } from "react-router-dom";
 import "./login.css";
 import swal from "sweetalert";
+import { validateLogForLogin } from "../../utils/validatePageAccess";
+
 
 import "../../css/Pagination.css";
 import "../../css/StylesBtn.css";
@@ -11,6 +13,11 @@ import "../../css/StylesBtn.css";
 
 const login = () => {
   const [loginLoading, setLoginLoading] = useState(false);
+
+  useEffect(() => {
+    validateLogForLogin()
+  }, [])
+  
 
   const email = useRef();
   const password = useRef();
@@ -22,7 +29,6 @@ const login = () => {
       email: email.current.value,
       password: password.current.value,
     };
-    //console.log(userLogin)
     try {
       token = await loginUser(userLogin)
         .then((data) => data)
@@ -38,7 +44,7 @@ const login = () => {
           case "User not found":
             swal(
               "Correo no valido",
-              "No se encontró un usuario asociado a ese correo electrónico",
+              "No se encontró un usuario asociado al correo electrónico brindado.",
               "warning"
             );
             setLoginLoading(false)

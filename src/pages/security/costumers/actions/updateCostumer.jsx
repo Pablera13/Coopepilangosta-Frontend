@@ -26,6 +26,8 @@ const updateCostumer = (props) => {
     const address = useRef();
     const postalCode = useRef();
     const bankAccount = useRef();
+    const phoneNumber = useRef();
+    const email = useRef();
 
     const editCostumerMutation = useMutation('Costumer', editCostumer, {
         onSettled: () => queryClient.invalidateQueries('Costumer'),
@@ -35,9 +37,10 @@ const updateCostumer = (props) => {
                 title: "Editado!",
                 text: "Se editó el perfil",
                 icon: "success",
-            }) .then(function(){window.location.reload()});
+            }).then(function () { window.location.reload() });
         },
         onError: () => {
+
             swal("Error", "Algo salio mal...", "error");
         },
     });
@@ -48,15 +51,15 @@ const updateCostumer = (props) => {
             event.preventDefault();
             event.stopPropagation();
         } else {
-            
 
+            event.preventDefault();
             const editCostumer = {
                 id: costumer.id,
                 cedulaJuridica: costumer.cedulaJuridica,
                 name: name.current.value,
-                province: selectedProvincia? selectedProvincia.label : costumer.province,
-                canton: selectedCanton? selectedCanton.label : costumer.canton,
-                district: selectedDistrito? selectedDistrito.label : costumer.district,
+                province: selectedProvincia ? (selectedProvincia.label) : (costumer.province),
+                canton: selectedCanton ? (selectedCanton.label) : (costumer.canton),
+                district: selectedDistrito ? (selectedDistrito.label) : (costumer.district),
                 address: address.current.value,
                 postalCode: postalCode.current.value,
                 bankAccount: bankAccount.current.value,
@@ -77,7 +80,7 @@ const updateCostumer = (props) => {
         }
     };
 
-    
+
 
     const provinciasArray = Object.keys(locations.provincias).map((index) => {
 
@@ -113,9 +116,7 @@ const updateCostumer = (props) => {
 
 
     const handlecantonesSelectChange = (cantonIndex) => {
-        console.log(cantonIndex)
         let distritos = locations.provincias[selectedProvincia.value].cantones[cantonIndex].distritos
-        console.log(selectedProvincia.value)
         const distritosOpt = Object.keys(distritos).map((index) => {
             const indexNumber = parseInt(index, 10);
 
@@ -124,22 +125,22 @@ const updateCostumer = (props) => {
                 label: distritos[index].toString()
             };
         });
-        console.log(distritosOpt)
         setDistritosOptions(distritosOpt)
     }
 
     return (
         <>
             <Button className="BtnBrown" onClick={handleShow} size="sm">
-                <TiEdit/>
+                <TiEdit />
             </Button>
 
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} size='lg'>
+            <Form validated={validated} onSubmit={handleSubmit}>
+
                 <Modal.Header className="HeaderModal" closeButton>
                     <Modal.Title>Editar</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form validated={validated} onSubmit={handleSubmit}>
                         <Row>
                             <Col lg={6}>
                                 <Form.Group controlId="validationCustom01">
@@ -168,42 +169,71 @@ const updateCostumer = (props) => {
                             </Col>
                         </Row>
 
+                        <Row>
+                            <Col lg={6}>
+                                <Form.Group controlId="validationCustom01">
+                                    <Form.Label>Teléfono</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="number"
+                                        placeholder="Ingrese el teléfono"
+                                        defaultValue={costumer.phoneNumber}
+                                        ref={phoneNumber}
+                                    />
+                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                </Form.Group>
+                            </Col>
+                            <Col lg={6}>
+                                <Form.Group controlId="validationCustom02">
+                                    <Form.Label>Correo Electrónico</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="text"
+                                        placeholder="Ingrese el correo"
+                                        ref={email}
+                                        defaultValue={costumer.email}
+                                    />
+                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
                         <Row className="mb-3">
                             <Col lg={4}>
-                            <Form.Group controlId="validationCustom03">
-                                <Form.Label>Provincia</Form.Label>
-                                <Select placeholder={costumer.province} defaultValue={costumer.province} options={provinciasArray}
-                                    onChange={(selected) => { handleProvinciasSelectChange(selected.value); setSelectedProvincia(selected); }}
-                                    on
-                                ></Select>
-                                <Form.Control.Feedback type="invalid">
-                                    Ingrese su provincia
-                                </Form.Control.Feedback>
-                            </Form.Group>
+                                <Form.Group controlId="validationCustom03">
+                                    <Form.Label>Provincia</Form.Label>
+                                    <Select placeholder={costumer.province} defaultValue={costumer.province} options={provinciasArray}
+                                        onChange={(selected) => { handleProvinciasSelectChange(selected.value); setSelectedProvincia(selected); }}
+                                        on
+                                    ></Select>
+                                    <Form.Control.Feedback type="invalid">
+                                        Ingrese su provincia
+                                    </Form.Control.Feedback>
+                                </Form.Group>
                             </Col>
 
                             <Col lg={4}>
-                            <Form.Group md="4" controlId="validationCustom04">
-                                <Form.Label>Canton</Form.Label>
-                                <Select placeholder={costumer.canton} defaultValue={costumer.canton} options={cantonesOptions}
-                                    onChange={(selected) => { setSelectedCanton(selected); handlecantonesSelectChange(selected.value); }}
-                                ></Select>
-                                <Form.Control.Feedback type="invalid">
-                                    Por favor indique el canton
-                                </Form.Control.Feedback>
-                            </Form.Group>
+                                <Form.Group md="4" controlId="validationCustom04">
+                                    <Form.Label>Canton</Form.Label>
+                                    <Select placeholder={costumer.canton} defaultValue={costumer.canton} options={cantonesOptions}
+                                        onChange={(selected) => { setSelectedCanton(selected); handlecantonesSelectChange(selected.value); }}
+                                    ></Select>
+                                    <Form.Control.Feedback type="invalid">
+                                        Por favor indique el canton
+                                    </Form.Control.Feedback>
+                                </Form.Group>
                             </Col>
 
                             <Col lg={4}>
-                            <Form.Group md="4" controlId="validationCustom05">
-                                <Form.Label>Distrito</Form.Label>
-                                <Select placeholder={costumer.district}  defaultValue={costumer.district} options={distritosOptions}
-                                    onChange={(selected) => setSelectedDistrito(selected)}
-                                ></Select>
-                                <Form.Control.Feedback type="invalid">
-                                    Indique su distrito!.
-                                </Form.Control.Feedback>
-                            </Form.Group>
+                                <Form.Group md="4" controlId="validationCustom05">
+                                    <Form.Label>Distrito</Form.Label>
+                                    <Select placeholder={costumer.district} defaultValue={costumer.district} options={distritosOptions}
+                                        onChange={(selected) => setSelectedDistrito(selected)}
+                                    ></Select>
+                                    <Form.Control.Feedback type="invalid">
+                                        Indique su distrito!.
+                                    </Form.Control.Feedback>
+                                </Form.Group>
                             </Col>
                         </Row>
                         <Row>
@@ -229,18 +259,18 @@ const updateCostumer = (props) => {
                         </Row>
                         <Row>
                             <Col lg={12}>
-                            <Form.Group controlId="validationCustom08">
-                                <Form.Label>Cuenta IBAN</Form.Label>
-                                <Form.Control type="text" placeholder="Ingrese una cuenta bancaria" required ref={bankAccount}
-                                    defaultValue={costumer.bankAccount} />
-                                <Form.Control.Feedback type="invalid">
-                                    Indique su código postal
-                                </Form.Control.Feedback>
-                            </Form.Group>
+                                <Form.Group controlId="validationCustom08">
+                                    <Form.Label>Cuenta bancaria (IBAN)</Form.Label>
+                                    <Form.Control type="number" placeholder="Ingrese una cuenta bancaria" required ref={bankAccount}
+                                        defaultValue={costumer.bankAccount} />
+                                    <Form.Control.Feedback type="invalid">
+                                        Indique su código postal
+                                    </Form.Control.Feedback>
+                                </Form.Group>
                             </Col>
                         </Row>
 
-                    </Form>
+                    
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="BtnSave" type="submit" onClick={handleSubmit}>Guardar</Button>
@@ -249,6 +279,7 @@ const updateCostumer = (props) => {
                         Cerrar
                     </Button>
                 </Modal.Footer>
+                </Form>
             </Modal>
         </>
     );

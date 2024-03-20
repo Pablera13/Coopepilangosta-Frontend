@@ -195,7 +195,7 @@ const updateForesight = (props) => {
                         <Select options={optionsSelect} onChange=
                             {(selectedOption) => setSelectedProducer(selectedOption)} placeholder='Busqueda'>
                         </Select>
-                        <Button variant='secondary' size='sm' onClick={handleNewProducer}>Agregar agregar a la lista</Button>
+                        <Button className='BtnAdd' size='sm' onClick={handleNewProducer}>Agregar agregar a la lista</Button>
 
                         <Row>
                             <h3>Productores que serán agregados: </h3>
@@ -232,10 +232,10 @@ const updateForesight = (props) => {
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={clear}>
+                    <Button className='BtnAdd' onClick={clear}>
                         Cancelar
                     </Button>
-                    <Button variant="primary" onClick={saveChanges}>Guardar cambios</Button>
+                    <Button className='BtnAdd' onClick={saveChanges}>Guardar cambios</Button>
                 </Modal.Footer>
             </Modal>
         </>

@@ -8,6 +8,7 @@ import { RiPassValidLine } from "react-icons/ri";
 
 
 const verifyCostumer = (props) => {
+
     const queryClient = new QueryClient();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
