@@ -26,6 +26,8 @@ const updateCostumer = (props) => {
     const address = useRef();
     const postalCode = useRef();
     const bankAccount = useRef();
+    const phoneNumber = useRef();
+    const email = useRef();
 
     const editCostumerMutation = useMutation('Costumer', editCostumer, {
         onSettled: () => queryClient.invalidateQueries('Costumer'),
@@ -132,7 +134,7 @@ const updateCostumer = (props) => {
                 <TiEdit />
             </Button>
 
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} size='lg'>
             <Form validated={validated} onSubmit={handleSubmit}>
 
                 <Modal.Header className="HeaderModal" closeButton>
@@ -161,6 +163,35 @@ const updateCostumer = (props) => {
                                         placeholder="Ingrese el nombre"
                                         ref={name}
                                         defaultValue={costumer.name}
+                                    />
+                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <Col lg={6}>
+                                <Form.Group controlId="validationCustom01">
+                                    <Form.Label>Teléfono</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="number"
+                                        placeholder="Ingrese el teléfono"
+                                        defaultValue={costumer.phoneNumber}
+                                        ref={phoneNumber}
+                                    />
+                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                </Form.Group>
+                            </Col>
+                            <Col lg={6}>
+                                <Form.Group controlId="validationCustom02">
+                                    <Form.Label>Correo Electrónico</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="text"
+                                        placeholder="Ingrese el correo"
+                                        ref={email}
+                                        defaultValue={costumer.email}
                                     />
                                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                 </Form.Group>
