@@ -1,57 +1,62 @@
-import React, { useState } from 'react'
-import { useRef } from 'react'
-import { Container, Form, Button, InputGroup,Row,Col} from 'react-bootstrap'
-import ChangePassword from './changePassword'
-import swal from 'sweetalert'
+import React, { useState } from "react";
+import { useRef } from "react";
+import { Container, Form, Button, InputGroup, Row, Col } from "react-bootstrap";
+import ChangePassword from "./changePassword";
+import swal from "sweetalert";
 const checkCode = (props) => {
-    const email = props.props.email;
-    const [emailProps,setEmailProps] = useState()
+  const email = props.props.email;
+  const [emailProps, setEmailProps] = useState();
 
-    const codeGenerated = props.props.code;
-    const [isChecked, setChecked] = useState(false)
-   
-    const code = useRef();
+  const codeGenerated = props.props.code;
+  const [isChecked, setChecked] = useState(false);
 
-    const verifyCode = () => {
-        if (code.current.value == codeGenerated) {
-            setEmailProps({
-                email:email
-            })
-            setChecked(true)          
-        }
-        else {
-            return swal('El codigo no coincide.','El codigo ingresado no coincide con el codigo enviado.','error')
-        }
+  const code = useRef();
+
+  const verifyCode = () => {
+    if (code.current.value == codeGenerated) {
+      setEmailProps({
+        email: email,
+      });
+      setChecked(true);
+    } else {
+      return swal(
+        "El codigo no coincide.",
+        "El codigo ingresado no coincide con el codigo enviado.",
+        "error"
+      );
     }
-    return (
-        <>
-            <br />
-            <Container>
-                <Row>
-                    <Form>
-                        <Row className="mb-3">
-                            <Form.Group as={Col} controlId="formGridEmail">
-                                <Form.Label>Ingrese el código que recibio: </Form.Label>
-                                <Form.Control type="text" placeholder="Ingrese el código" ref={code} disabled={isChecked}/>
-                            </Form.Group>
-                        </Row>
-                        <Button onClick={verifyCode} className='BtnBrown' disabled={isChecked}>
-                            Confirmar
-                        </Button>
-                    </Form>
-                </Row>
+  };
+  return (
+    <>
+      <br />
+      <Container>
+        <Row>
+          <Form>
+            <Row className="mb-3">
+              <Form.Group as={Col} controlId="formGridEmail">
+                <Form.Label>Ingrese el código que recibio: </Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Ingrese el código"
+                  ref={code}
+                  disabled={isChecked}
+                />
+              </Form.Group>
+            </Row>
+            <Button
+              onClick={verifyCode}
+              className="BtnBrown"
+              disabled={isChecked}
+            >
+              Confirmar
+            </Button>
+          </Form>
+        </Row>
 
-                <Row>
-                    {
-                        isChecked?(
-                            <ChangePassword props={emailProps}/>
-                        ):("")
-                    }
-                </Row>
+        <Row>{isChecked ? <ChangePassword props={emailProps} /> : ""}</Row>
+      </Container>
+    </>
+  );
+};
 
-            </Container>
-        </>
-    )
-}
-
-export default checkCode
+export default checkCode;

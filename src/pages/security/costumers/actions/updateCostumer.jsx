@@ -17,7 +17,7 @@ const updateCostumer = (props) => {
 
     const [validated, setValidated] = useState(false);
 
-    const costumer = props.props || {}; // Provide an empty object as a default value if props.props is undefined.
+    const costumer = props.props || {};
 
     console.log(costumer)
 
@@ -37,12 +37,7 @@ const updateCostumer = (props) => {
                 title: "Creado!",
                 text: "Se creó el contacto",
                 icon: "success",
-            });
-            handleClose();
-
-            setTimeout(function () {
-                window.location.reload();
-            }, 2000);
+            }) .then(function(){window.location.reload()});
         },
         onError: () => {
             swal("Error", "Algo salio mal...", "error");
@@ -70,7 +65,7 @@ const updateCostumer = (props) => {
             };
             editCostumerMutation.mutateAsync(editCostumer).then(() => {
                 setValidated(true);
-                handleClose(); // Close the modal after editing.
+                handleClose();
             });
         }
     };
@@ -210,7 +205,7 @@ const updateCostumer = (props) => {
                             <Col lg={12}>
                                 <Form.Group controlId="validationCustom06">
                                     <Form.Label>Dirección</Form.Label>
-                                    <Form.Control type="text-area" placeholder="Indique la direccion" ref={address} defaultValue={costumer.address} />
+                                    <Form.Control type="text-area" placeholder="Indique la dirección" ref={address} defaultValue={costumer.address} />
                                     <Form.Control.Feedback type="invalid">
                                         Indique su dirección
                                     </Form.Control.Feedback>

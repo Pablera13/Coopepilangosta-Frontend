@@ -1,132 +1,134 @@
-import ReactDOM from 'react-dom/client'
-import './index.css'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { QueryClient, QueryClientProvider } from 'react-query'
-import { Layout } from './pages/_layout/Layout.jsx'
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { Layout } from "./pages/_layout/Layout.jsx";
 
-//Componentes de productos
-import ListProducts from './pages/Maintenance/Products/listProducts'
+import ListProducts from "./pages/Maintenance/Products/listProducts";
 
-//Componentes de categorias
-import ListCategories from './pages/Maintenance/category/listCategories'
+import ListCategories from "./pages/Maintenance/category/listCategories";
 
-//Componentes de bodegas
-import ListWarehouse from './pages/Maintenance/Warehouse/listWarehouse'
+import ListWarehouse from "./pages/Maintenance/Warehouse/listWarehouse";
 
-//Componentes de Productores
-import ListProducers from './pages/Maintenance/Producer/listProducers'
+import ListProducers from "./pages/Maintenance/Producer/listProducers";
 
-//Componentes de pedidos al productor
-import ListProducerOrder from './pages/Maintenance/ProducerOrder/listProducerOrder'
-import UpdateProducerOrder from './pages/Maintenance/ProducerOrder/actions/updateProducerOrder'
+import ListProducerOrder from "./pages/Maintenance/ProducerOrder/listProducerOrder";
+import UpdateProducerOrder from "./pages/Maintenance/ProducerOrder/actions/updateProducerOrder";
 
-//Componentes de pedidos del cliente
-import ListCustomerOrder from './pages/Maintenance/CustomerOrder/listCustomerOrder'
-import UpdateCustomerOrder from './pages/Maintenance/CustomerOrder/actions/updateCustomerOrder'
-import MyCostumerOrder from './pages/Maintenance/CustomerOrder/myCostumerOrder'
+import ListCustomerOrder from "./pages/Maintenance/CustomerOrder/listCustomerOrder";
+import UpdateCustomerOrder from "./pages/Maintenance/CustomerOrder/actions/updateCustomerOrder";
+import MyCostumerOrder from "./pages/Maintenance/CustomerOrder/myCostumerOrder";
 
-//Componente de ordenes
-import ListOrders from '../src/pages/Inventory/Orders/listOrders'
+import ListOrders from "../src/pages/Inventory/Orders/listOrders";
 
-//Componentes de entradas
-import ListEntries from './pages/Inventory/Entries/listEntries'
-import CheckEntry from './pages/Inventory/Entries/actions/checkEntry'
-import ListWarehouseEntries from './pages/Inventory/warehouseEntries/listWarehouseEntries.jsx'
-//Componentes del catalogo
-import Catalog from './pages/catalog/Catalog'
-import ProductDetail from './pages/catalog/ProductDetail'
+import ListEntries from "./pages/Inventory/Entries/listEntries";
+import CheckEntry from "./pages/Inventory/Entries/actions/checkEntry";
+import ListWarehouseEntries from "./pages/Inventory/warehouseEntries/listWarehouseEntries.jsx";
 
-//Componentes de previsiones
-import ListForesight from './pages/Inventory/Foresight/listForesight'
-import AddForesight from './pages/Inventory/Foresight/actions/addForesight'
+import Catalog from "./pages/catalog/Catalog";
+import ProductDetail from "./pages/catalog/ProductDetail";
 
-//Componentes de exisencias
-import ListInventories from './pages/Inventory/Inventories/listInventories'
-import AddInventories from './pages/Inventory/Inventories/actions/addInventories'
+import ListForesight from "./pages/Inventory/Foresight/listForesight";
+import AddForesight from "./pages/Inventory/Foresight/actions/addForesight";
 
-//Componentes de usuarios
-import ListCostumers from './pages/security/costumers/listCostumers'
-import ListEmployee from './pages/security/employee/listEmployee'
+import ListInventories from "./pages/Inventory/Inventories/listInventories";
+import AddInventories from "./pages/Inventory/Inventories/actions/addInventories";
 
-//Componentes de registro i login
-import Login from './pages/security/login'
-import CostumerRegister from './pages/security/costumers/costumerRegister'
-import { UserProfile } from './pages/security/user/userProfile'
-import UserOrder from './pages/security/user/userOrder'
-import ForgotPassword from './pages/security/user/forgotPassword/forgotPassword'
+import ListCostumers from "./pages/security/costumers/listCostumers";
+import ListEmployee from "./pages/security/employee/listEmployee";
 
-//Componentes de reportes
-import ProductReport from './pages/reports/productReport'
-import StockReport from './pages/reports/stockReport/stockReport.jsx'
+import Login from "./pages/security/login";
+import CostumerRegister from "./pages/security/costumers/costumerRegister";
+import { UserProfile } from "./pages/security/user/userProfile";
+import UserOrder from "./pages/security/user/userOrder";
+import ForgotPassword from "./pages/security/user/forgotPassword/forgotPassword";
 
-//Componentes del carro de compra
-import ShoppingCart from './pages/ShoppingCart/ShoppingCart'
+import ProductReport from "./pages/reports/productReport";
+import StockReport from "./pages/reports/stockReport/stockReport.jsx";
 
-//Componentes de cotizaciones
-import ListProductCostumer from './pages/Maintenance/ProductCostumer/listProductCostumer'
+import ShoppingCart from "./pages/ShoppingCart/ShoppingCart";
 
-const queryClient = new QueryClient()
-ReactDOM.createRoot(document.getElementById('root')).render(
+import ListProductCostumer from "./pages/Maintenance/ProductCostumer/listProductCostumer";
+
+const queryClient = new QueryClient();
+ReactDOM.createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={queryClient}>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Catalog />} />
+          <Route index element={<Catalog />} />
+          <Route path="/home" element={<Catalog />}></Route>
+          <Route path="/listProducts" element={<ListProducts />}></Route>
+          <Route path="/listCategories" element={<ListCategories />}></Route>
+          <Route path="/listWareHouse" element={<ListWarehouse />} />
 
-  <BrowserRouter>
-  <Routes>
-    <Route path="/" element={<Layout />}>
-    <Route index element={<Catalog/>}/>
-      <Route index element={<Catalog />}/>
-      <Route path='/home' element={<Catalog/>}></Route>
-      <Route path='/listProducts' element={<ListProducts/>}></Route>
-      <Route path='/listCategories' element={<ListCategories/>}></Route>
-      <Route path="/listWareHouse"element={<ListWarehouse/>}/>
+          <Route
+            path="/ProductDetail/:idcategory/:idproduct"
+            element={<ProductDetail />}
+          />
 
-      {/* <Route path="/ProductDetail/:idproduct"element={<ProductDetail/>}/> */}
-      <Route path="/ProductDetail/:idcategory/:idproduct"element={<ProductDetail/>}/>
+          <Route path="/ShoppingCart" element={<ShoppingCart />} />
 
-      <Route path="/ShoppingCart"element={<ShoppingCart/>}/>
+          <Route path="/listProducers" element={<ListProducers />} />
 
-      <Route path="/listProducers"element={<ListProducers/>}/>
+          <Route
+            path="/listProducerOrder/:filter"
+            element={<ListProducerOrder />}
+          />
 
-      {/* <Route path="/listProducerOrder"element={<ListProducerOrder/>}/> */}
-      <Route path="/listProducerOrder/:filter"element={<ListProducerOrder/>}/>
-      {/* <Route path="/listCustomerOrders"element={<ListCustomerOrders/>}/> */}
-      <Route path="/listCustomerOrder/:filter"element={<ListCustomerOrder/>}/>
-      
-      <Route path="/userOrder/:orderid"element={<UserOrder/>}/>
-      <Route path="/productReport/:productId"element={<ProductReport/>}/>
-      <Route path="/stockReport/"element={<StockReport/>}/>
+          <Route
+            path="/listCustomerOrder/:filter"
+            element={<ListCustomerOrder />}
+          />
 
-      <Route path="/listProductCostumer/:costumername/:costumerid"element={<ListProductCostumer/>}/>
+          <Route path="/userOrder/:orderid" element={<UserOrder />} />
+          <Route path="/productReport/:productId" element={<ProductReport />} />
+          <Route path="/stockReport/" element={<StockReport />} />
 
+          <Route
+            path="/listProductCostumer/:costumername/:costumerid"
+            element={<ListProductCostumer />}
+          />
 
+          <Route path="/myCustomerOrders" element={<MyCostumerOrder />} />
 
-      <Route path="/myCustomerOrders"element={<MyCostumerOrder/>}/>
+          <Route
+            path="/editProducerOrder/:producerorder"
+            element={<UpdateProducerOrder />}
+          />
+          <Route
+            path="/editCustomerOrder/:customerorder"
+            element={<UpdateCustomerOrder />}
+          />
 
-      <Route path='/editProducerOrder/:producerorder'element={<UpdateProducerOrder/>}/>
-      <Route path='/editCustomerOrder/:customerorder'element={<UpdateCustomerOrder/>}/>
+          <Route path="/listEntries" element={<ListEntries />} />
+          <Route
+            path="/listWarehouseEntries"
+            element={<ListWarehouseEntries />}
+          />
+          <Route path="/listInventories" element={<ListInventories />} />
+          <Route
+            path="/addInventories/:product"
+            element={<AddInventories />}
+          ></Route>
+          <Route
+            path="/checkProducerOrder/:producerorder"
+            element={<CheckEntry />}
+          />
+          <Route path="/listForesights" element={<ListForesight />} />
+          <Route path="/addForesight" element={<AddForesight />} />
+          <Route path="/listOrders" element={<ListOrders />} />
+          <Route path="/listEmployee" element={<ListEmployee />} />
+          <Route path="/listCostumers" element={<ListCostumers />} />
 
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/registerCostumer" element={<CostumerRegister />} />
+          <Route path="/userProfile" element={<UserProfile />} />
 
-      <Route path='/listEntries' element={<ListEntries/>}/>
-      <Route path='/listWarehouseEntries' element={<ListWarehouseEntries/>}/>
-      <Route path='/listInventories' element={<ListInventories/>}/>
-      <Route path='/addInventories/:product' element={<AddInventories/>}></Route>
-      <Route path='/checkProducerOrder/:producerorder' element={<CheckEntry/>}/>
-      <Route path='/listForesights' element={<ListForesight/>}/>
-      <Route path='/addForesight' element={<AddForesight/>}/>
-      <Route path='/listOrders' element={<ListOrders/>}/>
-      <Route path='/listEmployee' element={<ListEmployee/>}/>
-      <Route path='/listCostumers' element={<ListCostumers/>}/>
-
-
-      <Route path='/login' element={<Login/>}></Route>
-      <Route path='/registerCostumer' element={<CostumerRegister/>}/>
-      <Route path='/userProfile' element={<UserProfile/>}/>
-
-      <Route path='/forgotPassword' element={<ForgotPassword/>}/>
-
-    </Route>
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
+        </Route>
       </Routes>
-      </BrowserRouter>
-      
-
-</QueryClientProvider>
-)
+    </BrowserRouter>
+  </QueryClientProvider>
+);

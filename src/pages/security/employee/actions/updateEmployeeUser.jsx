@@ -7,7 +7,7 @@ import { checkEmailAvailability, editUser } from '../../../../services/userServi
 import { QueryClient } from 'react-query';
 import swal from 'sweetalert';
 import { FaUserLock } from "react-icons/fa";
-
+import './updateEmployeeUser.css'
 
 const updateEmployeeUser = (props) => {
     const queryClient = new QueryClient();
@@ -133,6 +133,7 @@ const updateEmployeeUser = (props) => {
                                         <Form.Control required defaultValue={user.userName} ref={userName} />
                                     </Col>
                                 </Row>
+                                <br />
                                 <Row>
                                     <Col>
                                         <Form.Label>Password</Form.Label>
@@ -158,7 +159,7 @@ const updateEmployeeUser = (props) => {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="BtnSave" variant="primary" size='sm' onClick={handleSubmit}>Guardar</Button>
+                    <Button className="BtnSave" variant="primary" size='sm' onClick={handleSubmit}>Actualizar empleado</Button>
                     <Button className="BtnClose" variant="secondary" size='sm' onClick={handleClose}>
                         Cerrar
                     </Button>

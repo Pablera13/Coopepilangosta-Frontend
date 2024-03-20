@@ -5,6 +5,10 @@ import { NavLink } from "react-router-dom";
 import "./login.css";
 import swal from "sweetalert";
 
+import "../../css/Pagination.css";
+import "../../css/StylesBtn.css";
+
+
 const login = () => {
   const [loginLoading, setLoginLoading] = useState(false);
 
