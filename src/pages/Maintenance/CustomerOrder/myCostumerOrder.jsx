@@ -17,7 +17,6 @@ import { IoMdSearch } from 'react-icons/io';
 
 const myCostumerOrder = () => {
     const userStorage = JSON.parse(localStorage.getItem('user'));
-    const [user, setUser] = useState(null);
     const navigate = useNavigate()
     const [customerorderData, setcustomerorderData] = useState([]);
 
@@ -31,13 +30,6 @@ const myCostumerOrder = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedStage, setSelectedStage] = useState('');
-
-
-    useEffect(() => {
-        if (customerorderData) {
-            getUserById(userStorage.id, setUser);
-        }
-    }, [customerorderData]);
 
     const filteredByDate = customerorderData ? customerorderData.filter((miPedido) => {
         if (selectedDate) {
