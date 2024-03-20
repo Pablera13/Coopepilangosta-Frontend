@@ -9,7 +9,7 @@
     margin-bottom: -175px;
 }
 
-.loginContainer {
+.cardContainer {
     border-radius: 5px;
     height: auto;
     position: absolute;
@@ -17,6 +17,15 @@
     background-color: #554932a9;
     max-width: 500px;
     height: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+
+} 
+
+.loginContainer {
+    height: auto;
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);

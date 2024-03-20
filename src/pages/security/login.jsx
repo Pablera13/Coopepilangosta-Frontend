@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Row, Col, Container, Form, Button, Spinner } from "react-bootstrap";
+import { Row, Col, Container, Form, Button, Spinner,Card } from "react-bootstrap";
 import { loginUser, getUserInformation } from "../../services/loginService";
 import { NavLink } from "react-router-dom";
 import "./login.css";
@@ -64,65 +64,69 @@ const login = () => {
 
   return (
     <>
-      <div class="imagen-de-fondo"></div>
+      <div className="imagen-de-fondo"></div>
       <Container className="loginContainer">
         <Row>
           <Col>
             <br />
-            <h3>Bienvenido</h3>
           </Col>
         </Row>
-        <Form>
-          <Row>
-            <Col xs={12} lg={12}>
-              <Form.Group cla2ssName="mb-3" controlId="formPlaintextEmail" style={{ marginTop: '4%' }}>
-                <Form.Label className="labelLogin">Correo</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Ingrese su correo"
-                  ref={email}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row>
-            <Col lg={12}>
-              <Form.Group className="mb-3" controlId="formPlaintextPassword" style={{ marginTop: '4%' }} >
-                <Form.Label className="labelLogin">Contraseña</Form.Label>
-                <Form.Control
-                required
-                  type="password"
-                  placeholder="Ingrese su Contraseña"
-                  ref={password}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row className="justify-content-md-center">
-            <Col xs={12} lg={12}>
-              <Button className="BtnStar" onClick={handleLogin} disabled={loginLoading}>
-                {loginLoading ? (
-                  <Spinner animation="border" variant="light" size="sm" />
-                ) : (
-                  ""
-                )}
-                Iniciar sesión
-              </Button>
-              </Col>
-              <Col xs={12} lg={12}>
-              <Button className="BtnStar" href={"/registerCostumer"}>
-                Registrarme
-              </Button>
-              </Col>
-          </Row>
-          <br />
-          <Row>
-            <NavLink className="btn-forgotpasswords" to={"/forgotPassword"}>
-              ¿Olvidó su contraseña?
-            </NavLink>
-          </Row>
-          <br />
-        </Form>
+        <Card >
+          <Card.Body className="cardContainer">
+            <Form>
+              <Row>
+                <Col xs={12} lg={12}>
+                <h3>Bienvenido</h3>
+                  <Form.Group className="mb-3" controlId="formPlaintextEmail" style={{ marginTop: '4%' }}>
+                    <Form.Label className="labelLogin">Correo</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Ingrese su correo"
+                      ref={email}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row>
+                <Col lg={12}>
+                  <Form.Group className="mb-3" controlId="formPlaintextPassword" style={{ marginTop: '4%' }} >
+                    <Form.Label className="labelLogin">Contraseña</Form.Label>
+                    <Form.Control
+                      required
+                      type="password"
+                      placeholder="Ingrese su Contraseña"
+                      ref={password}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row className="justify-content-md-center">
+                <Col xs={12} lg={12}>
+                  <Button className="BtnStar" onClick={handleLogin} disabled={loginLoading}>
+                    {loginLoading ? (
+                      <Spinner animation="border" variant="light" size="sm" />
+                    ) : (
+                      ""
+                    )}
+                    Iniciar sesión
+                  </Button>
+                </Col>
+                <Col xs={12} lg={12}>
+                  <Button className="BtnStar" href={"/registerCostumer"}>
+                    Registrarme
+                  </Button>
+                </Col>
+              </Row>
+              <br />
+              <Row>
+                <NavLink className="btn-forgotpasswords" to={"/forgotPassword"}>
+                  ¿Olvidó su contraseña?
+                </NavLink>
+              </Row>
+              <br />
+            </Form>
+          </Card.Body>
+        </Card>
       </Container>
       <br />
     </>
