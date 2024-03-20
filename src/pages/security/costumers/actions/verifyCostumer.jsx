@@ -5,6 +5,8 @@ import { editCostumer } from '../../../../services/costumerService';
 import { useRef } from 'react';
 import Select from 'react-select';
 import { RiPassValidLine } from "react-icons/ri";
+
+
 const verifyCostumer = (props) => {
     const queryClient = new QueryClient();
     const [show, setShow] = useState(false);
@@ -30,12 +32,7 @@ const verifyCostumer = (props) => {
               title: "Editado!",
               text: "Se editó el cliente",
               icon: "success",
-            });
-            handleClose();
-      
-            setTimeout(function () {
-              window.location.reload();
-            }, 2000);
+            }).then(function(){window.location.reload()});
           },
           onError: () => {
             swal("Error", "Algo salio mal...", "error");

@@ -17,12 +17,9 @@ export const menuItemsNotLogin = [
 
 export const menuItemsCostumer = (CartValue) => {
     {
-
-        // console.log(CartValue)
-
         let iCON
         if (CartValue == "lleno") {iCON = <PiShoppingCartLight style={{fontSize:"150%"}}/>} 
-        else if (CartValue == "vacio") { iCON = <PiShoppingCartFill style={{fontSize:"150%"}} />}
+        else if (CartValue == "vacío") { iCON = <PiShoppingCartFill style={{fontSize:"150%"}} />}
 
 
         let array = [
@@ -92,10 +89,6 @@ export const menuItemsEmployee = [
                 title: 'Existencias',
                 url: '/listInventories',
             },
-            // {
-            //     title: 'Entradas',
-            //     url: '/listWarehouseEntries', 
-            // }
         ],
     },
     {

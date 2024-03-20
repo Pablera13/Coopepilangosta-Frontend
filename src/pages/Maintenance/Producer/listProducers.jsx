@@ -67,10 +67,6 @@ const listProducers = () => {
     setCurrentPage(data.selected);
   };
 
-  // const deleteProducer = (id) => {
-  //   console.log("Id del productor: ", id);
-  //   deleteProducer(id);
-  // };
 
   const showAlert = (id) => {
     swal({

@@ -35,16 +35,12 @@
   margin-right: 10px; 
 }
 
-
-/*Styles for the button that shows the submenus once is clicked and showed his submenus*/
 .nav-item.show.dropdown{    
   
   font-family: "Montserrat", Sans-serif;
   font-weight: 700;
   text-transform: uppercase;
 }
-
-/*Estilos de los elementos internos del dropdown, los submenus*/
 .dropdown-menu.show{
   font-size: 15px;
   font-family: "Montserrat", Sans-serif; 
@@ -78,9 +74,6 @@ header {
   color: inherit;
   margin-right: 20px;
 }
-
-/* content */
-
 
 .logoImg{
 width: 220px;

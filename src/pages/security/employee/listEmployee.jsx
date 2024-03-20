@@ -28,9 +28,13 @@ const listEmployee = () => {
 
   if (employeesloading) {
     return (
-      <>
-        <span>Cargando...</span>
-      </>
+      <div className="Loading">
+        <ul>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
     );
   }
   if (employeesError) {
@@ -62,13 +66,6 @@ const listEmployee = () => {
       console.log(error);
     }
   };
-  // const deleteUserEmployee = (idUser) => {
-  //   try {
-  //     deleteUser(idUser)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
 
   const showDeleteAlert = (idEmployee, idUser) => {
     console.log("Id employee: " + idEmployee + ", Id user: " + idUser);
@@ -115,23 +112,6 @@ const listEmployee = () => {
             <AddEmployee />
           </Col>
         </Row>
-
-        {/* <Form>
-          <Row className="mb-3 filters-container">
-            <Col xs={6} md={6}>
-              <AddProducerModal />
-            </Col>
-            <Col xs={0} md={0}></Col>
-            <Col xs={12} md={3}>
-              <Form.Control
-                type="text"
-                placeholder="Buscar coincidencias"
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="filter-input"
-              />
-            </Col>
-          </Row>
-        </Form> */}
         <br />
         <Col xs={12} md={2} lg={12}>
           {employees ? (

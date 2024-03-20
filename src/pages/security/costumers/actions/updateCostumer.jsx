@@ -17,7 +17,7 @@ const updateCostumer = (props) => {
 
     const [validated, setValidated] = useState(false);
 
-    const costumer = props.props || {}; // Provide an empty object as a default value if props.props is undefined.
+    const costumer = props.props || {};
 
     const [selectedProvincia, setSelectedProvincia] = useState();
     const [selectedCanton, setSelectedCanton] = useState()
@@ -26,8 +26,6 @@ const updateCostumer = (props) => {
     const address = useRef();
     const postalCode = useRef();
     const bankAccount = useRef();
-    const phoneNumber = useRef();
-    const email = useRef();
 
     const editCostumerMutation = useMutation('Costumer', editCostumer, {
         onSettled: () => queryClient.invalidateQueries('Costumer'),
@@ -37,12 +35,7 @@ const updateCostumer = (props) => {
                 title: "Editado!",
                 text: "Se editó el perfil",
                 icon: "success",
-            });
-            handleClose();
-
-            setTimeout(function () {
-                window.location.reload();
-            }, 2000);
+            }) .then(function(){window.location.reload()});
         },
         onError: () => {
             swal("Error", "Algo salio mal...", "error");
@@ -79,7 +72,7 @@ const updateCostumer = (props) => {
 
             editCostumerMutation.mutateAsync(editCostumer).then(() => {
                 setValidated(true);
-                handleClose(); 
+                handleClose();
             });
         }
     };
@@ -147,7 +140,6 @@ const updateCostumer = (props) => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form validated={validated} onSubmit={handleSubmit}>
-                   
                         <Row>
                             <Col lg={6}>
                                 <Form.Group controlId="validationCustom01">
@@ -176,37 +168,7 @@ const updateCostumer = (props) => {
                             </Col>
                         </Row>
 
-                        <Row>
-                            <Col lg={6}>
-                                <Form.Group controlId="validationCustom01">
-                                    <Form.Label>Teléfono</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="number"
-                                        placeholder="Ingrese el teléfono"
-                                        defaultValue={costumer.phoneNumber}
-                                        ref={phoneNumber}
-                                    />
-                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                                </Form.Group>
-                            </Col>
-                            <Col lg={6}>
-                                <Form.Group controlId="validationCustom02">
-                                    <Form.Label>Correo Electrónico</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        placeholder="Ingrese el correo"
-                                        ref={email}
-                                        defaultValue={costumer.email}
-                                    />
-                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-
                         <Row className="mb-3">
-                            
                             <Col lg={4}>
                             <Form.Group controlId="validationCustom03">
                                 <Form.Label>Provincia</Form.Label>
@@ -248,7 +210,7 @@ const updateCostumer = (props) => {
                             <Col lg={12}>
                                 <Form.Group controlId="validationCustom06">
                                     <Form.Label>Dirección</Form.Label>
-                                    <Form.Control type="text-area" placeholder="Indique la direccion" ref={address} defaultValue={costumer.address} />
+                                    <Form.Control type="text-area" placeholder="Indique la dirección" ref={address} defaultValue={costumer.address} />
                                     <Form.Control.Feedback type="invalid">
                                         Indique su dirección
                                     </Form.Control.Feedback>
