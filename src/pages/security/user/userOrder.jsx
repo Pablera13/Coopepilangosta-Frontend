@@ -60,21 +60,21 @@ const userOrder = () => {
                             <h6>Código de Pedido: #{orderid}</h6>
                             <br />
                             <Row className="mb-3">
-                                <Col xs={2} md={2} lg={2}>
+                                <Col xs={4} md={4} lg={4}>
                                     <label className="datesStrong">Fecha de pedido</label>
                                     <br />
                                     {customerorderRequest.confirmedDate === '0001-01-01T00:00:00'
                                         ? 'Sin pagar'
                                         : format(new Date(customerorderRequest.confirmedDate), 'yyyy-MM-dd')}
                                 </Col>
-                                <Col xs={2} md={2} lg={2}>
+                                <Col xs={4} md={4} lg={4}>
                                     <label className="datesStrong">Fecha de pago</label>
                                     <br />
                                     {customerorderRequest.paidDate === '0001-01-01T00:00:00'
                                         ? 'Sin pagar'
                                         : format(new Date(customerorderRequest.paidDate), 'yyyy-MM-dd')}
                                 </Col>
-                                <Col xs={2} md={2} lg={2}>
+                                <Col xs={4} md={4} lg={4}>
                                     <label className="datesStrong">Fecha de entrega</label>
                                     <br />
                                     {customerorderRequest.deliveredDate === '0001-01-01T00:00:00'
@@ -117,20 +117,21 @@ const userOrder = () => {
                             </Table>
                             <div className="card-body row">
                                 <Row>
-                                    <Col xs={8} md={8} lg={8}></Col>
-                                    <Col xs={2} md={2} lg={2}>
+                                    <Col xs={6} md={6} lg={6}></Col>
+                                    <Col xs={3} md={3} lg={3}>
                                         <strong className="datesStrong">Subtotal</strong>
                                     </Col>
-                                    <Col xs={2} md={2} lg={2}>
+                                    <Col xs={3} md={3} lg={3}>
                                         {subTotal == 0 ? 'Por cotizar' : '₡' + subTotal.toFixed(2)}
                                     </Col>
                                 </Row>
+
                                 <Row>
-                                    <Col xs={8} md={8} lg={8}></Col>
-                                    <Col xs={2} md={2} lg={2}>
+                                <Col xs={6} md={6} lg={6}></Col>
+                                    <Col xs={3} md={3} lg={3}>
                                         <strong className="datesStrong">Total</strong>
                                     </Col>
-                                    <Col xs={2} md={2} lg={2}>
+                                    <Col xs={3} md={3} lg={3}>
                                         {customerorderRequest.total == 0 ? 'Por cotizar' : '₡' + customerorderRequest.total}
                                     </Col>
                                 </Row>

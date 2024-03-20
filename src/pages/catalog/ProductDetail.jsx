@@ -355,7 +355,7 @@ const ProductDetail = () => {
                                   <>
                                     <br />
                                     <div className="form-group text-center" >
-                                    <div className="oval-button text-center" style={{marginLeft:'22%'}}>
+                                    <div className="oval-button text-center">
                                       <Row>
                                         <Col xs={4} className="d-flex">
                                           <input
@@ -387,7 +387,7 @@ const ProductDetail = () => {
                                   <br />
 
                                   <Row>
-                                  <div className="oval-button text-center" style={{marginLeft:'22%'}}>
+                                  <div className="oval-button text-center">
                                       <Row>
                                         <Col xs={4} className="d-flex">
                                           <input
@@ -435,6 +435,7 @@ const ProductDetail = () => {
           {productParams != null ? (
 
             <Listreview productid={productParams.idproduct} />
+            
 
           ) : (
             'No hay reviews'

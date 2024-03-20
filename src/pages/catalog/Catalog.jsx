@@ -4,55 +4,56 @@ import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { useQuery } from "react-query";
 import { getProducts } from "../../services/productService";
 import "./Catalog.css";
+import "../../css/Pagination.css";
+
 import { getCategories } from "../../services/categoryService";
 import Select from "react-select";
-import { NavLink } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 
 const catalog = () => {
   const { data, isLoading, isError } = useQuery("product", getProducts);
-  const { data: Categories, isLoading: CategoriesLoading, isError: CategoriesError } = useQuery("category", getCategories);
+  const { data: categories, isLoading: categoriesLoading, isError: categoriesError } = useQuery("category", getCategories);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [productsPerPage, setProductsPerPage] = useState(6);
+  const [currentPage, setCurrentPage] = useState(0); 
   const searchValue = useRef();
-
-  const optionsSelect = useMemo(() => {
-    let options = [];
-    if (Categories) {
-      options = Categories.map(category => ({
-        value: category.id,
-        label: category.name
-      }));
-      options.unshift({ value: 0, label: "Todos los productos" });
-    }
-    return options;
-  }, [Categories]);
 
   const handleSearch = useCallback(() => {
     setSearch(searchValue.current.value);
+    setCurrentPage(0); 
+  }, []);
+
+  const handleProductsPerPageChange = useCallback((event) => {
+    setProductsPerPage(parseInt(event.target.value));
+    setCurrentPage(0); 
   }, []);
 
   const resetFilter = useCallback(() => {
     setSelectedCategory(null);
+    setCurrentPage(0); 
   }, []);
 
-  const products = useMemo(() => {
-    let filteredProducts = [];
-    if (data && Array.isArray(data)) {
-      filteredProducts = [...data];
-      if (selectedCategory && selectedCategory.value !== 0) {
-        filteredProducts = filteredProducts.filter(product => product.categoryId === selectedCategory.value);
-      }
-      if (search) {
-        filteredProducts = filteredProducts.filter(product =>
-          product.name.toLowerCase().includes(search.toLowerCase())
-        );
-      }
+  const filteredProducts = useMemo(() => {
+    let filteredProducts = data || [];
+    if (selectedCategory && selectedCategory.value !== 0) {
+      filteredProducts = filteredProducts.filter(product => product.categoryId === selectedCategory.value);
+    }
+    if (search) {
+      filteredProducts = filteredProducts.filter(product =>
+        product.name.toLowerCase().includes(search.toLowerCase())
+      );
     }
     return filteredProducts;
   }, [data, search, selectedCategory]);
-  
 
-  if (isLoading)
+  const pageCount = Math.ceil(filteredProducts.length / productsPerPage);
+
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  if (isLoading || categoriesLoading)
     return (
       <div className="Loading">
         <ul>
@@ -63,21 +64,25 @@ const catalog = () => {
       </div>
     );
 
-  if (isError) return <div>Error</div>;
+  if (isError || categoriesError) return <div>Error</div>;
+
+  const indexOfLastProduct = (currentPage + 1) * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
   return (
     <>
       <Container>
         <Row className="searchContainer gap-2">
-          <Col xs={12} sm={12} md={3} lg={3}>
-            <Select
+        <Col xs={3} sm={3} md={3} lg={3}>
+            <Select 
               placeholder="Filtrar por categoría"
-              options={optionsSelect}
+              options={categories.map(category => ({ value: category.id, label: category.name }))}
               onChange={setSelectedCategory}
               value={selectedCategory}
             ></Select>
           </Col>
-          <Col xs={12} sm={12} md={4} lg={2}>
+          <Col xs={3} sm={3} md={3} lg={3}>
             <input
               type="text"
               placeholder="Búsqueda..."
@@ -87,10 +92,22 @@ const catalog = () => {
               style={{ height: "100%" }}
             />
           </Col>
+
+         
+          <Col xs={5} sm={5} md={5} lg={5}>
+          <div style={{marginLeft:"60%"}}>
+          <label style={{marginRight:"2%"}}>Productos por página</label>
+              <select className="products-per-page" value={productsPerPage} onChange={handleProductsPerPageChange}>
+                <option value={10}>10</option>
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+              </select>
+              </div>
+          </Col>
         </Row>
         <Row xs={4} md={4} lg={8} xl={12}>
-          {products.length > 0 ? (
-            products.map(product => (
+          {currentProducts.length > 0 ? (
+            currentProducts.map(product => (
               <Col xs={11} md={6} lg={3} key={product.id}>
                 <Card className="Customcard">
                   <Card.Img variant="top" src={product.image} className="custom-card-img" />
@@ -114,6 +131,23 @@ const catalog = () => {
           ) : (
             <div>Sin productos</div>
           )}
+                  <br></br>
+s
+        </Row>
+        <Row>
+          <Col>
+            <div className="pagination-controls">
+              <ReactPaginate
+                previousLabel={"<"}
+                nextLabel={">"}
+                breakLabel={"..."}
+                pageCount={pageCount}
+                onPageChange={handlePageChange}
+                containerClassName={"pagination"}
+                activeClassName={"active"}
+              />
+            </div>
+          </Col>
         </Row>
       </Container>
     </>
