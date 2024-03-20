@@ -31,8 +31,11 @@ const ListInventories = () => {
 
   const filteredBySearch = productsData.filter(product => {
     const matchesSearchTerm = (
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.unit.toLowerCase().includes(searchTerm.toLowerCase())
+      product.code.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.name.normalize("NFD")
+      .replace(/[\u0300-\u036f\s]/g, "")
+      .trim().toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.unit.toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase())
     );
     const matchesState = filterState === null || product.state === filterState;
     return matchesSearchTerm && matchesState;

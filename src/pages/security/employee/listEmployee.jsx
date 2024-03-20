@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Row, Container, Table, Button } from "react-bootstrap";
+import { Col, Row, Container, Table, Button, Form } from "react-bootstrap";
 import Select from "react-select";
 import { useQuery } from "react-query";
 import { getEmployees } from "../../../services/employeeService";
@@ -23,6 +23,7 @@ const listEmployee = () => {
   } = useQuery("employee", getEmployees);
 
   const [currentPage, setCurrentPage] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const navigate = useNavigate();
 
@@ -90,12 +91,22 @@ const listEmployee = () => {
     });
   };
 
+  const filteredBySearch = employees.filter((employee) => {
+    const matchesSearchTerm =
+    employee.cedula.toString().toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
+    employee.name.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "").toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
+    employee.lastName1.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "").toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
+    employee.lastName2.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "").toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
+    employee.department.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "").toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase());
+    return matchesSearchTerm;
+  });
+
   const recordsPerPage = 10;
 
   const offset = currentPage * recordsPerPage;
-  const paginatedEmployess = employees.slice(offset, offset + recordsPerPage);
+  const paginatedEmployess = filteredBySearch.slice(offset, offset + recordsPerPage);
 
-  const pageCount = Math.ceil(employees.length / recordsPerPage);
+  const pageCount = Math.ceil(filteredBySearch.length / recordsPerPage);
 
   const handlePageClick = (data) => {
     setCurrentPage(data.selected);
@@ -111,6 +122,15 @@ const listEmployee = () => {
           <Col>
             <AddEmployee />
           </Col>
+
+          <Col xs={4} md={3}>
+              <Form.Control
+                type="text"
+                placeholder="Buscar coincidencias"
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="filter-input"
+              />
+            </Col>
         </Row>
         <br />
         <Col xs={12} md={2} lg={12}>
@@ -130,7 +150,7 @@ const listEmployee = () => {
                 </thead>
                 <tbody>
                   {employees != null
-                    ? paginatedEmployess.map((employee) => (
+                    ? filteredBySearch.map((employee) => (
                         <tr key={employee.id}>
                           <td>{employee.cedula}</td>
                           <td>{employee.name}</td>

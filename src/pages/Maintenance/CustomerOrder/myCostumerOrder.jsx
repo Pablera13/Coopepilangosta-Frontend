@@ -29,27 +29,7 @@ const myCostumerOrder = () => {
 
     const [currentPage, setCurrentPage] = useState(0);
     const [selectedDate, setSelectedDate] = useState('');
-
-    const [searchTerm, setSearchTerm] = useState("");
-
-
-    // const filteredBySearch = Producers.filter(
-    //     (producer) =>
-    //       producer.name
-    //         .toString()
-    //         .toLowerCase()
-    //         .includes(searchTerm.toLowerCase()) ||
-    //       producer.cedula
-    //         .toString()
-    //         .toLowerCase()
-    //         .includes(searchTerm.toLowerCase()) ||
-    //       producer.phoneNumber
-    //         .toString()
-    //         .toLowerCase()
-    //         .includes(searchTerm.toLowerCase())
-    //   );
-      
-    
+    const [selectedStage, setSelectedStage] = useState('');
 
     const filteredByDate = customerorderData ? customerorderData.filter((miPedido) => {
         if (selectedDate) {
@@ -57,22 +37,23 @@ const myCostumerOrder = () => {
             const selected = new Date(selectedDate);
             return pedidoDate.toDateString() === selected.toDateString();
         }
-        return true;
+        const matchesState = miPedido.stage === 'Sin confirmar' || miPedido.stage === 'En preparación' || miPedido.stage === 'Confirmado';
+        return true && matchesState;
     }) : [];
+    
 
-    const recordsPerPage = 10;
-    const offset = currentPage * recordsPerPage;
-    const paginatedOrders = filteredByDate.slice(offset, offset + recordsPerPage);
+      const recordsPerPage = 10;
+      const offset = currentPage * recordsPerPage;
+      const paginatedOrders = filteredByDate.slice(offset, offset + recordsPerPage);
 
-    const pageCount = Math.ceil(filteredByDate.length / recordsPerPage);
+  const pageCount = Math.ceil(filteredByDate.length / recordsPerPage);
 
-    const handlePageClick = (data) => {
-        setCurrentPage(data.selected);
-    };
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
 
 
     return (
-
         <Container>
             <div className="table-container">
                 <h2 className="table-title">Mis Pedidos</h2>
@@ -95,14 +76,7 @@ const myCostumerOrder = () => {
             onChange={(e) => setSelectedDate(e.target.value)}
         />
     </Col>
-    <Col xs={3} md={3}>
-        <Form.Control
-            type="text"
-            placeholder="Buscar coincidencias"
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="filter-input"
-        />
-    </Col>
+
 </Row>
 
                 </Form>
