@@ -25,12 +25,12 @@ const printCustomerOrder = (props) => {
     const [customerRequest, setCustomer] = useState(null)
     const [productRequest, setProductRequest] = useState(null)
 
-    const generatePDF = async (id) => {
+    async function generatePDF(id) {
 
         try {
 
-            let customerorder = await getCostumerOrderById(id, setCustomerorder)
-            let customer = await getCostumerById(customerorder.costumerId, setCustomer)
+            let customerorder = await getCostumerOrderById(id, setCustomerorder);
+            let customer = await getCostumerById(customerorder.costumerId, setCustomer);
 
             async function fetchProductData() {
                 const sales = [];
@@ -38,10 +38,10 @@ const printCustomerOrder = (props) => {
                 for (const sale of MySales) {
 
                     const product = await getProductById(sale.productId, setProductRequest);
-                    const IVA = sale.unitPrice * (product.iva / 100)
-                    const FinalPrice = sale.unitPrice + IVA
-                    let subtotal = 0
-                    subtotal += sale.unitPrice * sale.quantity
+                    const IVA = sale.unitPrice * (product.iva / 100);
+                    const FinalPrice = sale.unitPrice + IVA;
+                    let subtotal = 0;
+                    subtotal += sale.unitPrice * sale.quantity;
 
                     const Order = {
                         ProductCode: product.code,
@@ -54,12 +54,12 @@ const printCustomerOrder = (props) => {
                         Unit: sale.unit,
                         Total: sale.purchaseTotal,
                     };
-                    sales.push(Order)
+                    sales.push(Order);
                 }
                 return sales;
             }
 
-            const MyOrders = await fetchProductData()
+            const MyOrders = await fetchProductData();
 
             const doc = new jsPDF();
 
@@ -75,7 +75,6 @@ const printCustomerOrder = (props) => {
 
             // datos de la organización 
             //doc.text("Coopepilangosta R.L.", 10, 20);
-
             // Texto factura
             doc.setFontSize(14);
             doc.text(`#${customerorder.id}`, 180, 20);
@@ -109,15 +108,16 @@ const printCustomerOrder = (props) => {
             doc.text(`${customer.address}, ${customer.district}, ${customer.canton}`, 10, 102);
             doc.text(`Cédula Juridica: ${customer.cedulaJuridica}`, 10, 109);
             doc.text(`Email: ${customer.email}`, 10, 116);
-            doc.text(`Cuenta Bancaria: ${customer.bankAccount}`, 10, 123);
+            doc.text(`Teléfono: ${customer.phoneNumber}`, 10, 123);
             doc.text(`Código Postal: ${customer.postalCode}`, 10, 130);
+            doc.text(`Cuenta IBAN: ${customer.bankAccount}`, 10, 137);
 
             // Datos factura
             doc.text("Fecha de factura:", 100, 116);
             doc.text(format(new Date(customerorder.confirmedDate), 'yyyy-MM-dd'), 150, 116);
             doc.text("Fecha de pago:", 100, 123);
             doc.text(
-                customerorder.paidDate === "0001-01-01T00:00:00" ? "Sin pagar" : `${customerorder.paidDate}`,
+                customerorder.paidDate === "0001-01-01T00:00:00" ? "Sin pagar" : format(new Date(customerorder.paidDate), 'yyyy-MM-dd'),
                 150, 123
             );
 
@@ -126,7 +126,7 @@ const printCustomerOrder = (props) => {
             doc.line(10, 145, 200, 145);
 
             // Tabla de la factura
-            let subtotal = 0
+            let subtotal = 0;
             const tableData = MyOrders.map((order, index) => [
                 order.ProductCode,
                 order.ProductName,
@@ -177,12 +177,14 @@ const printCustomerOrder = (props) => {
             doc.text(customerorder.detail, 20, doc.autoTable.previous.finalY + 25);
             doc.text(customerorder.address, 20, doc.autoTable.previous.finalY + 32); // Ajusta la posición Y y el margen
 
+
             //ultima linea
             doc.setLineWidth(0.2);
             doc.line(10, doc.autoTable.previous.finalY + 12, 200, doc.autoTable.previous.finalY + 12); // Línea horizontal
 
-            //Impresion
 
+
+            //Impresion
             const currentDate = new Date();
             const formattedDate = format(currentDate, 'yyyy-MM-dd');
             const fileName = `Factura_${customerorder.id}_${customer.name}_${formattedDate}.pdf`;
@@ -196,7 +198,7 @@ const printCustomerOrder = (props) => {
             console.error("Error al obtener datos:", error);
         }
 
-    };
+    }
     return (
         <Button className='BtnPrint'
             onClick={() => generatePDF(props.props)}

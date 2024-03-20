@@ -18,8 +18,6 @@ const listCostumers = () => {
     isLoading: costumersloading,
     IsError: costumersError,
   } = useQuery("costumer", getCostumers);
-  //if(costumers){console.log(costumers)}
-
   const [searchTerm, setSearchTerm] = useState("");
   const [filterState, setFilterState] = useState(null);
 
@@ -27,7 +25,16 @@ const listCostumers = () => {
 
   const [currentPage, setCurrentPage] = useState(0);
 
-  if (costumersloading) return <div>Loading...</div>;
+  if (costumersloading)
+    return (
+      <div className="Loading">
+        <ul>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
+    );
 
   if (costumersError) return <div>Error</div>;
 
@@ -38,17 +45,20 @@ const listCostumers = () => {
         .toLowerCase()
         .includes(searchTerm.toLowerCase()) ||
       costumer.name
-        .toString()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f\s]/g, "")
         .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
+        .includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
       costumer.province
-        .toString()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f\s]/g, "")
         .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
+        .includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
       costumer.district
-        .toString()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f\s]/g, "")
         .toLowerCase()
-        .includes(searchTerm.toLowerCase());
+        .includes(searchTerm.replace(/\s/g, "").toLowerCase());
     const matchesVerify =
       filterState === null || costumer.verified === filterState;
     return matchesSearchTerm && matchesVerify;
@@ -151,7 +161,7 @@ const listCostumers = () => {
                                       )
                                     }
                                   >
-                                 <BsBox2 />
+                                    <BsBox2 />
                                   </Button>
                                 ) : (
                                   ""
@@ -163,18 +173,20 @@ const listCostumers = () => {
                       : ""}
                   </tbody>
                 </Table>
+                <div className="Pagination-Container">
                 <ReactPaginate
-                  previousLabel={"<"}
-                  nextLabel={">"}
-                  breakLabel={"..."}
+                  previousLabel="<"
+                  nextLabel=">"
+                  breakLabel="..."
                   pageCount={pageCount}
                   marginPagesDisplayed={2}
                   pageRangeDisplayed={5}
                   onPageChange={handlePageClick}
-                  containerClassName={"pagination"}
-                  subContainerClassName={"pages pagination"}
-                  activeClassName={"active"}
+                  containerClassName="pagination"
+                  subContainerClassName="pages pagination"
+                  activeClassName="active"
                 />
+              </div>
               </Row>
             ) : (
               "Cargando"

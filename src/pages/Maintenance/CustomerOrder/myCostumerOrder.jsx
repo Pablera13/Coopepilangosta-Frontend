@@ -5,8 +5,11 @@ import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { format } from 'date-fns';
 import { Form } from 'react-bootstrap';
+
 import { getCostumerOrder } from '../../../services/costumerorderService';
+
 import { getUserById } from '../../../services/userService';
+import {getCostumerOrderByCostumer} from '../../../services/costumerorderService'
 import PrintCustomerOrder from '../../Maintenance/CustomerOrder/actions/printCustomerOrder.jsx';
 import ReactPaginate from 'react-paginate';
 import "../../../css/StylesBtn.css";
@@ -14,36 +17,19 @@ import { IoMdSearch } from 'react-icons/io';
 
 const myCostumerOrder = () => {
     const userStorage = JSON.parse(localStorage.getItem('user'));
-    const [user, setUser] = useState(null);
-    const { data: customerorderData, isLoading, isError } = useQuery('customerorder', getCostumerOrder);
     const navigate = useNavigate()
+    const [customerorderData, setcustomerorderData] = useState([]);
+
+    useEffect(() => {
+        async function settingOrders() {
+            getCostumerOrderByCostumer(userStorage.costumer.id, setcustomerorderData)
+        }
+        settingOrders();
+    }, [userStorage]);
 
     const [currentPage, setCurrentPage] = useState(0);
     const [selectedDate, setSelectedDate] = useState('');
-
-    const [searchTerm, setSearchTerm] = useState("");
-
-    // const filteredBySearch = Producers.filter(
-    //     (producer) =>
-    //       producer.name
-    //         .toString()
-    //         .toLowerCase()
-    //         .includes(searchTerm.toLowerCase()) ||
-    //       producer.cedula
-    //         .toString()
-    //         .toLowerCase()
-    //         .includes(searchTerm.toLowerCase()) ||
-    //       producer.phoneNumber
-    //         .toString()
-    //         .toLowerCase()
-    //         .includes(searchTerm.toLowerCase())
-    //   );
-      
-    useEffect(() => {
-        if (customerorderData) {
-            getUserById(userStorage.id, setUser);
-        }
-    }, [customerorderData]);
+    const [selectedStage, setSelectedStage] = useState('');
 
     const filteredByDate = customerorderData ? customerorderData.filter((miPedido) => {
         if (selectedDate) {
@@ -51,22 +37,23 @@ const myCostumerOrder = () => {
             const selected = new Date(selectedDate);
             return pedidoDate.toDateString() === selected.toDateString();
         }
-        return true;
+        const matchesState = miPedido.stage === 'Sin confirmar' || miPedido.stage === 'En preparación' || miPedido.stage === 'Confirmado';
+        return true && matchesState;
     }) : [];
+    
 
-    const recordsPerPage = 10;
-    const offset = currentPage * recordsPerPage;
-    const paginatedOrders = filteredByDate.slice(offset, offset + recordsPerPage);
+      const recordsPerPage = 10;
+      const offset = currentPage * recordsPerPage;
+      const paginatedOrders = filteredByDate.slice(offset, offset + recordsPerPage);
 
-    const pageCount = Math.ceil(filteredByDate.length / recordsPerPage);
+  const pageCount = Math.ceil(filteredByDate.length / recordsPerPage);
 
-    const handlePageClick = (data) => {
-        setCurrentPage(data.selected);
-    };
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
 
 
     return (
-
         <Container>
             <div className="table-container">
                 <h2 className="table-title">Mis Pedidos</h2>
@@ -89,14 +76,7 @@ const myCostumerOrder = () => {
             onChange={(e) => setSelectedDate(e.target.value)}
         />
     </Col>
-    <Col xs={3} md={3}>
-        <Form.Control
-            type="text"
-            placeholder="Buscar coincidencias"
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="filter-input"
-        />
-    </Col>
+
 </Row>
 
                 </Form>
@@ -104,7 +84,7 @@ const myCostumerOrder = () => {
                 <br></br>
 
                 <Col xs={12} md={12} lg={12}>
-                    {user != null && customerorderData != null ? (
+                    {customerorderData != null ? (
                         <>
                             <Row>
                                 {customerorderData ? (
@@ -122,7 +102,6 @@ const myCostumerOrder = () => {
                                         </thead>
                                         <tbody>
                                             {paginatedOrders
-                                                .filter((order) => order.costumerId === userStorage.costumer.id)
                                                 .map((order) => (
                                                     <tr key={order.id}>
                                                         <td>{order.id}</td>

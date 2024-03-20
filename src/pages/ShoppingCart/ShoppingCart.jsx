@@ -1,46 +1,53 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import { QueryClient, useMutation, useQuery } from "react-query";
-import swal from 'sweetalert';
-import { format } from 'date-fns';
-import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
-import { createCostumerOrder } from '../../services/costumerorderService';
-import { checkProductStock } from '../../services/productService';
-import { reduceStock } from '../../services/productService';
-import { createStockReport } from '../../services/reportServices/stockreportService';
-import { locations } from '../../utils/provinces';
-import { createSale } from '../../services/saleService';
-import { Form, Row, Col, Button, Container, InputGroup, Collapse, Table, Card } from 'react-bootstrap'
-import Select from 'react-select'
+import swal from "sweetalert";
+import { format } from "date-fns";
+import { NavLink, Navigate, useNavigate, useParams } from "react-router-dom";
+import { createCostumerOrder } from "../../services/costumerorderService";
+import { checkProductStock } from "../../services/productService";
+import { reduceStock } from "../../services/productService";
+import { createStockReport } from "../../services/reportServices/stockreportService";
+import { locations } from "../../utils/provinces";
+import { createSale } from "../../services/saleService";
+import {
+  Form,
+  Row,
+  Col,
+  Button,
+  Container,
+  InputGroup,
+  Collapse,
+  Table,
+  Card,
+} from "react-bootstrap";
+import Select from "react-select";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { MdDelete } from "react-icons/md";
 
-import './ShoppingCart.css'
+import "./ShoppingCart.css";
 
 const ShoppingCart = () => {
-
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem("user"));
   const [LocalShopping, setLocalShopping] = useState([]);
   const queryClient = new QueryClient();
 
   let storedCar;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [TotalOrder, setTotalOrder] = useState();
   const [SubTotal, setSubTotal] = useState();
-  const Detail = useRef()
+  const Detail = useRef();
 
-  const Province = useRef()
-  const Canton = useRef()
-  const District = useRef()
-  const Address = useRef()
-
+  const Province = useRef();
+  const Canton = useRef();
+  const District = useRef();
+  const Address = useRef();
 
   useEffect(() => {
-    storedCar = localStorage.getItem('ShoppingCar');
+    storedCar = localStorage.getItem("ShoppingCar");
     if (storedCar) {
       const parsestoredCar = JSON.parse(storedCar);
       setLocalShopping(parsestoredCar);
-      //console.log("Carrito recuperado: " + storedCar);
 
       async function xd() {
         let newTotal = 0;
@@ -51,7 +58,6 @@ const ShoppingCart = () => {
         });
         setTotalOrder(newTotal);
         setSubTotal(newSubTotal);
-
       }
 
       xd();
@@ -61,51 +67,56 @@ const ShoppingCart = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('ShoppingCar', JSON.stringify(LocalShopping));
-    //console.log(JSON.parse(localStorage.getItem('ShoppingCar')))
+    localStorage.setItem("ShoppingCar", JSON.stringify(LocalShopping));
   }, [LocalShopping]);
 
+  const mutationCostumerOrder = useMutation(
+    "costumerorder ",
+    createCostumerOrder,
+    {
+      onSettled: () => queryClient.invalidateQueries("costumerorder"),
+      mutationKey: "producerorder",
+      onSuccess: () => {
+        swal({
+          title: "Agregado!",
+          text: `El pedido ha sido agregado`,
+          icon: "success",
+        });
 
-  const mutationCostumerOrder = useMutation("costumerorder ", createCostumerOrder, {
-    onSettled: () => queryClient.invalidateQueries("costumerorder"),
-    mutationKey: "producerorder",
-    onSuccess: () => {
-      swal({
-        title: 'Agregado!',
-        text: `El pedido ha sido agregado`,
-        icon: "success"
-      });
-
-      setTimeout(() => {
-        // history.back();
-        setLocalShopping([])
-        localStorage.setItem('ShoppingCar', null);
-        navigate(`/myCustomerOrders`)
-      }, 2000);
-    },
-  })
+        setTimeout(() => {
+          setLocalShopping([]);
+          localStorage.setItem("ShoppingCar", null);
+          navigate(`/myCustomerOrders`);
+        }, 2000);
+      },
+    }
+  );
 
   const mutationSale = useMutation("sale ", createSale, {
     onSettled: () => queryClient.invalidateQueries("sales"),
-    mutationKey: "sale"
-  })
+    mutationKey: "sale",
+  });
 
-  const mutationStock = useMutation('stock', createStockReport, {
-    onSettled: () => queryClient.invalidateQueries('stock'),
-    mutationKey: 'stock',
+  const mutationStock = useMutation("stock", createStockReport, {
+    onSettled: () => queryClient.invalidateQueries("stock"),
+    mutationKey: "stock",
   });
 
   const DeleteProduct = (ProductId) => {
-    const updatedCart = LocalShopping.filter(sale => sale.ProductId !== ProductId);
+    const updatedCart = LocalShopping.filter(
+      (sale) => sale.ProductId !== ProductId
+    );
     setLocalShopping(updatedCart);
   };
   const DeleteCotizacion = (CotizacionId) => {
-    const updatedCart = LocalShopping.filter(sale => sale.CotizacionId !== CotizacionId);
+    const updatedCart = LocalShopping.filter(
+      (sale) => sale.CotizacionId !== CotizacionId
+    );
     setLocalShopping(updatedCart);
   };
 
   const checkStockAvailability = async () => {
-    let FailedProducts = []
+    let FailedProducts = [];
     let QuantityValidation = true;
 
     const promises = LocalShopping.map(async (sale) => {
@@ -114,10 +125,9 @@ const ShoppingCart = () => {
 
         if (sale.Quantity > QuantityAvailable) {
           QuantityValidation = false;
-          FailedProducts.push(sale.ProductName)
+          FailedProducts.push(sale.ProductName);
         }
       }
-
     });
 
     await Promise.all(promises);
@@ -126,36 +136,34 @@ const ShoppingCart = () => {
     if (QuantityValidation === true) {
       saveProducerOrder();
     } else {
-      
-      let message = ""
+      let message = "";
       FailedProducts.map(async (sale) => {
-        message = message + sale + ', '
-      })
+        message = message + sale + ", ";
+      });
 
-        swal({
-          title: 'Lo sentimos',
-          text: `Las cantidades seleccionadas de ` + message +` exceden nuestro inventario actual`,
-          icon: "warning",
-          timer: 4000
-        });
-        
-      }
-  }
-
+      swal({
+        title: "Lo sentimos",
+        text:
+          `Las cantidades seleccionadas de ` +
+          message +
+          ` exceden nuestro inventario actual`,
+        icon: "warning",
+        timer: 4000,
+      });
+    }
+  };
 
   const saveProducerOrder = async () => {
-
     const currentDate = new Date();
-    const formattedDate = format(currentDate, 'yyyy-MM-dd');
+    const formattedDate = format(currentDate, "yyyy-MM-dd");
 
     let OrdersSummed = 0;
     let CostumerId;
 
     LocalShopping.map((sale) => {
-
-      OrdersSummed = OrdersSummed + sale.TotalVenta
-      CostumerId = sale.CostumerId
-    })
+      OrdersSummed = OrdersSummed + sale.TotalVenta;
+      CostumerId = sale.CostumerId;
+    });
 
     let newCostumerOrder = {
       CostumerId: CostumerId,
@@ -168,7 +176,9 @@ const ShoppingCart = () => {
       Address: `${Address.current.value}, ${selectedDistrito}, ${selectedCanton}, ${selectedProvincia}`,
     };
 
-    const costumerOrder = await mutationCostumerOrder.mutateAsync(newCostumerOrder).finally(data => data)
+    const costumerOrder = await mutationCostumerOrder
+      .mutateAsync(newCostumerOrder)
+      .finally((data) => data);
 
     LocalShopping.map(async (sale) => {
       let newSale = {
@@ -182,7 +192,6 @@ const ShoppingCart = () => {
       mutationSale.mutateAsync(newSale);
 
       if (sale.Stockable == true) {
-
         let QuantityAvailable = await checkProductStock(sale.ProductId);
 
         const stockReportData = {
@@ -194,93 +203,97 @@ const ShoppingCart = () => {
           motive: "Venta",
           Email: user.email,
         };
-        mutationStock.mutateAsync(stockReportData)
-        reduceStock(sale.ProductId, sale.Quantity)
+        mutationStock.mutateAsync(stockReportData);
+        reduceStock(sale.ProductId, sale.Quantity);
       }
-    })
-  }
+    });
+  };
 
-  const [selectedProvincia, setSelectedProvincia] = useState(user.costumer.province);
-  const [selectedCanton, setSelectedCanton] = useState(user.costumer.canton)
-  const [selectedDistrito, setSelectedDistrito] = useState(user.costumer.district);
+  const [selectedProvincia, setSelectedProvincia] = useState(
+    user.costumer.province
+  );
+  const [selectedCanton, setSelectedCanton] = useState(user.costumer.canton);
+  const [selectedDistrito, setSelectedDistrito] = useState(
+    user.costumer.district
+  );
 
   const provinciasArray = Object.keys(locations.provincias).map((index) => {
-
     const indexNumber = parseInt(index, 10);
 
     return {
       value: indexNumber,
-      label: locations.provincias[index].nombre
+      label: locations.provincias[index].nombre,
     };
   });
 
-
   const [cantonesOptions, setCantonesOptions] = useState();
-  let cantones = []
+  let cantones = [];
   const handleProvinciasSelectChange = (provinceIndex) => {
-
-    let cantones = locations.provincias[provinceIndex].cantones
+    let cantones = locations.provincias[provinceIndex].cantones;
 
     const cantonesOptions = Object.keys(cantones).map((index) => {
       const indexNumber = parseInt(index, 10);
 
       return {
         value: indexNumber,
-        label: cantones[index].nombre
+        label: cantones[index].nombre,
       };
     });
 
-    setCantonesOptions(cantonesOptions)
-  }
+    setCantonesOptions(cantonesOptions);
+  };
 
   const [distritosOptions, setDistritosOptions] = useState();
-  let distritos = []
-
+  let distritos = [];
 
   const handlecantonesSelectChange = (cantonIndex) => {
-    console.log(cantonIndex)
-    let distritos = locations.provincias[selectedProvincia.value].cantones[cantonIndex].distritos
-    console.log(selectedProvincia.value)
+    console.log(cantonIndex);
+    let distritos =
+      locations.provincias[selectedProvincia.value].cantones[cantonIndex]
+        .distritos;
+    console.log(selectedProvincia.value);
     const distritosOpt = Object.keys(distritos).map((index) => {
       const indexNumber = parseInt(index, 10);
 
       return {
         value: indexNumber,
-        label: distritos[index].toString()
+        label: distritos[index].toString(),
       };
     });
-    console.log(distritosOpt)
-    setDistritosOptions(distritosOpt)
-  }
+    console.log(distritosOpt);
+    setDistritosOptions(distritosOpt);
+  };
 
   return (
     <>
-      {LocalShopping.length >= 1 && localStorage.getItem('ShoppingCar') != null ? (
+      {LocalShopping.length >= 1 &&
+      localStorage.getItem("ShoppingCar") != null ? (
         <>
           <Container>
             <Row className="mb-3">
-
               <div className="card">
-
                 <div className="warning">
                   Los precios indicados en este catálogo son referenciales y
-                  pueden estar sujetos a variaciones en el precio final.
-                  Por favor consulte con nuestro equipo para conocer precios especiales y descuentos disponibles
+                  pueden estar sujetos a variaciones en el precio final. Por
+                  favor consulte con nuestro equipo para conocer precios
+                  especiales y descuentos disponibles
                 </div>
 
                 <br></br>
-                <div >
-
+                <div>
                   <Col xs={12} md={12} lg={12}>
                     <Row>
-                      <Table responsive className="table table-borderless table-shopping-cart">
+                      <Table
+                        responsive
+                        className="table table-borderless table-shopping-cart"
+                      >
                         <br></br>
 
                         <thead>
                           <tr>
                             <th>Imagen</th>
                             <th>Descripción</th>
-                            <th style={{ width: '10%' }}>Cantidad</th>
+                            <th style={{ width: "10%" }}>Cantidad</th>
                             <th>Unidad</th>
                             <th>Precio</th>
                             <th>Subtotal</th>
@@ -293,68 +306,81 @@ const ShoppingCart = () => {
                         <tbody>
                           {LocalShopping.map((Sale, index) => (
                             <tr key={Sale.ProductId}>
-
                               <td>
-                                <img src={Sale.ProductImage} className="img-sm" alt={Sale.ProductName} />
+                                <img
+                                  src={Sale.ProductImage}
+                                  className="img-sm"
+                                  alt={Sale.ProductName}
+                                />
                               </td>
                               <td>{Sale.ProductName}</td>
 
                               <td>
                                 <input
                                   className="form-control"
-                                  style={{ textAlign: 'center' }}
+                                  style={{ textAlign: "center" }}
                                   defaultValue={Sale.Quantity}
-                                  max={Sale.Stockable == true ? Sale.Stock : false}
+                                  max={
+                                    Sale.Stockable == true ? Sale.Stock : false
+                                  }
                                   type="number"
                                   min="1"
                                   onChange={(e) => {
-
                                     const updatedShopping = [...LocalShopping];
-                                    updatedShopping[index].Quantity = parseInt(e.target.value);
+                                    updatedShopping[index].Quantity = parseInt(
+                                      e.target.value
+                                    );
 
                                     if (Sale.CotizacionId != 0) {
-
                                       var volumesArray = [];
                                       volumesArray = Sale.Volumes;
 
                                       const initialVolume = {
                                         id: 0,
-                                        price: updatedShopping[index].PrecioInicial,
+                                        price:
+                                          updatedShopping[index].PrecioInicial,
                                         volume: 1,
                                         productCostumerId: 1,
-                                        productCostumer: null
-                                      }
+                                        productCostumer: null,
+                                      };
 
-                                      volumesArray.push(initialVolume)
+                                      volumesArray.push(initialVolume);
 
                                       function compararPorVolume(a, b) {
                                         return a.volume - b.volume;
                                       }
                                       volumesArray.sort(compararPorVolume);
 
-                                      // console.log("volumes ordered" + JSON.stringify(volumes))
-
                                       for (let object of volumesArray) {
-
                                         if (e.target.value >= object.volume) {
-                                          updatedShopping[index].PrecioConMargen = object.price
+                                          updatedShopping[
+                                            index
+                                          ].PrecioConMargen = object.price;
                                         }
 
-                                        updatedShopping[index].TotalVenta = updatedShopping[index].PrecioFinal * parseInt(e.target.value);
-                                        updatedShopping[index].SubTotal = updatedShopping[index].PrecioConMargen * parseInt(e.target.value);
+                                        updatedShopping[index].TotalVenta =
+                                          updatedShopping[index].PrecioFinal *
+                                          parseInt(e.target.value);
+                                        updatedShopping[index].SubTotal =
+                                          updatedShopping[index]
+                                            .PrecioConMargen *
+                                          parseInt(e.target.value);
 
                                         let newTotal = 0;
-                                        updatedShopping.map((sale) => (
-                                          newTotal = newTotal + sale.TotalVenta
-                                        ))
+                                        updatedShopping.map(
+                                          (sale) =>
+                                            (newTotal =
+                                              newTotal + sale.TotalVenta)
+                                        );
                                         setTotalOrder(newTotal);
 
                                         let newSubTotal = 0;
-                                        updatedShopping.map((sale) => (
-                                          newSubTotal = newSubTotal + sale.SubTotal
-                                        ))
+                                        updatedShopping.map(
+                                          (sale) =>
+                                            (newSubTotal =
+                                              newSubTotal + sale.SubTotal)
+                                        );
                                         setSubTotal(newSubTotal.toFixed(0));
-
                                       }
 
                                       setLocalShopping(updatedShopping);
@@ -364,25 +390,38 @@ const ShoppingCart = () => {
                               </td>
                               <td>{Sale.ProductUnit}</td>
 
-                              <td>{Sale.PrecioConMargen == 0 ? 'Por cotizar' : '₡' + Sale.PrecioConMargen}</td>
-
-                              <td>{Sale.SubTotal == 0 ? 'Por cotizar' : '₡' + Sale.SubTotal}</td>
-                              <td>{Sale.iva}%</td>
-                              <td>{Sale.TotalVenta == 0 ? 'Por cotizar' : '₡' + Sale.TotalVenta}</td>
-
-
-
                               <td>
-                                <button variant='danger' className="btn btn-light" size='sm'
-                                  onClick={() => {
-                                    Sale.CotizacionId != 0 ?
-                                      DeleteCotizacion(Sale.CotizacionId)
-                                      :
-                                      DeleteProduct(Sale.ProductId)
-                                  }}
-                                ><MdDelete /></button>
+                                {Sale.PrecioConMargen == 0
+                                  ? "Por cotizar"
+                                  : "₡" + Sale.PrecioConMargen}
                               </td>
 
+                              <td>
+                                {Sale.SubTotal == 0
+                                  ? "Por cotizar"
+                                  : "₡" + Sale.SubTotal}
+                              </td>
+                              <td>{Sale.iva}%</td>
+                              <td>
+                                {Sale.TotalVenta == 0
+                                  ? "Por cotizar"
+                                  : "₡" + Sale.TotalVenta}
+                              </td>
+
+                              <td>
+                                <button
+                                  variant="danger"
+                                  className="btn btn-light"
+                                  size="sm"
+                                  onClick={() => {
+                                    Sale.CotizacionId != 0
+                                      ? DeleteCotizacion(Sale.CotizacionId)
+                                      : DeleteProduct(Sale.ProductId);
+                                  }}
+                                >
+                                  <MdDelete />
+                                </button>
+                              </td>
                             </tr>
                           ))}
 
@@ -393,8 +432,12 @@ const ShoppingCart = () => {
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><b>SubTotal</b></td>
-                            <td>{SubTotal == 0 ? 'Por cotizar' : '₡' + SubTotal}</td>
+                            <td>
+                              <b>SubTotal</b>
+                            </td>
+                            <td>
+                              {SubTotal == 0 ? "Por cotizar" : "₡" + SubTotal}
+                            </td>
                           </tr>
 
                           <tr>
@@ -404,8 +447,14 @@ const ShoppingCart = () => {
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><b>Total</b></td>
-                            <td>{TotalOrder == 0 ? 'Por cotizar' : '₡' + TotalOrder}</td>
+                            <td>
+                              <b>Total</b>
+                            </td>
+                            <td>
+                              {TotalOrder == 0
+                                ? "Por cotizar"
+                                : "₡" + TotalOrder}
+                            </td>
                           </tr>
 
                           <tr>
@@ -418,21 +467,17 @@ const ShoppingCart = () => {
                             <td></td>
                             <td></td>
                           </tr>
-
                         </tbody>
                       </Table>
                     </Row>
                   </Col>
-
                 </div>
               </div>
-
             </Row>
           </Container>
 
-          <Container id='AdeContai'>
+          <Container id="AdeContai">
             <Row className="mb-3">
-
               <div className="card-body">
                 <div className="row">
                   <div className="col-md-6">
@@ -440,12 +485,16 @@ const ShoppingCart = () => {
                       <Card.Body>
                         <h5 className="card-title">Dirección de Envío</h5>
                         <div className="row">
-
                           <div className="col-lg-4">
                             <Form.Group controlId="validationCustom03">
                               <Form.Label>Provincia</Form.Label>
-                              <Select placeholder={user.costumer.province} options={provinciasArray}
-                                onChange={(selected) => { handleProvinciasSelectChange(selected.value); setSelectedProvincia(selected); }}
+                              <Select
+                                placeholder={user.costumer.province}
+                                options={provinciasArray}
+                                onChange={(selected) => {
+                                  handleProvinciasSelectChange(selected.value);
+                                  setSelectedProvincia(selected);
+                                }}
                                 on
                               ></Select>
                               <Form.Control.Feedback type="invalid">
@@ -457,8 +506,13 @@ const ShoppingCart = () => {
                           <div className="col-md-4">
                             <Form.Group md="4" controlId="validationCustom04">
                               <Form.Label>Canton</Form.Label>
-                              <Select placeholder={user.costumer.canton} options={cantonesOptions}
-                                onChange={(selected) => { setSelectedCanton(selected); handlecantonesSelectChange(selected.value); }}
+                              <Select
+                                placeholder={user.costumer.canton}
+                                options={cantonesOptions}
+                                onChange={(selected) => {
+                                  setSelectedCanton(selected);
+                                  handlecantonesSelectChange(selected.value);
+                                }}
                               ></Select>
                               <Form.Control.Feedback type="invalid">
                                 Por favor indique el canton
@@ -469,8 +523,12 @@ const ShoppingCart = () => {
                           <div className="col-md-4">
                             <Form.Group md="4" controlId="validationCustom05">
                               <Form.Label>Distrito</Form.Label>
-                              <Select placeholder={user.costumer.district} options={distritosOptions}
-                                onChange={(selected) => setSelectedDistrito(selected)}
+                              <Select
+                                placeholder={user.costumer.district}
+                                options={distritosOptions}
+                                onChange={(selected) =>
+                                  setSelectedDistrito(selected)
+                                }
                               ></Select>
                               <Form.Control.Feedback type="invalid">
                                 Indique su distrito!.
@@ -479,35 +537,43 @@ const ShoppingCart = () => {
                           </div>
 
                           <div className="row">
-
                             <div className="col-md-12">
                               <Form.Group md="4" controlId="validationCustom05">
                                 <Form.Label>Dirección de Envío</Form.Label>
-                                <Form.Control type="text" defaultValue={user.costumer.address} ref={Address} />
+                                <Form.Control
+                                  type="text"
+                                  defaultValue={user.costumer.address}
+                                  ref={Address}
+                                />
                                 <Form.Control.Feedback type="invalid">
                                   Indique su dirección!.
                                 </Form.Control.Feedback>
                               </Form.Group>
-                              <br/>
-
+                              <br />
                             </div>
                           </div>
                         </div>
 
                         <div className="row">
+                          <div className="col-md-4">
+                            <Button
+                              className="BtnBrown"
+                              onClick={checkStockAvailability}
+                            >
+                              Realizar Pedido
+                            </Button>
+                          </div>
 
-                            <div className="col-md-4">
-                              <Button className="BtnBrown" onClick={checkStockAvailability}>Realizar Pedido</Button>
-                            </div>
-
-                            <div className="col-md-8">
-                            <Button className='BtnRed'
-                                onClick={() => navigate(`/home`)}>
-                                Seguir Comprando
-                              </Button>                              </div>
-                            </div>
+                          <div className="col-md-8">
+                            <Button
+                              className="BtnRed"
+                              onClick={() => navigate(`/home`)}
+                            >
+                              Seguir Comprando
+                            </Button>{" "}
+                          </div>
+                        </div>
                       </Card.Body>
-
                     </Card>
                   </div>
 
@@ -516,32 +582,35 @@ const ShoppingCart = () => {
                       <Card.Body>
                         <h5 className="card-title">Detalle de Envío</h5>
                         <div className="row">
-
                           <Form.Group>
                             <Form.Label></Form.Label>
-                            <Form.Control as="textarea" placeholder='Ingrese el detalle del envío' rows={5} ref={Detail} />
+                            <Form.Control
+                              as="textarea"
+                              placeholder="Ingrese el detalle del envío"
+                              rows={5}
+                              ref={Detail}
+                            />
                           </Form.Group>
                         </div>
                       </Card.Body>
-
-
                     </Card>
                   </div>
-
                 </div>
               </div>
-
-
-
             </Row>
           </Container>
         </>
       ) : (
         <div className="empty-cart-message">
           <p>No has realizado compras aún</p>
-          <Button className='BtnStar' style={{ alignContent: "center" }}
-            onClick={() => navigate(`/home`)}>
-            Ir a comprar                                   </Button>        </div>
+          <Button
+            className="BtnStar"
+            style={{ alignContent: "center" }}
+            onClick={() => navigate(`/home`)}
+          >
+            Ir a comprar{" "}
+          </Button>{" "}
+        </div>
       )}
     </>
   );

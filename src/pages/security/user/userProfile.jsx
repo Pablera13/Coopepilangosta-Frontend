@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Row, Col, Button, Card, ListGroup, CardGroup } from 'react-bootstrap'
-import swal from 'sweetalert'
+import { Container} from 'react-bootstrap'
 import CostumerProfile from './costumerProfile'
 import EmployeeProfile from './employeeProfile'
 import { validateLogStatus } from '../../../utils/validatePageAccess'
 
 
 export const UserProfile = () => {
-    const [isCostumer, setIsCostumer] = useState(false);
-    const [isEmployee, setIesEmployee] = useState(false);
+  const [isCostumer, setIsCostumer] = useState(false);
+  const [isEmployee, setIesEmployee] = useState(false);
 
-    const user = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem("user"));
 
     useEffect(() => {
             validateLogStatus()
@@ -25,21 +24,17 @@ export const UserProfile = () => {
         
     }, [])
 
-    return (
-        <>
-            <Container>
-                {
-                    isCostumer ? (
-
-                        <CostumerProfile />
-
-                    ) : (
-                        isEmployee ? (
-                            <EmployeeProfile />
-                        ) : ("")
-                    )
-                }
-            </Container>
-        </>
-    )
-}
+  return (
+    <>
+      <Container>
+        {isCostumer ? (
+          <CostumerProfile />
+        ) : isEmployee ? (
+          <EmployeeProfile />
+        ) : (
+          ""
+        )}
+      </Container>
+    </>
+  );
+};

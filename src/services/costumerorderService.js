@@ -6,6 +6,13 @@ export const getCostumerOrder = async () => {
     return data;
 };
 
+
+export const getCostumerOrderByCostumer = async(costumerid, state) => { 
+    let data = await api.get(`CostumerOrder/ByCostumer?id=${costumerid}`).then(result => result.data);
+    state(data)
+    return data;
+}
+
 export const getCostumerOrderById = async (id,state) => { 
     let data = await api.get(`costumerorder/${id}`).then(result => result.data);
     state(data)
@@ -22,7 +29,8 @@ export const getCostumerOrderById2 = async (id) => {
 export const createCostumerOrder = async (costumerorder) => { 
     // console.log(costumerorder)
     let data = await api.post('costumerorder', costumerorder).then(result => result.data);
-    // console.log(data)
+    // console.log(data)https://localhost:7275/api/CostumerOrder/ByCostumer?id=6
+
     return data;
 };
 

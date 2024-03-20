@@ -7,6 +7,10 @@ import swal from "sweetalert";
 import { validateLogForLogin } from "../../utils/validatePageAccess";
 
 
+import "../../css/Pagination.css";
+import "../../css/StylesBtn.css";
+
+
 const login = () => {
   const [loginLoading, setLoginLoading] = useState(false);
 

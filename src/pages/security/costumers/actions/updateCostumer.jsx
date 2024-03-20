@@ -17,33 +17,25 @@ const updateCostumer = (props) => {
 
     const [validated, setValidated] = useState(false);
 
-    const costumer = props.props || {}; // Provide an empty object as a default value if props.props is undefined.
+    const costumer = props.props || {};
 
-
+    const [selectedProvincia, setSelectedProvincia] = useState();
+    const [selectedCanton, setSelectedCanton] = useState()
+    const [selectedDistrito, setSelectedDistrito] = useState();
     const name = useRef();
-    const province = useRef();
-    const canton = useRef();
-    const district = useRef();
     const address = useRef();
     const postalCode = useRef();
     const bankAccount = useRef();
-    const phoneNumber = useRef();
-    const email = useRef();
 
     const editCostumerMutation = useMutation('Costumer', editCostumer, {
         onSettled: () => queryClient.invalidateQueries('Costumer'),
         mutationKey: 'Costumer',
         onSuccess: () => {
             swal({
-                title: "Actualizado!!",
-                text: "Se actualizó la información.",
+                title: "Editado!",
+                text: "Se editó el perfil",
                 icon: "success",
-            });
-            handleClose();
-
-            setTimeout(function () {
-                window.location.reload();
-            }, 2000);
+            }) .then(function(){window.location.reload()});
         },
         onError: () => {
             
@@ -57,7 +49,7 @@ const updateCostumer = (props) => {
             event.preventDefault();
             event.stopPropagation();
         } else {
-            event.preventDefault();
+            
 
             const editCostumer = {
                 id: costumer.id,
@@ -70,20 +62,23 @@ const updateCostumer = (props) => {
                 postalCode: postalCode.current.value,
                 bankAccount: bankAccount.current.value,
                 verified: costumer.verified,
-                email: email.current.value,
                 phoneNumber: phoneNumber.current.value,
+                email: email.current.value,
                 userId: costumer.userId,
             };
+
+            console.log(editCostumer)
+
+
+
             editCostumerMutation.mutateAsync(editCostumer).then(() => {
                 setValidated(true);
-                handleClose(); 
+                handleClose();
             });
         }
     };
 
-    const [selectedProvincia, setSelectedProvincia] = useState();
-    const [selectedCanton, setSelectedCanton] = useState()
-    const [selectedDistrito, setSelectedDistrito] = useState();
+    
 
     const provinciasArray = Object.keys(locations.provincias).map((index) => {
 
@@ -144,6 +139,7 @@ const updateCostumer = (props) => {
                     <Modal.Title>Editar</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    <Form validated={validated} onSubmit={handleSubmit}>
                         <Row>
                             <Col lg={6}>
                                 <Form.Group controlId="validationCustom01">
@@ -172,41 +168,11 @@ const updateCostumer = (props) => {
                             </Col>
                         </Row>
 
-                        <Row>
-                            <Col lg={6}>
-                                <Form.Group controlId="validationCustom01">
-                                    <Form.Label>Teléfono</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="number"
-                                        placeholder="Ingrese el teléfono"
-                                        defaultValue={costumer.phoneNumber}
-                                        ref={phoneNumber}
-                                    />
-                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                                </Form.Group>
-                            </Col>
-                            <Col lg={6}>
-                                <Form.Group controlId="validationCustom02">
-                                    <Form.Label>Correo Electrónico</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        placeholder="Ingrese el correo"
-                                        ref={email}
-                                        defaultValue={costumer.email}
-                                    />
-                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-
                         <Row className="mb-3">
-                            
                             <Col lg={4}>
                             <Form.Group controlId="validationCustom03">
                                 <Form.Label>Provincia</Form.Label>
-                                <Select placeholder={costumer.province} options={provinciasArray}
+                                <Select placeholder={costumer.province} defaultValue={costumer.province} options={provinciasArray}
                                     onChange={(selected) => { handleProvinciasSelectChange(selected.value); setSelectedProvincia(selected); }}
                                     on
                                 ></Select>
@@ -219,7 +185,7 @@ const updateCostumer = (props) => {
                             <Col lg={4}>
                             <Form.Group md="4" controlId="validationCustom04">
                                 <Form.Label>Canton</Form.Label>
-                                <Select placeholder={costumer.canton} options={cantonesOptions}
+                                <Select placeholder={costumer.canton} defaultValue={costumer.canton} options={cantonesOptions}
                                     onChange={(selected) => { setSelectedCanton(selected); handlecantonesSelectChange(selected.value); }}
                                 ></Select>
                                 <Form.Control.Feedback type="invalid">
@@ -231,7 +197,7 @@ const updateCostumer = (props) => {
                             <Col lg={4}>
                             <Form.Group md="4" controlId="validationCustom05">
                                 <Form.Label>Distrito</Form.Label>
-                                <Select placeholder={costumer.district} options={distritosOptions}
+                                <Select placeholder={costumer.district}  defaultValue={costumer.district} options={distritosOptions}
                                     onChange={(selected) => setSelectedDistrito(selected)}
                                 ></Select>
                                 <Form.Control.Feedback type="invalid">
@@ -244,7 +210,7 @@ const updateCostumer = (props) => {
                             <Col lg={12}>
                                 <Form.Group controlId="validationCustom06">
                                     <Form.Label>Dirección</Form.Label>
-                                    <Form.Control type="text-area" placeholder="Indique la direccion" ref={address} defaultValue={costumer.address} />
+                                    <Form.Control type="text-area" placeholder="Indique la dirección" ref={address} defaultValue={costumer.address} />
                                     <Form.Control.Feedback type="invalid">
                                         Indique su dirección
                                     </Form.Control.Feedback>
@@ -277,7 +243,7 @@ const updateCostumer = (props) => {
                     
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="BtnSave" type="submit">Guardar</Button>
+                    <Button className="BtnSave" type="submit" onClick={handleSubmit}>Guardar</Button>
 
                     <Button className="BtnClose" variant="secondary" onClick={handleClose}>
                         Cerrar

@@ -27,9 +27,9 @@ const stockReport = () => {
 
   const filteredBySearch = stocksData.filter(
     (stock) =>
-      stock.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      stock.motive.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      stock.email.toLowerCase().includes(searchTerm.toLowerCase())
+      stock.productName.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "").toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
+      stock.motive.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "").toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
+      stock.email.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "").toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase())
   );
 
   const filteredByDate = filteredBySearch.filter((stock) => {
