@@ -151,6 +151,18 @@ const costumerProfile = () => {
                       </div>
                     </Col>
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
+                      <div className='CostumerLabel'>
+                        <h5 htmlFor='fullName'>Correo Electrónico</h5>
+                        <input type='text' className='form-control' id='fullName' placeholder={user.costumer.email} readOnly />
+                      </div>
+                    </Col>
+                    <Col xl={6} lg={6} md={6} sm={6} xs={12}>
+                      <div className='CostumerLabel'>
+                        <h5 htmlFor='eMail'>Línea Telefónica</h5>
+                        <input type='text' className='form-control' id='eMail' placeholder={user.costumer.phoneNumber} readOnly />
+                      </div>
+                    </Col>
+                    <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                       <div className="CostumerLabel">
                         <h5 htmlFor="phone">Provincia</h5>
                         <input

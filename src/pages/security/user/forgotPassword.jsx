@@ -52,36 +52,32 @@ const forgotPassword = () => {
     }
   };
 
-  return (
-    <>
-      <Button variant="outline-secondary" onClick={handleShow} size="sm">
-        ¿Olvido su contraseña?
-      </Button>
+    return (
+        <>
+            <Button variant="outline-secondary" onClick={handleShow} size='sm' >
+                ¿Olvido su contraseña?
+            </Button>
 
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Recuperar contraseña</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form validated={validated} onSubmit={handleSubmit}>
-            <Row>
-              <Form.Group
-                className="mb-3"
-                controlId="validationCustom01"
-                as={Row}
-              >
-                <InputGroup hasValidation>
-                  <Form.Label as={Row}>Correo electrónico: </Form.Label>
-                  <Form.Control
-                    required
-                    type="text"
-                    placeholder="Ingrese su correo"
-                    autoFocus
-                    ref={email}
-                  />
-                </InputGroup>
-              </Form.Group>
-            </Row>
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Recuperar contraseña</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form validated={validated} onSubmit={handleSubmit}>
+                        <Row>
+                            <Form.Group className="mb-3" controlId="validationCustom01" as={Row}>
+                                <InputGroup hasValidation>
+                                    <Form.Label as={Row}>Correo electrónico: </Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="text"
+                                        placeholder="Ingrese su correo"
+                                        autoFocus
+                                        ref={email}
+                                    />
+                                </InputGroup>
+                            </Form.Group>
+                        </Row>
 
             <Button variant="primary" size="sm" type="submit">
               Enviar correo para restablecer

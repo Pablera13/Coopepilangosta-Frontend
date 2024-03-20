@@ -16,25 +16,6 @@ import { IoMdPrint } from "react-icons/io";
 
 const printProducerOrder = (props) => {
 
-    const params = useParams();
-
-    const buttonStyle = {
-        borderRadius: '5px',
-        backgroundColor: '#e0e0e0',
-        color: '#333',
-        border: '1px solid #e0e0e0',
-        padding: '8px 12px',
-        cursor: 'pointer',
-        transition: 'background-color 0.3s',
-        minWidth: '100px',
-        fontWeight: 'bold',
-        hover: {
-            backgroundColor: '#c0c0c0',
-        },
-    };
-
-    const { data: producerorderData, isLoading, isError } = useQuery('producerorder', getProducerOrder);
-    let dataFiltered = []
 
     const { data: purchases } = useQuery('purchase', getPurchase);
 

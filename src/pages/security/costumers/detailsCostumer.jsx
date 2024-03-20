@@ -29,32 +29,27 @@ const detailsCostumer = (props) => {
           <Modal.Title>Información del cliente</Modal.Title>
         </Modal.Header>
 
-        <Modal.Body>
-          {costumerProps ? (
-            <>
-              <Row>
-                <Col xl={4} lg={4} md={4} sm={4} xs={4}>
-                  <Form.Group md="4">
-                    <Form.Label>Usuario</Form.Label>
-                    <Form.Control
-                      type="textarea"
-                      readOnly
-                      defaultValue={costumerProps.user.userName}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col xl={4} lg={4} md={4} sm={4} xs={4}>
-                  <Form.Group md="4">
-                    <Form.Label>Correo</Form.Label>
-                    <Form.Control
-                      type="textarea"
-                      readOnly
-                      defaultValue={costumerProps.user.email}
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <br />
+                <Modal.Body>
+                    {costumerProps ? (
+                        <>
+
+                            <Row>
+                            <Col xl={4} lg={4} md={4} sm={4} xs={4}>
+                                <Form.Group md="4">
+                                    <Form.Label>Usuario</Form.Label>
+                                    <Form.Control type="textarea" readOnly 
+                                    defaultValue= {costumerProps.user.userName} />
+                                </Form.Group>
+                            </Col>
+                            <Col xl={4} lg={4} md={4} sm={4} xs={4}>
+                                <Form.Group md="4">
+                                    <Form.Label>Correo</Form.Label>
+                                    <Form.Control type="textarea" readOnly 
+                                    defaultValue= {costumerProps.user.email} />
+                                </Form.Group>
+                            </Col>
+                            </Row>
+                            <br/>
 
               <Row>
                 <Col xl={4} lg={4} md={4} sm={4} xs={4}>
