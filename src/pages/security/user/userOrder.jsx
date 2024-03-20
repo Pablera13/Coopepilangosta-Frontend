@@ -1,46 +1,37 @@
-import { React, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { useParams, NavLink } from 'react-router-dom';
 import { getProducerOrderSales } from '../../../services/saleService';
 import { getProductById2 } from '../../../services/productService';
 import { getCostumerOrderById } from '../../../services/costumerorderService';
-import { Form, Row, Col, Button, Container, InputGroup, Collapse, Table } from 'react-bootstrap'
+import { Form, Row, Col, Button, Container, Table } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { RiArrowGoBackFill } from "react-icons/ri";
-import { FaCheck } from "react-icons/fa";
+import { RiArrowGoBackFill } from 'react-icons/ri';
+import { FaCheck, FaTruck, FaBoxes, FaCheckDouble } from 'react-icons/fa';
 import { format } from 'date-fns';
-import './userOrder.css'
-import { FaTruck } from "react-icons/fa";
-import { FaBoxesPacking } from "react-icons/fa6";
-import { FaCheckDouble } from "react-icons/fa";
-
+import './userOrder.css';
 
 const userOrder = () => {
-
-    const order = useParams();
-    const [customerorderRequest, setCustomerorder] = useState(null)
-    const [MyFilteredData, setMyFilteredData] = useState([]);
-    const [MyOrders, setMyOrders] = useState([]);
+    const { orderid } = useParams();
+    const [customerorderRequest, setCustomerorder] = useState(null);
+    const [myFilteredData, setMyFilteredData] = useState([]);
+    const [myOrders, setMyOrders] = useState([]);
     const [subTotal, setSubTotal] = useState(0);
-    const navigate = useNavigate()
-   
+    const navigate = useNavigate();
 
     useEffect(() => {
-        async function settingSales() {
-            getProducerOrderSales(order.orderid, setMyFilteredData)
-            getCostumerOrderById(order.orderid, setCustomerorder);
+        async function fetchData() {
+            getProducerOrderSales(orderid, setMyFilteredData);
+            getCostumerOrderById(orderid, setCustomerorder);
         }
-        settingSales();
-    }, []);
+        fetchData();
+    }, [orderid]);
 
     useEffect(() => {
+        async function calculateSales() {
+            let mySales = [];
+            let subtotal = 0;
 
-        async function MeCagoEnLasRestricciones() {
-
-            let MySales = []
-            let subtotal = 0
-
-            for (const sale of MyFilteredData) {
-
+            for (const sale of myFilteredData) {
                 const product = await getProductById2(sale.productId);
                 const Sale = {
                     ProductName: product.name,
@@ -51,60 +42,54 @@ const userOrder = () => {
                     Unit: sale.unit,
                     Total: sale.purchaseTotal,
                 };
-
-                console.log("Sale = " + Sale)
-                MySales.push(Sale)
-                subtotal += sale.unitPrice * sale.quantity
+                mySales.push(Sale);
+                subtotal += sale.unitPrice * sale.quantity;
             }
-            setMyOrders(MySales)
-            setSubTotal(subtotal)
+            setMyOrders(mySales);
+            setSubTotal(subtotal);
         }
-
-        MeCagoEnLasRestricciones();
-
-    }, [MyFilteredData]);
-
+        calculateSales();
+    }, [myFilteredData]);
 
     return (
         <Container>
-            {customerorderRequest != null && MyOrders.length > 0 ? (
+            {customerorderRequest != null && myOrders.length > 0 ? (
                 <>
                     <article className="card">
-
                         <header className="card-header">
-                            <h6>Código de Pedido: #{order.orderid}</h6>
-                            <br/>
+                            <h6>Código de Pedido: #{orderid}</h6>
+                            <br />
                             <Row className="mb-3">
-                            <Col xs={2} md={2} lg={2}>
-                                    <p>Fecha de pedido</p>
+                                <Col xs={2} md={2} lg={2}>
+                                    <label className="datesStrong">Fecha de pedido</label>
                                     <br />
-                                    {customerorderRequest.confirmedDate === "0001-01-01T00:00:00"
-                                        ? "Sin pagar"
+                                    {customerorderRequest.confirmedDate === '0001-01-01T00:00:00'
+                                        ? 'Sin pagar'
                                         : format(new Date(customerorderRequest.confirmedDate), 'yyyy-MM-dd')}
                                 </Col>
                                 <Col xs={2} md={2} lg={2}>
-                                    Fecha de pago
+                                    <label className="datesStrong">Fecha de pago</label>
                                     <br />
-                                    {customerorderRequest.paidDate === "0001-01-01T00:00:00"
-                                        ? "Sin pagar"
+                                    {customerorderRequest.paidDate === '0001-01-01T00:00:00'
+                                        ? 'Sin pagar'
                                         : format(new Date(customerorderRequest.paidDate), 'yyyy-MM-dd')}
                                 </Col>
                                 <Col xs={2} md={2} lg={2}>
-                                    Fecha de entrega
+                                    <label className="datesStrong">Fecha de entrega</label>
                                     <br />
-                                    {customerorderRequest.deliveredDate === "0001-01-01T00:00:00"
-                                        ? "Sin entregar"
+                                    {customerorderRequest.deliveredDate === '0001-01-01T00:00:00'
+                                        ? 'Sin entregar'
                                         : format(new Date(customerorderRequest.deliveredDate), 'yyyy-MM-dd')}
                                 </Col>
                             </Row>
                         </header>
-                        
+
                         <div className="card-body">
                             <Table responsive className="table table-borderless table-shopping-cart">
                                 <thead>
                                     <tr>
                                         <th>Imagen</th>
-                                        <th>Descripción</th>
+                                        <th>Producto</th>
                                         <th>Cantidad</th>
                                         <th>Unidad</th>
                                         <th>Precio Unitario</th>
@@ -114,7 +99,7 @@ const userOrder = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {MyOrders.map((order, index) => (
+                                    {myOrders.map((order, index) => (
                                         <tr key={index}>
                                             <td>
                                                 <img src={order.ProductImage} className="img-sm" alt={order.ProductName} />
@@ -130,89 +115,101 @@ const userOrder = () => {
                                     ))}
                                 </tbody>
                             </Table>
-\                                <div className="card-body row">
-                                    <Col md={{ span: 12, offset: 10 }}>
-                                        <strong>Subtotal</strong>
+                            <div className="card-body row">
+                                <Row>
+                                    <Col xs={8} md={8} lg={8}></Col>
+                                    <Col xs={2} md={2} lg={2}>
+                                        <strong className="datesStrong">Subtotal</strong>
                                     </Col>
-                                    <Col>
+                                    <Col xs={2} md={2} lg={2}>
                                         {subTotal == 0 ? 'Por cotizar' : '₡' + subTotal.toFixed(2)}
                                     </Col>
-                                    <Col md={{ span: 12, offset: 10 }}>
-                                        <strong>Total</strong>
+                                </Row>
+                                <Row>
+                                    <Col xs={8} md={8} lg={8}></Col>
+                                    <Col xs={2} md={2} lg={2}>
+                                        <strong className="datesStrong">Total</strong>
                                     </Col>
-                                    <Col>
+                                    <Col xs={2} md={2} lg={2}>
                                         {customerorderRequest.total == 0 ? 'Por cotizar' : '₡' + customerorderRequest.total}
                                     </Col>
-\                            </div>
+                                </Row>
+                            </div>
                         </div>
                     </article>
 
                     <article className="card">
                         <div className="card-body">
-
-                            {customerorderRequest.detail !== "" && (
-                                <article className="card" >
+                            {customerorderRequest.detail !== '' && (
+                                <article className="card">
                                     <div className="card-body row">
                                         <Col>
                                             <strong>Detalle del pedido</strong>
-                                            <br /><br />{customerorderRequest.detail}
+                                            <br />
+                                            <br />
+                                            {customerorderRequest.detail}
                                         </Col>
                                     </div>
                                 </article>
                             )}
-
                             <div className="track">
-                                <div className={customerorderRequest.stage === "Confirmado" ||
-                                    customerorderRequest.stage === "En preparación" ||
-                                    customerorderRequest.stage === "En ruta de entrega" ||
-                                    customerorderRequest.stage === "Entregado"
-                                    ? "step active"
-                                    : "step"}>
-                                    <span className="icon"><FaCheck />
-                                        <i className="fa fa-check"></i> </span>
+                                <div className={customerorderRequest.stage === 'Confirmado' ||
+                                    customerorderRequest.stage === 'En preparación' ||
+                                    customerorderRequest.stage === 'En ruta de entrega' ||
+                                    customerorderRequest.stage === 'Entregado'
+                                    ? 'step active'
+                                    : 'step'}>
+                                    <span className="icon">
+                                        <FaCheck />
+                                        <i className="fa fa-check"></i>{' '}
+                                    </span>
                                     <span className="text">Pedido confirmado</span>
                                 </div>
-                                <div className={customerorderRequest.stage === "En preparación" ||
-                                    customerorderRequest.stage === "En ruta de entrega" ||
-                                    customerorderRequest.stage === "Entregado"
-                                    ? "step active"
-                                    : "step"}>
-                                    <span className="icon"><FaBoxesPacking /><i className="fa fa-user"></i> </span>
+                                <div className={customerorderRequest.stage === 'En preparación' ||
+                                    customerorderRequest.stage === 'En ruta de entrega' ||
+                                    customerorderRequest.stage === 'Entregado'
+                                    ? 'step active'
+                                    : 'step'}>
+                                    <span className="icon">
+                                        <FaBoxes />
+                                        <i className="fa fa-user"></i>{' '}
+                                    </span>
                                     <span className="text">En preparación</span>
                                 </div>
-                                <div className={customerorderRequest.stage === "En ruta de entrega" ||
-                                    customerorderRequest.stage === "Entregado"
-                                    ? "step active"
-                                    : "step"}>
-                                    <span className="icon"><FaTruck /><i className="fa fa-truck"></i> </span>
+                                <div className={customerorderRequest.stage === 'En ruta de entrega' ||
+                                    customerorderRequest.stage === 'Entregado'
+                                    ? 'step active'
+                                    : 'step'}>
+                                    <span className="icon">
+                                        <FaTruck />
+                                        <i className="fa fa-truck"></i>{' '}
+                                    </span>
                                     <span className="text">En ruta de entrega</span>
                                 </div>
-                                <div className={customerorderRequest.stage === "Entregado"
-                                    ? "step active"
-                                    : "step"}>
-                                    <span className="icon"><FaCheckDouble />
-                                        <i className="fa fa-box"></i> </span>
+                                <div className={customerorderRequest.stage === 'Entregado'
+                                    ? 'step active'
+                                    : 'step'}>
+                                    <span className="icon">
+                                        <FaCheckDouble />
+                                        <i className="fa fa-box"></i>{' '}
+                                    </span>
                                     <span className="text">Entregado</span>
                                 </div>
                             </div>
                             <br />
                             <hr />
-                            {/* <NavLink to={`/userProfile`} className="BtnBrown">Volver a mi perfil</NavLink> */}
-
-                            <Button className='BtnBrown'
-                                onClick={() => navigate(`/userProfile`)}>
+                            <Button className="BtnBrown" onClick={() => navigate(`/userProfile`)}>
                                 <RiArrowGoBackFill />
-
                             </Button>
-
-
                             <br />
                         </div>
                     </article>
                 </>
-            ) : "Cargando..."}
+            ) : (
+                'Cargando...'
+            )}
         </Container>
     );
-}
+};
 
 export default userOrder;

@@ -60,6 +60,8 @@ const verifyCostumer = (props) => {
                 postalCode: costumer.postalCode,
                 bankAccount: costumer.bankAccount,
                 verified: selectedState.value,
+                phoneNumber: costumer.phoneNumber,
+                email: costumer.email,
                 userId: costumer.userId,
             };
             editCostumerMutation.mutateAsync(editCostumer).then(() => {

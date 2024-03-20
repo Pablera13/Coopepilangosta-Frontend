@@ -10,6 +10,9 @@ import { getPurchase } from '../../../../services/purchaseService';
 import logoCope from '../../../../assets/logoCoopepilangosta.png'
 
 import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+
+
 import { getProductById } from '../../../../services/productService';
 import { getProductProducer } from '../../../../services/productProducerService';
 import { IoMdPrint } from "react-icons/io";
@@ -26,17 +29,17 @@ const printProducerOrder = (props) => {
     const [producerRequest, setProducer] = useState(null)
     const [productRequest, setProductRequest] = useState(null)
 
-    const generatePDF = async (id) => {
+    async function generatePDF(id) {
 
         try {
 
-            let producerorder = await getProducerOrderById(id, setProducerorder)
-            let producer = await getProducerById(producerorder.producerId, setProducer)
+            let producerorder = await getProducerOrderById(id, setProducerorder);
+            let producer = await getProducerById(producerorder.producerId, setProducer);
 
             if (purchases) {
                 MyPurchases = purchases.filter(
                     (purchases) => purchases.producerOrderId === id
-                )
+                );
             };
 
             async function fetchProductData() {
@@ -46,10 +49,10 @@ const printProducerOrder = (props) => {
                     const product = await getProductById(purchase.productId, setProductRequest);
                     const purchaseprice = await getProductProducer(product.id, producer.id);
 
-                    const IVA = purchaseprice * (product.iva / 100)
-                    const FinalPrice = purchaseprice + IVA
-                    let subtotal = 0
-                    subtotal += purchaseprice * purchase.quantity
+                    const IVA = purchaseprice * (product.iva / 100);
+                    const FinalPrice = purchaseprice + IVA;
+                    let subtotal = 0;
+                    subtotal += purchaseprice * purchase.quantity;
 
                     const order = {
                         ProductCode: product.code,
@@ -84,7 +87,6 @@ const printProducerOrder = (props) => {
 
             // datos de la organización 
             //   doc.text("Coopepilangosta R.L.", 10, 20);
-
             // Texto factura
             doc.setFontSize(14);
             doc.text(`#${producerorder.id}`, 180, 20);
@@ -116,10 +118,10 @@ const printProducerOrder = (props) => {
             doc.setFontSize(10);
             doc.text(`${producer.name} ${producer.lastname1} ${producer.lastname2}`, 10, 95);
             doc.text(`Cédula: ${producer.cedula}`, 10, 102);
-            doc.text(`Dirección:${producer.address}, ${producer.district}, ${producer.canton}`, 10, 109);
+            doc.text(`Dirección: ${producer.address}, ${producer.district}, ${producer.canton}`, 10, 109);
             doc.text(`Teléfono: ${producer.phoneNumber}`, 10, 116);
             doc.text(`Email: ${producer.email}`, 10, 123);
-            doc.text(`Cuenta Bancaria: ${producer.bankAccount}`, 10, 130);
+            doc.text(`Cuenta IBAN: ${producer.bankAccount}`, 10, 130);
 
             //Datos factura
             doc.text("Fecha de factura:", 100, 123);
@@ -127,8 +129,8 @@ const printProducerOrder = (props) => {
 
             doc.text("Fecha de pago:", 100, 130);
             doc.text(
-                producerorder.paidDate === "0001-01-01T00:00:00" ? "Sin pagar" : 
-                format(new Date(producerorder.paidDate), 'yyyy-MM-dd'), 150, 130
+                producerorder.paidDate === "0001-01-01T00:00:00" ? "Sin pagar" :
+                    format(new Date(producerorder.paidDate), 'yyyy-MM-dd'), 150, 130
             );
 
             // Tercera linea
@@ -136,7 +138,7 @@ const printProducerOrder = (props) => {
             doc.line(10, 145, 200, 145);
 
             // Tabla de la factura
-            let subtotal = 0
+            let subtotal = 0;
             const tableData = MyOrders.map((order, index) => [
                 order.ProductCode,
                 order.ProductName,
@@ -151,7 +153,7 @@ const printProducerOrder = (props) => {
 
             const totalPedido = MyOrders.reduce((total, order) => total + order.Total, 0);
             tableData.push(["", "", "", "", "", "", "", ""]);
-            
+
             tableData.push(["", "", "", "", "", "", "SubTotal", `${subtotal.toFixed(2)}`]);
             tableData.push(["", "", "", "", "", "", "Total", `${totalPedido.toFixed(2)}`]);
 
@@ -190,8 +192,9 @@ const printProducerOrder = (props) => {
             doc.setLineWidth(0.2);
             doc.line(10, doc.autoTable.previous.finalY + 12, 200, doc.autoTable.previous.finalY + 12); // Línea horizontal
 
+
+
             //Impresion
-           
             const currentDate = new Date();
             const formattedDate = format(currentDate, 'yyyy-MM-dd');
             const fileName = `Factura_${producerorder.id}_${producer.cedula}_${formattedDate}.pdf`;
@@ -204,7 +207,7 @@ const printProducerOrder = (props) => {
             console.error("Error al obtener datos:", error);
         }
 
-    };
+    }
 
 
     return (

@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Row, Col, Button, Card, ListGroup, CardGroup } from 'react-bootstrap'
-import swal from 'sweetalert'
+import { Container} from 'react-bootstrap'
 import CostumerProfile from './costumerProfile'
 import EmployeeProfile from './employeeProfile'
-
 
 export const UserProfile = () => {
     const [isCostumer, setIsCostumer] = useState(false);
