@@ -5,8 +5,11 @@ import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { format } from 'date-fns';
 import { Form } from 'react-bootstrap';
+
 import { getCostumerOrder } from '../../../services/costumerorderService';
+
 import { getUserById } from '../../../services/userService';
+import {getCostumerOrderByCostumer} from '../../../services/costumerorderService'
 import PrintCustomerOrder from '../../Maintenance/CustomerOrder/actions/printCustomerOrder.jsx';
 import ReactPaginate from 'react-paginate';
 import "../../../css/StylesBtn.css";
@@ -14,13 +17,20 @@ import { IoMdSearch } from 'react-icons/io';
 
 const myCostumerOrder = () => {
     const userStorage = JSON.parse(localStorage.getItem('user'));
-    const [user, setUser] = useState(null);
-    const { data: customerorderData, isLoading, isError } = useQuery('customerorder', getCostumerOrder);
     const navigate = useNavigate()
+    const [customerorderData, setcustomerorderData] = useState([]);
+
+    useEffect(() => {
+        async function settingOrders() {
+            getCostumerOrderByCostumer(userStorage.costumer.id, setcustomerorderData)
+        }
+        settingOrders();
+    }, [userStorage]);
 
     const [currentPage, setCurrentPage] = useState(0);
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedStage, setSelectedStage] = useState('');
+
 
     useEffect(() => {
         if (customerorderData) {
@@ -81,7 +91,7 @@ const myCostumerOrder = () => {
                 <br></br>
 
                 <Col xs={12} md={12} lg={12}>
-                    {user != null && customerorderData != null ? (
+                    {customerorderData != null ? (
                         <>
                             <Row>
                                 {customerorderData ? (
@@ -99,7 +109,6 @@ const myCostumerOrder = () => {
                                         </thead>
                                         <tbody>
                                             {paginatedOrders
-                                                .filter((order) => order.costumerId === userStorage.costumer.id)
                                                 .map((order) => (
                                                     <tr key={order.id}>
                                                         <td>{order.id}</td>

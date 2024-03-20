@@ -2,14 +2,15 @@
     display: grid;
     justify-content: center;
     border-radius: 5px;
-    position:  absolute;
+    height: auto;
+    position: absolute;
     background-color: #554932a9;
-    max-width: 700px;
-    height: 660px;
-    top: 50%;
+    max-width: 550px;
+    height: 700x;
+    top: 55%;
     left: 50%;
+    margin-bottom: 55%;;
     transform: translate(-50%,-50%);
-
     
 }
 .cardRegister{
