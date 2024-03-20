@@ -17,6 +17,7 @@ import { IoMdSearch } from 'react-icons/io';
 
 const myCostumerOrder = () => {
     const userStorage = JSON.parse(localStorage.getItem('user'));
+    const [user, setUser] = useState(null);
     const navigate = useNavigate()
     const [customerorderData, setcustomerorderData] = useState([]);
 
