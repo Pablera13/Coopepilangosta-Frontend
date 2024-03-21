@@ -29,19 +29,18 @@ const addInventoriesModal = (props) => {
                 title: 'Editado!',
                 text: 'Las existencias han sido modificadas',
                 icon: 'success',
-            })
-            handleClose()
-            setTimeout(function () {
-                window.location.reload();
-            }, 2000);
+            }).then(function(){window.location.reload()})
+            
         },
     });
 
     const stock = useRef();
     const userEmail = JSON.parse(localStorage.getItem('user')).email;
-    const [selectedMotive, setSelectedMotive] = useState('');
+    const [selectedMotive, setSelectedMotive] = useState(null);
     const [initialStock, setInitialStock] = useState(0);
     const [cambioFecha, setCambioFecha] = useState('');
+
+    const motive = useRef()
 
     const saveEdit = async (event) => {
         const form = event.currentTarget;
@@ -60,7 +59,7 @@ const addInventoriesModal = (props) => {
                 CambioFecha: new Date(cambioFecha),
                 OldStock: initialStock,
                 NewStock: stock.current.value,
-                motive: selectedMotive,
+                motive: motive.current.value,
                 Email: userEmail,
             };
 
@@ -121,13 +120,13 @@ const addInventoriesModal = (props) => {
                                     <select value={selectedMotive}
                                         placeholder="Seleccionar motivo"
                                         required
-                                        onChange={(e) => setSelectedMotive(e.target.value)}>
+                                        onChange={(e) => {setSelectedMotive(e.target.value)}} ref={motive}>
                                         <option value="Venta">Venta</option>
                                         <option value="Regalía">Regalía</option>
                                         <option value="Devolución">Devolución</option>
                                         <option value="Producto Dañado">Producto Dañado</option>
                                         <option value="Ingreso">Aumento de Existencias</option>
-                                        <option value="Prueba de mercado">Prueba de mercado</option>                                        <option value="prueba de mercado">Prueba de mercado</option>
+                                        <option value="Prueba de mercado">Prueba de mercado</option>
                                         <option value="Otro">Otro</option>
                                     </select>
                                 </Form.Group>

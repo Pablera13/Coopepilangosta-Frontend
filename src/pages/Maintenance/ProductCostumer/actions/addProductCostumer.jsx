@@ -33,7 +33,6 @@ export const addProductCostumer = () => {
   useEffect(() => {
     if (selectedProduct) {
       ObtainMargin(selectedProduct.value);
-      console.log(selectedProduct.value);
     }
   }, [selectedProduct]);
 
@@ -99,7 +98,6 @@ export const addProductCostumer = () => {
         margin: Margin.current.value,
         unit: Unit.current.value,
       };
-      console.log(productcostumer);
       mutation.mutateAsync(productcostumer);
     }
   };
