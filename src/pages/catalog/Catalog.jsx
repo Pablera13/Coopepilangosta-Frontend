@@ -15,7 +15,7 @@ const catalog = () => {
   const { data: categories, isLoading: categoriesLoading, isError: categoriesError } = useQuery("category", getCategories);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [productsPerPage, setProductsPerPage] = useState(6);
+  const [productsPerPage, setProductsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(0); 
   const searchValue = useRef();
 
@@ -132,7 +132,7 @@ const catalog = () => {
             <div>Sin productos</div>
           )}
                   <br></br>
-s
+
         </Row>
         <Row>
           <Col>

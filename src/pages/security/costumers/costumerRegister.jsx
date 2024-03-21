@@ -228,7 +228,7 @@ const costumerRegister = () => {
                     <Form.Label className="labelLogin">Correo Electrónico</Form.Label>
                     <Form.Control
                       required
-                      type="string"
+                      type="email"
                       placeholder="Ingrese su correo corporativo"
                       ref={costumerEmail}
                     />
@@ -297,7 +297,7 @@ const costumerRegister = () => {
                       placeholder="Ingrese su teléfono corporativo"
                       ref={phone}
                     />
-                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                    <Form.Control.Feedback>Bien!</Form.Control.Feedback>
                   </Form.Group>
                 </Col>
                 <Col xs={6} md={6} lg={4}>
@@ -314,7 +314,7 @@ const costumerRegister = () => {
                 <Col xs={6} md={6} lg={4}>
                   <Form.Group controlId="validationCustom08">
                     <Form.Label className="labelLogin"><Form.Label>Cuneta IBAN</Form.Label></Form.Label>
-                    <Form.Control type="number" placeholder="Ingrese una cuenta bancaria" required ref={bankAccount} />
+                    <Form.Control type="text" placeholder="Ingrese una cuenta bancaria" required ref={bankAccount} />
                     <Form.Control.Feedback type="invalid">
                       Indique su cuenta IBAN
                     </Form.Control.Feedback>

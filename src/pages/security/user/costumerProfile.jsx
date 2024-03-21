@@ -1,24 +1,21 @@
 import React from "react";
 import {
-  Table,
   Container,
   Col,
   Row,
   Button,
   Card,
-  ListGroup,
+  
 } from "react-bootstrap";
 import AddContact from "../costumers/actions/addContact";
 import UpdateContact from "../costumers/actions/updateContact";
-import { NavLink, Navigate, useNavigate, useParams } from "react-router-dom";
-import PrintCustomerOrder from "../../Maintenance/CustomerOrder/actions/printCustomerOrder.jsx";
+
 import { MdDelete } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { getUserById } from "../../../services/userService";
 import { useQuery } from "react-query";
 import { deleteCostumerContact } from "../../../services/CostumerContactService";
 import swal from "sweetalert";
-import { format } from "date-fns";
 import { MdLogout } from "react-icons/md";
 
 import UpdateCostumer from "../costumers/actions/updateCostumer";
@@ -88,6 +85,8 @@ const costumerProfile = () => {
     });
   };
 
+  
+
   return (
     <Container>
       {user != null && customerorderData != null ? (
@@ -109,7 +108,7 @@ const costumerProfile = () => {
                     </div>
                     <div className="about">
                       <h5>
-                        {user.costumer.verify == true
+                        {user.costumer.verified == true
                           ? "Verificado"
                           : "No verificado"}
                       </h5>
