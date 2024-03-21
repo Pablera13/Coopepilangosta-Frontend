@@ -132,7 +132,7 @@ const catalog = () => {
             <div>Sin productos</div>
           )}
                   <br></br>
-s
+
         </Row>
         <Row>
           <Col>

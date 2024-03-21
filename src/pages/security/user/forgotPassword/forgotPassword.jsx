@@ -1,111 +1,93 @@
-import React, { useState, useRef } from 'react'
-import { Button, Row, Col, Form, InputGroup, Container, Alert, Card } from 'react-bootstrap'
-import emailjs from 'emailjs-com'
-import CheckCode from './checkCode'
-import ChangePassword from './changePassword'
-import './forgotPassword.css'
-
+import React, { useState, useRef } from 'react';
+import { Button, Row, Col, Form, InputGroup, Container, Alert, Card } from 'react-bootstrap';
+import emailjs from 'emailjs-com';
+import CheckCode from './checkCode';
+import './forgotPassword.css';
 
 const forgotPassword = () => {
-
     const [isSending, setIsSending] = useState(false);
-    const [isError, setIsError] = useState(false)
-    const [isSucces, setIsSucces] = useState(false);
+    const [isError, setIsError] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+    const email = useRef();
+    const [toCheck, setToCheck] = useState();
 
     function generateCode() {
-        const lenght = 7;
+        const length = 7;
         let code = '';
-        for (let i = 0; i < lenght; i++) {
-            const digit = Math.floor(Math.random() * 10); // Genera un dígito aleatorio entre 0 y 9
+        for (let i = 0; i < length; i++) {
+            const digit = Math.floor(Math.random() * 10); // Generate a random digit between 0 and 9
             code += digit;
         }
         return code;
     }
-    const email = useRef()
-    const [toCheck, setToCheck] = useState()
+
     const handleSubmit = async () => {
-        if (email.current.value == "") {
-            return alert("Ingrese un correo")
+        if (email.current.value === "") {
+            alert("Ingrese un correo");
         } else {
             const generatedCode = generateCode();
-
             setToCheck({
                 code: generatedCode,
                 email: email.current.value
-            })
+            });
 
-            let contact = email.current.value
+            let contact = email.current.value;
+            setIsSending(true);
 
-            setIsSending(true)
             await emailjs.send('service_segj454', 'template_4bv71ze', { message: generatedCode, emailto: contact }, 'VLTRXG-aDYJG_QYt-')
-                .then((response) => {
-                    setIsSending(false)
-                    setIsSucces(true)
-                }, (err) => {
-                    setIsError(true)
-
+                .then(() => {
+                    setIsSending(false);
+                    setIsSuccess(true);
+                })
+                .catch(() => {
+                    setIsError(true);
                 });
-
         }
-    }
+    };
 
     return (
         <>
-                    <div class="imagen-de-fondo"></div>
+            <div class="imagen-de-fondo"></div>
 
+            <Container className="passContainer">
+                <Card>
+                    <Card.Body className='cardContainerPass'>
+                        <h3>Restablecer contraseña</h3>
+                        <br></br>
 
-            <Container className='passContainer text-center"'>
-
-                    <h3 style={{paddingLeft:'32px',paddingTop:'10px'}}>Restablecer contraseña</h3>
-                    <br></br>
-                    <Card.Body >
-                        <Row>
-                            <Form>
-                                <Row className="mb-3 text-center">
-                                    <Form.Group as={Col} controlId="formGridEmail">
+                        <Row className="justify-content-md-center">
+                            <Col xs={12} md={12} lg={12}>
+                                <Form>
+                                    <Form.Group controlId="formGridEmail">
                                         <Form.Label className='labelPass'>Correo electrónico</Form.Label>
-                                        <Form.Control type="email" placeholder="Ingrese su correo" ref={email} disabled={isSucces}/>
-                                    </Form.Group>
-                                </Row>
-                                <Button onClick={handleSubmit} className='BtnStar text-center"' disabled={isSucces}>
-                                    Recibir código
-                                </Button>
-                            </Form>
-                        </Row>
-                        <Row>
-                            <br />
-                            <Col>
-                                {isSending ?
-                                    (
-                                        <Alert variant={'info'}>
-                                            Enviando correo...
-                                        </Alert>
-                                    ) : ("")}
 
-                                {isSucces ? (
-                                    <Alert variant={'success'}>
-                                        El correo a sido enviado con el código para restaurar su contraseña.
-                                    </Alert>)
-                                    : ("")}
-                                    {
-                                        isError?(<Alert variant={'danger'}>
-                                        Ocurrio un error al enviar el correo, intentelo mas tarde.
-                                    </Alert>):("")
-                                    }
+
+                                        <div>
+                                        </div>
+                                        <Form.Control type="email" placeholder="Ingrese su correo" ref={email} disabled={isSuccess} />
+
+                                    </Form.Group>
+                                    <br></br>
+
+                                    <Button onClick={handleSubmit} variant="primary" className="BtnStar" disabled={isSuccess}>
+                                        {isSending ? "Enviando correo..." : "Recibir código"}
+                                    </Button>
+                                </Form>
                             </Col>
                         </Row>
-                        <Row>
-                            {
-                                isSucces ? (
-                                    <CheckCode props={toCheck} />
-                                ) : ("")
-                            }
+                        <Row className="justify-content-md-center">
+                            <Col md={12}>
+                                {isError && <Alert variant="danger">Ocurrió un error al enviar el correo, inténtelo de nuevo más tarde.</Alert>}
+                                {isSuccess && <Alert variant="success">El correo ha sido enviado con el código para restablecer su contraseña.</Alert>}
+                            </Col>
+                        </Row>
+                        <Row className="justify-content-md-center">
+                            {isSuccess && <CheckCode props={toCheck} />}
                         </Row>
                     </Card.Body>
+                </Card>
+            </Container></>
+    );
+};
 
-            </Container>
-        </>
-    )
-}
-
-export default forgotPassword
+export default forgotPassword;

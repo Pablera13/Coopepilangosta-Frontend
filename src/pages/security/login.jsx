@@ -83,8 +83,9 @@ const login = () => {
               <Row>
                 <Col xs={12} lg={12}>
                 <h3>Bienvenido</h3>
+                <br></br>
                   <Form.Group className="mb-3" controlId="formPlaintextEmail" style={{ marginTop: '4%' }}>
-                    <Form.Label className="labelLogin">Correo</Form.Label>
+                    <Form.Label className="labelLogin ">Correo</Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="Ingrese su correo"
@@ -107,7 +108,10 @@ const login = () => {
                 </Col>
               </Row>
               <Row className="justify-content-md-center">
+                
                 <Col xs={12} lg={12}>
+                <br></br>
+
                   <Button className="BtnStar" onClick={handleLogin} disabled={loginLoading}>
                     {loginLoading ? (
                       <Spinner animation="border" variant="light" size="sm" />
@@ -125,6 +129,8 @@ const login = () => {
               </Row>
               <br />
               <Row>
+              <br></br>
+
                 <NavLink className="btn-forgotpasswords" to={"/forgotPassword"}>
                   ¿Olvidó su contraseña?
                 </NavLink>

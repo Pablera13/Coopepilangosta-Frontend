@@ -30,14 +30,17 @@ const checkCode = (props) => {
     return (
         <>
             <br />
-            <Container>
+            <Container style={{top: "50%"}} >
                 <Row>
                     <Form>
                         <Row className="mb-3">
+                        <Col className="justify-content-md-center">
+
                             <Form.Group as={Col} controlId="formGridEmail">
-                                <Form.Label className='labelPass' style={{color:'white'}}>Ingrese el código que recibio: </Form.Label>
+                                <Form.Label className='labelPass' style={{color:'white'}}>Ingrese el código que recibio</Form.Label>
                                 <Form.Control type="text" placeholder="Ingrese el código" ref={code} disabled={isChecked}/>
                             </Form.Group>
+                            </Col>
                         </Row>
                         <Button onClick={verifyCode} className='BtnStar' disabled={isChecked}>
                             Verificar

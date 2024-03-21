@@ -9,17 +9,7 @@ import { reduceStock } from "../../services/productService";
 import { createStockReport } from "../../services/reportServices/stockreportService";
 import { locations } from "../../utils/provinces";
 import { createSale } from "../../services/saleService";
-import {
-  Form,
-  Row,
-  Col,
-  Button,
-  Container,
-  InputGroup,
-  Collapse,
-  Table,
-  Card,
-} from "react-bootstrap";
+import {Form,Row,Col,Button,Container,InputGroup,Collapse,Table,Card,} from "react-bootstrap";
 import Select from "react-select";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { MdDelete } from "react-icons/md";
@@ -267,7 +257,7 @@ const ShoppingCart = () => {
   return (
     <>
       {LocalShopping.length >= 1 &&
-      localStorage.getItem("ShoppingCar") != null ? (
+        localStorage.getItem("ShoppingCar") != null ? (
         <>
           <Container>
             <Row className="mb-3">
@@ -369,16 +359,16 @@ const ShoppingCart = () => {
                                         let newTotal = 0;
                                         updatedShopping.map(
                                           (sale) =>
-                                            (newTotal =
-                                              newTotal + sale.TotalVenta)
+                                          (newTotal =
+                                            newTotal + sale.TotalVenta)
                                         );
                                         setTotalOrder(newTotal);
 
                                         let newSubTotal = 0;
                                         updatedShopping.map(
                                           (sale) =>
-                                            (newSubTotal =
-                                              newSubTotal + sale.SubTotal)
+                                          (newSubTotal =
+                                            newSubTotal + sale.SubTotal)
                                         );
                                         setSubTotal(newSubTotal.toFixed(0));
                                       }

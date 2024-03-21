@@ -14,7 +14,7 @@ export const Layout = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname == '/login' || location.pathname == '/registerCostumer' || location.pathname == '/forgotPassword') { 
+    if (location.pathname == '/login' || location.pathname == '/registerCostumer' || location.pathname == '/forgotPassword') {
       document.body.classList.add('login-body');
       document.body.classList.add('header');
     }
@@ -52,12 +52,12 @@ export const Layout = () => {
 
       <ResponsiveNavbar />
 
-
       <main style={{ marginBottom: '150px' }}>
 
         <Outlet />
 
       </main>
+
       <footer className="footer" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
         <div className="container">
           <div className="row">

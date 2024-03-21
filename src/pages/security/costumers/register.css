@@ -1,26 +1,33 @@
-.registerContainer{
-    display: grid;
-    justify-content: center;
-    border-radius: 5px;
-    height: auto;
+
+.loginContainerRegister {
     position: absolute;
-    background-color: #554932a9;
-    max-width: 550px;
-    height: 700x;
-    top: 55%;
+    top: 50%;
     left: 50%;
-    margin-bottom: 55%;;
     transform: translate(-50%,-50%);
+    max-width: 100%;
+    max-height: 550px;
+} 
+
+.cardContainerRegister {
+    border-radius: 5px;
+    position: absolute;
+    background-color: aliceblue;
+    background-color: #554932a9;
     
-}
-.cardRegister{
-    box-shadow: 5px 5px 5px 5px  rgb(214, 203, 196);
 
-}
+    left: 50%;
+    transform: translate(-50%,-50%);
+} 
 
-.registerContainer h3,
+.loginContainerRegister h3,
 .labelLogin {
     text-align: center;
     color: rgb(255, 255, 255);
+    font-weight: bold;
+
 
 }
+
+
+
+  

@@ -3,7 +3,7 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    min-height: 100vh;
+    min-height: 120vh;
     filter: blur(2px);
     max-width: 100%;
     margin-bottom: -175px;
@@ -16,7 +16,7 @@
     background-color: aliceblue;
     background-color: #554932a9;
     max-width: 500px;
-    height: 400px;
+    max-height: 500px;    
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
