@@ -9,27 +9,12 @@ import { reduceStock } from "../../services/productService";
 import { createStockReport } from "../../services/reportServices/stockreportService";
 import { locations } from "../../utils/provinces";
 import { createSale } from "../../services/saleService";
-import {
-  Form,
-  Row,
-  Col,
-  Button,
-  Container,
-  InputGroup,
-  Collapse,
-  Table,
-  Card,
-} from "react-bootstrap";
+import {Form,Row,Col,Button,Container,InputGroup,Collapse,Table,Card,} from "react-bootstrap";
 import Select from "react-select";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { MdDelete } from "react-icons/md";
 
 import "./ShoppingCart.css";
-
-import "../../css/StylesBtn.css";
-import "../../css/Pagination.css";
-import { IoWarning } from "react-icons/io5";
-
 
 const ShoppingCart = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -272,18 +257,16 @@ const ShoppingCart = () => {
   return (
     <>
       {LocalShopping.length >= 1 &&
-      localStorage.getItem("ShoppingCar") != null ? (
+        localStorage.getItem("ShoppingCar") != null ? (
         <>
           <Container>
             <Row className="mb-3">
               <div className="card">
-               
                 <div className="warning">
-                <div className="TxtWarning"> Los precios indicados en este catálogo son referenciales y
+                  Los precios indicados en este catálogo son referenciales y
                   pueden estar sujetos a variaciones en el precio final. Por
                   favor consulte con nuestro equipo para conocer precios
-                  especiales y descuentos disponibles</div>
-                <div className="IconWarning"> <IoWarning /></div>
+                  especiales y descuentos disponibles
                 </div>
 
                 <br></br>
@@ -327,6 +310,7 @@ const ShoppingCart = () => {
                                   className="form-control"
                                   style={{ textAlign: "center" }}
                                   defaultValue={Sale.Quantity}
+                                  
                                   max={
                                     Sale.Stockable == true ? Sale.Stock : false
                                   }
@@ -376,16 +360,16 @@ const ShoppingCart = () => {
                                         let newTotal = 0;
                                         updatedShopping.map(
                                           (sale) =>
-                                            (newTotal =
-                                              newTotal + sale.TotalVenta)
+                                          (newTotal =
+                                            newTotal + sale.TotalVenta)
                                         );
                                         setTotalOrder(newTotal);
 
                                         let newSubTotal = 0;
                                         updatedShopping.map(
                                           (sale) =>
-                                            (newSubTotal =
-                                              newSubTotal + sale.SubTotal)
+                                          (newSubTotal =
+                                            newSubTotal + sale.SubTotal)
                                         );
                                         setSubTotal(newSubTotal.toFixed(0));
                                       }
@@ -418,7 +402,7 @@ const ShoppingCart = () => {
                               <td>
                                 <button
                                   variant="danger"
-                                  className="BtnRed"
+                                  className="btn btn-light"
                                   size="sm"
                                   onClick={() => {
                                     Sale.CotizacionId != 0
@@ -439,14 +423,12 @@ const ShoppingCart = () => {
                             <td></td>
                             <td></td>
                             <td></td>
-                            <div className="TotalContainer">
-                              <td>
-                                <b>SubTotal</b>
-                              </td>
-                              <td>
-                                {SubTotal == 0 ? "Por cotizar" : "₡" + SubTotal}
-                              </td>
-                            </div>
+                            <td>
+                              <b>SubTotal</b>
+                            </td>
+                            <td>
+                              {SubTotal == 0 ? "Por cotizar" : "₡" + SubTotal}
+                            </td>
                           </tr>
 
                           <tr>
