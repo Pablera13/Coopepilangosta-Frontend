@@ -15,7 +15,7 @@ import { RiArrowGoBackFill } from "react-icons/ri";
 import { MdDelete } from "react-icons/md";
 
 import "./ShoppingCart.css";
-
+import { IoWarning } from "react-icons/io5";
 const ShoppingCart = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const [LocalShopping, setLocalShopping] = useState([]);
@@ -262,13 +262,13 @@ const ShoppingCart = () => {
           <Container>
             <Row className="mb-3">
               <div className="card">
-                <div className="warning">
-                  Los precios indicados en este catálogo son referenciales y
+              <div className="warning">
+                <div className="TxtWarning"> Los precios indicados en este catálogo son referenciales y
                   pueden estar sujetos a variaciones en el precio final. Por
                   favor consulte con nuestro equipo para conocer precios
-                  especiales y descuentos disponibles
+                  especiales y descuentos disponibles</div>
+                <div className="IconWarning"> <IoWarning /></div>
                 </div>
-
                 <br></br>
                 <div>
                   <Col xs={12} md={12} lg={12}>

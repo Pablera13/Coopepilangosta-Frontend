@@ -1,11 +1,3 @@
-.warning {
-  background-color: white;
-  padding: 10px;
-  color: brown;
-  font-weight: bold;
-  text-align: center;
-  font-size: 15px;
-}
 
 #AdeContai {
   margin-top: -3%;
@@ -33,6 +25,10 @@
   border-radius: 5px;
   margin: 2%;
   align-items: center; /* Centra verticalmente los elementos */
+  color: brown;
+  font-weight: bold;
+  text-align: center;
+  font-size: 15px;
 }
 
 .TxtWarning {
