@@ -75,9 +75,8 @@ export const addProductCostumer = () => {
         title: "Agregado!",
         text: "Gracias por su tiempo",
         icon: "success",
-      }).then(function () {
-        window.location.reload();
-      });
+      }).then(function(){window.location.reload()});
+
     },
   });
 
@@ -121,7 +120,7 @@ export const addProductCostumer = () => {
             {/* <Row><h3>Datos personales</h3></Row> */}
             <Row>
               <Col>
-                <Form.Label style={{ fontSize: "16px", marginBottom: "20px" }}>
+                <Form.Label>
                   Seleccione el producto
                 </Form.Label>
                 <Select
@@ -161,7 +160,7 @@ export const addProductCostumer = () => {
                 <Form.Label>Unidad</Form.Label>
                 <Form.Control
                   required
-                  placeholder="Ingrese la unidadad comercial"
+                  placeholder="Ingrese la unidad comercial"
                   ref={Unit}
                 />
               </Col>

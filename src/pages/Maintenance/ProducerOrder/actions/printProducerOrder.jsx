@@ -81,40 +81,36 @@ const printProducerOrder = (props) => {
             const y = 10;
             doc.addImage(logoCope, 'JPEG', x, y, imgWidth, imgHeight);
 
-            // tamano de fuente y fuente
+ 
             doc.setFontSize(16);
             doc.setFont("Helvetica");
 
-            // datos de la organización 
-            //   doc.text("Coopepilangosta R.L.", 10, 20);
-            // Texto factura
             doc.setFontSize(14);
             doc.text(`#${producerorder.id}`, 180, 20);
 
-            // primera linea
+
             doc.setLineWidth(0.2);
             doc.line(10, 33, 200, 33);
 
-            // datos cope
+
             doc.setFontSize(10);
             doc.text("600 metros de Barrio Cementerio, Hojancha, Guanacaste", 10, 42);
             doc.text("+506 2659 9130", 10, 49);
             doc.text("info@coopepilangosta.com", 10, 56);
             doc.text("https://coopepilangosta.com/", 10, 63);
 
-            // Texto Productor
+
             doc.setFontSize(14);
             doc.text("Productor", 10, 80);
 
-            // Texto Factura
             doc.setFontSize(14);
             doc.text("Factura", 100, 80);
 
-            // segunda linea
+
             doc.setLineWidth(0.2);
             doc.line(10, 85, 200, 85);
 
-            // Datos productor
+
             doc.setFontSize(10);
             doc.text(`${producer.name} ${producer.lastname1} ${producer.lastname2}`, 10, 95);
             doc.text(`Cédula: ${producer.cedula}`, 10, 102);
@@ -123,7 +119,7 @@ const printProducerOrder = (props) => {
             doc.text(`Email: ${producer.email}`, 10, 123);
             doc.text(`Cuenta IBAN: ${producer.bankAccount}`, 10, 130);
 
-            //Datos factura
+ 
             doc.text("Fecha de factura:", 100, 123);
             doc.text(format(new Date(producerorder.confirmedDate), 'yyyy-MM-dd'), 150, 123);
 
@@ -133,11 +129,11 @@ const printProducerOrder = (props) => {
                     format(new Date(producerorder.paidDate), 'yyyy-MM-dd'), 150, 130
             );
 
-            // Tercera linea
+
             doc.setLineWidth(0.2);
             doc.line(10, 145, 200, 145);
 
-            // Tabla de la factura
+         
             let subtotal = 0;
             const tableData = MyOrders.map((order, index) => [
                 order.ProductCode,
@@ -182,19 +178,18 @@ const printProducerOrder = (props) => {
                 },
             });
 
-            // Texto detalle
             doc.setFontSize(14);
             doc.text("Detalle:", 10, doc.autoTable.previous.finalY + 10);
             doc.setFontSize(10);
             doc.text(producerorder.detail, 20, doc.autoTable.previous.finalY + 25);
 
-            //ultima linea
+ 
             doc.setLineWidth(0.2);
-            doc.line(10, doc.autoTable.previous.finalY + 12, 200, doc.autoTable.previous.finalY + 12); // Línea horizontal
+            doc.line(10, doc.autoTable.previous.finalY + 12, 200, doc.autoTable.previous.finalY + 12);
 
 
 
-            //Impresion
+      
             const currentDate = new Date();
             const formattedDate = format(currentDate, 'yyyy-MM-dd');
             const fileName = `Factura_${producerorder.id}_${producer.cedula}_${formattedDate}.pdf`;

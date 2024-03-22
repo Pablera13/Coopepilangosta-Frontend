@@ -43,11 +43,7 @@ const volumeDiscountModal = (props) => {
                 title: 'Creado!',
                 text: 'Se creó el descuento de volumen',
                 icon: 'success',
-            });
-            handleClose()
-            setTimeout(function () {
-                window.location.reload();
-            }, 2000)
+            }).then(function(){window.location.reload()});
         },
         onError: () => {
             swal('Error', 'Algo salio mal...', 'error')
@@ -90,10 +86,7 @@ const volumeDiscountModal = (props) => {
               title: 'Eliminado',
               text: 'El descuento ha sido eliminado',
               icon: 'success',
-            });
-            setTimeout(function () {
-              window.location.reload();
-            }, 2000);
+            }).then(function(){window.location.reload()});
           }
         });
       };

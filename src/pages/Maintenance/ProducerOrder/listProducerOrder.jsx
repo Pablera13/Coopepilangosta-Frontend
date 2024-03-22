@@ -222,6 +222,7 @@ const listProducerOrder = () => {
                   </tbody>
                 </Table>
               </Col>
+              <div className="Pagination-Container">
               <ReactPaginate
                 previousLabel="<"
                 nextLabel=">"
@@ -234,6 +235,7 @@ const listProducerOrder = () => {
                 subContainerClassName="pages pagination"
                 activeClassName="active"
               />
+              </div>  
             </Row>
           ) : (
             "Cargando"

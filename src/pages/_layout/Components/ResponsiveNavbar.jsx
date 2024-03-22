@@ -23,7 +23,7 @@ const ResponsiveNavbar = () => {
                 localStorage.getItem('ShoppingCar').length >= 1 ? (
                     CartValue = "lleno"
                 ) : (
-                    CartValue = "vacio"
+                    CartValue = "vació"
                 )
             }
 

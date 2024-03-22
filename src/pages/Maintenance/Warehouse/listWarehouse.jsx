@@ -175,6 +175,7 @@ const listWarehouse = () => {
                   ))}{" "}
                 </tbody>
               </Table>
+              <div className="Pagination-Container">
               <ReactPaginate
                 previousLabel="<"
                 nextLabel=">"
@@ -187,6 +188,7 @@ const listWarehouse = () => {
                 subContainerClassName="pages pagination"
                 activeClassName="active"
               />
+              </div>     
             </Row>
           ) : (
             "Cargando"

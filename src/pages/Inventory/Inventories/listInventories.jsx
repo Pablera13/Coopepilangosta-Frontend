@@ -1,32 +1,49 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react';
-import './listInventories.css';
-import { NavLink } from 'react-router-dom';
-import { useQuery } from 'react-query';
-import { getCoffee } from '../../../services/productService';
-import { getCategories } from '../../../services/categoryService';
-import { Table, Container, Col, Row, Form } from 'react-bootstrap';
-import AddInventoryModal from './actions/addInventoriesModal';
-import ReactPaginate from 'react-paginate';
-import { useNavigate } from 'react-router-dom';
-import { validateAllowedPageAccess } from '../../../utils/validatePageAccess';
+import React, { useEffect } from "react";
+import { useState } from "react";
+import "./listInventories.css";
+import { NavLink } from "react-router-dom";
+import { useQuery } from "react-query";
+import { getCoffee } from "../../../services/productService";
+import { getCategories } from "../../../services/categoryService";
+import { Table, Container, Col, Row, Form } from "react-bootstrap";
+import AddInventoryModal from "./actions/addInventoriesModal";
+import ReactPaginate from "react-paginate";
+import { useNavigate } from "react-router-dom";
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess";
+
+import "../../../css/Pagination.css";
+import "../../../css/StylesBtn.css";
 
 const ListInventories = () => {
   useEffect(() => {
-    validateAllowedPageAccess()
+    validateAllowedPageAccess();
+  }, []);
 
-  }, [])
-
-  const { data: categoriesData, isLoading: categoriesLoading, isError: categoriesError } = useQuery('categories', getCategories);
-  const { data: productsData, isLoading: productsLoading, isError: productsError } = useQuery('products', getCoffee);
-
+  const {
+    data: categoriesData,
+    isLoading: categoriesLoading,
+    isError: categoriesError,
+  } = useQuery("categories", getCategories);
+  const {
+    data: productsData,
+    isLoading: productsLoading,
+    isError: productsError,
+  } = useQuery("products", getCoffee);
 
   const [currentPage, setCurrentPage] = useState(0);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [filterState, setFilterState] = useState(null);
 
   if (categoriesLoading || productsLoading) {
-    return <div>Cargando...</div>;
+    return (
+      <div className="Loading">
+        <ul>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
+    );
   }
 
   if (categoriesError || productsError) {
@@ -35,20 +52,30 @@ const ListInventories = () => {
 
   const recordsPerPage = 10;
 
-  const filteredBySearch = productsData.filter(product => {
-    const matchesSearchTerm = (
-      product.code.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.name.normalize("NFD")
+  const filteredBySearch = productsData.filter((product) => {
+    const matchesSearchTerm =
+      product.code
+        .toString()
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      product.name
+        .normalize("NFD")
         .replace(/[\u0300-\u036f\s]/g, "")
-        .trim().toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.unit.toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase())
-    );
+        .trim()
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      product.unit
+        .toLowerCase()
+        .includes(searchTerm.replace(/\s/g, "").toLowerCase());
     const matchesState = filterState === null || product.state === filterState;
     return matchesSearchTerm && matchesState;
   });
 
   const offset = currentPage * recordsPerPage;
-  const paginatedProducts = filteredBySearch.slice(offset, offset + recordsPerPage);
+  const paginatedProducts = filteredBySearch.slice(
+    offset,
+    offset + recordsPerPage
+  );
 
   const pageCount = Math.ceil(productsData.length / recordsPerPage);
 
@@ -77,58 +104,63 @@ const ListInventories = () => {
           </Row>
         </Form>
 
-
         <Col xs={12} md={10} lg={12}>
-          {
-            productsData != null ? (
-              <Row>
-                <Table className='Table' striped bordered hover variant="light" responsive>
-                  <thead>
-                    <tr>
-                      <th>Imagen</th>
-                      <th>Código</th>
-                      <th>Nombre</th>
-                      <th>Unidad</th>
-                      <th>Existencias</th>
-                      <th>Acciones</th>
+          {productsData != null ? (
+            <Row>
+              <Table
+                className="Table"
+                striped
+                bordered
+                hover
+                variant="light"
+                responsive
+              >
+                <thead>
+                  <tr>
+                    <th>Imagen</th>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Unidad</th>
+                    <th>Existencias</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {paginatedProducts.map((product) => (
+                    <tr key={product.id}>
+                      <td>
+                        <img className="img-sm border" src={product.image} />
+                      </td>
+                      <td>{product.code}</td>
+                      <td>{product.name}</td>
+                      <td>{product.unit}</td>
+                      <td>{product.stock}</td>
+                      <td>
+                        <AddInventoryModal props={product} />
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      paginatedProducts.map((product) => (
-                        <tr key={product.id}>
-                          <td><img className="img-sm border"
-                            src={product.image}
-                          /></td>
-                          <td>{product.code}</td>
-                          <td>{product.name}</td>
-                          <td>{product.unit}</td>
-                          <td>{product.stock}</td>
-                          <td>
-                            <AddInventoryModal props={product} />
-                          </td>
-                        </tr>
-                      ))
-                    }
-                  </tbody>
-                </Table>
+                  ))}
+                </tbody>
+              </Table>
+
+              <div className="Pagination-Container">
                 <ReactPaginate
-                  previousLabel={"<"}
-                  nextLabel={">"}
-                  breakLabel={"..."}
+                  previousLabel="<"
+                  nextLabel=">"
+                  breakLabel="..."
                   pageCount={pageCount}
                   marginPagesDisplayed={2}
                   pageRangeDisplayed={5}
                   onPageChange={handlePageClick}
-                  containerClassName={"pagination"}
-                  subContainerClassName={"pages pagination"}
-                  activeClassName={"active"}
+                  containerClassName="pagination"
+                  subContainerClassName="pages pagination"
+                  activeClassName="active"
                 />
-              </Row>
-            )
-              : ("Cargando")
-          }
-
+              </div>
+            </Row>
+          ) : (
+            "Cargando"
+          )}
         </Col>
       </div>
     </Container>
@@ -136,4 +168,3 @@ const ListInventories = () => {
 };
 
 export default ListInventories;
-

@@ -109,7 +109,7 @@ const updateProducerOrderModal = (props) => {
        <Form validated={validated} onSubmit={saveEdit}>
                <Row>
                    <Col md={6}>
-                       <Form.Group controlId="cedula">
+                       <Form.Group controlId="cédula">
                            <Form.Label>Estado de pago</Form.Label>
                            <Select
                            options={optionsPaid}

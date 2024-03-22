@@ -36,7 +36,7 @@ const addInventories = () => {
   useEffect(() => {
     getProductById(product.product, (data) => {
       setProduct(data);
-      setInitialStock(data.stock); // Almacena el stock inicial al cargar el producto
+      setInitialStock(data.stock); 
     });
   }, []);
 
@@ -61,8 +61,8 @@ const addInventories = () => {
       ProductId: productRequest.id,
       ProductName: productRequest.name,
       CambioFecha: new Date(cambioFecha),
-      OldStock: initialStock, // Usar el stock inicial como OldStock
-      NewStock: stock.current.value, // Usar el stock actual como NewStock
+      OldStock: initialStock, 
+      NewStock: stock.current.value, 
       motive: selectedMotive,
       Email: userEmail,
     };
@@ -129,7 +129,7 @@ const addInventories = () => {
             </Container>
           </>
         )
-        : ("espere")}
+        : ("Cargando..")}
     </>
 
   )

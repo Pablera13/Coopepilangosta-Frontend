@@ -57,12 +57,7 @@ const addProductModal = () => {
                 title: 'Agregado!',
                 text: 'Se agregó el producto',
                 icon: 'success',
-            });
-            handleClose()
-
-            setTimeout(function () {
-                window.location.reload();
-            }, 2000)
+            }).then(function(){window.location.reload()});
         },
         onError: () => {
             swal('Error', 'Algo salio mal...', 'error')
@@ -106,7 +101,7 @@ const addProductModal = () => {
             if (CodeAvailability == true) {
                 mutation.mutateAsync(newProduct);
             } else {
-                swal('Advertencia', 'El codigo se encuentra en uso, no es posible guardar un registro con el codigo duplicado.', 'warning')
+                swal('Advertencia', 'El código se encuentra en uso, no es posible guardar un registro con el código duplicado.', 'warning')
             }
 
         }
@@ -187,7 +182,7 @@ const addProductModal = () => {
                                             <option value="Paquete 340g">Paquete 340g</option>
                                             <option value="Barra">Barra</option>
                                             <option value="Litro">Litro</option>
-                                            <option value="Galon">Galón</option>
+                                            <option value="Galón">Galón</option>
                                             <option value="Botella 750ml">Botella 750ml</option>
                                         </select>
                                     </div>

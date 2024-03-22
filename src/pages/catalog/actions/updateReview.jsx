@@ -6,6 +6,10 @@ import { format } from 'date-fns';
 import { TiEdit } from "react-icons/ti";
 import './updateReview.css';
 
+import "../../../css/Pagination.css";
+import "../../../css/StylesBtn.css";
+
+
 const updateReview = (props) => {
   const queryClient = new QueryClient();
 
@@ -67,7 +71,7 @@ const updateReview = (props) => {
           {review && (
             <Form>
               <Form.Label>Valoración</Form.Label>
-              <p className="clasificacion">
+              <p className="clasificación">
                 {[...Array(5)].map((_, index) => (
                   <React.Fragment key={index}>
                     <input

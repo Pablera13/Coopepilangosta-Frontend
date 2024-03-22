@@ -93,7 +93,6 @@ const listProductCostumer = () => {
     setCurrentPage(data.selected);
     console.log("paginatedCotizaciones = " + paginatedCotizaciones.length);
   };
-  //const paginatedFilter = filteredBySearch.slice(offset, offset + recordsPerPage);
 
   const showAlert = (id) => {
     swal({

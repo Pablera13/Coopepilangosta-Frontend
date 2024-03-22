@@ -34,14 +34,14 @@ const listReview = (productid) => {
     if (UserObjet.role.name == 'Cliente') {
       const UserId = UserObjet.costumer.id
       const verified = UserObjet.costumer.verified
-      ///const name = UserObjet.costumer.name
+
       const name = "Comentar como " + UserObjet.costumer.name + ". Tu dirección de correo electrónico no será publicada."
       setCostumerId(UserId)
       setVerified(verified)
       setReviewAs(name)
     } else {
-      //console.log("No es cliente")
-    } //console.log("No habia usuario")
+
+    } 
   }
   }, []);
 
@@ -85,9 +85,7 @@ const listReview = (productid) => {
             title: 'Agregado!',
             text: 'Gracias por su tiempo',
             icon: 'success',
-        });  setTimeout(function () {
-          window.location.reload();
-        }, 2000);
+        }).then(function(){window.location.reload()});
     },
 });
 
@@ -134,11 +132,7 @@ const showAlert = (id) => {
         title: 'Eliminado',
         text: 'La valoración ha sido eliminada',
         icon: 'success',
-      });
-      setTimeout(function () {
-        console.log("Review eliminada" + id)
-        window.location.reload();
-      }, 2000);
+      }).then(function(){window.location.reload()});
     }
   });
 };
@@ -178,8 +172,7 @@ const showAlert = (id) => {
                 placeholder={reviewAs}
                 ref={description}
                 required
-                //value={newReview}
-                //onChange={(e) => setNewReview(e.target.value)}
+            
               />
             </Form.Group>
                              

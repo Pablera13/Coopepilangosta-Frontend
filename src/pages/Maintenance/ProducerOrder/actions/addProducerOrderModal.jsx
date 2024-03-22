@@ -165,7 +165,7 @@ const addProducerOrderModal = () => {
                 PurchaseInitial: PurchasePrice.current.value * Quantity.current.value,
                 Iva: IVA.current.value,
                 PurchaseTotal: PurchaseTotalDouble,
-                //PurchaseFinal: PTAsDouble + iva 
+                
             };
 
             setPurchases((prevPurchases) => [...prevPurchases, Purchase]);
@@ -246,7 +246,6 @@ const addProducerOrderModal = () => {
                 ProductId: purchase.ProductId,
                 Quantity: purchase.Quantity,
                 PurchaseTotal: purchase.PurchaseTotal,
-                //PurchaseFinal: purchase.PurchaseFinal,
                 ProducerOrderId: producerOrder.id,
             };
 

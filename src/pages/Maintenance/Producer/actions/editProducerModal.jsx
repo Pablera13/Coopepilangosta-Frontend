@@ -72,17 +72,9 @@ const editProducerModal = (props) => {
                 bankAccount: bankAccount.current.value,
             };
 
-            // let cedulaAvailability = await CheckCedulaProducerAvailability(cedula.current.value).then(data=>data)
-            // console.log(cedulaAvailability)
-
-            // if (cedulaAvailability == true) {   
 
             mutation.mutateAsync(newProducer);
 
-            // }else{
-            //     event.preventDefault()
-            //     swal('Advertencia','Ya existe un productor con el numero de cedula ingresado.','warning')
-            // }
 
         }
     };

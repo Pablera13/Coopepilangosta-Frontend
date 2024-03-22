@@ -46,7 +46,7 @@ const checkEntry = () => {
             <>
               <Row className='cards-order-producer'>
                 <Card style={{ width: '22rem' }} className='cardsinfo'>
-                  {/* <Card.Img variant="top" src="holder.js/100px180?text=Image cap" /> */}
+                
                   <Card.Body>
                     <Card.Title className='card-info-title'>Información general del pedido</Card.Title>
                     <Card.Text>
@@ -65,7 +65,7 @@ const checkEntry = () => {
                 </Card>
 
                 <Card style={{ width: '22rem' }} className='cardsinfo'>
-                  {/* <Card.Img variant="top" src="holder.js/100px180?text=Image cap" /> */}
+                  
                   <Card.Body>
                     <Card.Title className='card-info-title'>Información del productor</Card.Title>
                     <Card.Text>
