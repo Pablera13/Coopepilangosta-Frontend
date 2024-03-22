@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col, Row, Container, Table, Button, Form } from "react-bootstrap";
 import Select from "react-select";
 import { useQuery } from "react-query";
@@ -15,7 +15,15 @@ import swal from "sweetalert";
 import { MdDelete } from "react-icons/md";
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess";
+
 const listEmployee = () => {
+
+  useEffect(() => {
+    validateAllowedPageAccess()
+  }, [])
+  
+
   const {
     data: employees,
     isLoading: employeesloading,

@@ -6,8 +6,17 @@ import ReactPaginate from 'react-paginate';
 import '../../../css/StylesBtn.css'
 import '../../../css/Pagination.css'
 import { format } from 'date-fns';
+import { validateAllowedPageAccess } from '../../../utils/validatePageAccess';
+import { useEffect } from 'react';
+
 
 const stockReport = () => {
+
+  useEffect(() => {
+    validateAllowedPageAccess()
+  }, [])
+  
+
   const { data: stocksData, isLoading: stocksLoading, isError: stocksError } = useQuery(
     'stockreport',
     getstocks

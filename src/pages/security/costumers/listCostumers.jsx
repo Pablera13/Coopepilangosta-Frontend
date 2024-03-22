@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Container, Row, Col, Form, Table, Button } from "react-bootstrap";
 import { useQuery } from "react-query";
@@ -11,8 +11,13 @@ import ReactPaginate from "react-paginate";
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
 import { BsBox2 } from "react-icons/bs";
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess";
 
 const listCostumers = () => {
+  useEffect(() => {
+    validateAllowedPageAccess()
+  }, [])
+  
   const {
     data: costumers,
     isLoading: costumersloading,
