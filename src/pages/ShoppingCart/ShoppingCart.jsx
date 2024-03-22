@@ -310,11 +310,12 @@ const ShoppingCart = () => {
                                   className="form-control"
                                   style={{ textAlign: "center" }}
                                   defaultValue={Sale.Quantity}
+                                  
                                   max={
                                     Sale.Stockable == true ? Sale.Stock : false
                                   }
                                   type="number"
-                                  min="1"
+                                  min={1}
                                   onChange={(e) => {
                                     const updatedShopping = [...LocalShopping];
                                     updatedShopping[index].Quantity = parseInt(

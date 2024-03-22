@@ -12,8 +12,15 @@ import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess";
 
 const listWarehouse = () => {
+
+  useEffect(() => {
+    validateAllowedPageAccess()
+  }, [])
+  
+
   const {
     data: Warehouses,
     isLoading: WarehousesLoading,
