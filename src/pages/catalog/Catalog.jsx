@@ -136,7 +136,7 @@ const catalog = () => {
         </Row>
         <Row>
           <Col>
-            <div className="pagination-controls">
+          <div className="Pagination-Container">
               <ReactPaginate
                 previousLabel={"<"}
                 nextLabel={">"}

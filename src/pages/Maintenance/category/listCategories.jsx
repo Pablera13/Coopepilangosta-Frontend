@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
+
 import { validateAllowedPageAccess } from "../../../utils/validatePageAccess";
 
 const listCategories = () => {
@@ -136,7 +137,8 @@ const listCategories = () => {
                   ))}{" "}
                 </tbody>
               </Table>
-              <ReactPaginate
+              <div className="Pagination-Container">
+             <ReactPaginate          
                 previousLabel={"<"}
                 nextLabel={">"}
                 breakLabel={"..."}
@@ -148,6 +150,7 @@ const listCategories = () => {
                 subContainerClassName={"pages pagination"}
                 activeClassName={"active"}
               />
+              </div>
             </Row>
           ) : (
             "Cargando"
