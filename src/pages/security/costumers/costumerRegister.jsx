@@ -75,7 +75,7 @@ const costumerRegister = () => {
             date: formattedDate
           }
           , 'VLTRXG-aDYJG_QYt-').then(history.back())
-        
+
       },
 
       onError: () => {
@@ -83,71 +83,71 @@ const costumerRegister = () => {
 
       }
     })
-    const handleCompanyRegistrationSubmit = async (event) => {
-      const form = event.currentTarget;
+  const handleCompanyRegistrationSubmit = async (event) => {
+    const form = event.currentTarget;
+    event.preventDefault();
+
+    if (form.checkValidity() === false) {
       event.preventDefault();
-    
-      if (form.checkValidity() === false) {
-        event.preventDefault();
-        event.stopPropagation();
-      } else {
-        setValidated(true);
-    
-        const cedulaAvailability = await checkCedula(cedulaJuridica.current.value);
-        const costumerEmailAvailability = await checkEmailAvailability(costumerEmail.current.value);
-    
-        if (cedulaAvailability && costumerEmailAvailability) {
-          if (
-            cedulaJuridica.current.value &&
-            name.current.value &&
-            selectedProvincia &&
-            selectedCanton &&
-            selectedDistrito &&
-            address.current.value &&
-            postalCode.current.value &&
-            bankAccount.current.value &&
-            costumerEmail.current.value &&
-            phone.current.value
-          ) {
-            setShowUserRegistration(true);
-    
-            let CostumerRegistered = {
-              cedulaJuridica: cedulaJuridica.current.value,
-              name: name.current.value,
-              province: selectedProvincia.label,
-              canton: selectedCanton.label,
-              district: selectedDistrito.label,
-              address: address.current.value,
-              postalCode: postalCode.current.value,
-              bankAccount: bankAccount.current.value,
-              verified: false,
-              email: costumerEmail.current.value,
-              phoneNumber: phone.current.value,
-            };
-    
-            setcostumerData(CostumerRegistered);
-          } else {
-            swal("Error", "Por favor, complete todos los campos obligatorios", "error");
-          }
+      event.stopPropagation();
+    } else {
+      setValidated(true);
+
+      const cedulaAvailability = await checkCedula(cedulaJuridica.current.value);
+      const costumerEmailAvailability = await checkEmailAvailability(costumerEmail.current.value);
+
+      if (cedulaAvailability && costumerEmailAvailability) {
+        if (
+          cedulaJuridica.current.value &&
+          name.current.value &&
+          selectedProvincia &&
+          selectedCanton &&
+          selectedDistrito &&
+          address.current.value &&
+          postalCode.current.value &&
+          bankAccount.current.value &&
+          costumerEmail.current.value &&
+          phone.current.value
+        ) {
+          setShowUserRegistration(true);
+
+          let CostumerRegistered = {
+            cedulaJuridica: cedulaJuridica.current.value,
+            name: name.current.value,
+            province: selectedProvincia.label,
+            canton: selectedCanton.label,
+            district: selectedDistrito.label,
+            address: address.current.value,
+            postalCode: postalCode.current.value,
+            bankAccount: bankAccount.current.value,
+            verified: false,
+            email: costumerEmail.current.value,
+            phoneNumber: phone.current.value,
+          };
+
+          setcostumerData(CostumerRegistered);
         } else {
-          if (!cedulaAvailability) {
-            swal("Cedula se encuentra registrada", "Ya existe un usuario con la cedula ingresada", "warning");
-          }
-          if (!costumerEmailAvailability) {
-            swal("Correo se encuentra registrada", "Ya existe un usuario con este correo ingresado", "warning");
-          }
+          swal("Error", "Por favor, complete todos los campos obligatorios", "error");
+        }
+      } else {
+        if (!cedulaAvailability) {
+          swal("Cedula se encuentra registrada", "Ya existe un usuario con la cedula ingresada", "warning");
+        }
+        if (!costumerEmailAvailability) {
+          swal("Correo se encuentra registrada", "Ya existe un usuario con este correo ingresado", "warning");
         }
       }
-    };
-    
-    
+    }
+  };
+
+
 
 
   const handleUserRegistrationSubmit = async (event) => {
     const form = event.currentTarget;
     event.preventDefault();
 
-    if (form.checkValidity()  === false ) {
+    if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     } else {
@@ -259,10 +259,10 @@ const costumerRegister = () => {
           <Card>
             <Card.Body className="cardContainerRegister">
               <h3>Registro de Empresa</h3>
-<br></br>
+              <br></br>
               <Form noValidate validated={validated} onSubmit={handleCompanyRegistrationSubmit}>
                 <Row className="mb-3 p-2">
-                <Col xs={4} md={4} lg={4}>
+                  <Col xs={4} md={4} lg={4}>
                     <Form.Group md="4" controlId="validationCustom01">
                       <Form.Label className="labelLogin">Cédula</Form.Label>
                       <Form.Control
@@ -303,7 +303,7 @@ const costumerRegister = () => {
                   </Col>
                 </Row>
                 <Row className="mb-3 p-2">
-                <Col xs={4} md={4} lg={4}>
+                  <Col xs={4} md={4} lg={4}>
                     <Form.Group controlId="validationCustom03">
                       <Form.Label className="labelLogin"><Form.Label>Provincia</Form.Label></Form.Label>
 
@@ -372,25 +372,25 @@ const costumerRegister = () => {
                 <br />
 
                 <Row className='p-2'>
-                <Col xs={6} md={6} lg={6}>
+                  <Col xs={6} md={6} lg={6}>
                     <Form.Group md="4" controlId="validationCustom02">
                       <Form.Label className="labelLogin"><Form.Label>Teléfono</Form.Label></Form.Label>
                       <Form.Control
                         required
                         type="number"
                         min={1}
-
+                        
                         placeholder="Ingrese su teléfono corporativo"
                         ref={phone}
                       />
                       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                     </Form.Group>
                   </Col>
-                  
+
                   <Col xs={6} md={6} lg={6}>
                     <Form.Group controlId="validationCustom08">
                       <Form.Label className="labelLogin"><Form.Label>Cuenta IBAN</Form.Label></Form.Label>
-                      <Form.Control type="number" placeholder="Ingrese una cuenta bancaria" required ref={bankAccount} />
+                      <Form.Control type="text" placeholder="Ingrese una cuenta bancaria" required ref={bankAccount} maxLength={24} />
                       <Form.Control.Feedback type="invalid">
                         Indique su cuenta IBAN
                       </Form.Control.Feedback>
@@ -400,9 +400,9 @@ const costumerRegister = () => {
                 </Row>
                 <div className="justify-content-md-center">
                   <br></br>
-                <Button className="BtnStar" onClick={handleCompanyRegistrationSubmit}>
-                  Continuar
-                </Button></div>
+                  <Button className="BtnStar" onClick={handleCompanyRegistrationSubmit}>
+                    Continuar
+                  </Button></div>
               </Form>
 
             </Card.Body>
@@ -413,11 +413,11 @@ const costumerRegister = () => {
         {showUserRegistration && (
           <Card>
             <Card.Body className="cardContainerRegister">
-            <h3>Registro de Usuario</h3>
-<br></br>
+              <h3>Registro de Usuario</h3>
+              <br></br>
 
               <Form noValidate validated={validated} onSubmit={handleUserRegistrationSubmit}>
-                  <Row className='p-2'>
+                <Row className='p-2'>
                   <Col>
                     <Form.Group controlId="validationCustom09">
                       <Form.Label className="labelLogin"><Form.Label>Correo</Form.Label></Form.Label>
@@ -451,13 +451,13 @@ const costumerRegister = () => {
 
                 </Row>
                 <div className="justify-content-md-center">
-                <br></br>
-                <Button className="BtnStar" onClick={handleUserRegistrationSubmit}
-                >
-                  Registrar Usuario
-                </Button>
+                  <br></br>
+                  <Button className="BtnStar" onClick={handleUserRegistrationSubmit}
+                  >
+                    Registrar Usuario
+                  </Button>
                 </div>
-               
+
               </Form>
             </Card.Body>
           </Card>

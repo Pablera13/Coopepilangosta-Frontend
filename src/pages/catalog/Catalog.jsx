@@ -1,5 +1,5 @@
-import React, {useRef, useState, useMemo, useCallback } from "react";
-import { Row, Col, Container, Card, Button } from "react-bootstrap";
+import React, { useRef, useState, useMemo, useCallback } from "react";
+import { Row, Col, Container, Card, Button, Accordion } from "react-bootstrap";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { useQuery } from "react-query";
 import { getProducts } from "../../services/productService";
@@ -16,32 +16,36 @@ const catalog = () => {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [productsPerPage, setProductsPerPage] = useState(10);
-  const [currentPage, setCurrentPage] = useState(0); 
+  const [currentPage, setCurrentPage] = useState(0);
   const searchValue = useRef();
 
   const handleSearch = useCallback(() => {
     setSearch(searchValue.current.value);
-    setCurrentPage(0); 
+    setCurrentPage(0);
   }, []);
 
   const handleProductsPerPageChange = useCallback((event) => {
     setProductsPerPage(parseInt(event.target.value));
-    setCurrentPage(0); 
+    setCurrentPage(0);
   }, []);
 
   const resetFilter = useCallback(() => {
     setSelectedCategory(null);
-    setCurrentPage(0); 
+    setCurrentPage(0);
   }, []);
 
   const filteredProducts = useMemo(() => {
     let filteredProducts = data || [];
+    if (selectedCategory && selectedCategory == 0) {
+      filteredProducts = data
+    }
+
     if (selectedCategory && selectedCategory.value !== 0) {
       filteredProducts = filteredProducts.filter(product => product.categoryId === selectedCategory.value);
     }
     if (search) {
       filteredProducts = filteredProducts.filter(product =>
-        product.name.toLowerCase().includes(search.toLowerCase())
+        product.name.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "").toLowerCase().includes(search.replace(/\s/g, "").toLowerCase())
       );
     }
     return filteredProducts;
@@ -70,41 +74,61 @@ const catalog = () => {
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
+
+  let categoriesOptions = []
+  categoriesOptions.push({ value: 0, label: "Todos los productos" })
+
+  if (categories) {
+
+    let categoriesMapped = categories.map(category => ({ value: category.id, label: category.name }))
+    categoriesOptions = categoriesOptions.concat(categoriesMapped)
+
+  }
+
   return (
     <>
       <Container>
-        <Row className="searchContainer gap-2">
-        <Col xs={3} sm={3} md={3} lg={3}>
-            <Select 
-              placeholder="Filtrar por categoría"
-              options={categories.map(category => ({ value: category.id, label: category.name }))}
-              onChange={setSelectedCategory}
-              value={selectedCategory}
-            ></Select>
-          </Col>
-          <Col xs={3} sm={3} md={3} lg={3}>
-            <input
-              type="text"
-              placeholder="Búsqueda..."
-              ref={searchValue}
-              onChange={handleSearch}
-              className="form-control"
-              style={{ height: "100%" }}
-            />
-          </Col>
+        <Accordion defaultActiveKey="0">
+          <Accordion.Item eventKey="0">
+            <Accordion.Header>Filtrar</Accordion.Header>
+            <Accordion.Body>
+              <Row className="searchContainer gap-2">
+                <Col xs={12} sm={4} md={3} lg={3}>
+                  <Select
+                    placeholder="Filtrar por categoría"
+                    options={categoriesOptions}
+                    onChange={setSelectedCategory}
+                    value={selectedCategory}
+                  ></Select>
+                </Col>
+                <Col xs={12} sm={3} md={3} lg={3}>
+                  <input
+                    type="text"
+                    placeholder="Búsqueda..."
+                    ref={searchValue}
+                    onChange={handleSearch}
+                    className="form-control"
+                    style={{ height: "100%" }}
+                  />
+                </Col>
 
-         
-          <Col xs={5} sm={5} md={5} lg={5}>
-          <div style={{marginLeft:"60%"}}>
-          <label style={{marginRight:"2%"}}>Productos por página</label>
-              <select className="products-per-page" value={productsPerPage} onChange={handleProductsPerPageChange}>
-                <option value={10}>10</option>
-                <option value={25}>25</option>
-                <option value={50}>50</option>
-              </select>
-              </div>
-          </Col>
-        </Row>
+
+                <Col xs={12} sm={4} md={5} lg={5} className="">
+
+                  <label style={{ marginRight: "2%" }}>Productos por página</label>
+                  <select className="products-per-page" value={productsPerPage} onChange={handleProductsPerPageChange}>
+                    <option value={10}>10</option>
+                    <option value={25}>25</option>
+                    <option value={50}>50</option>
+                  </select>
+
+                </Col>
+              </Row>
+            </Accordion.Body>
+          </Accordion.Item>
+
+        </Accordion>
+
         <Row xs={4} md={4} lg={8} xl={12}>
           {currentProducts.length > 0 ? (
             currentProducts.map(product => (
@@ -131,12 +155,12 @@ const catalog = () => {
           ) : (
             <div>Sin productos</div>
           )}
-                  <br></br>
+          <br></br>
 
         </Row>
         <Row>
           <Col>
-          <div className="Pagination-Container">
+            <div className="Pagination-Container">
               <ReactPaginate
                 previousLabel={"<"}
                 nextLabel={">"}

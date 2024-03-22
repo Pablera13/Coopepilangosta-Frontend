@@ -50,7 +50,7 @@ const ResponsiveNavbar = () => {
 
 
     return (
-        <Container fluid  className='navbarContainer'>
+        <Container fluid  className='navbarContainer shadow-sm'>
             <Navbar bg="light" data-bs-theme="light" expand="lg" className="bg-body-tertiary" id='navbarHead' sticky='top'>
 
                 <Link to="/" className="logo">

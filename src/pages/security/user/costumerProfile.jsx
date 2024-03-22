@@ -53,8 +53,7 @@ const costumerProfile = () => {
           icon: "success",
         });
         setTimeout(function () {
-          localStorage.removeItem("user");
-          localStorage.removeItem("bearer");
+          localStorage.clear()
           window.location = "/";
         }, 2000);
       }

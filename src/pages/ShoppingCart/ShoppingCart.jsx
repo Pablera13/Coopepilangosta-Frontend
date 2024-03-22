@@ -75,7 +75,7 @@ const ShoppingCart = () => {
 
         setTimeout(() => {
           setLocalShopping([]);
-          localStorage.setItem("ShoppingCar", null);
+          localStorage.setItem("ShoppingCar", []);
           navigate(`/myCustomerOrders`);
         }, 2000);
       },
