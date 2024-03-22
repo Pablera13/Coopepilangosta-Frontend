@@ -38,7 +38,7 @@ const ProductDetail = () => {
   const [categoryRequest, setCategory] = useState(null);
   const [cotizacionRequest, setCotizacionRequest] = useState([]);
   const [cotizacionOptions, setCotizacionOptions] = useState([]);
-  // const [selectedCotizacion, setSelectedCotizacion] = useState([]);
+  
   const [MyCotizacion, setMyCotizacion] = useState([]);
   const [FixedCotizacion, setFixedCotizacion] = useState(null);
   const [Volumes, setVolumes] = useState(null);
@@ -67,7 +67,7 @@ const ProductDetail = () => {
         }
         setFixedCotizacion(FixedCotizacion)
         getVolumeDiscount(MyCotizacion.id, setVolumes)
-        // console.log("FixedCotizacion =" + JSON.stringify(FixedCotizacion))
+        
       }
     }
     fetchCotizacion();
@@ -76,9 +76,7 @@ const ProductDetail = () => {
   useEffect(() => {
     if (productRequest) {
       setCurrentImage(productRequest.image);
-      // productRequest.image.split(',').map((image, index) => (
-      //   // console.log("Imagen=" + image + ", index=" + index)
-      // ))
+ 
     }
   }, [productRequest]);
 
@@ -115,23 +113,13 @@ const ProductDetail = () => {
     }
   };
 
-  // useEffect(() => {
-  //   async function MeCagoEnLasRestricciones() {
-  //     let averageeprice = await getProductProducerById(productParams.idproduct);
-  //     setAveragePrice(averageeprice)
-  //     //console.log("precio de compra promedio = " + averageeprice);
-  //   }
-  //   MeCagoEnLasRestricciones();
-
-  // }, []);
-
   useEffect(() => {
     const storedCar = localStorage.getItem('ShoppingCar');
     if (storedCar) {
       setLocalShopping(JSON.parse(storedCar));
-      //console.log("Carrito recuperado : " + storedCar)
+      
     } else {
-      //console.log("No habia carrito")
+      
     }
   }, []);
 
@@ -140,7 +128,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     localStorage.setItem('ShoppingCar', JSON.stringify(LocalShopping));
-    //console.log(JSON.parse(localStorage.getItem('ShoppingCar')))
+    
   }, [LocalShopping]);
 
   const toLogin = () => {
@@ -218,7 +206,7 @@ const ProductDetail = () => {
             Stockable: productRequest.stockable,
             Stock: productRequest.stock
           };
-          // console.log("No encontro el producto y lo seteo")
+         
 
           setLocalShopping((prevProducts) => [...prevProducts, newProductToCart]);
         }
@@ -228,10 +216,7 @@ const ProductDetail = () => {
         title: 'Agregado!',
         text: 'El producto se añadió correctamente',
         icon: 'success',
-      });
-      setTimeout(() => {
-        history.back();
-      }, 2000);
+      }).then(function(){window.location.reload()});
     }
   };
 

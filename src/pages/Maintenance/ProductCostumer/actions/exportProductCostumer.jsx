@@ -69,9 +69,8 @@ export const exportProductCostumer = (props) => {
                 title: 'Agregado!',
                 text: 'Gracias por su tiempo',
                 icon: 'success',
-            }); setTimeout(function () {
-                window.location.reload();
-            }, 2000);
+            }).then(function(){window.location.reload()});
+
         },
     });
 
@@ -120,22 +119,6 @@ export const exportProductCostumer = (props) => {
                         <Form>
                             <Row>
                                 <Col>
-
-                                    {/* <div className="list-container">
-
-                                        <Modal.Title>Su selección:</Modal.Title>
-                                        <br/>
-                                        {checkedList.map((costumer) => {
-                                            return (
-                                                <div>
-                                                    <label>{costumer.name}</label>
-                                                    
-                                                </div>
-                                                
-                                            );
-                                        })}
-
-                                    </div> */}
 
                                     <div className="card-body">
                                         {CostumersArray.map((costumer) => {

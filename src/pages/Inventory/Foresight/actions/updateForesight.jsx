@@ -11,34 +11,32 @@ import "../../../../css/StylesBtn.css";
 
 const updateForesight = (props) => {
     const queryClient = new QueryClient();
-    //Capturar las props y metodos del modal
+
     let foresight = props.props
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    //limpiar cada vez que se cierra el modal
     const clear = () => {
         producersInList = []
         handleClose()
     }
 
-    //Conocer los productores que ya participaban en la prevision
     let producersInList = []
-    //const [producersInList, setProducersInList] = useState();
+
     if (foresight.foresightproducers) {
         foresight.foresightproducers.map((item) => {
             producersInList.push(item.producer)
         })
     }
 
-    //Traer los productores para el select
+
     const [selectedProducer, setSelectedProducer] = useState()
     const { data: producers, isLoading: producersLoading, isError: producersError } = useQuery('producer', getProducers);
 
-    let optionsProducer = [] //Todos los productores
+    let optionsProducer = [] 
 
-    let optionsSelect = [] //Los que seran mostrados en el select
+    let optionsSelect = [] 
 
     if (producers) {
         optionsProducer = producers.map((producers) => ({
@@ -46,7 +44,7 @@ const updateForesight = (props) => {
             label: producers.name + " " + producers.lastname1,
         }))
     };
-    //Filtrar todos los productores con los que estaban en la lista
+   
     if (producersInList.length == 0) {
         optionsSelect = optionsProducer
     } else if (producersInList.length != 0) {
@@ -56,7 +54,7 @@ const updateForesight = (props) => {
         )
     }
 
-    //Productores a agregar
+  
     const [newProducers, setnewProducers] = useState([])
 
     const handleNewProducer = () => {
@@ -77,7 +75,7 @@ const updateForesight = (props) => {
             }
             setnewProducers((prevProducers) => [...prevProducers, newProducer])
 
-            //console.log(newProducers)
+         
         }
     }
 
@@ -119,10 +117,7 @@ const updateForesight = (props) => {
                     text: `Se agrego la prevision`,
                     icon: "success"
                 })
-                setTimeout(() => {
-                    handleClose()
-                    window.location.reload()
-                }, 2000);
+                .then(function(){window.location.reload()});
             },
             onError: () => {
                 swal('Error', 'No se guardaron los cambios', 'error')

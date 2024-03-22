@@ -57,11 +57,8 @@ const addWarehouseModal = () => {
         code.current.value
       )
         .then((data) => data)
-        .finally(
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000)
-        );
+        .then(function(){window.location.reload()});
+
 
       if (codeAvailability == true) {
         mutation.mutateAsync(newWarehouse);
@@ -69,7 +66,7 @@ const addWarehouseModal = () => {
         event.preventDefault();
         swal(
           "Advertencia",
-          "Este codigo de bodega se encuentra en uso.",
+          "Este código de bodega se encuentra en uso.",
           "warning"
         );
       }

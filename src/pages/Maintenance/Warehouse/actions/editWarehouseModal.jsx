@@ -28,10 +28,7 @@ const editWarehouseModal = (props) => {
         title: "Editado!",
         text: "Se edito la bodega",
         icon: "success",
-      });
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      }).then(function(){window.location.reload()});
     },
   });
 
@@ -56,20 +53,10 @@ const editWarehouseModal = (props) => {
         state: state.current.value,
       };
 
-      // let codeAvailability = await checkWarehouseCodeAvailability(code.current.value).then(data => data)
-      // .finally(
-      //     setTimeout(() => {
-      //     window.location.reload()
-      // }, 2000));
 
-      // if (codeAvailability == true){
 
       mutation.mutateAsync(newWarehouse);
 
-      // }else{
-      //     event.preventDefault();
-      //     swal('Advertencia','Este codigo de bodega se encuentra en uso.','warning')
-      // }
     }
   };
 

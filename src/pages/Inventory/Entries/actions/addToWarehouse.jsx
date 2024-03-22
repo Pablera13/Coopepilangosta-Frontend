@@ -14,11 +14,11 @@ import { format } from 'date-fns';
 
 const addToWarehouse = (props) => {
   const queryClient = new QueryClient();
-  //Metodos del modal
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  //Capturar el el pedido de las props
+
   const [purchase, SetPurchase] = useState();
   const [validated, setValidated] = useState(false);
 
@@ -31,7 +31,7 @@ const addToWarehouse = (props) => {
 
   const [selectedWarehouse, setSelectedWarehouse] = useState()
   const { data: warehouse, isLoading: warehouseLoading, isError: warehouseError } = useQuery('warehouse', getWarehouse);
-  //Llenar las opciones del select
+
   let warehouseOptions = []
   if (warehouse != null) {
     warehouseOptions = warehouse.map((warehouse) => ({
@@ -46,9 +46,7 @@ const addToWarehouse = (props) => {
       mutationKey: "entries",
       onSuccess: () => {
         swal('Guardado!', 'Se agrego el pedido a la bodega!', 'success')
-        setTimeout(() => {
-          handleClose()
-        }, 1500);
+        .then(function(){window.location.reload()});
         console.log("entries added")
       },
       onError:(data)=>{

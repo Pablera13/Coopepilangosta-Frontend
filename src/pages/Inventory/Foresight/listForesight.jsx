@@ -29,12 +29,12 @@ const listForesight = () => {
   }, [])
 
   const product = useRef();
-  //State para el producto seleccionado en el select
+
   const [selectedProduct, setSelectedProduct] = useState();
-  //State para setear la data de la prevision de un producto
+
   const [ForesightConsult, setforesightConsult] = useState();
 
-  //trae los productos para renderlizarlos en el select
+
   const {
     data: products,
     isLoading: productsLoading,
@@ -42,7 +42,7 @@ const listForesight = () => {
   } = useQuery("product", getProducts);
   let optionsProduct = [];
   if (products != null) {
-    //console.log(products)
+
     optionsProduct = products.map((product) => ({
       value: product.id,
       label: product.name + " " + product.unit,

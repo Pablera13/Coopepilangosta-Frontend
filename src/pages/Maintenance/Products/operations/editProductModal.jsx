@@ -127,13 +127,8 @@ const editProductModal = (props) => {
         image: serializedImages,
       };
       console.log(newProduct)
-      // let CodeAvailability = await checkCodeAvailability(code.current.value).then(data=>data);
-      // console.log(CodeAvailability)
-      // if (CodeAvailability == true) {
+
       mutation.mutateAsync(newProduct);
-      // }else{
-      //     swal('Advertnecia','El codigo se encuentra en uso, no es posible guardar un registro con el codigo duplicado','warning')
-      // }
     }
   };
 
@@ -215,7 +210,7 @@ const editProductModal = (props) => {
                           <option value="Paquete 340g">Paquete 340g</option>
                           <option value="Barra">Barra</option>
                           <option value="Litro">Litro</option>
-                          <option value="Galon">Galón</option>
+                          <option value="Galón">Galón</option>
                           <option value="Botella 750ml">Botella 750ml</option>
                         </select>
                       </div>

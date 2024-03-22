@@ -1,50 +1,62 @@
-import React from 'react';
-import { Table, Container, Col, Row, Button, Card, ListGroup } from 'react-bootstrap';
-import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
-import { format } from 'date-fns';
-import { Form } from 'react-bootstrap';
+import React from "react";
+import {
+  Table,
+  Container,
+  Col,
+  Row,
+  Button,
+  Card,
+  ListGroup,
+} from "react-bootstrap";
+import { NavLink, Navigate, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { format } from "date-fns";
+import { Form } from "react-bootstrap";
 
-import { getCostumerOrder } from '../../../services/costumerorderService';
+import { getCostumerOrder } from "../../../services/costumerorderService";
 
-import { getUserById } from '../../../services/userService';
-import {getCostumerOrderByCostumer} from '../../../services/costumerorderService'
-import PrintCustomerOrder from '../../Maintenance/CustomerOrder/actions/printCustomerOrder.jsx';
-import ReactPaginate from 'react-paginate';
+import { getUserById } from "../../../services/userService";
+import { getCostumerOrderByCostumer } from "../../../services/costumerorderService";
+import PrintCustomerOrder from "../../Maintenance/CustomerOrder/actions/printCustomerOrder.jsx";
+import ReactPaginate from "react-paginate";
 import "../../../css/StylesBtn.css";
-import { IoMdSearch } from 'react-icons/io';
+import { IoMdSearch } from "react-icons/io";
 
 const myCostumerOrder = () => {
-    const userStorage = JSON.parse(localStorage.getItem('user'));
-    const navigate = useNavigate()
-    const [customerorderData, setcustomerorderData] = useState([]);
+  const userStorage = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
+  const [customerorderData, setcustomerorderData] = useState([]);
 
-    useEffect(() => {
-        async function settingOrders() {
-            getCostumerOrderByCostumer(userStorage.costumer.id, setcustomerorderData)
-        }
-        settingOrders();
-    }, [userStorage]);
+  useEffect(() => {
+    async function settingOrders() {
+      getCostumerOrderByCostumer(userStorage.costumer.id, setcustomerorderData);
+    }
+    settingOrders();
+  }, [userStorage]);
 
-    const [currentPage, setCurrentPage] = useState(0);
-    const [selectedDate, setSelectedDate] = useState('');
-    const [selectedStage, setSelectedStage] = useState('');
+  const [currentPage, setCurrentPage] = useState(0);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedStage, setSelectedStage] = useState("");
 
-    const filteredByDate = customerorderData ? customerorderData.filter((miPedido) => {
+  const filteredByDate = customerorderData
+    ? customerorderData.filter((miPedido) => {
         if (selectedDate) {
-            const pedidoDate = new Date(miPedido.confirmedDate);
-            const selected = new Date(selectedDate);
-            return pedidoDate.toDateString() === selected.toDateString();
+          const pedidoDate = new Date(miPedido.confirmedDate);
+          const selected = new Date(selectedDate);
+          return pedidoDate.toDateString() === selected.toDateString();
         }
-        const matchesState = miPedido.stage === 'Sin confirmar' || miPedido.stage === 'En preparación' || miPedido.stage === 'Confirmado';
+        const matchesState =
+          miPedido.stage === "Sin confirmar" ||
+          miPedido.stage === "En preparación" ||
+          miPedido.stage === "Confirmado";
         return true && matchesState;
-    }) : [];
-    
+      })
+    : [];
 
-      const recordsPerPage = 10;
-      const offset = currentPage * recordsPerPage;
-      const paginatedOrders = filteredByDate.slice(offset, offset + recordsPerPage);
+  const recordsPerPage = 10;
+  const offset = currentPage * recordsPerPage;
+  const paginatedOrders = filteredByDate.slice(offset, offset + recordsPerPage);
 
   const pageCount = Math.ceil(filteredByDate.length / recordsPerPage);
 
@@ -52,115 +64,123 @@ const myCostumerOrder = () => {
     setCurrentPage(data.selected);
   };
 
+  return (
+    <Container>
+      <div className="table-container">
+        <h2 className="table-title">Mis Pedidos</h2>
 
-    return (
-        <Container>
-            <div className="table-container">
-                <h2 className="table-title">Mis Pedidos</h2>
+        <hr className="divider" />
 
-                <hr className="divider" />
+        <br />
 
-                <br/>
+        <Form>
+          <Row className="mb-3 filters-container">
+            <Col xs={5.5} md={5.5}></Col>
 
+            <Col xs={3} md={3}>
+              <Form.Control
+                type="datetime-local"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+              />
+            </Col>
+          </Row>
+        </Form>
 
-                <Form>
-                <Row className="mb-3 filters-container">
+        <br></br>
 
-                <Col xs={5.5} md={5.5}></Col>
+        <Col xs={12} md={12} lg={12}>
+          {customerorderData != null ? (
+            <>
+              <Row>
+                {customerorderData ? (
+                  <Table className="Table" hover responsive>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Fecha</th>
+                        <th>Pago</th>
+                        <th>Entrega</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {paginatedOrders.map((order) => (
+                        <tr key={order.id}>
+                          <td>{order.id}</td>
+                          <td>
+                            {format(
+                              new Date(order.confirmedDate),
+                              "yyyy-MM-dd"
+                            )}
+                          </td>
+                          <td>
+                            {order.paidDate != "0001-01-01T00:00:00"
+                              ? format(new Date(order.paidDate), "yyyy-MM-dd")
+                              : "Sin pagar"}
+                          </td>
+                          <td>
+                            {order.deliveredDate != "0001-01-01T00:00:00"
+                              ? format(
+                                  new Date(order.deliveredDate),
+                                  "yyyy-MM-dd"
+                                )
+                              : "No entregado"}
+                          </td>
 
+                          {/* <td>₡{order.total.toFixed(2)}</td> */}
+                          <td>
+                            {order.total.toFixed(2) == 0
+                              ? "Por cotizar"
+                              : `₡${order.total.toFixed(2)}`}
+                          </td>
+                          <td>{order.stage}</td>
+                          <td>
+                            <div className="BtnContainer">
+                              <Button
+                                className="BtnBrown"
+                                onClick={() =>
+                                  navigate(`/userOrder/${order.id}`)
+                                }
+                              >
+                                <IoMdSearch />
+                              </Button>
 
-    <Col xs={3} md={3}>
-        <Form.Control
-            type="datetime-local"
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
-        />
-    </Col>
-
-</Row>
-
-                </Form>
-
-                <br></br>
-
-                <Col xs={12} md={12} lg={12}>
-                    {customerorderData != null ? (
-                        <>
-                            <Row>
-                                {customerorderData ? (
-                                    <Table className='Table' hover responsive>
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Fecha</th>
-                                                <th>Pago</th>
-                                                <th>Entrega</th>
-                                                <th>Total</th>
-                                                <th>Estado</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {paginatedOrders
-                                                .map((order) => (
-                                                    <tr key={order.id}>
-                                                        <td>{order.id}</td>
-                                                        <td>{format(new Date(order.confirmedDate), 'yyyy-MM-dd')}</td>
-                                                        <td>{order.paidDate != "0001-01-01T00:00:00" ?
-                                                            format(new Date(order.paidDate), 'yyyy-MM-dd')
-                                                            : 'Sin pagar'
-                                                        }</td>
-                                                        <td>{order.deliveredDate != "0001-01-01T00:00:00" ?
-                                                            format(new Date(order.deliveredDate), 'yyyy-MM-dd')
-                                                            : 'No entregado'
-                                                        }</td>
-
-                                                        {/* <td>₡{order.total.toFixed(2)}</td> */}
-                                                        <td>{order.total.toFixed(2) == 0 ?
-                                                            'Por cotizar'
-                                                            : `₡${order.total.toFixed(2)}`
-                                                        }</td>
-                                                        <td>{order.stage}</td>
-                                                        <td>
-
-                                                            <div className="BtnContainer">
-
-                                                                <Button className='BtnBrown'
-                                                                    onClick={() => navigate(`/userOrder/${order.id}`)}>
-                                                                    <IoMdSearch />
-                                                                </Button>
-
-                                                                <PrintCustomerOrder props={order.id} />
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                ))}
-                                        </tbody>
-                                    </Table>
-                                ) : (
-                                    'Cargando'
-                                )}
-                                <ReactPaginate
-                                    previousLabel="<"
-                                    nextLabel=">"
-                                    breakLabel="..."
-                                    pageCount={pageCount}
-                                    marginPagesDisplayed={2}
-                                    pageRangeDisplayed={5}
-                                    onPageChange={handlePageClick}
-                                    containerClassName="pagination"
-                                    subContainerClassName="pages pagination"
-                                    activeClassName="active"
-                                />
-                            </Row>
-                        </>
-                    ) : (
-                        <div className="text-center">Cargando...</div>
-                    )}
-                </Col>
-            </div>
-        </Container>
-    );
+                              <PrintCustomerOrder props={order.id} />
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                ) : (
+                  "Cargando"
+                )}
+                <div className="Pagination-Container">
+                  <ReactPaginate
+                    previousLabel="<"
+                    nextLabel=">"
+                    breakLabel="..."
+                    pageCount={pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={handlePageClick}
+                    containerClassName="pagination"
+                    subContainerClassName="pages pagination"
+                    activeClassName="active"
+                  />
+                </div>
+              </Row>
+            </>
+          ) : (
+            <div className="text-center">Cargando...</div>
+          )}
+        </Col>
+      </div>
+    </Container>
+  );
 };
 
 export default myCostumerOrder;

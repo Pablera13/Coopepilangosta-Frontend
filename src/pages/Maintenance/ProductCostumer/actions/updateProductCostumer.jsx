@@ -16,7 +16,7 @@ const updateProductCostumer = (cotizacion) => {
   const handleOpen = () => {
     handleShow();
     setCotizacion(cotizacion.props);
-    //console.log(props.cotizacion)
+    
   };
 
   const PurchasePrice = useRef();
@@ -35,10 +35,7 @@ const updateProductCostumer = (cotizacion) => {
           title: "Editado!",
           text: "Se editó la cotización",
           icon: "success",
-        });
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+        }).then(function(){window.location.reload()});
       },
     }
   );

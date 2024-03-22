@@ -86,7 +86,7 @@ const checkEntryModal = (props) => {
 
                                     <Col xs={6}>
                                         <Card>
-                                            {/* <Card.Img variant="top" src="holder.js/100px180?text=Image cap" /> */}
+                                           
                                             <Card.Body>
                                                 <Card.Title className='card-info-title'>Productor</Card.Title>
                                                 <Card.Text>

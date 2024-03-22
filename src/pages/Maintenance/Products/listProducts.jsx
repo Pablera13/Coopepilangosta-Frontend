@@ -63,7 +63,6 @@ const listProducts = () => {
 
   const pageCount = Math.ceil(Products.length / recordsPerPage);
 
-  //const paginatedFilter = filteredBySearch.slice(offset, offset + recordsPerPage);
 
   const handlePageClick = (data) => {
     setCurrentPage(data.selected);

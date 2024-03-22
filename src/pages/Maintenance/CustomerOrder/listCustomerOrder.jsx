@@ -18,11 +18,9 @@ import UpdateCustomerOrderModal from "./actions/updateCustomerOrderModal.jsx";
 import { validateAllowedPageAccess } from "../../../utils/validatePageAccess.js";
 
 const listCustomerOrder = () => {
-
   useEffect(() => {
-    validateAllowedPageAccess()
-  
-  }, [])
+    validateAllowedPageAccess();
+  }, []);
   const params = useParams();
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedOption, setSelectedOption] = useState("all"); // Default filter option
@@ -175,7 +173,11 @@ const listCustomerOrder = () => {
                           "yyyy-MM-dd"
                         )}
                       </td>
-                      <td>{CustomerOrder.total === 0? "Por cortizar" : "₡" + CustomerOrder.total.toFixed(2)} </td>
+                      <td>
+                        {CustomerOrder.total === 0
+                          ? "Por cortizar"
+                          : "₡" + CustomerOrder.total.toFixed(2)}{" "}
+                      </td>
                       <td>
                         {CustomerOrder.paidDate === "0001-01-01T00:00:00"
                           ? "Sin pagar"
@@ -213,18 +215,20 @@ const listCustomerOrder = () => {
               </Table>
             </Col>
             <Col>
-              <ReactPaginate
-                previousLabel="<"
-                nextLabel=">"
-                breakLabel="..."
-                pageCount={pageCount}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={handlePageClick}
-                containerClassName="pagination"
-                subContainerClassName="pages pagination"
-                activeClassName="active"
-              />
+              <div className="Pagination-Container">
+                <ReactPaginate
+                  previousLabel="<"
+                  nextLabel=">"
+                  breakLabel="..."
+                  pageCount={pageCount}
+                  marginPagesDisplayed={2}
+                  pageRangeDisplayed={5}
+                  onPageChange={handlePageClick}
+                  containerClassName="pagination"
+                  subContainerClassName="pages pagination"
+                  activeClassName="active"
+                />
+              </div>
             </Col>
           </Row>
         </Col>

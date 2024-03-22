@@ -16,7 +16,7 @@ import "../../../../css/StylesBtn.css";
 import { GrAddCircle } from "react-icons/gr";
 const addForesight = () => {
   const queryClient = new QueryClient();
-  //Logica del modal para mostrar y ocultar
+
   const [show, setShow] = useState(false);
   const handleClose = () => {
     setShow(false)
@@ -25,11 +25,11 @@ const addForesight = () => {
   };
   const handleShow = () => setShow(true);
 
-  //Trae los productores para el select
+  
   const { data: producers, isLoading: producersLoading, isError: producersError } = useQuery('producer', getProducers);
   let optionsProducer = []
   const [selectedProducer, setSelecterProducer] = useState();
-  //trae los productos para el Select de productos
+
   const { data: products, isLoading: productsLoading, isError: productsError } = useQuery('product', getProducts);
   let optionsProduct = []
   const [selectedProduct, setSelectedProduct] = useState();
@@ -44,7 +44,7 @@ const addForesight = () => {
     }));
   }
 
-  //Deshabilitar el select de productoa
+  
   const [isProductDisabled, setIsProductDisabled] = useState()
   useEffect(() => {
     if (selectedProduct) {
@@ -52,7 +52,6 @@ const addForesight = () => {
     }
   }, [selectedProduct]);
 
-  //Agregar a tabla, state para conocer los productores agregados
   const [producersAdded, setProducersAdded] = useState([])
 
   const handleProducerAdded = (producer) => {
@@ -79,14 +78,14 @@ const addForesight = () => {
     console.log(producer)
     setProducersAdded(producersAdded.filter(p => p.id != producer))
   }
-  //Mutacion para el foresight
+ 
   const mutationForesight = useMutation("Foresight", createForesight,
     {
       onSettled: () => queryClient.invalidateQueries("Foresight"),
       mutationKey: "Foresight",
       onSuccess: () => console.log("foresight added")
     })
-  //Mutacion para foresight producer
+
   const mutationForesightProd = useMutation("Foresightproducer", createForesightProducer,
     {
       onSettled: () => queryClient.invalidateQueries("Foresightproducer"),
@@ -102,7 +101,7 @@ const addForesight = () => {
     })
 
   const saveForesight = async () => {
-    //Obtener fecha actual en el formato del api
+    
     const miliseconds = Date.now();
     const today = new Date(miliseconds);
     today.setDate(today.getDate() - 1)
@@ -153,7 +152,7 @@ const addForesight = () => {
                   <Select options={optionsProduct} onChange=
                     {(selectedOption) => setSelectedProduct(selectedOption)} placeholder='Seleccione un producto'>
                   </Select>
-                  {/* <Button variant='secondary' size='sm' >Consultar previsiones</Button> */}
+           
                 </Col>
               </Row>
             </Form.Group>
