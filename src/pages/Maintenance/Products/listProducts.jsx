@@ -10,7 +10,6 @@ import autoTable from 'jspdf-autotable';
 import { format } from "date-fns";
 import useCustomMaterialTable from '../../../utils/materialTableConfig.js'; 
 import "../../../css/StylesBtn.css";
-
 import { deleteProduct } from "../../../services/productService";
 import EditProductModal from "./operations/editProductModal.jsx";
 import AddProductModal from "./operations/addProductModal.jsx";
