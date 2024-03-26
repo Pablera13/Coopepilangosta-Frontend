@@ -80,7 +80,7 @@ const MaterialTable = () => {
 
     const currentDate = new Date();
     const formattedDate = format(currentDate, "yyyy-MM-dd");
-    doc.save(`Reporte Productos ${formattedDate}.pdf`);
+    doc.save(`Reporte Existencias ${formattedDate}.pdf`);
   };
 
   const table = useCustomMaterialTable({
