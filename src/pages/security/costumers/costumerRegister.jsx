@@ -252,11 +252,12 @@ const costumerRegister = () => {
   return (
     <>
       <div className="imagen-de-fondo"></div>
-      <Container className="loginContainerRegister">
+      <Container className="loginContainerRegister" fluid>
 
         {!showUserRegistration && (
-
+          
           <Card>
+            <Row xs={12} sm={12} md={12} lg={2}>
             <Card.Body className="cardContainerRegister">
               <h3>Registro de Empresa</h3>
               <br></br>
@@ -406,6 +407,7 @@ const costumerRegister = () => {
               </Form>
 
             </Card.Body>
+            </Row>
           </Card>
         )}
 
