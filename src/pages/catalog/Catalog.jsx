@@ -142,7 +142,7 @@ const catalog = () => {
                     </Card.Text>
                     <Card.Text>{product.description.slice(0, 50)}...</Card.Text>
                   </Card.Body>
-                  <Card.Footer>
+                  <Card.Footer className="cardfooter">
                     <div className="BtnContainer">
                       <Button className="BtnDetail" href={`/ProductDetail/${product.categoryId}/${product.id}`}>
                         Detalle
