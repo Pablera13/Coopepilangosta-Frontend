@@ -78,8 +78,9 @@ const login = () => {
           </Col>
         </Row>
 
-       
-        <Card>
+        <Card className="CardC">
+        <Row xs={12}>
+
           <Card.Body className="cardContainer">
             <Form>
               <Row>
@@ -140,6 +141,8 @@ const login = () => {
               <br />
             </Form>
           </Card.Body>
+          </Row>
+
         </Card>
       </Container>
       <br />

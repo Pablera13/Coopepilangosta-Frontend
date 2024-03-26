@@ -174,7 +174,7 @@ const costumerRegister = () => {
           district: costumerData.district,
           address: costumerData.address,
           postalCode: costumerData.postalCode,
-          bankAccount: costumerData.bankAccount,
+          bankAccount: 0,
           verified: false,
           email: costumerData.email,
           phoneNumber: costumerData.phoneNumber,
@@ -252,7 +252,7 @@ const costumerRegister = () => {
   return (
     <>
       <div className="imagen-de-fondo"></div>
-      <Container className="loginContainerRegister" fluid>
+      <Container className="loginContainerRegister mt-5" fluid>
 
         {!showUserRegistration && (
           
@@ -263,7 +263,7 @@ const costumerRegister = () => {
               <br></br>
               <Form noValidate validated={validated} onSubmit={handleCompanyRegistrationSubmit}>
                 <Row className="mb-3 p-2">
-                  <Col xs={4} md={4} lg={4}>
+                  <Col xs={6} md={4} lg={4}>
                     <Form.Group md="4" controlId="validationCustom01">
                       <Form.Label className="labelLogin">Cédula</Form.Label>
                       <Form.Control
@@ -276,7 +276,7 @@ const costumerRegister = () => {
                       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                     </Form.Group>
                   </Col>
-                  <Col xs={4} md={4} lg={4}>
+                  <Col xs={6} md={4} lg={4}>
 
                     <Form.Group md="4" controlId="validationCustom02">
                       <Form.Label className="labelLogin">Nombre</Form.Label>
@@ -290,18 +290,7 @@ const costumerRegister = () => {
                     </Form.Group>
                   </Col>
 
-                  <Col xs={4} md={4} lg={4}>
-                    <Form.Group md="4" controlId="validationCustom01">
-                      <Form.Label className="labelLogin">Correo</Form.Label>
-                      <Form.Control
-                        required
-                        type="string"
-                        placeholder="Ingrese su correo corporativo"
-                        ref={costumerEmail}
-                      />
-                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                    </Form.Group>
-                  </Col>
+                  
                 </Row>
                 <Row className="mb-3 p-2">
                   <Col xs={4} md={4} lg={4}>
@@ -372,7 +361,7 @@ const costumerRegister = () => {
 
                 <br />
 
-                <Row className='p-2'>
+                <Row className='p-2 m'>
                   <Col xs={6} md={6} lg={6}>
                     <Form.Group md="4" controlId="validationCustom02">
                       <Form.Label className="labelLogin"><Form.Label>Teléfono</Form.Label></Form.Label>
@@ -388,13 +377,16 @@ const costumerRegister = () => {
                     </Form.Group>
                   </Col>
 
-                  <Col xs={6} md={6} lg={6}>
-                    <Form.Group controlId="validationCustom08">
-                      <Form.Label className="labelLogin"><Form.Label>Cuenta IBAN</Form.Label></Form.Label>
-                      <Form.Control type="text" placeholder="Ingrese una cuenta bancaria" required ref={bankAccount} maxLength={24} />
-                      <Form.Control.Feedback type="invalid">
-                        Indique su cuenta IBAN
-                      </Form.Control.Feedback>
+                  <Col xs={6} md={4} lg={6}>
+                    <Form.Group controlId="validationCustom01" className='mt-2'>
+                      <Form.Label className="labelLogin">Correo</Form.Label>
+                      <Form.Control
+                        required
+                        type="string"
+                        placeholder="Ingrese su correo corporativo"
+                        ref={costumerEmail}
+                      />
+                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                     </Form.Group>
                   </Col>
 
