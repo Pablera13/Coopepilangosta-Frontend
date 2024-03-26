@@ -129,7 +129,7 @@ const MaterialTable = () => {
         </Tooltip>
         <Tooltip title="Editar">
 
-          <PrintProducerOrder props={row.original} />
+          <PrintProducerOrder props={row.original.id} />
 
         </Tooltip>
         <Tooltip title="Eliminar">
