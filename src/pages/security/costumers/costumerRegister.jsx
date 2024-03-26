@@ -105,7 +105,6 @@ const costumerRegister = () => {
           selectedDistrito &&
           address.current.value &&
           postalCode.current.value &&
-          bankAccount.current.value &&
           costumerEmail.current.value &&
           phone.current.value
         ) {
@@ -119,7 +118,7 @@ const costumerRegister = () => {
             district: selectedDistrito.label,
             address: address.current.value,
             postalCode: postalCode.current.value,
-            bankAccount: bankAccount.current.value,
+            bankAccount: 0,
             verified: false,
             email: costumerEmail.current.value,
             phoneNumber: phone.current.value,
@@ -263,7 +262,7 @@ const costumerRegister = () => {
               <br></br>
               <Form noValidate validated={validated} onSubmit={handleCompanyRegistrationSubmit}>
                 <Row className="mb-3 p-2">
-                  <Col xs={6} md={4} lg={4}>
+                  <Col xs={6} md={4} lg={6}>
                     <Form.Group md="4" controlId="validationCustom01">
                       <Form.Label className="labelLogin">Cédula</Form.Label>
                       <Form.Control
@@ -276,7 +275,7 @@ const costumerRegister = () => {
                       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                     </Form.Group>
                   </Col>
-                  <Col xs={6} md={4} lg={4}>
+                  <Col xs={6} md={4} lg={6}>
 
                     <Form.Group md="4" controlId="validationCustom02">
                       <Form.Label className="labelLogin">Nombre</Form.Label>
