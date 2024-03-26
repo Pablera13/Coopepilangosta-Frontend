@@ -31,9 +31,14 @@
   height: max-content;
 }
 
-.dropdown-menu .nav-link {
+.dropdown-menu.show{
   margin-right: 10px; 
+  --bs-dropdown-link-active-bg: #9b7122d2;
+  font-family: "Montserrat", Sans-serif;
+  font-weight: 700;
+
 }
+
 
 .nav-item.show.dropdown{    
   

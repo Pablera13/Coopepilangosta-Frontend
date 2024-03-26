@@ -34,6 +34,12 @@ margin: 100px;
     transform: rotate(360deg);
   }
 }
+.accordion{
+  --bs-accordion-active-bg: #ebe4d9d2;
+  --bs-accordion-border-color: #bdaa89d2;
+  --bs-accordion-btn-focus-box-shadow: #ebdec7d2;
+  --bs-accordion-btn-focus-border-color: #ebdec7d2;
+}
 
 .Loading ul {
   position: relative;

@@ -88,7 +88,7 @@ const catalog = () => {
   return (
     <>
       <Container>
-        <Accordion defaultActiveKey="1">
+        <Accordion defaultActiveKey="0">
           <Accordion.Item eventKey="0">
             <Accordion.Header>Filtrar</Accordion.Header>
             <Accordion.Body>
