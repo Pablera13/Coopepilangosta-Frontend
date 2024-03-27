@@ -121,7 +121,7 @@ const MaterialTable = () => {
       <Box sx={{ display: 'flex', gap: '1rem' }}>
         <Tooltip title="Actualizar datos del empleado">
 
-          <UpdateEmployee props={row.original.id} />
+          <UpdateEmployee props={row.original} />
 
         </Tooltip>
         <Tooltip title="Actualizar Usuario">
