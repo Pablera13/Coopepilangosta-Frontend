@@ -126,7 +126,7 @@ const MaterialTable = () => {
         </Tooltip>
         <Tooltip title="Actualizar Usuario">
 
-          <UpdateEmployeeUser props={row.original.user.role.id} />
+          <UpdateEmployeeUser props={row.original.user} />
 
         </Tooltip>
         <Tooltip title="Eliminar">
