@@ -106,6 +106,11 @@ const MaterialTable = () => {
           <VerifyCostumer props={row.original} />
 
         </Tooltip>
+        <Tooltip title="Acción personalizada">
+  <Button className="BtnBrown" onClick={() => navigate(`/listProductCostumer/${row.original.name}/${row.original.id}`)}>
+    <BsBox2 />
+  </Button>
+</Tooltip>
       </Box>
     ),
 
