@@ -18,6 +18,8 @@ const MaterialTable = () => {
 
   const [data, setData] = useState([]);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -114,15 +116,10 @@ const MaterialTable = () => {
 
     renderRowActions: ({row}) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
-        <Tooltip title="Editar">
-
-          <UpdateCustomerOrderModal props={row.original} />
-
-        </Tooltip>
-        <Tooltip title="Eliminar">
-
-          <Button className="BtnRed" onClick={() => showAlert(row.original.id)}><MdDelete /></Button>
-
+        <Tooltip title="Seguimiento">
+          <Button className="BtnBrown" onClick={() => navigate(`/listProductCostumer/${row.original.name}/${row.original.id}`)}>
+            <BsBox2 />
+          </Button>
         </Tooltip>
         <Tooltip title="Editar">
 
