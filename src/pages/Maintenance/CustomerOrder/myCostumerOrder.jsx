@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { BsBox2 } from "react-icons/bs";
 import { getCostumerOrderByCostumer } from "../../../services/costumerorderService";
 import PrintCustomerOrder from "../../Maintenance/CustomerOrder/actions/printCustomerOrder.jsx";
 import "../../../css/StylesBtn.css";
@@ -117,7 +118,7 @@ const MaterialTable = () => {
     renderRowActions: ({row}) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
         <Tooltip title="Seguimiento">
-          <Button className="BtnBrown" onClick={() => navigate(`/listProductCostumer/${row.original.name}/${row.original.id}`)}>
+          <Button className="BtnBrown" onClick={() => navigate(`/userOrder/${row.original.id}`)}>
             <BsBox2 />
           </Button>
         </Tooltip>
