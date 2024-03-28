@@ -24,13 +24,16 @@ const MaterialTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getCostumerOrderByCostumer();
+        const userStorage = JSON.parse(localStorage.getItem("user"));
+        const response = await getCostumerOrderByCostumer(userStorage.costumer.id);
         setData(response);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
+  
     fetchData();
+  
   }, []);
 
   const { isError: isLoadingError, isFetching: isFetching, isLoading: isLoading } = getCostumerOrderByCostumer();
