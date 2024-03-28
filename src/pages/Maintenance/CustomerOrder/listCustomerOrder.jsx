@@ -100,7 +100,7 @@ const MaterialTable = () => {
       Cell: ({ row }) => { 
         return (
           <span>
-            {row.original.paidDate === "0001-01-01T00:00:00" ? "No entregado" : format(new Date(row.original.paidDate), "yyyy-MM-dd")}
+            {row.original.deliveredDate === "0001-01-01T00:00:00" ? "No entregado" : format(new Date(row.original.deliveredDate), "yyyy-MM-dd")}
           </span>
         );
       }

@@ -9,11 +9,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { getCostumerOrder } from "../../../services/costumerorderService";
-import { getUserById } from "../../../services/userService";
 import { getCostumerOrderByCostumer } from "../../../services/costumerorderService";
 import PrintCustomerOrder from "../../Maintenance/CustomerOrder/actions/printCustomerOrder.jsx";
-import ReactPaginate from "react-paginate";
 import "../../../css/StylesBtn.css";
 import { IoMdSearch } from "react-icons/io";
 
@@ -24,7 +21,7 @@ const MaterialTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getCostumerOrder();
+        const response = await getCostumerOrderByCostumer();
         setData(response);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -33,7 +30,7 @@ const MaterialTable = () => {
     fetchData();
   }, []);
 
-  const { isError: isLoadingError, isFetching: isFetching, isLoading: isLoading } = getCostumerOrder();
+  const { isError: isLoadingError, isFetching: isFetching, isLoading: isLoading } = getCostumerOrderByCostumer();
 
   const columns = useMemo(() => [
     {
@@ -50,20 +47,8 @@ const MaterialTable = () => {
       }
     },
     {
-      accessorKey: 'total',
-      header: 'Total',
-      enableClickToCopy: true,
-      Cell: ({ row }) => { 
-        return (
-          <span>
-            {row.original.total === 0 ? "Por cotizar" : `₡${row.original.total.toFixed(2)}`}
-          </span>
-        );
-      }
-    },
-    {
       accessorKey: 'paidDate',
-      header: 'Estado Pago',
+      header: 'Pago',
       enableClickToCopy: true,
       Cell: ({ row }) => { 
         return (
@@ -80,14 +65,26 @@ const MaterialTable = () => {
       Cell: ({ row }) => { 
         return (
           <span>
-            {row.original.paidDate === "0001-01-01T00:00:00" ? "No entregado" : format(new Date(row.original.paidDate), "yyyy-MM-dd")}
+            {row.original.deliveredDate === "0001-01-01T00:00:00" ? "No entregado" : format(new Date(row.original.deliveredDate), "yyyy-MM-dd")}
+          </span>
+        );
+      }
+    },
+    {
+      accessorKey: 'total',
+      header: 'Total',
+      enableClickToCopy: true,
+      Cell: ({ row }) => { 
+        return (
+          <span>
+            {row.original.total === 0 ? "Por cotizar" : `₡${row.original.total.toFixed(2)}`}
           </span>
         );
       }
     },
     {
       accessorKey: 'stage',
-      header: 'Seguimiento',
+      header: 'Estado',
       enableClickToCopy: true,
     },
   ], []);
@@ -114,7 +111,6 @@ const MaterialTable = () => {
     isLoading,
     isLoadingError,
     isFetching,
-    showAlert,
 
     renderRowActions: ({row}) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
