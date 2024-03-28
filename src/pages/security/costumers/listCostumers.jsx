@@ -10,6 +10,7 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { Container } from "react-bootstrap";
 import { getCostumers } from "../../../services/costumerService";
 import DetailsCostumer from "./detailsCostumer";
+import { useNavigate } from "react-router-dom";
 import Styles from "./listCostumers.css";
 import VerifyCostumer from "../costumers/actions/verifyCostumer";
 import "../../../css/Pagination.css";
@@ -20,6 +21,8 @@ import { validateAllowedPageAccess } from "../../../utils/validatePageAccess";
 const MaterialTable = () => {
 
   const [data, setData] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,7 +68,7 @@ const MaterialTable = () => {
       accessorKey: 'verified',
       header: 'Verificado',
       enableClickToCopy: true,
-      Cell: ({ row }) => { return (row.original.state == true ? <span>{`Verificado`}</span> : <span>{`No verificado`}</span>);
+      Cell: ({ row }) => { return (row.original.verified == true ? <span>{`Verificado`}</span> : <span>{`No verificado`}</span>);
       }
     },
   ], []);
@@ -92,7 +95,6 @@ const MaterialTable = () => {
     isLoading,
     isLoadingError,
     isFetching,
-    showAlert,
 
     renderRowActions: ({row}) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
