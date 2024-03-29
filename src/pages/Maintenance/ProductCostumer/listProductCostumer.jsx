@@ -58,8 +58,6 @@ const MaterialTable = () => {
     fetchData();
   }, [Params.costumerid]);
 
-  const { isError: isLoadingError, isFetching: isFetching, isLoading: isLoading } = getProductCostumer(Params.costumerid);
-
   const ObtainCotizaciones = async () => {
     if (data && data.length > 0) {
       let cotizaciones = [];
@@ -86,10 +84,15 @@ const MaterialTable = () => {
         };
         cotizaciones.push(cotizacion);
       }
-      return cotizaciones;
+      setData(cotizaciones);
     }
-    return [];
   };
+
+  useEffect(() => {
+    if (data && data.length > 0) {
+      ObtainCotizaciones();
+    }
+  }, [data]);
 
   const columns = useMemo(() => [
     {
@@ -152,9 +155,6 @@ const MaterialTable = () => {
   const table = useCustomMaterialTable({
     columns,
     data: data,
-    isLoading,
-    isLoadingError,
-    isFetching,
     showAlert,
 
     renderRowActions: ({row}) => (
@@ -171,7 +171,7 @@ const MaterialTable = () => {
         </Tooltip>
         <Tooltip title="Descuentos por volumen">
 
-          <VolumeDiscountModal props={row.original.id} />
+          <VolumeDiscountModal props={row.original} />
 
         </Tooltip>
         <Tooltip title="Exportar cotización">
