@@ -14,6 +14,7 @@ import AddProductCostumer from "./actions/addProductCostumer.jsx";
 import UpdateProductCostumer from "./actions/updateProductCostumer";
 import VolumeDiscountModal from "./actions/volumeDiscountModal";
 import ExportProductCostumer from "./actions/exportProductCostumer";
+import { useParams } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import { getProductById2 } from "../../../services/productService";
 import "../../../css/Pagination.css";
@@ -23,6 +24,7 @@ import { validateAllowedPageAccess } from "../../../utils/validatePageAccess.js"
 const MaterialTable = () => {
 
   const [data, setData] = useState([]);
+  const Params = useParams();
 
   const showAlert = (id) => {
     swal({
@@ -46,16 +48,16 @@ const MaterialTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getProductCostumer();
+        const response = await getProductCostumer(Params.costumerid, setData);
         setData(response);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
     fetchData();
-  }, []);
+  }, [Params.costumerid]);
 
-  const { isError: isLoadingError, isFetching: isFetching, isLoading: isLoading } = getProductCostumer();
+  const { isError: isLoadingError, isFetching: isFetching, isLoading: isLoading } = getProductCostumer(Params.costumerid);
 
   const columns = useMemo(() => [
     {
