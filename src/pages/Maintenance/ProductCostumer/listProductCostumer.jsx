@@ -25,6 +25,7 @@ const MaterialTable = () => {
 
   const [data, setData] = useState([]);
   const Params = useParams();
+  
 
   const showAlert = (id) => {
     swal({
@@ -58,6 +59,37 @@ const MaterialTable = () => {
   }, [Params.costumerid]);
 
   const { isError: isLoadingError, isFetching: isFetching, isLoading: isLoading } = getProductCostumer(Params.costumerid);
+
+  const ObtainCotizaciones = async () => {
+    if (data && data.length > 0) {
+      let cotizaciones = [];
+      for (const productcostumer of data) {
+        const product = await getProductById2(productcostumer.productId);
+
+        const MargenGanancia =
+          productcostumer.purchasePrice * (productcostumer.margin / 100);
+        const PrecioConMargen = productcostumer.purchasePrice + MargenGanancia;
+        const IVA = PrecioConMargen * (product.iva / 100);
+        const PrecioFinal = PrecioConMargen + IVA;
+
+        let cotizacion = {
+          id: productcostumer.id,
+          productId: product.id,
+          productName: product.name,
+          productUnit: productcostumer.unit,
+          productIva: product.iva,
+          finalPrice: PrecioFinal.toFixed(0),
+          costumerId: Params.costumerid,
+          purchasePrice: productcostumer.purchasePrice,
+          description: productcostumer.description,
+          margin: productcostumer.margin,
+        };
+        cotizaciones.push(cotizacion);
+      }
+      return cotizaciones;
+    }
+    return [];
+  };
 
   const columns = useMemo(() => [
     {
