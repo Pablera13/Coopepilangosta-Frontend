@@ -13,7 +13,6 @@ import { BsBox2 } from "react-icons/bs";
 import { getCostumerOrderByCostumer } from "../../../services/costumerorderService";
 import PrintCustomerOrder from "../../Maintenance/CustomerOrder/actions/printCustomerOrder.jsx";
 import "../../../css/StylesBtn.css";
-import { IoMdSearch } from "react-icons/io";
 
 const MaterialTable = () => {
 
@@ -25,15 +24,13 @@ const MaterialTable = () => {
     const fetchData = async () => {
       try {
         const userStorage = JSON.parse(localStorage.getItem("user"));
-        const response = await getCostumerOrderByCostumer(userStorage.costumer.id);
+        const response = await getCostumerOrderByCostumer(userStorage.costumer.id, setData);
         setData(response);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-  
     fetchData();
-  
   }, []);
 
   const { isError: isLoadingError, isFetching: isFetching, isLoading: isLoading } = getCostumerOrderByCostumer();
