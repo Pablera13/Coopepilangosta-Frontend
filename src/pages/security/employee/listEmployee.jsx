@@ -13,12 +13,10 @@ import UpdateEmployee from "./actions/updateEmployee";
 import { AddEmployee } from "./actions/addEmployeModal";
 import UpdateEmployeeUser from "./actions/updateEmployeeUser";
 import { deleteEmployee } from "../../../services/employeeService";
-import { deleteUser } from "../../../services/userService";
 import swal from "sweetalert";
 import { MdDelete } from "react-icons/md";
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
-import { validateAllowedPageAccess } from "../../../utils/validatePageAccess";
 
 const MaterialTable = () => {
 
@@ -27,7 +25,7 @@ const MaterialTable = () => {
   const showAlert = (id) => {
     swal({
       title: "Eliminar",
-      text: "¿Está seguro de que desea eliminar este pedido?",
+      text: "¿Está seguro de que desea eliminar este usuario?",
       icon: "warning",
       buttons: ["Cancelar", "Aceptar"],
     }).then((answer) => {
@@ -35,7 +33,7 @@ const MaterialTable = () => {
         deleteEmployee(id);
         swal({
           title: 'Eliminado',
-          text: 'El pedido ha sido eliminado',
+          text: 'El usuario ha sido eliminado',
           icon: 'success',
         }).then(function () { window.location.reload() });
 
@@ -84,7 +82,15 @@ const MaterialTable = () => {
       enableClickToCopy: true,
     },
     {
-      accessorKey: 'name',
+      accessorKey: 'email',
+      header: 'Correo',
+      enableClickToCopy: true,
+      Cell: ({ row }) => { 
+        return <td>{row.original.user.email}</td>;
+      }
+    },
+    {
+      accessorKey: 'role',
       header: 'Rol',
       enableClickToCopy: true,
       Cell: ({ row }) => { 

@@ -7,7 +7,7 @@ import { jsPDF } from 'jspdf';
 import { format } from "date-fns";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import { Table, Container, Col, Row } from "react-bootstrap";
+import {Container} from "react-bootstrap";
 import { deleteCostumerOrder } from "../../../services/costumerorderService";
 import { getCostumerOrder } from "../../../services/costumerorderService";
 import PrintCustomerOrder from "./actions/printCustomerOrder.jsx";
@@ -15,8 +15,6 @@ import UpdateCustomerOrderModal from "./actions/updateCustomerOrderModal.jsx";
 import { MdDelete } from "react-icons/md";
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
-import ReactPaginate from "react-paginate";
-import { validateAllowedPageAccess } from "../../../utils/validatePageAccess.js";
 
 const MaterialTable = () => {
 

@@ -67,7 +67,7 @@ export const AddEmployee = () => {
     onSuccess: () => {
       swal({
         title: "Agregado!",
-        text: "Se agrego el empleado",
+        text: "Se agregó el empleado",
         icon: "success",
       });
       setTimeout(() => {
@@ -132,7 +132,7 @@ export const AddEmployee = () => {
       if (cedulaAvailability == false) {
         swal(
           "Advertencia",
-          "Ya existe un empleado con este numero de cedula",
+          "Ya existe un empleado con este número de cédula",
           "warning"
         );
       }
@@ -146,7 +146,7 @@ export const AddEmployee = () => {
       if (CheckFormatCedula == false) {
         swal(
           "Advertencia",
-          "La cedula no se encuentra en el formato correcto",
+          "La cédula no se encuentra en el formato correcto",
           "warning"
         );
       }

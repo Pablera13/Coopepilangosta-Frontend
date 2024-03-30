@@ -14,7 +14,6 @@ import EditCategoryModal from "./actions/editCategoryModal";
 import { MdDelete } from "react-icons/md";
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
-import { validateAllowedPageAccess } from "../../../utils/validatePageAccess";
 
 const MaterialTable = () => {
 
@@ -23,7 +22,7 @@ const MaterialTable = () => {
   const showAlert = (id) => {
     swal({
       title: "Eliminar",
-      text: "¿Está seguro de que desea eliminar esta categoria?",
+      text: "¿Está seguro de que desea eliminar esta categoría?",
       icon: "warning",
       buttons: ["Cancelar", "Aceptar"],
     }).then((answer) => {
@@ -31,7 +30,7 @@ const MaterialTable = () => {
         deleteCategory(id);
         swal({
           title: 'Eliminado',
-          text: 'La categoria ha sido eliminado',
+          text: 'La categoría ha sido eliminada',
           icon: 'success',
         }).then(function () { window.location.reload() });
 
@@ -74,7 +73,7 @@ const MaterialTable = () => {
 
     const currentDate = new Date();
     const formattedDate = format(currentDate, "yyyy-MM-dd");
-    doc.save(`Reporte Categorias ${formattedDate}.pdf`);
+    doc.save(`Reporte Categorías ${formattedDate}.pdf`);
   };
 
   const table = useCustomMaterialTable({
@@ -122,7 +121,7 @@ const queryClient = new QueryClient();
 const listCategories = () => (
   <Container>
     <div className="table-container">
-      <h2 className="table-title">Productos</h2>
+      <h2 className="table-title">Categorías</h2>
       <hr className="divider" />
       <QueryClientProvider client={queryClient}>
         <MaterialTable />

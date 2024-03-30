@@ -1,5 +1,4 @@
 import ReactDOM from "react-dom/client";
-import "./index.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Layout } from "./pages/_layout/Layout.jsx";
@@ -13,10 +12,8 @@ import ListWarehouse from "./pages/Maintenance/Warehouse/listWarehouse";
 import ListProducers from "./pages/Maintenance/Producer/listProducers";
 
 import ListProducerOrder from "./pages/Maintenance/ProducerOrder/listProducerOrder";
-import UpdateProducerOrder from "./pages/Maintenance/ProducerOrder/actions/updateProducerOrder";
 
 import ListCustomerOrder from "./pages/Maintenance/CustomerOrder/listCustomerOrder";
-import UpdateCustomerOrder from "./pages/Maintenance/CustomerOrder/actions/updateCustomerOrder";
 import MyCostumerOrder from "./pages/Maintenance/CustomerOrder/myCostumerOrder";
 
 import ListOrders from "../src/pages/Inventory/Orders/listOrders";
@@ -93,14 +90,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
           <Route path="/myCustomerOrders" element={<MyCostumerOrder />} />
 
-          <Route
-            path="/editProducerOrder/:producerorder"
-            element={<UpdateProducerOrder />}
-          />
-          <Route
-            path="/editCustomerOrder/:customerorder"
-            element={<UpdateCustomerOrder />}
-          />
+          
 
           <Route path="/listEntries" element={<ListEntries />} />
           <Route

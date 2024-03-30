@@ -19,18 +19,16 @@ import { MdDelete } from "react-icons/md";
 import { getProductById2 } from "../../../services/productService";
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
-import { validateAllowedPageAccess } from "../../../utils/validatePageAccess.js";
 
 const MaterialTable = () => {
 
   const [data, setData] = useState([]);
   const Params = useParams();
-  
 
   const showAlert = (id) => {
     swal({
       title: "Eliminar",
-      text: "¿Está seguro de que desea eliminar este producto?",
+      text: "¿Está seguro de que desea eliminar esta cotización?",
       icon: "warning",
       buttons: ["Cancelar", "Aceptar"],
     }).then((answer) => {
@@ -38,7 +36,7 @@ const MaterialTable = () => {
         deleteProductCostumer(id);
         swal({
           title: 'Eliminado',
-          text: 'El producto ha sido eliminado',
+          text: 'La cotización ha sido eliminada',
           icon: 'success',
         }).then(function () { window.location.reload() });
 
@@ -49,19 +47,21 @@ const MaterialTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getProductCostumer(Params.costumerid, setData);
-        setData(response);
+        const cotizacionesData = await getProductCostumer(Params.costumerid);
+        ObtainCotizaciones(cotizacionesData)
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
     fetchData();
-  }, [Params.costumerid]);
+  }, [Params]);
 
-  const ObtainCotizaciones = async () => {
-    if (data && data.length > 0) {
+  const ObtainCotizaciones = async (cotizacionesData) => {
+
       let cotizaciones = [];
-      for (const productcostumer of data) {
+      for (const productcostumer of cotizacionesData) {
+
         const product = await getProductById2(productcostumer.productId);
 
         const MargenGanancia =
@@ -85,15 +85,9 @@ const MaterialTable = () => {
         cotizaciones.push(cotizacion);
       }
       setData(cotizaciones);
-    }
+    
   };
-
-  useEffect(() => {
-    if (data && data.length > 0) {
-      ObtainCotizaciones();
-    }
-  }, [data]);
-
+  
   const columns = useMemo(() => [
     {
       accessorKey: 'productName',
@@ -171,12 +165,12 @@ const MaterialTable = () => {
         </Tooltip>
         <Tooltip title="Descuentos por volumen">
 
-          <VolumeDiscountModal props={row.original} />
+          <VolumeDiscountModal props={row.original.id} />
 
         </Tooltip>
         <Tooltip title="Exportar cotización">
 
-          <ExportProductCostumer props={row.original} />
+          <ExportProductCostumer props={row.original.id} />
 
         </Tooltip>
       </Box>
@@ -202,9 +196,10 @@ const MaterialTable = () => {
 const queryClient = new QueryClient();
 
 const listProductCostumer = () => (
+
   <Container>
     <div className="table-container">
-      <h2 className="table-title">Cotizaciones</h2>
+      <h2 className="table-title">Cotizaciones de {useParams().costumername}</h2>
       <hr className="divider" />
       <QueryClientProvider client={queryClient}>
         <MaterialTable />

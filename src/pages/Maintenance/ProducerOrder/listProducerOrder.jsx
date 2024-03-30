@@ -17,8 +17,6 @@ import CheckEntryModal from '../../Inventory/Entries/actions/checkEntryModal.jsx
 import UpdateProducerOrderModal from "./actions/updateProducerOrderModal.jsx";
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
-import { validateAllowedPageAccess } from "../../../utils/validatePageAccess.js";
-
 
 const MaterialTable = () => {
 

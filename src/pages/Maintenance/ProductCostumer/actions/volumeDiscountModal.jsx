@@ -1,27 +1,21 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { QueryClient, useMutation, useQuery } from 'react-query';
+import { QueryClient, useMutation} from 'react-query';
 import { Modal, Button, Form, Row, Col, Table } from 'react-bootstrap';
-import { editProduct } from '../../../../services/productService';
 import { getVolumeDiscount } from '../../../../services/volumeDiscount';
 import { createVolumeDiscount } from '../../../../services/volumeDiscount';
 import {deleteVolumeDiscount} from '../../../../services/volumeDiscount';
 
 import swal from 'sweetalert';
-import './volumeDiscountStyle.css';
 
 import "../../../../css/Pagination.css";
 import "../../../../css/StylesBtn.css";
 
-
 import { MdPercent } from "react-icons/md";
-
-
 const volumeDiscountModal = (props) => {
 
     const [cotizacionRequest, setCotizacion] = useState([]);
 
     useEffect(() => {
-        console.log("Cotizacion id" + props.props)
         const cotizacionId = props.props;
         if (cotizacionId) {
             getVolumeDiscount(cotizacionId, setCotizacion)
@@ -98,7 +92,7 @@ const volumeDiscountModal = (props) => {
             </Button>
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header className='HdVolume' closeButton>
+                <Modal.Header className='HeaderModal' closeButton>
                     <Modal.Title>Descuentos por volumen</Modal.Title>
                 </Modal.Header>
 
@@ -176,10 +170,10 @@ const volumeDiscountModal = (props) => {
 
                 <Modal.Footer>
 
-                <Button className='BtnSaveVolume' variant="primary" size="sm" onClick={save}>
+                <Button className='BtnSave' variant="primary" size="sm" onClick={save}>
                                 Guardar
                             </Button>
-                    <Button className='BtnReturnVolume' variant="secondary" size="sm" onClick={handleClose}>
+                    <Button className='BtnClose' variant="secondary" size="sm" onClick={handleClose}>
                         Cerrar
                     </Button>
 

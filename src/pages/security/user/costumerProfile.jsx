@@ -41,15 +41,15 @@ const costumerProfile = () => {
 
   const handleLogout = () => {
     swal({
-      title: "Cerrar session",
-      text: "Esta seguro?",
+      title: "Cerrar sesión",
+      text: "Está seguro?",
       icon: "warning",
       buttons: ["Cancelar", "Aceptar"],
     }).then((answer) => {
       if (answer) {
         swal({
-          title: "Se cerro la sesión!",
-          text: `Volverá a sitio principal`,
+          title: "Se cerró la sesión!",
+          text: `Volverá al sitio principal`,
           icon: "success",
         });
         setTimeout(function () {

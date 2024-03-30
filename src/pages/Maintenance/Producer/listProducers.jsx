@@ -72,12 +72,22 @@ const MaterialTable = () => {
     },
     {
       accessorKey: 'lastname2',
-      header: 'Primer Apellido',
+      header: 'Segundo Apellido',
       enableClickToCopy: true,
     },
     {
       accessorKey: 'phoneNumber',
       header: 'Número de teléfono',
+      enableClickToCopy: true,
+    },
+    {
+      accessorKey: 'email',
+      header: 'Correo',
+      enableClickToCopy: true,
+    },
+    {
+      accessorKey: 'bankAccount',
+      header: 'Cuenta Bancaria',
       enableClickToCopy: true,
     },
   ], []);

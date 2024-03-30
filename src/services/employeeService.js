@@ -2,7 +2,6 @@ import api from "../Api/apiAxios";
 
 export const getEmployees = async () => { 
     let data = await api.get('employee').then(result => result.data);
-    //console.log(data)
     return data;
 };
 

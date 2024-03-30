@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
-import { QueryClient, useMutation, useQuery } from "react-query";
+import { QueryClient, useMutation } from "react-query";
 import swal from "sweetalert";
 import { format } from "date-fns";
-import { NavLink, Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { createCostumerOrder } from "../../services/costumerorderService";
 import { checkProductStock } from "../../services/productService";
 import { reduceStock } from "../../services/productService";
 import { createStockReport } from "../../services/reportServices/stockreportService";
 import { locations } from "../../utils/provinces";
 import { createSale } from "../../services/saleService";
-import {Form,Row,Col,Button,Container,InputGroup,Collapse,Table,Card,} from "react-bootstrap";
+import { Form, Row, Col, Button, Container, Collapse, Table, Card, } from "react-bootstrap";
 import Select from "react-select";
-import { RiArrowGoBackFill } from "react-icons/ri";
 import { MdDelete } from "react-icons/md";
 
 import "./ShoppingCart.css";
@@ -27,10 +26,6 @@ const ShoppingCart = () => {
   const [TotalOrder, setTotalOrder] = useState();
   const [SubTotal, setSubTotal] = useState();
   const Detail = useRef();
-
-  const Province = useRef();
-  const Canton = useRef();
-  const District = useRef();
   const Address = useRef();
 
   useEffect(() => {
@@ -259,16 +254,28 @@ const ShoppingCart = () => {
       {LocalShopping.length >= 1 &&
         localStorage.getItem("ShoppingCar") != null ? (
         <>
+
           <Container>
+
+            <Row>
+              <Col xs={12} md={12} lg={12}>
+                <div className="warning">
+                  <div className="TxtWarning">
+                    Los precios indicados en este catálogo son referenciales y
+                    pueden estar sujetos a variaciones en el precio final.
+                    Por favor consulte con nuestro equipo para conocer precios especiales y descuentos disponibles
+                  </div>
+                  <div className="IconWarning">
+                    <IoWarning />
+                  </div>
+                </div>
+              </Col>
+            </Row>
+
+
             <Row className="mb-3">
               <div className="card">
-              <div className="warning">
-                <div className="TxtWarning"> Los precios indicados en este catálogo son referenciales y
-                  pueden estar sujetos a variaciones en el precio final. Por
-                  favor consulte con nuestro equipo para conocer precios
-                  especiales y descuentos disponibles</div>
-                <div className="IconWarning"> <IoWarning /></div>
-                </div>
+
                 <br></br>
                 <div>
                   <Col xs={12} md={12} lg={12}>
@@ -280,10 +287,10 @@ const ShoppingCart = () => {
                         <br></br>
 
                         <thead>
-                          <tr>
+                          <tr className='text-center'>
                             <th>Imagen</th>
                             <th>Descripción</th>
-                            <th style={{ width: "10%" }}>Cantidad</th>
+                            <th>Cantidad</th>
                             <th>Unidad</th>
                             <th>Precio</th>
                             <th>Subtotal</th>
@@ -293,7 +300,7 @@ const ShoppingCart = () => {
                           </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody className='text-center'>
                           {LocalShopping.map((Sale, index) => (
                             <tr key={Sale.ProductId}>
                               <td>
@@ -303,14 +310,15 @@ const ShoppingCart = () => {
                                   alt={Sale.ProductName}
                                 />
                               </td>
+
                               <td>{Sale.ProductName}</td>
 
-                              <td>
+                              <td style={{ width: "10%" }}>
                                 <input
-                                  className="form-control"
-                                  style={{ textAlign: "center" }}
+                                  className="form-control text-center"
                                   defaultValue={Sale.Quantity}
-                                  
+
+
                                   max={
                                     Sale.Stockable == true ? Sale.Stock : false
                                   }
@@ -474,7 +482,7 @@ const ShoppingCart = () => {
                   <div className="col-md-6">
                     <Card>
                       <Card.Body>
-                        <h5 className="card-title">Dirección de Envío</h5>
+                        <h5 className="card-title ">Dirección de Envío</h5>
                         <div className="row">
                           <div className="col-lg-4">
                             <Form.Group controlId="validationCustom03">
@@ -549,6 +557,7 @@ const ShoppingCart = () => {
                           <div className="col-md-4">
                             <Button
                               className="BtnBrown"
+                              style={{fontSize:'110%'}}
                               onClick={checkStockAvailability}
                             >
                               Realizar Pedido
@@ -557,6 +566,7 @@ const ShoppingCart = () => {
 
                           <div className="col-md-8">
                             <Button
+                             style={{fontSize:'110%'}}
                               className="BtnRed"
                               onClick={() => navigate(`/home`)}
                             >
@@ -592,16 +602,31 @@ const ShoppingCart = () => {
           </Container>
         </>
       ) : (
-        <div className="empty-cart-message">
-          <p>No has realizado compras aún</p>
-          <Button
-            className="BtnStar"
-            style={{ alignContent: "center" }}
-            onClick={() => navigate(`/home`)}
-          >
-            Ir a comprar{" "}
-          </Button>{" "}
-        </div>
+
+
+        <Container>
+          <Row className="mb-3">
+            <Card>
+              <Card.Body className="text-center">
+                <h5 className="card-title">¡Tu carrito de compras está vacío!</h5>
+
+                <div className="empty-cart-message">
+                  <p>Agrega productos para continuar</p>
+                  <Button
+                    className="BtnStar"
+                    style={{ alignContent: "center" }}
+                    onClick={() => navigate(`/home`)}
+                  >
+                    Ir a comprar{" "}
+                  </Button>{" "}
+                </div>
+
+              </Card.Body>
+            </Card>
+          </Row>
+        </Container>
+
+
       )}
     </>
   );

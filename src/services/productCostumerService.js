@@ -1,15 +1,12 @@
 import api from "../Api/apiAxios";
 
-export const getProductCostumer = async(costumerid, state) => { 
+export const getProductCostumer = async(costumerid) => { 
   let data = await api.get(`ProductCostumer?costumerid=${costumerid}`).then(result => result.data);
-  //console.log("Reviews desde el service" + JSON.stringify(data))
-  state(data)
   return data;
 }
 
 export const getProductCostumerById = async(productId, costumerid, state) => { 
   let data = await api.get(`ProductCostumer/${productId},${costumerid}`).then(result => result.data);
-  //console.log("Reviews desde el service" + JSON.stringify(data))
   state(data)
   return data;
 }

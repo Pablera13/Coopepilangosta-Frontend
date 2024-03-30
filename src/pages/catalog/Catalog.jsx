@@ -29,10 +29,6 @@ const catalog = () => {
     setCurrentPage(0);
   }, []);
 
-  const resetFilter = useCallback(() => {
-    setSelectedCategory(null);
-    setCurrentPage(0);
-  }, []);
 
   const filteredProducts = useMemo(() => {
     let filteredProducts = data || [];
@@ -118,7 +114,7 @@ const catalog = () => {
                   <label style={{ marginRight: "2%" }}>Productos por página</label>
                   <select className="products-per-page" value={productsPerPage} onChange={handleProductsPerPageChange}>
                     <option value={10}>10</option>
-                    <option value={25}>25</option>
+                    <option value={30}>30</option>
                     <option value={50}>50</option>
                   </select>
 

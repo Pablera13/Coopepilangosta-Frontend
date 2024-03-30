@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
-import { Box, Button, Tooltip} from '@mui/material';
-import { MaterialReactTable} from 'material-react-table';
-import useCustomMaterialTable from '../../../utils/materialTableConfig.js'; 
+import { Box, Button, Tooltip } from '@mui/material';
+import { MaterialReactTable } from 'material-react-table';
+import useCustomMaterialTable from '../../../utils/materialTableConfig.js';
 import autoTable from 'jspdf-autotable';
-import { jsPDF } from 'jspdf'; 
+import { jsPDF } from 'jspdf';
 import { format } from "date-fns";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -11,12 +11,11 @@ import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { getCostumers } from "../../../services/costumerService";
 import DetailsCostumer from "./detailsCostumer";
-import Styles from "./listCostumers.css";
 import VerifyCostumer from "../costumers/actions/verifyCostumer";
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
 import { BsBox2 } from "react-icons/bs";
-import { validateAllowedPageAccess } from "../../../utils/validatePageAccess";
+
 
 const MaterialTable = () => {
 
@@ -68,15 +67,16 @@ const MaterialTable = () => {
       accessorKey: 'verified',
       header: 'Verificado',
       enableClickToCopy: true,
-      Cell: ({ row }) => { return (row.original.verified == true ? <span>{`Verificado`}</span> : <span>{`No verificado`}</span>);
+      Cell: ({ row }) => {
+        return (row.original.verified == true ? <span>{`Verificado`}</span> : <span>{`No verificado`}</span>);
       }
     },
   ], []);
 
   const handleExportRows = (rows) => {
     const doc = new jsPDF();
-    const tableData = rows.map((row) => 
-    Object.values(row.original));
+    const tableData = rows.map((row) =>
+      Object.values(row.original));
     const tableHeaders = columns.map((c) => c.header);
 
     autoTable(doc, {
@@ -96,7 +96,7 @@ const MaterialTable = () => {
     isLoadingError,
     isFetching,
 
-    renderRowActions: ({row}) => (
+    renderRowActions: ({ row }) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
         <Tooltip title="Información del cliente">
 
@@ -108,24 +108,25 @@ const MaterialTable = () => {
           <VerifyCostumer props={row.original} />
 
         </Tooltip>
-        <Tooltip title="Acción personalizada">
-  <Button className="BtnBrown" onClick={() => navigate(`/listProductCostumer/${row.original.name}/${row.original.id}`)}>
-    <BsBox2 />
-  </Button>
-</Tooltip>
+
+        <Tooltip title="Cotizaciones">
+          <Button className="BtnBrown" onClick={() => navigate(`/listProductCostumer/${row.original.name}/${row.original.id}`)}>
+            <BsBox2 />
+          </Button>
+        </Tooltip>
       </Box>
     ),
 
-    renderTopToolbarCustomActions: ({ table }) =>(
-    <>
+    renderTopToolbarCustomActions: ({ table }) => (
+      <>
 
-    <Button
-      disabled={table.getPrePaginationRowModel().rows.length === 0}
-      onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
-      startIcon={<FileDownloadIcon />}
-    >
-      Exportar
-    </Button></>),
+        <Button
+          disabled={table.getPrePaginationRowModel().rows.length === 0}
+          onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
+          startIcon={<FileDownloadIcon />}
+        >
+          Exportar
+        </Button></>),
   });
 
   return <MaterialReactTable table={table}
@@ -134,10 +135,10 @@ const MaterialTable = () => {
 
 const queryClient = new QueryClient();
 
-const listProducts = () => (
+const listCostumers = () => (
   <Container>
     <div className="table-container">
-      <h2 className="table-title">Productos</h2>
+      <h2 className="table-title">Clientes</h2>
       <hr className="divider" />
       <QueryClientProvider client={queryClient}>
         <MaterialTable />
@@ -147,4 +148,4 @@ const listProducts = () => (
 
 );
 
-export default listProducts;
+export default listCostumers;

@@ -31,7 +31,7 @@ const verifyCostumer = (props) => {
         onSuccess: () => {
             swal({
               title: "Editado!",
-              text: "Se editó el cliente",
+              text: "Se editó el estado del cliente",
               icon: "success",
             }).then(function(){window.location.reload()});
           },

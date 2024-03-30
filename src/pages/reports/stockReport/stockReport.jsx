@@ -12,7 +12,6 @@ import { getstocks } from "../../../services/reportServices/stockreportService";
 import { Container } from "react-bootstrap";
 import "../../../css/StylesBtn.css";
 import "../../../css/Pagination.css";
-import { validateAllowedPageAccess } from "../../../utils/validatePageAccess";
 
 const MaterialTable = () => {
 
@@ -82,7 +81,7 @@ const MaterialTable = () => {
 
     const currentDate = new Date();
     const formattedDate = format(currentDate, "yyyy-MM-dd");
-    doc.save(`Reporte Cambio de Existencias ${formattedDate}.pdf`);
+    doc.save(`Historial de inventario ${formattedDate}.pdf`);
   };
 
   const table = useCustomMaterialTable({
