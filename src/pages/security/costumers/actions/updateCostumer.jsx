@@ -3,7 +3,6 @@ import { useMutation, QueryClient } from 'react-query';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import { editCostumer } from '../../../../services/costumerService';
 import { useRef } from 'react';
-import { provinces } from '../../../../utils/provinces';
 import { TiEdit } from "react-icons/ti";
 
 import { locations } from '../../../../utils/provinces';

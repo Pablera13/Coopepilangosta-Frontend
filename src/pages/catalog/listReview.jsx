@@ -243,7 +243,8 @@ const showAlert = (id) => {
           </div>
         ))
       ) : (
-        <p className="verify warning">No hay valoraciones. Se el primero en valorar este producto</p>
+       
+        <p className="warning text-center">No hay valoraciones. Se el primero en valorar este producto</p>
         )}
     </Container>
   );

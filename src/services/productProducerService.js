@@ -6,7 +6,6 @@ export const getProductProducer = async (ProductId, ProducerId) => {
       const data = response.data; 
 
       if (data) {
-        //   console.log("Datos del servicio:", data);
           return data.purchasePrice;
       }
   } catch (error) {
@@ -16,13 +15,11 @@ export const getProductProducer = async (ProductId, ProducerId) => {
 
 export const createProductProducer = async (productproducer) => { 
   let data = await api.post('productproducer', productproducer).then(result => result.data);
-  console.log(data)
   return data;
 };
 
 export const getProductProducerById = async (id) => { 
   let data = await api.get(`productproducer/${id}`).then(result => result.data);
-  console.log(data)
   return data;
 };
 

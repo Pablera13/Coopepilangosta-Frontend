@@ -1,9 +1,8 @@
 import React from 'react'
 import { useRef, useState, useEffect } from "react";
 import { QueryClient, useMutation, useQuery } from "react-query";
-import { NavLink } from 'react-router-dom'
 import { format } from 'date-fns';
-import { Table, Button, Form, Accordion, Card, Modal } from 'react-bootstrap';
+import { Table, Button, Form, Modal } from 'react-bootstrap';
 import { Col, Row } from 'react-bootstrap';
 import swal from 'sweetalert';
 import Select from 'react-select';
@@ -12,13 +11,10 @@ import { createPurchase } from '../../../../services/purchaseService';
 import { getProducers } from '../../../../services/producerService';
 import { getProducts } from '../../../../services/productService';
 import { getProductProducer } from '../../../../services/productProducerService';
-import { useNavigate } from 'react-router-dom';
 import { createProductProducer } from '../../../../services/productProducerService';
 import { editProductProducer } from '../../../../services/productProducerService';
-import './addProducerOrderModal.css'
 
 import { getProductById } from '../../../../services/productService';
-import formatRelativeWithOptions from 'date-fns/esm/fp/formatRelativeWithOptions/index.js';
 import { GrAddCircle } from "react-icons/gr";
 
 const addProducerOrderModal = () => {
@@ -125,12 +121,8 @@ const addProducerOrderModal = () => {
     useEffect(() => {
         if (selectedQuantity) {
             let realiva = IVA.current.value / 100
-            console.log('realiva' + realiva)
             let totaliva = PurchasePrice.current.value * realiva
-            console.log('totaliva' + totaliva)
             let total = parseInt(PurchasePrice.current.value) + totaliva
-            console.log('total' + total)
-
             PurchaseTotal.current.value = (total * selectedQuantity).toFixed(2);
         }
     }, [selectedQuantity]);
@@ -460,10 +452,10 @@ const addProducerOrderModal = () => {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='BtnSaveOrder' variant="primary" size="sm" onClick={saveProducerOrder} >
+                    <Button className='BtnSave' variant="primary" size="sm" onClick={saveProducerOrder} >
                         Guardar Pedido
                     </Button>
-                    <Button className='BtnReturnOrder' variant="secondary" size="sm" onClick={handleClose}
+                    <Button className='BtnReturn' variant="secondary" size="sm" onClick={handleClose}
                     >
                         Cerrar
                     </Button>

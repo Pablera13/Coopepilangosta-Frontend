@@ -25,7 +25,7 @@ const updateContact = (props) => {
       onSuccess: () => {
         swal({
           title: "Editado!",
-          text: "Se edito el contacto",
+          text: "Se editó el contacto",
           icon: "success",
         }).then(function () {
           window.location.reload();

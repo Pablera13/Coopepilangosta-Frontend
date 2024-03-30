@@ -2,7 +2,6 @@ import api from "../Api/apiAxios";
 
 export const getCostumerOrder = async () => { 
     let data = await api.get('costumerorder').then(result => result.data);
-    //console.log(data)
     return data;
 };
 
@@ -16,20 +15,16 @@ export const getCostumerOrderByCostumer = async(costumerid, state) => {
 export const getCostumerOrderById = async (id,state) => { 
     let data = await api.get(`costumerorder/${id}`).then(result => result.data);
     state(data)
-    // console.log(data)
     return data;
 };
 
 export const getCostumerOrderById2 = async (id) => { 
     let data = await api.get(`costumerorder/${id}`).then(result => result.data);
-    // console.log(data)
     return data;
 };
 
 export const createCostumerOrder = async (costumerorder) => { 
-    // console.log(costumerorder)
     let data = await api.post('costumerorder', costumerorder).then(result => result.data);
-    // console.log(data)https://localhost:7275/api/CostumerOrder/ByCostumer?id=6
 
     return data;
 };

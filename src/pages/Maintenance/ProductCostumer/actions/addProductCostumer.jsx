@@ -4,7 +4,7 @@ import { useMutation, useQuery } from "react-query";
 import Select from "react-select";
 import { QueryClient } from "react-query";
 import { createProductCostumer } from "../../../../services/productCostumerService.js";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getProducts } from "../../../../services/productService";
 import { getProductById2 } from "../../../../services/productService";
 import "../../../../css/Pagination.css";
@@ -59,7 +59,6 @@ export const addProductCostumer = () => {
   const ObtainMargin = async (productId) => {
     try {
       let Leproduct = await getProductById2(productId);
-      console.log("Leproduct = " + JSON.stringify(Leproduct));
       Margin.current.value = Leproduct.margin;
       Unit.current.value = Leproduct.unit;
     } catch (error) {
@@ -73,7 +72,7 @@ export const addProductCostumer = () => {
     onSuccess: () => {
       swal({
         title: "Agregado!",
-        text: "Gracias por su tiempo",
+        text: "La cotización ha sido agregada",
         icon: "success",
       }).then(function(){window.location.reload()});
 
@@ -117,7 +116,6 @@ export const addProductCostumer = () => {
         </Modal.Header>
         <Modal.Body>
           <Form noValidate validated={validated}>
-            {/* <Row><h3>Datos personales</h3></Row> */}
             <Row>
               <Col>
                 <Form.Label>

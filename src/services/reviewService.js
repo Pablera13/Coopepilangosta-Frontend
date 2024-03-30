@@ -2,16 +2,13 @@
 import api from "../Api/apiAxios";
 
 export const getReviewById = async(productid,state) => { 
-    //let data = await api.get(`producer/${id}`).then(result => result.data);
     let data = await api.get(`Review?productid=${productid}`).then(result => result.data);
-    //console.log("Reviews desde el service" + JSON.stringify(data))
     state(data)
     return data;
 }
 
 export const getStarsAverage = async (productid, state) => { 
     let data = await api.get(`review/Average?productid=${productid}`);
-    // console.log("data del service " + data);
     let average = data.data
     state(average)
     return average;

@@ -74,17 +74,6 @@ const editCategoryModal = (props) => {
                 </Col>
               </Row>
 
-              {/* <Form.Control
-                  required
-                  defaultValue={category.name}
-                  type="text"
-                  placeholder=""
-                  autoFocus
-                  ref={categoryName}
-                />
-                <Form.Control.Feedback>Ingrese el nombre de la categoría</Form.Control.Feedback>
-             */}
-
               <Row>
                 <Col md={8}>
                   <Form.Control

@@ -43,7 +43,7 @@ const login = () => {
             break;
           case "User not found":
             swal(
-              "Correo no valido",
+              "Correo no válido",
               "No se encontró un usuario asociado al correo electrónico brindado.",
               "warning"
             );
