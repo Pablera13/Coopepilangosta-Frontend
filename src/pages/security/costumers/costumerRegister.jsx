@@ -261,8 +261,8 @@ const costumerRegister = () => {
               <h3>Registro de Empresa</h3>
               <br></br>
               <Form noValidate validated={validated} onSubmit={handleCompanyRegistrationSubmit}>
-                <Row className="mb-3 p-2">
-                  <Col xs={4} md={4} lg={4}>
+                <Row className="mb-3 p-1">
+                  <Col xs={6} md={4} lg={4}>
                     <Form.Group md="4" controlId="validationCustom01">
                       <Form.Label className="labelLogin">Cédula</Form.Label>
                       <Form.Control
@@ -275,7 +275,7 @@ const costumerRegister = () => {
                       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                     </Form.Group>
                   </Col>
-                  <Col xs={4} md={4} lg={4}>
+                  <Col xs={6} md={4} lg={4}>
 
                     <Form.Group md="4" controlId="validationCustom02">
                       <Form.Label className="labelLogin">Nombre</Form.Label>
@@ -289,7 +289,7 @@ const costumerRegister = () => {
                     </Form.Group>
                   </Col>
 
-                  <Col xs={4} md={4} lg={4}>
+                  <Col xs={12} md={4} lg={4}>
                     <Form.Group md="4" controlId="validationCustom01">
                       <Form.Label className="labelLogin">Correo</Form.Label>
                       <Form.Control
