@@ -4,7 +4,6 @@ import { Modal, Button, Form, Row, Col, Table } from "react-bootstrap";
 import { editProduct } from "../../../../services/productService";
 import { getCategories } from "../../../../services/categoryService";
 import swal from "sweetalert";
-import "./editProductModal.css";
 import { TiEdit } from "react-icons/ti";
 import { MdDelete } from "react-icons/md";
 
@@ -101,6 +100,7 @@ const editProductModal = (props) => {
 
   const save = async (event) => {
     const form = event.currentTarget;
+    
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();

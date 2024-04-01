@@ -1,8 +1,7 @@
 import React from "react";
-import { Container, Row, Col, Card, ListGroup, Button } from "react-bootstrap";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import UpdateEmployee from "../employee/actions/updateEmployee";
 import "./employeeProfile.css";
-import { MdDelete } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
 
 const employeeProfile = () => {
@@ -10,15 +9,15 @@ const employeeProfile = () => {
 
   const handleLogout = () => {
     swal({
-      title: "Cerrar session",
-      text: "Esta seguro?",
+      title: "Cerrar sesión",
+      text: "Está seguro?",
       icon: "warning",
       buttons: ["Cancelar", "Aceptar"],
     }).then((answer) => {
       if (answer) {
         swal({
-          title: "Se cerro la sesión!",
-          text: `Volverá a sitio principal`,
+          title: "Se cerró la sesión!",
+          text: `Volverá al sitio principal`,
           icon: "success",
         });
         setTimeout(function () {

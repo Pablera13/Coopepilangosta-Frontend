@@ -1,6 +1,5 @@
 import { menuItems,menuItemsCostumer,menuItemsNotLogin,menuItemsEmployee } from '../../../menuItems';
 import MenuItems from './MenuItems'
-import navbarstyles from '../../../Styles/navbar.css'
 import { useEffect, useState } from 'react';
 
 const Navbar = () => {

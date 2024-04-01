@@ -2,14 +2,12 @@ import api from "../Api/apiAxios";
 
 export const getUsers = async () => { 
     let data = await api.get('users').then(result => result.data);
-    //console.log(data)
     return data;
 };
 
 export const getUserById = async (id,state) => { 
     let data = await api.get(`users/${id}`).then(result => result.data);
     state(data)
-    //console.log(data)
     return data;
 };
 

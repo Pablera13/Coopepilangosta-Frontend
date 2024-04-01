@@ -1,206 +1,151 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { Container, Row, Col, Form, Table, Button } from "react-bootstrap";
-import { useQuery } from "react-query";
+import { useState, useEffect, useMemo } from "react";
+import { Box, Button, Tooltip } from '@mui/material';
+import { MaterialReactTable } from 'material-react-table';
+import useCustomMaterialTable from '../../../utils/materialTableConfig.js';
+import autoTable from 'jspdf-autotable';
+import { jsPDF } from 'jspdf';
+import { format } from "date-fns";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import { Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { getCostumers } from "../../../services/costumerService";
 import DetailsCostumer from "./detailsCostumer";
-import Styles from "./listCostumers.css";
 import VerifyCostumer from "../costumers/actions/verifyCostumer";
-import { useNavigate } from "react-router-dom";
-import ReactPaginate from "react-paginate";
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
 import { BsBox2 } from "react-icons/bs";
-import { validateAllowedPageAccess } from "../../../utils/validatePageAccess";
 
-const listCostumers = () => {
-  useEffect(() => {
-    validateAllowedPageAccess()
-  }, [])
-  
-  const {
-    data: costumers,
-    isLoading: costumersloading,
-    IsError: costumersError,
-  } = useQuery("costumer", getCostumers);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterState, setFilterState] = useState(null);
+
+const MaterialTable = () => {
+
+  const [data, setData] = useState([]);
 
   const navigate = useNavigate();
 
-  const [currentPage, setCurrentPage] = useState(0);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getCostumers();
+        setData(response);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
 
-  if (costumersloading)
-    return (
-      <div className="Loading">
-        <ul>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-      </div>
-    );
+  const { isError: isLoadingError, isFetching: isFetching, isLoading: isLoading } = getCostumers();
 
-  if (costumersError) return <div>Error</div>;
+  const columns = useMemo(() => [
+    {
+      accessorKey: 'cedulaJuridica',
+      header: 'Cédula',
+      enableClickToCopy: true,
+    },
+    {
+      accessorKey: 'name',
+      header: 'Nombre',
+      enableClickToCopy: true,
+    },
+    {
+      accessorKey: 'province',
+      header: 'Provincia',
+      enableClickToCopy: true,
+    },
+    {
+      accessorKey: 'canton',
+      header: 'Cantón',
+      enableClickToCopy: true,
+    },
+    {
+      accessorKey: 'district',
+      header: 'Distrito',
+      enableClickToCopy: true,
+    },
+    {
+      accessorKey: 'verified',
+      header: 'Verificado',
+      enableClickToCopy: true,
+      Cell: ({ row }) => {
+        return (row.original.verified == true ? <span>{`Verificado`}</span> : <span>{`No verificado`}</span>);
+      }
+    },
+  ], []);
 
-  const filteredBySearch = costumers?.filter((costumer) => {
-    const matchesSearchTerm =
-      costumer.cedulaJuridica
-        .toString()
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      costumer.name
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f\s]/g, "")
-        .toLowerCase()
-        .includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
-      costumer.province
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f\s]/g, "")
-        .toLowerCase()
-        .includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
-      costumer.district
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f\s]/g, "")
-        .toLowerCase()
-        .includes(searchTerm.replace(/\s/g, "").toLowerCase());
-    const matchesVerify =
-      filterState === null || costumer.verified === filterState;
-    return matchesSearchTerm && matchesVerify;
-  });
+  const handleExportRows = (rows) => {
+    const doc = new jsPDF();
+    const tableData = rows.map((row) =>
+      Object.values(row.original));
+    const tableHeaders = columns.map((c) => c.header);
 
-  const recordsPerPage = 10;
+    autoTable(doc, {
+      head: [tableHeaders],
+      body: tableData,
+    });
 
-  let paginatedCustomers = [];
-  if (filteredBySearch) {
-    const offset = currentPage * recordsPerPage;
-    paginatedCustomers = filteredBySearch.slice(
-      offset,
-      offset + recordsPerPage
-    );
-  }
-  const pageCount = Math.ceil(costumers.length / recordsPerPage);
-
-  const handlePageClick = (data) => {
-    setCurrentPage(data.selected);
+    const currentDate = new Date();
+    const formattedDate = format(currentDate, "yyyy-MM-dd");
+    doc.save(`Reporte Clientes ${formattedDate}.pdf`);
   };
 
-  return (
-    <>
-      <Container>
-        <div className="table-container">
-          <h2 className="table-title">Clientes</h2>
-          <hr className="divider" />
+  const table = useCustomMaterialTable({
+    columns,
+    data: data,
+    isLoading,
+    isLoadingError,
+    isFetching,
 
-          <br />
+    renderRowActions: ({ row }) => (
+      <Box sx={{ display: 'flex', gap: '1rem' }}>
+        <Tooltip title="Información del cliente">
 
-          <Form>
-            <Row className="mb-3 filters-container">
-              <Col xs={0} md={0}></Col>
-              <Col xs={12} md={3}>
-                <Form.Control
-                  type="text"
-                  placeholder="Buscar coincidencias"
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="filter-input"
-                />
-              </Col>
-              <Col md={3}>
-                <Form.Select
-                  onChange={(e) =>
-                    setFilterState(
-                      e.target.value === "true"
-                        ? true
-                        : e.target.value === "false"
-                        ? false
-                        : null
-                    )
-                  }
-                >
-                  <option value="">Todos</option>
-                  <option value="true">Verificado</option>
-                  <option value="false">No Verificado</option>
-                </Form.Select>
-              </Col>
-            </Row>
-          </Form>
-          <Col xs={12} md={2} lg={12}>
-            {costumers ? (
-              <Row>
-                <Table className="Table" responsive>
-                  <thead>
-                    <tr>
-                      <th>Cédula</th>
-                      <th>Nombre</th>
-                      <th>Provincia</th>
-                      <th>Cantón</th>
-                      <th>Distrito</th>
-                      <th>Verificado</th>
-                      <th>Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {costumers != null
-                      ? paginatedCustomers.map((costumer) => (
-                          <tr key={costumer.id}>
-                            <td>{costumer.cedulaJuridica}</td>
-                            <td>{costumer.name}</td>
-                            <td>{costumer.province}</td>
-                            <td>{costumer.canton}</td>
-                            <td>{costumer.district}</td>
-                            <td>
-                              {costumer.verified == true
-                                ? "Verificado"
-                                : "No verificado"}
-                            </td>
-                            <td>
-                              <div className="BtnContainer">
-                                <DetailsCostumer props={costumer} />
-                                <VerifyCostumer props={costumer} />
-                                {costumer.verified == true ? (
-                                  <Button
-                                    className="BtnBrown"
-                                    onClick={() =>
-                                      navigate(
-                                        `/listProductCostumer/${costumer.name}/${costumer.id}`
-                                      )
-                                    }
-                                  >
-                                    <BsBox2 />
-                                  </Button>
-                                ) : (
-                                  ""
-                                )}
-                              </div>
-                            </td>
-                          </tr>
-                        ))
-                      : ""}
-                  </tbody>
-                </Table>
-                <div className="Pagination-Container">
-                <ReactPaginate
-                  previousLabel="<"
-                  nextLabel=">"
-                  breakLabel="..."
-                  pageCount={pageCount}
-                  marginPagesDisplayed={2}
-                  pageRangeDisplayed={5}
-                  onPageChange={handlePageClick}
-                  containerClassName="pagination"
-                  subContainerClassName="pages pagination"
-                  activeClassName="active"
-                />
-              </div>
-              </Row>
-            ) : (
-              "Cargando"
-            )}
-          </Col>
-        </div>
-      </Container>
-    </>
-  );
+          <DetailsCostumer props={row.original} />
+
+        </Tooltip>
+        <Tooltip title="Verificación">
+
+          <VerifyCostumer props={row.original} />
+
+        </Tooltip>
+
+        <Tooltip title="Cotizaciones">
+          <Button className="BtnBrown" onClick={() => navigate(`/listProductCostumer/${row.original.name}/${row.original.id}`)}>
+            <BsBox2 />
+          </Button>
+        </Tooltip>
+      </Box>
+    ),
+
+    renderTopToolbarCustomActions: ({ table }) => (
+      <>
+
+        <Button
+          disabled={table.getPrePaginationRowModel().rows.length === 0}
+          onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
+          startIcon={<FileDownloadIcon />}
+        >
+          Exportar
+        </Button></>),
+  });
+
+  return <MaterialReactTable table={table}
+  />;
 };
+
+const queryClient = new QueryClient();
+
+const listCostumers = () => (
+  <Container>
+    <div className="table-container">
+      <h2 className="table-title">Clientes</h2>
+      <hr className="divider" />
+      <QueryClientProvider client={queryClient}>
+        <MaterialTable />
+      </QueryClientProvider>
+    </div>
+  </Container>
+
+);
 
 export default listCostumers;

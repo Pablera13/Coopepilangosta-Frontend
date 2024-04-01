@@ -29,10 +29,6 @@ const catalog = () => {
     setCurrentPage(0);
   }, []);
 
-  const resetFilter = useCallback(() => {
-    setSelectedCategory(null);
-    setCurrentPage(0);
-  }, []);
 
   const filteredProducts = useMemo(() => {
     let filteredProducts = data || [];
@@ -88,7 +84,7 @@ const catalog = () => {
   return (
     <>
       <Container>
-        <Accordion defaultActiveKey="1">
+        <Accordion defaultActiveKey="0">
           <Accordion.Item eventKey="0">
             <Accordion.Header>Filtrar</Accordion.Header>
             <Accordion.Body>
@@ -118,7 +114,7 @@ const catalog = () => {
                   <label style={{ marginRight: "2%" }}>Productos por página</label>
                   <select className="products-per-page" value={productsPerPage} onChange={handleProductsPerPageChange}>
                     <option value={10}>10</option>
-                    <option value={25}>25</option>
+                    <option value={30}>30</option>
                     <option value={50}>50</option>
                   </select>
 
@@ -142,7 +138,7 @@ const catalog = () => {
                     </Card.Text>
                     <Card.Text>{product.description.slice(0, 50)}...</Card.Text>
                   </Card.Body>
-                  <Card.Footer>
+                  <Card.Footer className="cardfooter">
                     <div className="BtnContainer">
                       <Button className="BtnDetail" href={`/ProductDetail/${product.categoryId}/${product.id}`}>
                         Detalle

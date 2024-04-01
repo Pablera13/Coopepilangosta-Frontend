@@ -2,7 +2,6 @@ import api from "../Api/apiAxios";
 
 export const getProducts = async () => { 
     let data = await api.get('product').then(result => result.data);
-    //console.log(data)
     return data;
 };
 
