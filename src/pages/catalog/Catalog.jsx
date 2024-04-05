@@ -4,18 +4,23 @@ import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { useQuery } from "react-query";
 import { getProducts } from "../../services/productService";
 import "./Catalog.css";
-import "../../css/Pagination.css";
-
 import { getCategories } from "../../services/categoryService";
 import Select from "react-select";
 import ReactPaginate from "react-paginate";
+import "../../css/Pagination.css";
+import "../../css/StylesBtn.css";
+
 
 const catalog = () => {
   const { data, isLoading, isError } = useQuery("product", getProducts);
-  const { data: categories, isLoading: categoriesLoading, isError: categoriesError } = useQuery("category", getCategories);
+  const {
+    data: categories,
+    isLoading: categoriesLoading,
+    isError: categoriesError,
+  } = useQuery("category", getCategories);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [productsPerPage, setProductsPerPage] = useState(10);
+  const [productsPerPage, setProductsPerPage] = useState(12);
   const [currentPage, setCurrentPage] = useState(0);
   const searchValue = useRef();
 
@@ -37,15 +42,21 @@ const catalog = () => {
   const filteredProducts = useMemo(() => {
     let filteredProducts = data || [];
     if (selectedCategory && selectedCategory == 0) {
-      filteredProducts = data
+      filteredProducts = data;
     }
 
     if (selectedCategory && selectedCategory.value !== 0) {
-      filteredProducts = filteredProducts.filter(product => product.categoryId === selectedCategory.value);
+      filteredProducts = filteredProducts.filter(
+        (product) => product.categoryId === selectedCategory.value
+      );
     }
     if (search) {
-      filteredProducts = filteredProducts.filter(product =>
-        product.name.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "").toLowerCase().includes(search.replace(/\s/g, "").toLowerCase())
+      filteredProducts = filteredProducts.filter((product) =>
+        product.name
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f\s]/g, "")
+          .toLowerCase()
+          .includes(search.replace(/\s/g, "").toLowerCase())
       );
     }
     return filteredProducts;
@@ -72,17 +83,20 @@ const catalog = () => {
 
   const indexOfLastProduct = (currentPage + 1) * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
 
-
-  let categoriesOptions = []
-  categoriesOptions.push({ value: 0, label: "Todos los productos" })
+  let categoriesOptions = [];
+  categoriesOptions.push({ value: 0, label: "Todos los productos" });
 
   if (categories) {
-
-    let categoriesMapped = categories.map(category => ({ value: category.id, label: category.name }))
-    categoriesOptions = categoriesOptions.concat(categoriesMapped)
-
+    let categoriesMapped = categories.map((category) => ({
+      value: category.id,
+      label: category.name,
+    }));
+    categoriesOptions = categoriesOptions.concat(categoriesMapped);
   }
 
   return (
@@ -111,43 +125,54 @@ const catalog = () => {
                     style={{ height: "100%" }}
                   />
                 </Col>
-
-
                 <Col xs={12} sm={4} md={5} lg={5} className="">
-
-                  <label style={{ marginRight: "2%" }}>Productos por página</label>
-                  <select className="products-per-page" value={productsPerPage} onChange={handleProductsPerPageChange}>
-                    <option value={10}>10</option>
-                    <option value={25}>25</option>
-                    <option value={50}>50</option>
+                  <label style={{ marginRight: "2%" }}>
+                    Productos por página
+                  </label>
+                  <select
+                    className="products-per-page"
+                    value={productsPerPage}
+                    onChange={handleProductsPerPageChange}
+                  >
+                    <option value={12}>12</option>
+                    <option value={24}>24</option>
+                    <option value={40}>40</option>
                   </select>
-
                 </Col>
               </Row>
             </Accordion.Body>
           </Accordion.Item>
-
         </Accordion>
 
         <Row xs={4} md={4} lg={8} xl={12}>
           {currentProducts.length > 0 ? (
-            currentProducts.map(product => (
+            currentProducts.map((product) => (
               <Col xs={11} md={6} lg={3} key={product.id}>
                 <Card className="Customcard">
-                  <Card.Img variant="top" src={product.image} className="custom-card-img" />
+                  <Card.Img
+                    variant="top"
+                    src={product.image}
+                    className="custom-card-img"
+                  />
                   <Card.Body>
-                    <Card.Title>{product.name}</Card.Title>
-                    <Card.Text>
-                      <strong style={{ fontSize: "100%" }}>{product.unit}</strong>
+                    <Card.Title  className="ProductName">{product.name}</Card.Title>
+                    <Card.Text className="ProductUnit">
+                      <strong style={{ fontSize: "100%" }}>
+                        {product.unit}
+                      </strong>
                     </Card.Text>
-                    <Card.Text>{product.description.slice(0, 50)}...</Card.Text>
+                    <Card.Text className="ProductDescription">{product.description.slice(0, 50)}...</Card.Text>
                   </Card.Body>
-                  <Card.Footer>
-                    <div className="BtnContainer">
-                      <Button className="BtnDetail" href={`/ProductDetail/${product.categoryId}/${product.id}`}>
-                        Detalle
-                      </Button>
-                    </div>
+                  <Card.Footer className="ContainerBtn">
+                    <Button
+                      className="BtnSave"
+                      variant="primary"
+                      size="sm"
+                      type="submit"
+                      href={`/ProductDetail/${product.categoryId}/${product.id}`}
+                    >
+                      Detalle
+                    </Button>
                   </Card.Footer>
                 </Card>
               </Col>
@@ -156,7 +181,6 @@ const catalog = () => {
             <div>Sin productos</div>
           )}
           <br></br>
-
         </Row>
         <Row>
           <Col>
