@@ -2,7 +2,6 @@ import api from "../Api/apiAxios";
 
 export const getProducers = async () => { 
     let data = await api.get('producer').then(result => result.data);
-    //console.log(data)
     return data;
 };
 

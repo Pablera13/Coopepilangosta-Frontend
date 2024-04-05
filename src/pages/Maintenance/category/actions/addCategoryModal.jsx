@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import { Col, InputGroup, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { QueryClient, useMutation } from "react-query";
 import { createCategory } from "../../../../services/categoryService";
 import { useRef } from "react";
@@ -26,7 +26,7 @@ const addCategoryModal = () => {
     onSuccess: () => {
       swal({
         title: "Agregado!",
-        text: "Se agregó la categoria",
+        text: "Se agregó la categoría",
         icon: "success",
       }).then(function(){window.location.reload()});
       

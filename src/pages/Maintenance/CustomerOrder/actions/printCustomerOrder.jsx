@@ -1,5 +1,4 @@
 import { React, useState, useEffect } from 'react'
-import { useQuery } from 'react-query';
 import { format } from 'date-fns';
 import { Button } from 'react-bootstrap';
 import { getCostumerById } from '../../../../services/costumerService';
@@ -69,40 +68,30 @@ const printCustomerOrder = (props) => {
             const y = 10;
             doc.addImage(logoCope, 'JPEG', x, y, imgWidth, imgHeight);
 
-            // tamano de fuente y fuente
             doc.setFontSize(16);
             doc.setFont("Helvetica");
 
-            // datos de la organización 
-            //doc.text("Coopepilangosta R.L.", 10, 20);
-            // Texto factura
             doc.setFontSize(14);
             doc.text(`#${customerorder.id}`, 180, 20);
 
-            // primera linea
             doc.setLineWidth(0.2);
             doc.line(10, 33, 200, 33);
 
-            // datos cope
             doc.setFontSize(10);
             doc.text("600 metros de Barrio Cementerio, Hojancha, Guanacaste", 10, 42);
             doc.text("+506 2659 9130", 10, 49);
             doc.text("info@coopepilangosta.com", 10, 56);
             doc.text("https://coopepilangosta.com/", 10, 63);
 
-            // Texto Customer
             doc.setFontSize(14);
             doc.text("Cliente", 10, 80);
 
-            // Texto Factura
             doc.setFontSize(14);
             doc.text("Factura proforma", 100, 80);
 
-            // segunda linea
             doc.setLineWidth(0.2);
             doc.line(10, 85, 200, 85);
 
-            // Datos customer
             doc.setFontSize(10);
             doc.text(`${customer.name}`, 10, 95);
             doc.text(`${customer.address}, ${customer.district}, ${customer.canton}`, 10, 102);
@@ -112,7 +101,6 @@ const printCustomerOrder = (props) => {
             doc.text(`Código Postal: ${customer.postalCode}`, 10, 130);
             doc.text(`Cuenta IBAN: ${customer.bankAccount}`, 10, 137);
 
-            // Datos factura
             doc.text("Fecha de factura:", 100, 116);
             doc.text(format(new Date(customerorder.confirmedDate), 'yyyy-MM-dd'), 150, 116);
             doc.text("Fecha de pago:", 100, 123);
@@ -121,11 +109,9 @@ const printCustomerOrder = (props) => {
                 150, 123
             );
 
-            // Tercera linea
             doc.setLineWidth(0.2);
             doc.line(10, 145, 200, 145);
 
-            // Tabla de la factura
             let subtotal = 0;
             const tableData = MyOrders.map((order, index) => [
                 order.ProductCode,

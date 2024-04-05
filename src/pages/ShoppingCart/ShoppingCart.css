@@ -11,7 +11,6 @@
   width: 100%;
 }
 
-/* Estilos para la tabla */
 .table-shopping-cart th,
 .table-shopping-cart td {
   vertical-align: middle;
@@ -20,24 +19,25 @@
 
 .warning {
   display: flex;
-  background-color: #ffc107;
+  background-color: #ba7f11d2;
   padding: 10px;
+  vertical-align: middle;
   border-radius: 5px;
   margin: 2%;
-  align-items: center; /* Centra verticalmente los elementos */
-  color: brown;
+  align-items: center; 
+  color:white;
   font-weight: bold;
   text-align: center;
   font-size: 15px;
 }
 
 .TxtWarning {
-  flex-grow: 1; /* Permite que el texto ocupe todo el espacio restante */
+  flex-grow: 1; 
 }
 
 .IconWarning {
   font-size: 300%;
-  margin-left: 10px; /* Ajusta el margen izquierdo entre el texto y el ícono */
+  margin-left: 10px; 
   
 }
 

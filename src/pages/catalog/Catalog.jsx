@@ -34,10 +34,6 @@ const catalog = () => {
     setCurrentPage(0);
   }, []);
 
-  const resetFilter = useCallback(() => {
-    setSelectedCategory(null);
-    setCurrentPage(0);
-  }, []);
 
   const filteredProducts = useMemo(() => {
     let filteredProducts = data || [];
@@ -102,7 +98,7 @@ const catalog = () => {
   return (
     <>
       <Container>
-        <Accordion defaultActiveKey="1">
+        <Accordion defaultActiveKey="0">
           <Accordion.Item eventKey="0">
             <Accordion.Header>Filtrar</Accordion.Header>
             <Accordion.Body>
@@ -126,17 +122,12 @@ const catalog = () => {
                   />
                 </Col>
                 <Col xs={12} sm={4} md={5} lg={5} className="">
-                  <label style={{ marginRight: "2%" }}>
-                    Productos por página
-                  </label>
-                  <select
-                    className="products-per-page"
-                    value={productsPerPage}
-                    onChange={handleProductsPerPageChange}
-                  >
-                    <option value={12}>12</option>
-                    <option value={24}>24</option>
-                    <option value={40}>40</option>
+
+                  <label style={{ marginRight: "2%" }}>Productos por página</label>
+                  <select className="products-per-page" value={productsPerPage} onChange={handleProductsPerPageChange}>
+                    <option value={10}>10</option>
+                    <option value={25}>25</option>
+                    <option value={50}>50</option>
                   </select>
                 </Col>
               </Row>
@@ -163,16 +154,12 @@ const catalog = () => {
                     </Card.Text>
                     <Card.Text className="ProductDescription">{product.description.slice(0, 50)}...</Card.Text>
                   </Card.Body>
-                  <Card.Footer className="ContainerBtn">
-                    <Button
-                      className="BtnSave"
-                      variant="primary"
-                      size="sm"
-                      type="submit"
-                      href={`/ProductDetail/${product.categoryId}/${product.id}`}
-                    >
-                      Detalle
-                    </Button>
+                  <Card.Footer>
+                    <div className="BtnContainer">
+                      <Button className="BtnDetail" href={`/ProductDetail/${product.categoryId}/${product.id}`}>
+                        Detalle
+                      </Button>
+                    </div>
                   </Card.Footer>
                 </Card>
               </Col>
