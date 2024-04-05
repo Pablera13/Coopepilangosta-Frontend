@@ -7,6 +7,7 @@ import {
   updateWarehouse,
   checkWarehouseCodeAvailability,
 } from "../../../../services/warehouseService";
+import "./editWarehouseModal.css";
 import { TiEdit } from "react-icons/ti";
 import "../../../../css/Pagination.css";
 import "../../../../css/StylesBtn.css";
@@ -25,7 +26,7 @@ const editWarehouseModal = (props) => {
     onSuccess: () => {
       swal({
         title: "Editado!",
-        text: "Se editó la bodega",
+        text: "Se edito la bodega",
         icon: "success",
       }).then(function(){window.location.reload()});
     },
@@ -59,6 +60,12 @@ const editWarehouseModal = (props) => {
     }
   };
 
+  const limpiarInput = () => {
+    code.current.value = "";
+    description.current.value = "";
+    address.current.value = "";
+    state.current.value = "";
+  };
 
   return (
     <>

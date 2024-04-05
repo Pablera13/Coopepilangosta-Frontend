@@ -117,6 +117,13 @@ const addProductModal = () => {
 
             </Button>
 
+            {/* <Button
+                                variant="danger"
+                                className="BtnStar"
+                                type="button"
+                                onClick={addToCart}
+                              ></Button> */}
+
             <Modal show={show} onHide={handleClose} >
                 <Modal.Header className='HeaderModal' closeButton>
                     <Modal.Title>Agregar nuevo producto</Modal.Title>
@@ -165,7 +172,7 @@ const addProductModal = () => {
                                 <Form.Group>
                                     <Form.Label>Unidad Comercial</Form.Label><br/>
                                     <div className="custom-select-container">
-                                        <Form.Select className="custom-select" id="unitOptions" ref={unit}>
+                                        <select className="custom-select" id="unitOptions" ref={unit}>
                                             <option value="Kilogramo">Kilogramo</option>
                                             <option value="Rollo">Rollo</option>
                                             <option value="Unidad">Unidad</option>
@@ -177,7 +184,7 @@ const addProductModal = () => {
                                             <option value="Litro">Litro</option>
                                             <option value="Galón">Galón</option>
                                             <option value="Botella 750ml">Botella 750ml</option>
-                                        </Form.Select >
+                                        </select>
                                     </div>
                                 </Form.Group>
                             </Col>
@@ -258,6 +265,7 @@ const addProductModal = () => {
                                             onChange={handleImageUpload}
                                         />
                                         <label className="custom-file-label" htmlFor="customFile">
+                                            {/* Seleccionar archivo */}
                                         </label>
                                     </div>
                                     {imageUrl && <img src={imageUrl} alt="Imagen subida" className="uploadedImg" />}

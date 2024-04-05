@@ -34,6 +34,10 @@ const catalog = () => {
     setCurrentPage(0);
   }, []);
 
+  const resetFilter = useCallback(() => {
+    setSelectedCategory(null);
+    setCurrentPage(0);
+  }, []);
 
   const filteredProducts = useMemo(() => {
     let filteredProducts = data || [];
@@ -98,7 +102,7 @@ const catalog = () => {
   return (
     <>
       <Container>
-        <Accordion defaultActiveKey="0">
+        <Accordion defaultActiveKey="1">
           <Accordion.Item eventKey="0">
             <Accordion.Header>Filtrar</Accordion.Header>
             <Accordion.Body>

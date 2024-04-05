@@ -2,10 +2,12 @@ import React, { useRef, useState } from 'react'
 import { Form, Col, Row, Button, Modal } from 'react-bootstrap'
 import { useMutation, useQuery } from 'react-query';
 import { getRoles } from '../../../../services/rolesService';
-import { editUser } from '../../../../services/userService';
+import Select from 'react-select';
+import { checkEmailAvailability, editUser } from '../../../../services/userService';
 import { QueryClient } from 'react-query';
 import swal from 'sweetalert';
 import { FaUserLock } from "react-icons/fa";
+import './updateEmployeeUser.css'
 
 const updateEmployeeUser = (props) => {
     const queryClient = new QueryClient();
@@ -66,16 +68,19 @@ const updateEmployeeUser = (props) => {
             }
         })
 
-    const save = async (event) => {
-        
-        const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    } else {
-      setValidated(true);
-    }
-    if (form.checkValidity() === true) {
+    const handleSubmit = (event) => {
+        const form = document.getElementById('form-updateuser');
+        console.log(form)
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        event.preventDefault();
+        handleUpdateUser()
+        setValidated(true);
+    };
+
+    const handleUpdateUser = async () => {
         let toUpdateUser = {
             id: user.id,
             email: email.current.value,
@@ -95,7 +100,8 @@ const updateEmployeeUser = (props) => {
             editUserEmployeeMutation.mutateAsync(toUpdateUser)
         }
 
-    }}
+
+    }
 
     return (
         <>
@@ -112,12 +118,11 @@ const updateEmployeeUser = (props) => {
                 <Modal.Header className="HeaderModal" closeButton>
                     <Modal.Title>Actualizar usuario</Modal.Title>
                 </Modal.Header>
-                
+                <Modal.Body>
                     {
                         user != null ? (
-                            <><Modal.Body>
-                            <Form validated={validated} onSubmit={save}>
-                                <Row>
+                            <Form noValidate validated={validated} id='form-updateuser'>
+                                <Row id='form-updateuser'>
                                     <Col>
                                         <Form.Label>Correo</Form.Label>
                                         <Form.Control required defaultValue={user.email} ref={email} type='email' />
@@ -132,31 +137,34 @@ const updateEmployeeUser = (props) => {
                                 <Row>
                                     <Col>
                                         <Form.Label>Password</Form.Label>
-                                        <Form.Control required defaultValue={user.password} ref={password} disabled />
+                                        <Form.Control required defaultValue={user.password} ref={password} disabled/>
                                     </Col>
                                     <Col>
                                         <Form.Label>Elija el rol</Form.Label>
                                         <Row>
-                                            <Form.Select defaultValue={user.role.id} onChange={(selected) => setSelectedRole(selected)} ref={selectRole}>
-                                                {roles.map((role) => <option value={role.id} key={role.id}>{role.name}</option>
-                                                )}
-                                            </Form.Select>
+                                            <select defaultValue={user.role.id} onChange={(selected) => setSelectedRole(selected)} ref={selectRole}>
+                                                {
+                                                    roles.map((role) =>
+                                                        <option value={role.id} key={role.id}>{role.name}</option>
+                                                    )
+                                                }
+                                            </select>
                                         </Row>
                                     </Col>
                                 </Row>
 
                             </Form>
-                        </Modal.Body><Modal.Footer>
-                                <Button className="BtnSave" variant="primary" size='sm' onClick={save}>Actualizar empleado</Button>
-                                <Button className="BtnClose" variant="secondary" size='sm' onClick={handleClose}>
-                                    Cerrar
-                                </Button>
-
-                            </Modal.Footer></>
-
                         ) : ("")
                     }
-                
+
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button className="BtnSave" variant="primary" size='sm' onClick={handleSubmit}>Actualizar empleado</Button>
+                    <Button className="BtnClose" variant="secondary" size='sm' onClick={handleClose}>
+                        Cerrar
+                    </Button>
+
+                </Modal.Footer>
             </Modal>
         </>
     )

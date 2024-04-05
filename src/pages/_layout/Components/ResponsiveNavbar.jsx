@@ -51,7 +51,7 @@ const ResponsiveNavbar = () => {
 
     return (
         <Container fluid  className='navbarContainer shadow-sm'>
-            <Navbar  expand="lg" id='navbarHead'>
+            <Navbar bg="light" data-bs-theme="light" expand="lg" className="bg-body-tertiary" id='navbarHead' sticky='top'>
 
                 <Link to="/" className="logo">
 
@@ -60,7 +60,6 @@ const ResponsiveNavbar = () => {
 
                     />
                 </Link>
-            
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">

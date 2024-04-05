@@ -1,0 +1,17 @@
+button.BtnDeleteImg {
+  border-radius: 5px;
+  background-color: #e0e0e0;
+  color: #333;
+  border: 1px solid #e0e0e0 !important;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  min-width: 100px;
+  font-weight: bold;
+}
+
+button.BtnDeleteImg:hover {
+  background-color: #a43114;
+  color: #fff;
+}
+

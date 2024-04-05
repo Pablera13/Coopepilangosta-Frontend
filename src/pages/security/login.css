@@ -15,14 +15,13 @@
     position: absolute;
     background-color: aliceblue;
     background-color: #554932a9;
-    width: max-content;
+    max-width: 500px;
     max-height: 500px;    
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
 
 } 
-
 
 .loginContainer {
     height: auto;

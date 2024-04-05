@@ -4,8 +4,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    
-    max-height: 600px;
+    max-width: 100%;
+    max-height: 550px;
 } 
 
 .cardContainerRegister {
@@ -14,6 +14,7 @@
     background-color: aliceblue;
     background-color: #554932a9;
     
+
     left: 50%;
     transform: translate(-50%,-50%);
 } 
@@ -25,10 +26,6 @@
     font-weight: bold;
 
 
-}
-
-.cardfooter{
-    background-color: white;
 }
 
 

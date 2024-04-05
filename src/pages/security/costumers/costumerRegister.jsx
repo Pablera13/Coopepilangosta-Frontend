@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Form, Row, Col, Button, Container, Card } from 'react-bootstrap'
+import { Form, Row, Col, Button, Container, InputGroup, Collapse, Card } from 'react-bootstrap'
 import { QueryClient } from 'react-query'
 import { useNavigate } from "react-router-dom";
 
@@ -57,7 +57,7 @@ const costumerRegister = () => {
       onSuccess: () => {
         swal({
           title: 'Guardado!',
-          text: 'Se creó el usuario',
+          text: 'Se creo el usuario',
           icon: 'success',
         });
 
@@ -105,6 +105,7 @@ const costumerRegister = () => {
           selectedDistrito &&
           address.current.value &&
           postalCode.current.value &&
+          bankAccount.current.value &&
           costumerEmail.current.value &&
           phone.current.value
         ) {
@@ -118,7 +119,7 @@ const costumerRegister = () => {
             district: selectedDistrito.label,
             address: address.current.value,
             postalCode: postalCode.current.value,
-            bankAccount: 0,
+            bankAccount: bankAccount.current.value,
             verified: false,
             email: costumerEmail.current.value,
             phoneNumber: phone.current.value,
@@ -130,10 +131,10 @@ const costumerRegister = () => {
         }
       } else {
         if (!cedulaAvailability) {
-          swal("Cédula se encuentra registrada", "Ya existe un usuario con la cédula ingresada", "warning");
+          swal("Cedula se encuentra registrada", "Ya existe un usuario con la cedula ingresada", "warning");
         }
         if (!costumerEmailAvailability) {
-          swal("Correo se encuentra registrado", "Ya existe un usuario con este correo ingresado", "warning");
+          swal("Correo se encuentra registrada", "Ya existe un usuario con este correo ingresado", "warning");
         }
       }
     }
@@ -173,7 +174,7 @@ const costumerRegister = () => {
           district: costumerData.district,
           address: costumerData.address,
           postalCode: costumerData.postalCode,
-          bankAccount: 0,
+          bankAccount: costumerData.bankAccount,
           verified: false,
           email: costumerData.email,
           phoneNumber: costumerData.phoneNumber,
@@ -185,10 +186,10 @@ const costumerRegister = () => {
 
       } else {
         if (emailAvailability == false) {
-          swal("Correo se encuentra registrado", "Ya existe un usuario con el correo ingresado", "warning")
+          swal("Correo electronico se encuentra registrada", "Ya existe un usuario con el correo ingresado", "warning")
         }
         if (validPasswordFormat == false) {
-          swal('Contraseña invalida!', 'La contraseña deseada, no es válida, debe contener mínimo 8 carácteres de longitud.', 'warning')
+          swal('Contraseña invalida!', 'La contraseña deseada, no es valida, debe contener minimo 8 caracteres de longitud.', 'warning')
         }
         if (password.current.value != confirmPassword.current.value) {
           swal('Contraseña invalida!', 'Las contraseñas ingresadas no coinciden', 'warning')
@@ -251,18 +252,17 @@ const costumerRegister = () => {
   return (
     <>
       <div className="imagen-de-fondo"></div>
-      <Container className="loginContainerRegister mt-5" fluid>
+      <Container className="loginContainerRegister">
 
         {!showUserRegistration && (
-          
+
           <Card>
-            <Row xs={12} sm={12} md={12} lg={2}>
             <Card.Body className="cardContainerRegister">
               <h3>Registro de Empresa</h3>
               <br></br>
               <Form noValidate validated={validated} onSubmit={handleCompanyRegistrationSubmit}>
                 <Row className="mb-3 p-2">
-                  <Col xs={6} md={4} lg={6}>
+                  <Col xs={4} md={4} lg={4}>
                     <Form.Group md="4" controlId="validationCustom01">
                       <Form.Label className="labelLogin">Cédula</Form.Label>
                       <Form.Control
@@ -275,7 +275,7 @@ const costumerRegister = () => {
                       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                     </Form.Group>
                   </Col>
-                  <Col xs={6} md={4} lg={6}>
+                  <Col xs={4} md={4} lg={4}>
 
                     <Form.Group md="4" controlId="validationCustom02">
                       <Form.Label className="labelLogin">Nombre</Form.Label>
@@ -289,7 +289,18 @@ const costumerRegister = () => {
                     </Form.Group>
                   </Col>
 
-                  
+                  <Col xs={4} md={4} lg={4}>
+                    <Form.Group md="4" controlId="validationCustom01">
+                      <Form.Label className="labelLogin">Correo</Form.Label>
+                      <Form.Control
+                        required
+                        type="string"
+                        placeholder="Ingrese su correo corporativo"
+                        ref={costumerEmail}
+                      />
+                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                    </Form.Group>
+                  </Col>
                 </Row>
                 <Row className="mb-3 p-2">
                   <Col xs={4} md={4} lg={4}>
@@ -360,7 +371,7 @@ const costumerRegister = () => {
 
                 <br />
 
-                <Row className='p-2 m'>
+                <Row className='p-2'>
                   <Col xs={6} md={6} lg={6}>
                     <Form.Group md="4" controlId="validationCustom02">
                       <Form.Label className="labelLogin"><Form.Label>Teléfono</Form.Label></Form.Label>
@@ -376,16 +387,13 @@ const costumerRegister = () => {
                     </Form.Group>
                   </Col>
 
-                  <Col xs={6} md={4} lg={6}>
-                    <Form.Group controlId="validationCustom01" className='mt-2'>
-                      <Form.Label className="labelLogin">Correo</Form.Label>
-                      <Form.Control
-                        required
-                        type="string"
-                        placeholder="Ingrese su correo corporativo"
-                        ref={costumerEmail}
-                      />
-                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                  <Col xs={6} md={6} lg={6}>
+                    <Form.Group controlId="validationCustom08">
+                      <Form.Label className="labelLogin"><Form.Label>Cuenta IBAN</Form.Label></Form.Label>
+                      <Form.Control type="text" placeholder="Ingrese una cuenta bancaria" required ref={bankAccount} maxLength={24} />
+                      <Form.Control.Feedback type="invalid">
+                        Indique su cuenta IBAN
+                      </Form.Control.Feedback>
                     </Form.Group>
                   </Col>
 
@@ -398,7 +406,6 @@ const costumerRegister = () => {
               </Form>
 
             </Card.Body>
-            </Row>
           </Card>
         )}
 

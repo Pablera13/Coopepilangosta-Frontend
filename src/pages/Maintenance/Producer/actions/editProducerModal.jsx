@@ -2,9 +2,11 @@ import React, { useRef, useState } from 'react';
 import { QueryClient, useMutation } from 'react-query';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import swal from 'sweetalert';
+import { createProducer, CheckCedulaProducerAvailability } from '../../../../services/producerService';
 import { updateProducer } from '../../../../services/producerService';
 import { locations } from '../../../../utils/provinces'
 import Select from 'react-select'
+import './editProducerModal.css'
 import { TiEdit } from "react-icons/ti";
 import '../../../../css/StylesBtn.css'
 
@@ -24,10 +26,12 @@ const editProducerModal = (props) => {
         onSuccess: () => {
             swal({
                 title: 'Editado!',
-                text: 'Se editó el productor',
+                text: 'Se edito el productor',
                 icon: 'success',
             }).then(function(){window.location.reload()});
             
+        },onSettled:()=>{
+            swal('Error','No se logro editar la informacion','error')
         }
     });
 
@@ -37,6 +41,9 @@ const editProducerModal = (props) => {
     const lastname2 = useRef();
     const phoneNumber = useRef();
     const email = useRef();
+    const province = useRef();
+    const canton = useRef();
+    const district = useRef();
     const address = useRef();
     const bankAccount = useRef();
 
@@ -119,6 +126,8 @@ const editProducerModal = (props) => {
     }
 
     const [distritosOptions, setDistritosOptions] = useState();
+    let distritos = []
+
 
     const handlecantonesSelectChange = (cantonIndex) => {
         console.log(cantonIndex)
@@ -251,7 +260,7 @@ const editProducerModal = (props) => {
                                         onChange={(selected) => { setSelectedCanton(selected); handlecantonesSelectChange(selected.value); }}
                                     ></Select>
                                     <Form.Control.Feedback type="invalid">
-                                        Por favor indique el cantón
+                                        Por favor indique el canton
                                     </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>

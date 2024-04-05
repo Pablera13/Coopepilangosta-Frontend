@@ -28,7 +28,7 @@ const updateProducerOrderModal = (props) => {
             onSettled: () => queryClient.invalidateQueries("producerorder"),
             mutationKey: "producerorder",
             onSuccess: () => {
-                swal('Actualizado exitosamente!', 'El pedido fue actualizado correctamente', 'success').then(function(){window.location.reload()});
+                swal('Actualizado exitosamente!', 'El pedido fue actualizado de correctamente', 'success').then(function(){window.location.reload()});
                 
             },
             onError:()=>{

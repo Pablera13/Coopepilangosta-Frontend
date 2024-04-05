@@ -26,7 +26,7 @@ const addContact = (props) => {
       onSuccess: () => {
         swal({
           title: "Guardado!",
-          text: "Se creó el contacto",
+          text: "Se creo el contacto",
           icon: "success",
         }).then(function () {
           window.location.reload();

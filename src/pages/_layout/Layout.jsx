@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import React, { useState, useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom';
+import Header from './Header';
 import { Link } from 'react-router-dom';
 import '../../Styles/footer.css'
 
@@ -11,9 +12,9 @@ import ResponsiveNavbar from './Components/ResponsiveNavbar';
 export const Layout = () => {
 
   const location = useLocation();
+
   useEffect(() => {
-    if (location.pathname == '/login' || location.pathname == '/registerCostumer' || location.pathname == '/forgotPassword' || location.pathname == '/productReport/:productId')
-    {
+    if (location.pathname == '/login' || location.pathname == '/registerCostumer' || location.pathname == '/forgotPassword') {
       document.body.classList.add('login-body');
       document.body.classList.add('header');
     }

@@ -1,8 +1,8 @@
 import {React, useState, useEffect, useRef} from 'react'
 import { useQuery } from 'react-query';
-import { useNavigate, useParams  } from 'react-router-dom';
+import { NavLink, Navigate, useNavigate, useParams  } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Table, Container, Col, Row, Button, Card, Form } from 'react-bootstrap';
+import { Table, Container, Col, Row, Button } from 'react-bootstrap';
 import Select from 'react-select';
 import { getProducts } from '../../services/productService';
 import {getProductSales} from '../../services/saleService';
@@ -29,10 +29,25 @@ import YearlyPurchaseChart from './productTemp/YearlyPurchaseChart';
 
 import {DownloadTableExcel} from 'react-export-table-to-excel';
 
-import "./productReport.css";
+
 import "../../css/Pagination.css";
 import "../../css/StylesBtn.css";
 import { validateAllowedPageAccess } from '../../utils/validatePageAccess';
+
+const buttonStyle = {
+  borderRadius: '5px',
+  backgroundColor: '#e0e0e0',
+  color: '#333',
+  border: '1px solid #e0e0e0',
+  padding: '8px 12px',
+  cursor: 'pointer',
+  transition: 'background-color 0.3s',
+  minWidth: '100px',
+  fontWeight: 'bold',
+  hover: {
+    backgroundColor: '#c0c0c0', 
+  },
+};
 
 const productReport = () => {
 
@@ -108,6 +123,7 @@ const productReport = () => {
 
           navigate(`/productReport/${selectedProduct.value}`)
           setSelectedProductName(selectedProduct.label)
+          console.log(ProductOptions)
       }
   }, [selectedProduct]);
 
@@ -136,6 +152,8 @@ const productReport = () => {
         setSuffixThis("esta semana")
         setSuffixLast("semana pasada")
         setSelectedTempUnit("Día")
+
+        // lastWeekStart.setDate(lastSunday.getDate() - 7);
 
         const xd = new Date();
         xd.setDate(beginDate.getDate() - 7);
@@ -228,6 +246,7 @@ const productReport = () => {
         const resultado = Object.entries(concatingObjets).map(([Coincidence, valores]) => [Coincidence, ...valores]);
 
         setDataArray(resultado)
+        console.log("DataArray = " + JSON.stringify(resultado))
         setSelectedTempName(selectedTemp.value)      
       }
 
@@ -267,248 +286,216 @@ const productReport = () => {
 
     <Container>
 
+        <h2 className="text-center"> {selectedTempName == null ? "Reporte de Ventas" 
+        : "Reporte " + selectedTempName + " de " + selectedProductName} </h2>
+
         {ProductOptions != null ? (
 
-          <>
+        <Col xs={8} md={2} lg={12}>
+  
+        <span>Seleccione el producto</span>
+        <Select onChange={(selected) => setSelectedProduct(selected)} options={ProductOptions} />
 
-              <br></br>
-              <h2 className="text-center"> {selectedTempName == null ? "Reporte de Ventas"
-                : "Reporte " + selectedTempName + " de " + selectedProductName} </h2>
-              <br></br>
+        <span>Seleccione la temporalidad</span>
+        <Select onChange={(selected) => setSelectedTemp(selected)} options={TempOptions} />
+        
+        <td></td>
 
-              <Card.Body className="text-center">
-
-                <Form.Group>
-                  <Row className="mb-3">
-                    <Col xs={4} md={4} lg={4}></Col>
-                    <Col xs={4} md={4} lg={4}>
-                      <Form.Label>Seleccione el producto</Form.Label>
-                      <Select
-                        onChange={(selected) => setSelectedProduct(selected)} options={ProductOptions}>
-                      </Select>
-                    </Col>
-                  </Row>
-                </Form.Group>
-
-                <Form.Group>
-                  <Row className="mb-3">
-                    <Col xs={4} md={4} lg={4}></Col>
-                    <Col xs={4} md={4} lg={4}>
-                    <Form.Label>Seleccione la temporalidad</Form.Label>
-                      <Select
-                    onChange={(selected) => setSelectedTemp(selected)} options={TempOptions}>
-                    </Select>
-                    </Col>
-                  </Row>
-                </Form.Group>
-
-                <Form.Group>
-                  <Row className="mb-3">
-                    <Col xs={4} md={4} lg={4}></Col>
-                    <Col xs={4} md={4} lg={4}>
-                    <Button className='BtnBrown'
+                  <Button className='BtnBrown'
                   onClick={() => generateReport()}
-                >
-                  Generar
-                </Button>
-                    </Col>
-                  </Row>
-                </Form.Group>
-                <br></br>
-
-
-               
-
-              </Card.Body>
-
-          
-          <Col xs={8} md={2} lg={12}>
-          <br></br>
-
-              {DataArray && selectedTempName != null ? (
-
-                <><>
-
-                  {selectedTempName == 'Diario' ? (
-                    <>
-                      <DailyQuantityChart chartData={QuantityData} />
-                      <td></td>
-                      <DailyPurchaseChart chartData={PurchaseData} />
-                    </>
-                  ) : null}
-
-                  {selectedTempName == 'Semanal' ? (
-                    <>
-                      <WeeklyQuantityChart chartData={QuantityData} />
-                      <td></td>
-                      <WeeklyPurchaseChart chartData={PurchaseData} />
-                    </>
-                  ) : null}
-
-                  {selectedTempName == 'Mensual' ? (
-                    <>
-                      <MonthlyQuantityChart chartData={QuantityData} />
-                      <td></td>
-                      <MonthlyPurchaseChart chartData={PurchaseData} />
-                    </>
-                  ) : null}
-
-                  {selectedTempName == 'Anual' ? (
-                    <>
-                      <YearlyQuantityChart chartData={QuantityData} />
-                      <td></td>
-                      <YearlyPurchaseChart chartData={PurchaseData} />
-                    </>
-                  ) : null}
-
-                </>
-
-                  <td></td>
-
-                  <DownloadTableExcel
-                    filename={reportName}
-                    sheet={reportName}
-                    currentTableRef={ChartTable.current}
                   >
-                    <button className='excelImg'>
-                      <img src="https://i.ibb.co/br98Dfx/to-excel.png" alt="Icono de Excel" width="20%" height="10%"></img>
-                    </button> </DownloadTableExcel>
+                  Generar
+                  </Button>
 
-                  {/* <td></td> */}
+        <td></td>
 
-                  {selectedTempName != 'Anual' ? (
+        {DataArray && selectedTempName != null? (
+                       
+            <><>
 
-                    <div class="tableContainer">
-                    <Table responsive className='reportTable' ref={ChartTable}>
-                      <thead>
-                        <tr>
-                          <th>{selectedTempUnit}</th>
-                          <th>Unidades vendidas {suffixThis}</th>
-                          <th>Unidades vendidas {suffixLast}</th>
-                          <th>Crecimiento</th>
-                          <th>Crecimiento Porcentual</th>
-                          <th>Total en ventas {suffixThis}</th>
-                          <th>Total en ventas {suffixLast}</th>
-                          <th>Crecimiento</th>
-                          <th>Crecimiento Porcentual</th>
-                        </tr>
-                      </thead>
-                      <tbody>
+              {/* {console.log("Quantity" + JSON.stringify(QuantityData))}
+              {console.log("PurchaseTotal" + JSON.stringify(PurchaseData))}     */}
 
-                        {DataArray.map((SaleObject, index) => {
-
-                          SumUnitThis += SaleObject[1];
-                          SumUnitLast += SaleObject[2];
-                          Growth1 = SaleObject[1] - SaleObject[2];
-                          GrowthPercent1 = SaleObject[1] == 0 || SaleObject[2] == 0 ? 0 : ((Growth1 / SaleObject[2]) * 100);
-
-                          GrowthT1 += Growth1;
-
-                          SumTotalThis += SaleObject[3];
-                          SumTotalLast += SaleObject[4];
-                          Growth2 = SaleObject[3] - SaleObject[4];
-                          GrowthPercent2 = SaleObject[3] == 0 || SaleObject[4] == 0 ? 0 : ((Growth2 / SaleObject[4]) * 100);
-
-                          GrowthT2 += Growth2;
-
-                          return (
-                            <tr key={index}>
-
-                              <td>{SaleObject[0]}</td>
-                              <td>{SaleObject[1]}</td>
-                              <td>{SaleObject[2]}</td>
-                              <td>{Growth1}</td>
-                              {GrowthPercent1 == 0 ? <td>N/D</td> : <td>{GrowthPercent1.toFixed(0)}%</td>}
-                              <td>₡{SaleObject[3]}</td>
-                              <td>₡{SaleObject[4]}</td>
-                              <td>₡{Growth2}</td>
-                              {GrowthPercent2 == 0 ? <td>N/D</td> : <td>{GrowthPercent2.toFixed(0)}%</td>}
-                            </tr>
-                          );
-                        })}
-
-                        <tr>
-                          <td>Total</td>
-                          <td>{SumUnitThis}</td>
-                          <td>{SumUnitLast}</td>
-                          <td>{GrowthT1}</td>
-                          <td>N/D</td>
-                          <td>₡{SumTotalThis}</td>
-                          <td>₡{SumTotalLast}</td>
-                          <td>₡{GrowthT2}</td>
-                          <td>N/D</td>
-                        </tr>
-
-                      </tbody>
-
-                    </Table>
-                    </div>
-                  ) :
-
-                  <div class="tableContainer">
-                    <Table responsive className='reportTable' ref={ChartTable}>
-                      <thead>
-                        <tr>
-                          <th>Año</th>
-                          <th>Unidades vendidas</th>
-                          <th>Crecimiento respecto al año anterior</th>
-                          <th>Crecimiento Porcentual</th>
-                          <th>Total en ventas</th>
-                          <th>Crecimiento respecto al año anterior</th>
-                          <th>Crecimiento Porcentual</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-
-                        {DataArray.map((SaleObject, index) => {
-
-                          SumUnitThis += SaleObject[1];
-                          Growth1 = SaleObject[1] - nextUnit;
-                          GrowthPercent1 = SaleObject[1] == 0 || nextUnit == 0 ? 0 : ((Growth1 / nextUnit) * 100);
-                          GrowthT1 += Growth1;
-                          GrowthP1 += GrowthPercent1;
-                          nextUnit = SaleObject[1];
-
-                          SumTotalThis += SaleObject[2];
-                          Growth2 = SaleObject[2] - nextTotal;
-                          GrowthPercent2 = SaleObject[2] == 0 || nextTotal == 0 ? 0 : ((Growth2 / nextTotal) * 100);
-                          GrowthT2 += Growth2;
-                          GrowthP2 += GrowthPercent2;
-                          nextTotal = SaleObject[2];
-
-                          return (
-                            <tr key={index}>
-
-                              <td>{SaleObject[0]}</td>
-                              <td>{SaleObject[1]}</td>
-                              {index == 0 ? <td>N/D</td> : <td>{Growth1}</td>}
-                              {index == 0 || GrowthPercent1 == 0 ? <td>N/D</td> : <td>{GrowthPercent1.toFixed(0)}%</td>}
-                              <td>₡{SaleObject[2]}</td>
-                              {index == 0 ? <td>N/D</td> : <td>₡{Growth2}</td>}
-                              {index == 0 || GrowthPercent2 == 0 ? <td>N/D</td> : <td>{GrowthPercent2.toFixed(0)}%</td>}
-                            </tr>
-                          );
-                        })}
-
-                        <tr>
-                          <td>Total</td>
-                          <td>{SumUnitThis}</td>
-                          <td>{GrowthT1}</td>
-                          <td>N/D</td>
-                          <td>₡{SumTotalThis}</td>
-                          <td>₡{GrowthT2}</td>
-                          <td>N/D</td>
-
-                        </tr>
-
-                      </tbody>
-
-                    </Table>
-                    </div>}
+              {selectedTempName == 'Diario'? (
+                <>
+               <DailyQuantityChart chartData={QuantityData} />
+               <td></td>
+               <DailyPurchaseChart chartData={PurchaseData} />
                 </>
+                ) : null }
 
-              ) : null}
-            </Col></>
+              {selectedTempName == 'Semanal'? (
+                <>
+               <WeeklyQuantityChart chartData={QuantityData} />
+               <td></td>
+               <WeeklyPurchaseChart chartData={PurchaseData} />
+                </>
+                ) : null }
+
+              {selectedTempName == 'Mensual'? (
+                <>
+               <MonthlyQuantityChart chartData={QuantityData} />
+               <td></td>
+               <MonthlyPurchaseChart chartData={PurchaseData} />
+                </>
+                ) : null }
+
+              {selectedTempName == 'Anual'? (
+                <>
+               <YearlyQuantityChart chartData={QuantityData} />
+               <td></td>
+               <YearlyPurchaseChart chartData={PurchaseData} />
+                </>
+                ) : null }  
+
+              </>
+              
+              <td></td>
+
+              <DownloadTableExcel 
+              filename={reportName}
+              sheet={reportName} 
+              currentTableRef={ChartTable.current}
+              >
+              <button className='excelImg'>
+              <img  src="https://i.ibb.co/br98Dfx/to-excel.png" alt="Icono de Excel" width="20%" height="10%"></img>
+              </button> </DownloadTableExcel>
+
+              {/* <td></td> */}
+
+              {selectedTempName != 'Anual'? (
+
+                  <table className='reportTable' ref={ChartTable}>
+                    <thead>
+                      <tr>  
+                        <th>{selectedTempUnit}</th>
+                        <th>Unidades vendidas {suffixThis}</th>
+                        <th>Unidades vendidas {suffixLast}</th>
+                        <th>Crecimiento</th>
+                        <th>Crecimiento Porcentual</th>
+                        <th>Total en ventas {suffixThis}</th>
+                        <th>Total en ventas {suffixLast}</th>
+                        <th>Crecimiento</th>
+                        <th>Crecimiento Porcentual</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    
+                    {DataArray.map((SaleObject, index) => {
+
+                      SumUnitThis += SaleObject[1]
+                      SumUnitLast += SaleObject[2]
+                      Growth1 = SaleObject[1] - SaleObject[2] 
+                      GrowthPercent1 = SaleObject[1] ==0 || SaleObject[2] == 0? 0 : ((Growth1 / SaleObject[2]) * 100)
+
+                      GrowthT1 += Growth1
+
+                      SumTotalThis += SaleObject[3]
+                      SumTotalLast += SaleObject[4]
+                      Growth2 = SaleObject[3] - SaleObject[4]
+                      GrowthPercent2 = SaleObject[3] ==0 || SaleObject[4] == 0? 0 : ((Growth2 / SaleObject[4]) * 100)
+
+                      GrowthT2 += Growth2
+                      
+                      return (
+                      <tr key={index}>
+
+                      <td>{SaleObject[0]}</td>
+                      <td>{SaleObject[1]}</td>
+                      <td>{SaleObject[2]}</td>
+                      <td>{Growth1}</td>
+                      {GrowthPercent1 == 0? <td>N/D</td> : <td>{GrowthPercent1.toFixed(0)}%</td>}
+                      <td>₡{SaleObject[3]}</td>
+                      <td>₡{SaleObject[4]}</td>
+                      <td>₡{Growth2}</td>
+                      {GrowthPercent2 == 0? <td>N/D</td> : <td>{GrowthPercent2.toFixed(0)}%</td>}
+                      </tr>
+                      ) 
+                      })}
+
+                    <tr>
+                      <td>Total</td>
+                      <td>{SumUnitThis}</td>
+                      <td>{SumUnitLast}</td>
+                      <td>{GrowthT1}</td>
+                      <td>N/D</td> 
+                      <td>₡{SumTotalThis}</td>
+                      <td>₡{SumTotalLast}</td>
+                      <td>₡{GrowthT2}</td>
+                      <td>N/D</td> 
+                    </tr>
+
+                    </tbody>
+                    
+                  </table>
+
+              ): 
+              
+              <table className='reportTable' ref={ChartTable}>
+              <thead>
+                <tr>  
+                  <th>Año</th>
+                  <th>Unidades vendidas</th>
+                  <th>Crecimiento respecto al año anterior</th>
+                  <th>Crecimiento Porcentual</th>
+                  <th>Total en ventas</th>
+                  <th>Crecimiento respecto al año anterior</th>
+                  <th>Crecimiento Porcentual</th>
+                </tr>
+              </thead>
+              <tbody>
+              
+              {DataArray.map((SaleObject, index) => {
+
+                SumUnitThis += SaleObject[1]
+                Growth1 = SaleObject[1] - nextUnit
+                GrowthPercent1 = SaleObject[1] == 0 || nextUnit == 0? 0 : ((Growth1 / nextUnit) * 100)
+                GrowthT1 += Growth1
+                GrowthP1 += GrowthPercent1
+                nextUnit = SaleObject[1]
+
+                SumTotalThis += SaleObject[2]
+                Growth2 = SaleObject[2] - nextTotal
+                GrowthPercent2 = SaleObject[2] == 0 || nextTotal == 0 ? 0 : ((Growth2 / nextTotal) * 100)
+                GrowthT2 += Growth2
+                GrowthP2 += GrowthPercent2
+                nextTotal = SaleObject[2]
+
+                return (
+                <tr key={index}>
+
+                <td>{SaleObject[0]}</td>
+                <td>{SaleObject[1]}</td> 
+                {index == 0? <td>N/D</td> : <td>{Growth1}</td>}
+                {index == 0 || GrowthPercent1 == 0 ? <td>N/D</td> : <td>{GrowthPercent1.toFixed(0)}%</td>}
+                <td>₡{SaleObject[2]}</td>
+                {index == 0? <td>N/D</td> : <td>₡{Growth2}</td>}
+                {index == 0 || GrowthPercent2 == 0? <td>N/D</td> : <td>{GrowthPercent2.toFixed(0)}%</td>}
+                </tr>
+                ) 
+                })}
+
+              <tr>
+                <td>Total</td>
+                <td>{SumUnitThis}</td>
+                <td>{GrowthT1}</td>
+                <td>N/D</td> 
+                <td>₡{SumTotalThis}</td>
+                <td>₡{GrowthT2}</td>
+                <td>N/D</td> 
+
+              </tr>
+
+              </tbody>
+              
+            </table>
+                 
+              }
+
+              </>
+
+          ) : null}
+        </Col>
       ) : (
         'Cargando'
       )}

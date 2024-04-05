@@ -1,25 +1,93 @@
-import { useState, useEffect, useMemo } from "react";
-import { Box, Button, Tooltip} from '@mui/material';
-import { MaterialReactTable} from 'material-react-table';
-import useCustomMaterialTable from '../../../utils/materialTableConfig.js'; 
-import autoTable from 'jspdf-autotable';
-import { jsPDF } from 'jspdf'; 
-import { format } from "date-fns";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import React, { useState, useEffect, useRef } from "react";
+import { useQuery } from "react-query";
 import { getProducers } from "../../../services/producerService";
 import { deleteProducerService } from "../../../services/producerService";
-import { Container } from "react-bootstrap";
+import { Table, Container, Col, Row, Button } from "react-bootstrap";
 import AddProducerModal from "./actions/addProducerModal.jsx";
+import { Form } from "react-bootstrap";
 import EditProducerModal from "./actions/editProducerModal";
+import ReactPaginate from "react-paginate";
+import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
+
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
 import { validateAllowedPageAccess } from "../../../utils/validatePageAccess.js";
+const listProducers = () => {
 
-const MaterialTable = () => {
+  useEffect(() => {
+    validateAllowedPageAccess()
+  
+  }, [])
+  
+  const {
+    data: Producers,
+    isLoading: ProducersLoading,
+    isError: ProducersError,
+  } = useQuery("producer", getProducers);
 
-  const [data, setData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const navigate = useNavigate();
+
+  const recordsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(0);
+
+  if (ProducersLoading)
+    return (
+      <div className="Loading">
+        <ul>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
+    );
+
+  if (ProducersError) return <div>Error</div>;
+
+  const filteredBySearch = Producers.filter(
+    (producer) =>
+      producer.name
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f\s]/g, "")
+        .trim() 
+        .toLowerCase()
+        .includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
+      producer.lastname1
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f\s]/g, "")
+        .trim() 
+        .toLowerCase()
+        .includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
+      producer.lastname2
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f\s]/g, "")
+        .trim() 
+        .toLowerCase()
+        .includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
+      producer.cedula
+        .toString()
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      producer.phoneNumber
+        .toString()
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+  );
+
+  const offset = currentPage * recordsPerPage;
+  const paginatedProducers = filteredBySearch.slice(
+    offset,
+    offset + recordsPerPage
+  );
+
+  const pageCount = Math.ceil(Producers.length / recordsPerPage);
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
+
 
   const showAlert = (id) => {
     swal({
@@ -29,138 +97,111 @@ const MaterialTable = () => {
       buttons: ["Cancelar", "Aceptar"],
     }).then((answer) => {
       if (answer) {
-        deleteProducerService(id);
-        swal({
-          title: 'Eliminado',
-          text: 'El productor ha sido eliminado',
-          icon: 'success',
-        }).then(function () { window.location.reload() });
-
+        deleteProducerService(id).then(
+          swal({
+            title: "Eliminado",
+            text: "El productor ha sido eliminado",
+            icon: "success",
+          }).then(function () {
+            window.location.reload();
+          })
+        );
       }
     });
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getProducers();
-        setData(response);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
-  }, []);
+  return (
+    <Container>
+      <div className="table-container">
+        <h2 className="table-title">Productores</h2>
+        <hr className="divider" />
 
-  const { isError: isLoadingError, isFetching: isFetching, isLoading: isLoading } = getProducers();
+        <br></br>
 
-  const columns = useMemo(() => [
-    {
-      accessorKey: 'cedula',
-      header: 'Cédula',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'name',
-      header: 'Nombre',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'lastname1',
-      header: 'Primer Apellido',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'lastname2',
-      header: 'Segundo Apellido',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'phoneNumber',
-      header: 'Número de teléfono',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'email',
-      header: 'Correo',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'bankAccount',
-      header: 'Cuenta Bancaria',
-      enableClickToCopy: true,
-    },
-  ], []);
+        <Form>
+          <Row className="mb-3 filters-container">
+            <Col xs={6} md={6}>
+              <AddProducerModal />
+            </Col>
+            <Col xs={0} md={0}></Col>
+            <Col xs={12} md={3}>
+              <Form.Control
+                type="text"
+                placeholder="Buscar coincidencias"
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="filter-input"
+              />
+            </Col>
+          </Row>
+        </Form>
 
-  const handleExportRows = (rows) => {
-    const doc = new jsPDF();
-    const tableData = rows.map((row) => 
-    Object.values(row.original));
-    const tableHeaders = columns.map((c) => c.header);
+        <Col xs={12} md={2} lg={12}>
+          {Producers ? (
+            <Row>
+              <Table className="Table" responsive>
+                <thead>
+                  <tr>
+                    <th>Cédula</th>
+                    <th>Nombre Completo</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>Dirección</th>
+                    <th>Cuenta bancaria</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {paginatedProducers.map((producer) => (
+                    <tr key={producer.id}>
+                      <td>{producer.cedula}</td>
+                      <td>
+                        {producer.name} {producer.lastname1}{" "}
+                        {producer.lastname2}
+                      </td>
+                      <td>{producer.phoneNumber}</td>
+                      <td>{producer.email}</td>
+                      <td>{producer.address}</td>
+                      <td>{producer.bankAccount}</td>
+                      <td>
+                        <div className="BtnContainer">
+                          <EditProducerModal props={producer} />
 
-    autoTable(doc, {
-      head: [tableHeaders],
-      body: tableData,
-    });
+                          <Button
+                            className="BtnRed"
+                            onClick={() => showAlert(producer.id)}
+                            size="sm"
+                          >
+                            <MdDelete />
+                          </Button>
 
-    const currentDate = new Date();
-    const formattedDate = format(currentDate, "yyyy-MM-dd");
-    doc.save(`Reporte Productores ${formattedDate}.pdf`);
-  };
-
-  const table = useCustomMaterialTable({
-    columns,
-    data: data,
-    isLoading,
-    isLoadingError,
-    isFetching,
-    showAlert,
-
-    renderRowActions: ({row}) => (
-      <Box sx={{ display: 'flex', gap: '1rem' }}>
-        <Tooltip title="Editar">
-
-          <EditProducerModal props={row.original} />
-
-        </Tooltip>
-        <Tooltip title="Eliminar">
-
-          <Button className="BtnRed" onClick={() => showAlert(row.original.id)}><MdDelete /></Button>
-
-        </Tooltip>
-      </Box>
-    ),
-
-    renderTopToolbarCustomActions: ({ table }) =>(
-    <>
-    <AddProducerModal/>
-
-    <Button
-      disabled={table.getPrePaginationRowModel().rows.length === 0}
-      onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
-      startIcon={<FileDownloadIcon />}
-    >
-      Exportar
-    </Button></>),
-  });
-
-  return <MaterialReactTable table={table}
-  />;
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+              <div className="Pagination-Container">
+                <ReactPaginate
+                  previousLabel="<"
+                  nextLabel=">"
+                  breakLabel="..."
+                  pageCount={pageCount}
+                  marginPagesDisplayed={2}
+                  pageRangeDisplayed={5}
+                  onPageChange={handlePageClick}
+                  containerClassName="pagination"
+                  subContainerClassName="pages pagination"
+                  activeClassName="active"
+                />
+              </div>
+            </Row>
+          ) : (
+            "Cargando"
+          )}
+        </Col>
+      </div>
+    </Container>
+  );
 };
-
-const queryClient = new QueryClient();
-
-const listProducers = () => (
-  <Container>
-    <div className="table-container">
-      <h2 className="table-title">Productores</h2>
-      <hr className="divider" />
-      <QueryClientProvider client={queryClient}>
-        <MaterialTable />
-      </QueryClientProvider>
-    </div>
-  </Container>
-
-);
 
 export default listProducers;

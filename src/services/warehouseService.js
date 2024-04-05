@@ -30,7 +30,14 @@ export const checkWarehouseCodeAvailability = async(id) => {
 }
 
 export const updateWarehouse = async (warehouse) => { 
-
+    let warehouseEdit = {
+        id: warehouse.id,
+        code: warehouse.code,    
+        description: warehouse.description,
+        address: warehouse.address,
+        state: warehouse.state
+    }
+    
     let data = await api.put(`warehouse/${warehouse.id}`,warehouse).then(result => result.data);
     
     return data;

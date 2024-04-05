@@ -40,6 +40,9 @@ const addProducerModal = () => {
   const lastname2 = useRef();
   const phoneNumber = useRef();
   const email = useRef();
+  const province = useRef();
+  const canton = useRef();
+  const district = useRef();
   const address = useRef();
   const bankAccount = useRef();
 
@@ -76,7 +79,7 @@ const addProducerModal = () => {
         event.preventDefault();
         swal(
           "Advertencia",
-          "Ya existe un productor con el número de cédula ingresado.",
+          "Ya existe un productor con el numero de cedula ingresado.",
           "warning"
         );
       }
@@ -109,7 +112,7 @@ const addProducerModal = () => {
   });
 
   const [cantonesOptions, setCantonesOptions] = useState();
-  
+  let cantones = [];
   const handleProvinciasSelectChange = (provinceIndex) => {
     let cantones = locations.provincias[provinceIndex].cantones;
 
@@ -126,6 +129,7 @@ const addProducerModal = () => {
   };
 
   const [distritosOptions, setDistritosOptions] = useState();
+  let distritos = [];
 
   const handlecantonesSelectChange = (cantonIndex) => {
     console.log(cantonIndex);

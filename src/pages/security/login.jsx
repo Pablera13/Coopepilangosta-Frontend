@@ -43,7 +43,7 @@ const login = () => {
             break;
           case "User not found":
             swal(
-              "Correo no válido",
+              "Correo no valido",
               "No se encontró un usuario asociado al correo electrónico brindado.",
               "warning"
             );
@@ -71,20 +71,17 @@ const login = () => {
   return (
     <>
       <div className="imagen-de-fondo"></div>
-      <Container className="loginContainer" fluid>
+      <Container className="loginContainer">
         <Row>
           <Col>
             <br />
           </Col>
         </Row>
-
-        <Card className="CardC">
-        <Row xs={12}>
-
+        <Card >
           <Card.Body className="cardContainer">
             <Form>
               <Row>
-                <Col xs={12} sm={12} lg={12}>
+                <Col xs={12} lg={12}>
                 <h3>Bienvenido</h3>
                 <br></br>
                   <Form.Group className="mb-3" controlId="formPlaintextEmail" style={{ marginTop: '4%' }}>
@@ -98,7 +95,7 @@ const login = () => {
                 </Col>
               </Row>
               <Row>
-                <Col xs={12} sm={12} lg={12}>
+                <Col lg={12}>
                   <Form.Group className="mb-3" controlId="formPlaintextPassword" style={{ marginTop: '4%' }} >
                     <Form.Label className="labelLogin">Contraseña</Form.Label>
                     <Form.Control
@@ -141,8 +138,6 @@ const login = () => {
               <br />
             </Form>
           </Card.Body>
-          </Row>
-
         </Card>
       </Container>
       <br />

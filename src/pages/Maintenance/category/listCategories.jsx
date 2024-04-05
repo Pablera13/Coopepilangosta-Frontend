@@ -1,23 +1,66 @@
-import { useMemo, useState, useEffect } from "react";
-import { Box, Button, Tooltip} from '@mui/material';
-import { MaterialReactTable} from 'material-react-table';
-import useCustomMaterialTable from '../../../utils/materialTableConfig.js'; 
-import { getCategories, deleteCategory } from "../../../services/categoryService";
-import { Container } from "react-bootstrap";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import autoTable from 'jspdf-autotable';
-import { jsPDF } from 'jspdf'; 
-import { format } from "date-fns";
+import React, { useState, useEffect, useRef } from "react";
+import { useQuery } from "react-query";
+import { getCategories } from "../../../services/categoryService";
+import { Table, Container, Col, Row, Button } from "react-bootstrap";
+import { deleteCategory } from "../../../services/categoryService";
 import AddCategoryModal from "./actions/addCategoryModal";
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import { Form } from "react-bootstrap";
 import EditCategoryModal from "./actions/editCategoryModal";
+import ReactPaginate from "react-paginate";
+import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
 
-const MaterialTable = () => {
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess";
 
-  const [data, setData] = useState([]);
+const listCategories = () => {
+  useEffect(() => {
+    validateAllowedPageAccess()
+  
+  }, [])
+  
+
+  const {
+    data: Categories,
+    isLoading: CategoriesLoading,
+    isError: CategoriesError,
+  } = useQuery("category", getCategories);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+
+  const recordsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(0);
+
+  if (CategoriesLoading)
+    return (
+      <div className="Loading">
+        <ul>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
+    );
+
+  if (CategoriesError) return <div>Error</div>;
+
+  const filteredBySearch = Categories.filter((category) =>
+    category.name.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "").toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase())
+  );
+
+  const offset = currentPage * recordsPerPage;
+  const paginatedCategories = filteredBySearch.slice(
+    offset,
+    offset + recordsPerPage
+  );
+
+  const pageCount = Math.ceil(Categories.length / recordsPerPage);
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
 
   const showAlert = (id) => {
     swal({
@@ -27,108 +70,95 @@ const MaterialTable = () => {
       buttons: ["Cancelar", "Aceptar"],
     }).then((answer) => {
       if (answer) {
-        deleteCategory(id);
+        deleteCategory(id).then(
         swal({
-          title: 'Eliminado',
-          text: 'La categoría ha sido eliminada',
-          icon: 'success',
-        }).then(function () { window.location.reload() });
-
+          title: "Eliminado",
+          text: "La categoría ha sido eliminada",
+          icon: "success",
+        }).then(function(){window.location.reload()}))
+        
       }
     });
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getCategories();
-        setData(response);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
-  }, []);
+  //
+  return (
+    <Container>
+      <div className="table-container">
+        <h2 className="table-title">Categorías</h2>
+        <hr className="divider" />
 
-  const { isError: isLoadingError, isFetching: isFetching, isLoading: isLoading } = getCategories();
+        <Form>
+          <Row className="mb-3 filters-container">
+            <Col xs={6} md={6}>
+              <AddCategoryModal />
+            </Col>
+            <Col xs={0} md={0}></Col>
+            <Col xs={12} md={3}>
+              <Form.Control
+                type="text"
+                placeholder="Buscar coincidencias"
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="filter-input"
+              />
+            </Col>
+          </Row>
+        </Form>
 
-  const columns = useMemo(() => [
-    {
-      accessorKey: 'name',
-      header: 'Nombre',
-      enableClickToCopy: true,
-    },
-  ], []);
+        <Col xs={12} md={2} lg={12}>
+          {Categories ? (
+            <Row>
+              <Table className="Table" responsive>
+                <thead>
+                  <tr>
+                    <th>Nombre de la categoría</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {" "}
+                  {paginatedCategories.map((category) => (
+                    <tr key={category.id}>
+                      <td>{category.name}</td>
+                      <td>
+                        <div className="BtnContainer">
+                          <EditCategoryModal props={category} />
 
-  const handleExportRows = (rows) => {
-    const doc = new jsPDF();
-    const tableData = rows.map((row) => 
-    Object.values(row.original));
-    const tableHeaders = columns.map((c) => c.header);
-
-    autoTable(doc, {
-      head: [tableHeaders],
-      body: tableData,
-    });
-
-    const currentDate = new Date();
-    const formattedDate = format(currentDate, "yyyy-MM-dd");
-    doc.save(`Reporte Categorías ${formattedDate}.pdf`);
-  };
-
-  const table = useCustomMaterialTable({
-    columns,
-    data: data,
-    isLoading,
-    isLoadingError,
-    isFetching,
-    showAlert,
-
-    renderRowActions: ({row}) => (
-      <Box sx={{ display: 'flex', gap: '1rem' }}>
-        <Tooltip title="Editar">
-
-          <EditCategoryModal props={row.original} />
-
-        </Tooltip>
-        <Tooltip title="Eliminar">
-
-          <Button className="BtnRed" onClick={() => showAlert(row.original.id)}><MdDelete /></Button>
-
-        </Tooltip>
-      </Box>
-    ),
-
-    renderTopToolbarCustomActions: ({ table }) =>(
-    <>
-    <AddCategoryModal/>
-
-    <Button
-      disabled={table.getPrePaginationRowModel().rows.length === 0}
-      onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
-      startIcon={<FileDownloadIcon />}
-    >
-      Exportar
-    </Button></>),
-  });
-
-  return <MaterialReactTable table={table}
-  />;
+                          <Button
+                            className="BtnRed"
+                            onClick={() => showAlert(category.id)}
+                            size="sm"
+                          >
+                            <MdDelete />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}{" "}
+                </tbody>
+              </Table>
+              <div className="Pagination-Container">
+             <ReactPaginate          
+                previousLabel={"<"}
+                nextLabel={">"}
+                breakLabel={"..."}
+                pageCount={pageCount}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageClick}
+                containerClassName={"pagination"}
+                subContainerClassName={"pages pagination"}
+                activeClassName={"active"}
+              />
+              </div>
+            </Row>
+          ) : (
+            "Cargando"
+          )}
+        </Col>
+      </div>
+    </Container>
+  );
 };
-
-const queryClient = new QueryClient();
-
-const listCategories = () => (
-  <Container>
-    <div className="table-container">
-      <h2 className="table-title">Categorías</h2>
-      <hr className="divider" />
-      <QueryClientProvider client={queryClient}>
-        <MaterialTable />
-      </QueryClientProvider>
-    </div>
-  </Container>
-
-);
 
 export default listCategories;

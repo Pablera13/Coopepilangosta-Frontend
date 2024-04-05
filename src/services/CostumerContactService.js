@@ -2,6 +2,7 @@ import api from "../Api/apiAxios";
 
 export const getContactCostumer = async () => { 
     let data = await api.get('CostumerContact').then(result => result.data);
+    //console.log(data)
     return data;
 };
 

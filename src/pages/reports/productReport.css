@@ -1,32 +1,32 @@
-.tableContainer {
-  overflow-x: auto; /* Hace que la tabla sea desplazable horizontalmente */
-  max-width: 100%; /* Ajusta el ancho máximo según sea necesario */
-}
-
 .reportTable {
-  border-collapse: collapse;
-  width: 100%;
-  font-family: Arial, sans-serif;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-}
+    border-collapse: collapse; 
+    width: 100%; 
+    font-family: Arial, sans-serif; 
+  }
+  
+  .reportTable tr:nth-child(odd) {
+    background-color: #f2f2f2; 
+  }
+  
+  .reportTable th {
+    /* background-color: #3C3019;  */
+    color: black; 
+    border: 1px solid #ddd; 
+    padding: 10px; 
+    text-align: left; 
+  }
+  
+  .reportTable td {
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  .reportTable tr:hover {
+    background-color: #e0e0e0; 
+  }
+  
+  .excelImg {
 
-.reportTable tr:nth-child(odd) {
-  background-color: #f2f2f2;
-}
+    border-color: #ddd;
 
-.reportTable th {
-  color: black;
-  border: 2px solid #ddd; /* Bordes más gruesos */
-  padding: 15px; /* Mayor padding */
-  text-align: left;
-  white-space: nowrap; /* Evita el salto de línea */
-}
-
-.reportTable td {
-  border: 2px solid #ddd; /* Bordes más gruesos */
-  padding: 15px; /* Mayor padding */
-}
-
-.reportTable tr:hover {
-  background-color: #e0e0e0;
-}
+  }
