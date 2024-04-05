@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Form, Row, Col, Button, Container, Card } from 'react-bootstrap'
+import { Form, Row, Col, Button, Container, InputGroup, Collapse, Card } from 'react-bootstrap'
 import { QueryClient } from 'react-query'
 import { useNavigate } from "react-router-dom";
 
@@ -58,7 +58,7 @@ const costumerRegister = () => {
       onSuccess: () => {
         swal({
           title: 'Guardado!',
-          text: 'Se creó el usuario',
+          text: 'Se creo el usuario',
           icon: 'success',
         });
 
@@ -132,10 +132,10 @@ const costumerRegister = () => {
         }
       } else {
         if (!cedulaAvailability) {
-          swal("Cédula se encuentra registrada", "Ya existe un usuario con la cédula ingresada", "warning");
+          swal("Cedula se encuentra registrada", "Ya existe un usuario con la cedula ingresada", "warning");
         }
         if (!costumerEmailAvailability) {
-          swal("Correo se encuentra registrado", "Ya existe un usuario con este correo ingresado", "warning");
+          swal("Correo se encuentra registrada", "Ya existe un usuario con este correo ingresado", "warning");
         }
 
         if (!validCedulaFormat) {
@@ -192,10 +192,10 @@ const costumerRegister = () => {
 
       } else {
         if (emailAvailability == false) {
-          swal("Correo se encuentra registrado", "Ya existe un usuario con el correo ingresado", "warning")
+          swal("Correo electronico se encuentra registrada", "Ya existe un usuario con el correo ingresado", "warning")
         }
         if (validPasswordFormat == false) {
-          swal('Contraseña invalida!', 'La contraseña deseada, no es válida, debe contener mínimo 8 carácteres de longitud.', 'warning')
+          swal('Contraseña invalida!', 'La contraseña deseada, no es valida, debe contener minimo 8 caracteres de longitud.', 'warning')
         }
         if (password.current.value != confirmPassword.current.value) {
           swal('Contraseña invalida!', 'Las contraseñas ingresadas no coinciden', 'warning')

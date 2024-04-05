@@ -1,0 +1,80 @@
+.TblProducerOrder th, .TblProducerOrder td {
+  padding: 12px;
+  border: 1px solid #111;
+  text-align: center;
+  background-color: #3c3019 !important;
+  color: #d8a649b7 !important;
+}
+
+button.BtnTrash {
+  border-radius: 5px;
+  background-color: #e0e0e0;
+  border: 1px solid #e0e0e0 !important;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  min-width: 100px;
+  font-weight: bold;
+  margin: 2%;
+  font-size: 15px;
+  color: #111;
+}
+
+button.BtnTrash:hover {
+  background-color: #a43114 !important;
+  color: #fff;
+}
+button.BtnAdd {
+  border-radius: 5px;
+  background-color: #e0e0e0;
+  border: 1px solid #e0e0e0 !important;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  min-width: 100px;
+  font-weight: bold;
+  margin: 2%;
+  font-size: 15px;
+  color: #111;
+}
+
+button.BtnAdd:hover {
+  background-color: #91a414 !important;
+  color: #fff;
+}
+button.BtnEdit {
+  border-radius: 5px;
+  background-color: #e0e0e0;
+  border: 1px solid #e0e0e0 !important;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  min-width: 100px;
+  font-weight: bold;
+  margin: 2%;
+  font-size: 15px;
+  color: #111;
+}
+
+button.BtnEdit:hover {
+  background-color: #c48122 !important;
+  color: #fff;
+}
+
+button.BtnAddProducerModal {
+  border-radius: 5px;
+  background-color: #e0e0e0;
+  border: 1px solid #e0e0e0 !important;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  min-width: 100px;
+  font-weight: bold;
+  font-size: 15px;
+  color: #111;
+}
+
+button.BtnAddProducerModal:hover {
+  background-color: #b8a49f !important;
+  color: #fff;
+}

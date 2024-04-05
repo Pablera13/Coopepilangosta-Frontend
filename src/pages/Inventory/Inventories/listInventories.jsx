@@ -1,134 +1,170 @@
-import { useEffect, useState, useMemo } from "react";
-import { MaterialReactTable} from 'material-react-table';
-import useCustomMaterialTable from '../../../utils/materialTableConfig.js'; 
-import { Box, Button, Tooltip} from '@mui/material';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Container } from "react-bootstrap";
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import { jsPDF } from 'jspdf'; 
-import autoTable from 'jspdf-autotable';
-import { format } from "date-fns";
-import { getCoffee } from "../../../services/productService";
-import AddInventoryModal from "./actions/addInventoriesModal";
-import { validateAllowedPageAccess } from "../../../utils/validatePageAccess";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import "./listInventories.css";
+import { NavLink } from "react-router-dom";
+import { useQuery } from "react-query";
+import { getCoffee } from "../../../services/productService";
+import { getCategories } from "../../../services/categoryService";
+import { Table, Container, Col, Row, Form } from "react-bootstrap";
+import AddInventoryModal from "./actions/addInventoriesModal";
+import ReactPaginate from "react-paginate";
+import { useNavigate } from "react-router-dom";
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess";
+
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
 
-const MaterialTable = () => {
-
-  const [data, setData] = useState([]);
-
-
+const ListInventories = () => {
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getCoffee();
-        setData(response);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
+    validateAllowedPageAccess();
   }, []);
 
-  const { isError: isLoadingError, isFetching: isFetching, isLoading: isLoading } = getCoffee();
+  const {
+    data: categoriesData,
+    isLoading: categoriesLoading,
+    isError: categoriesError,
+  } = useQuery("categories", getCategories);
+  const {
+    data: productsData,
+    isLoading: productsLoading,
+    isError: productsError,
+  } = useQuery("products", getCoffee);
 
-  const columns = useMemo(() => [
-    {
-      accessorKey: 'image',
-      header: 'Imagen',
-      enableClickToCopy: true,
-      Cell: ({ row }) => { 
-        return (
-          <img src={row.original.image} alt="Imagen" style={{ maxWidth: "100px", maxHeight: "100px" }} />
-        );
-      }
-    },
-    {
-      accessorKey: 'code',
-      header: 'Código',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'name',
-      header: 'Nombre',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'unit',
-      header: 'Unidad',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'stock',
-      header: 'Existencias',
-      enableClickToCopy: true,
-    },
-  ], []);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterState, setFilterState] = useState(null);
 
-  const handleExportRows = (rows) => {
-    const doc = new jsPDF();
-    const tableData = rows.map((row) => 
-    Object.values(row.original));
-    const tableHeaders = columns.map((c) => c.header);
+  if (categoriesLoading || productsLoading) {
+    return (
+      <div className="Loading">
+        <ul>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
+    );
+  }
 
-    autoTable(doc, {
-      head: [tableHeaders],
-      body: tableData,
-    });
+  if (categoriesError || productsError) {
+    return <div>Error al cargar los datos.</div>;
+  }
 
-    const currentDate = new Date();
-    const formattedDate = format(currentDate, "yyyy-MM-dd");
-    doc.save(`Reporte Existencias ${formattedDate}.pdf`);
-  };
+  const recordsPerPage = 10;
 
-  const table = useCustomMaterialTable({
-    columns,
-    data: data,
-    isLoading,
-    isLoadingError,
-    isFetching,
-
-    renderRowActions: ({row}) => (
-      <Box sx={{ display: 'flex', gap: '1rem' }}>
-        <Tooltip title="Añadir Existencias">
-
-          <AddInventoryModal props={row.original} />
-
-        </Tooltip>
-      </Box>
-    ),
-
-    renderTopToolbarCustomActions: ({ table }) =>(
-    <>
-
-    <Button
-      disabled={table.getPrePaginationRowModel().rows.length === 0}
-      onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
-      startIcon={<FileDownloadIcon />}
-    >
-      Exportar
-    </Button></>),
+  const filteredBySearch = productsData.filter((product) => {
+    const matchesSearchTerm =
+      product.code
+        .toString()
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      product.name
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f\s]/g, "")
+        .trim()
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      product.unit
+        .toLowerCase()
+        .includes(searchTerm.replace(/\s/g, "").toLowerCase());
+    const matchesState = filterState === null || product.state === filterState;
+    return matchesSearchTerm && matchesState;
   });
 
-  return <MaterialReactTable table={table}
-  />;
+  const offset = currentPage * recordsPerPage;
+  const paginatedProducts = filteredBySearch.slice(
+    offset,
+    offset + recordsPerPage
+  );
+
+  const pageCount = Math.ceil(productsData.length / recordsPerPage);
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
+
+  return (
+    <Container>
+      <div className="table-container">
+        <h2 className="table-title">Existencias</h2>
+        <hr className="divider" />
+
+        <br></br>
+
+        <Form>
+          <Row className="mb-3 filters-container">
+            <Col xs={12} md={3}>
+              <Form.Control
+                type="text"
+                placeholder="Buscar coincidencias"
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="filter-input"
+              />
+            </Col>
+          </Row>
+        </Form>
+
+        <Col xs={12} md={10} lg={12}>
+          {productsData != null ? (
+            <Row>
+              <Table
+                className="Table"
+                striped
+                bordered
+                hover
+                variant="light"
+                responsive
+              >
+                <thead>
+                  <tr>
+                    <th>Imagen</th>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Unidad</th>
+                    <th>Existencias</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {paginatedProducts.map((product) => (
+                    <tr key={product.id}>
+                      <td>
+                        <img className="img-sm border" src={product.image} />
+                      </td>
+                      <td>{product.code}</td>
+                      <td>{product.name}</td>
+                      <td>{product.unit}</td>
+                      <td>{product.stock}</td>
+                      <td>
+                        <AddInventoryModal props={product} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+
+              <div className="Pagination-Container">
+                <ReactPaginate
+                  previousLabel="<"
+                  nextLabel=">"
+                  breakLabel="..."
+                  pageCount={pageCount}
+                  marginPagesDisplayed={2}
+                  pageRangeDisplayed={5}
+                  onPageChange={handlePageClick}
+                  containerClassName="pagination"
+                  subContainerClassName="pages pagination"
+                  activeClassName="active"
+                />
+              </div>
+            </Row>
+          ) : (
+            "Cargando"
+          )}
+        </Col>
+      </div>
+    </Container>
+  );
 };
-
-const queryClient = new QueryClient();
-
-const ListInventories = () => (
-  <Container>
-    <div className="table-container">
-      <h2 className="table-title">Existencias</h2>
-      <hr className="divider" />
-      <QueryClientProvider client={queryClient}>
-        <MaterialTable />
-      </QueryClientProvider>
-    </div>
-  </Container>
-
-);
 
 export default ListInventories;

@@ -1,5 +1,10 @@
 /* Form de la tabla */
 
+.filter-input {
+  width: 150px; 
+  margin-left: 10px; 
+}
+
 .table-container {
   border: 1px solid #ddd; 
   border-radius: 5px; 
@@ -8,11 +13,61 @@
   background-color: #fff; 
 }
 
+.table-title {
+  margin-bottom: 20px; 
+  color: #333; 
+}
 
 .divider {
   border-top: 2px solid #555; 
   margin: 20px 0; 
 }
+
+.filters-container {
+  display: flex;
+  justify-content: flex-start; 
+  align-items: center;
+}
+
+.filter-input {
+  width: 100%; 
+}
+
+
+/* Tabla */
+
+.Table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); */
+}
+
+.Table th,
+.Table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.Table th {
+  background-color: #f8f9fa; /* Cambia el color de fondo del encabezado */
+  font-weight: bold;
+}
+
+.Table td {
+  background-color: #fff; /* Cambia el color de fondo de las celdas */
+}
+
+.Table tr:nth-child(even) {
+  background-color: #f2f2f2; /* Cambia el color de fondo de las filas pares */
+}
+
+.Table tr:hover {
+  background-color: #f0f0f0; /* Cambia el color de fondo al pasar el mouse sobre las filas */
+}
+
+
 
 /* Modal */
 

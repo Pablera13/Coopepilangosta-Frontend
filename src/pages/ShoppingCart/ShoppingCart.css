@@ -11,6 +11,7 @@
   width: 100%;
 }
 
+/* Estilos para la tabla */
 .table-shopping-cart th,
 .table-shopping-cart td {
   vertical-align: middle;
@@ -19,25 +20,24 @@
 
 .warning {
   display: flex;
-  background-color: #ba7f11d2;
+  background-color: #ffc107;
   padding: 10px;
-  vertical-align: middle;
   border-radius: 5px;
   margin: 2%;
-  align-items: center; 
-  color:white;
+  align-items: center; /* Centra verticalmente los elementos */
+  color: brown;
   font-weight: bold;
   text-align: center;
   font-size: 15px;
 }
 
 .TxtWarning {
-  flex-grow: 1; 
+  flex-grow: 1; /* Permite que el texto ocupe todo el espacio restante */
 }
 
 .IconWarning {
   font-size: 300%;
-  margin-left: 10px; 
+  margin-left: 10px; /* Ajusta el margen izquierdo entre el texto y el ícono */
   
 }
 

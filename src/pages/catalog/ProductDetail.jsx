@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Col, Image, Button, Form, Card } from 'react-bootstrap';
-import {useNavigate, useParams } from 'react-router-dom';
+import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { getProductById } from '../../services/productService';
 import { getCategoryById } from '../../services/categoryService';
 import { getProductCostumerById } from '../../services/productCostumerService.js';
@@ -275,7 +275,7 @@ const ProductDetail = () => {
 
                       <div className="product_meta">
                         <span className="posted_in">
-                          <strong>Categoría: </strong> <a className='CategoryName' rel="tag" href="#">
+                          <strong>Categoría:</strong> <a className='CategoryName' rel="tag" href="#">
                             {categoryRequest.name}
                           </a>
                           <br />
@@ -283,7 +283,7 @@ const ProductDetail = () => {
                         </span>
 
                         <span className="tagged_as">
-                          <strong>Unidad: </strong> <a className='ProductName' rel="tag" href="#">
+                          <strong>Unidad:</strong> <a className='ProductName' rel="tag" href="#">
                             {productRequest.unit}
                           </a>
                         </span>
@@ -406,7 +406,7 @@ const ProductDetail = () => {
                             type="button"
                             onClick={toLogin}
                           >
-                            <i className="fa fa-shopping-cart"></i>Inicie sesión para comprar
+                            <i className="fa fa-shopping-cart"></i> Inicie sesión para comprar
                           </Button>
                         )}
 

@@ -2,6 +2,7 @@ import api from "../Api/apiAxios";
 
 export const getProducerOrder = async () => { 
     let data = await api.get('producerorder').then(result => result.data);
+    //console.log(data)
     return data;
 };
 
@@ -13,6 +14,7 @@ export const getProducerOrderById = async (id,state) => {
 
 export const createProducerOrder = async (producerorder) => { 
     let data = await api.post('producerorder', producerorder).then(result => result.data);
+    console.log(data)
     return data;
 };
 

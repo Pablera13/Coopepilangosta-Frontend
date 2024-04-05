@@ -1,26 +1,80 @@
-import { useState, useEffect, useMemo } from "react";
-import { Box, Button, Tooltip} from '@mui/material';
-import { MaterialReactTable} from 'material-react-table';
-import useCustomMaterialTable from '../../../utils/materialTableConfig.js'; 
-import autoTable from 'jspdf-autotable';
-import { jsPDF } from 'jspdf'; 
-import { format } from "date-fns";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import React, { useState, useEffect, useRef } from "react";
+import { useQuery } from "react-query";
 import { getWarehouse } from "../../../services/warehouseService";
 import { deleteWarehouse } from "../../../services/warehouseService";
 import swal from "sweetalert";
-import { Container } from "react-bootstrap";
+import { Table, Container, Col, Row, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import AddWarehouseModal from "./actions/addWarehouseModal";
 import EditWarehouseModal from "./actions/editWarehouseModal";
+import ReactPaginate from "react-paginate";
+import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
 import { validateAllowedPageAccess } from "../../../utils/validatePageAccess";
 
-const MaterialTable = () => {
+const listWarehouse = () => {
 
-  const [data, setData] = useState([]);
+  useEffect(() => {
+    validateAllowedPageAccess()
+  }, [])
+  
+
+  const {
+    data: Warehouses,
+    isLoading: WarehousesLoading,
+    isError: WarehousesError,
+  } = useQuery("warehouse", getWarehouse);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterState, setFilterState] = useState(null);
+
+  const navigate = useNavigate();
+
+  const recordsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(0);
+
+  if (WarehousesLoading)
+    return (
+      <div className="Loading">
+        <ul>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
+    );
+
+  if (WarehousesError) return <div>Error</div>;
+
+  const filteredBySearch = Warehouses.filter((warehouse) => {
+    const matchesSearchTerm =
+      warehouse.code
+        .toString()
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      warehouse.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      warehouse.address
+        .toString()
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+    const matchesState =
+      filterState === null || warehouse.state === filterState;
+    return matchesSearchTerm && matchesState;
+  });
+
+  const offset = currentPage * recordsPerPage;
+  const paginatedWarehouses = filteredBySearch.slice(
+    offset,
+    offset + recordsPerPage
+  );
+
+  const pageCount = Math.ceil(Warehouses.length / recordsPerPage);
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
 
   const showAlert = (id) => {
     swal({
@@ -32,123 +86,117 @@ const MaterialTable = () => {
       if (answer) {
         deleteWarehouse(id);
         swal({
-          title: 'Eliminado',
-          text: 'La bodega ha sido eliminada',
-          icon: 'success',
-        }).then(function () { window.location.reload() });
-
+          title: "Eliminado",
+          text: "La bodega ha sido eliminada",
+          icon: "success",
+        }).then(function(){window.location.reload()});
+        
       }
     });
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getWarehouse();
-        setData(response);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
-  }, []);
+  return (
+    <Container>
+      <div className="table-container">
+        <h2 className="table-title">Bodegas</h2>
+        <hr className="divider" />
 
-  const { isError: isLoadingError, isFetching: isFetching, isLoading: isLoading } = getWarehouse();
+        <br></br>
 
-  const columns = useMemo(() => [
-    {
-      accessorKey: 'code',
-      header: 'Código',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'description',
-      header: 'Descripción',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'address',
-      header: 'Dirección',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'state',
-      header: 'Estado',
-      enableClickToCopy: true,
-      Cell: ({ row }) => { return (row.original.state == true ? <span>{`Activo`}</span> : <span>{`Inactivo`}</span>);
-      }
-    },
-  ], []);
+        <Form>
+          <Row className="mb-3 filters-container">
+            <Col xs={12} md={6}>
+              <AddWarehouseModal />
+            </Col>
+            <Col xs={12} md={3}>
+              <Form.Control
+                type="text"
+                placeholder="Buscar coincidencias"
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="filter-input"
+              />
+            </Col>
+            <Col xs={12} md={3}>
+              <Form.Select
+                onChange={(e) =>
+                  setFilterState(
+                    e.target.value === "true"
+                      ? true
+                      : e.target.value === "false"
+                      ? false
+                      : null
+                  )
+                }
+                className="filter-input"
+                placeholder="Filtrar por estado"
+              >
+                <option value="">Todos</option>
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
+              </Form.Select>
+            </Col>
+          </Row>
+        </Form>
 
-  const handleExportRows = (rows) => {
-    const doc = new jsPDF();
-    const tableData = rows.map((row) => 
-    Object.values(row.original));
-    const tableHeaders = columns.map((c) => c.header);
-
-    autoTable(doc, {
-      head: [tableHeaders],
-      body: tableData,
-    });
-
-    const currentDate = new Date();
-    const formattedDate = format(currentDate, "yyyy-MM-dd");
-    doc.save(`Reporte Productos ${formattedDate}.pdf`);
-  };
-
-  const table = useCustomMaterialTable({
-    columns,
-    data: data,
-    isLoading,
-    isLoadingError,
-    isFetching,
-    showAlert,
-
-    renderRowActions: ({row}) => (
-      <Box sx={{ display: 'flex', gap: '1rem' }}>
-        <Tooltip title="Editar">
-
-          <EditWarehouseModal props={row.original} />
-
-        </Tooltip>
-        <Tooltip title="Eliminar">
-
-          <Button className="BtnRed" onClick={() => showAlert(row.original.id)}><MdDelete /></Button>
-
-        </Tooltip>
-      </Box>
-    ),
-
-    renderTopToolbarCustomActions: ({ table }) =>(
-    <>
-    <AddWarehouseModal/>
-
-    <Button
-      disabled={table.getPrePaginationRowModel().rows.length === 0}
-      onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
-      startIcon={<FileDownloadIcon />}
-    >
-      Exportar
-    </Button></>),
-  });
-
-  return <MaterialReactTable table={table}
-  />;
+        <Col xs={12} md={2} lg={12}>
+          {Warehouses ? (
+            <Row>
+              <Table className="Table" responsive>
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Descripción</th>
+                    <th>Dirección</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {" "}
+                  {paginatedWarehouses.map((warehouse) => (
+                    <tr key={warehouse.id}>
+                      <td>{warehouse.code}</td>
+                      <td>{warehouse.description}</td>
+                      <td>{warehouse.address}</td>
+                      <td>{warehouse.state ? "Activo" : "Inactivo"}</td>
+                      <td>
+                        <div className="BtnContainer">
+                          <EditWarehouseModal props={warehouse} />
+                          <Button
+                            className="BtnRed"
+                            onClick={() => showAlert(warehouse.id)}
+                            size="sm"
+                          >
+                            <MdDelete />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}{" "}
+                </tbody>
+              </Table>
+              <div className="Pagination-Container">
+              <ReactPaginate
+                previousLabel="<"
+                nextLabel=">"
+                breakLabel="..."
+                pageCount={pageCount}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageClick}
+                containerClassName="pagination"
+                subContainerClassName="pages pagination"
+                activeClassName="active"
+              />
+              </div>     
+            </Row>
+          ) : (
+            "Cargando"
+          )}
+        </Col>
+      </div>
+    </Container>
+  );
 };
-
-const queryClient = new QueryClient();
-
-const listWarehouse = () => (
-  <Container>
-    <div className="table-container">
-      <h2 className="table-title">Bodegas</h2>
-      <hr className="divider" />
-      <QueryClientProvider client={queryClient}>
-        <MaterialTable />
-      </QueryClientProvider>
-    </div>
-  </Container>
-
-);
 
 export default listWarehouse;

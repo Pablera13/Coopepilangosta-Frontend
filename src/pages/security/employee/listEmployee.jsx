@@ -1,180 +1,200 @@
-import { useState, useEffect, useMemo } from "react";
-import { Box, Button, Tooltip} from '@mui/material';
-import { MaterialReactTable} from 'material-react-table';
-import useCustomMaterialTable from '../../../utils/materialTableConfig.js'; 
-import autoTable from 'jspdf-autotable';
-import { jsPDF } from 'jspdf'; 
-import { format } from "date-fns";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import { Container } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Col, Row, Container, Table, Button, Form } from "react-bootstrap";
+import Select from "react-select";
+import { useQuery } from "react-query";
 import { getEmployees } from "../../../services/employeeService";
 import UpdateEmployee from "./actions/updateEmployee";
 import { AddEmployee } from "./actions/addEmployeModal";
 import UpdateEmployeeUser from "./actions/updateEmployeeUser";
 import { deleteEmployee } from "../../../services/employeeService";
+import { useState } from "react";
+import { deleteUser } from "../../../services/userService";
+import { useNavigate } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 import swal from "sweetalert";
 import { MdDelete } from "react-icons/md";
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess";
 
-const MaterialTable = () => {
+const listEmployee = () => {
 
-  const [data, setData] = useState([]);
+  useEffect(() => {
+    validateAllowedPageAccess()
+  }, [])
+  
 
-  const showAlert = (id) => {
+  const {
+    data: employees,
+    isLoading: employeesloading,
+    IsError: employeesError,
+  } = useQuery("employee", getEmployees);
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const navigate = useNavigate();
+
+  if (employeesloading) {
+    return (
+      <div className="Loading">
+        <ul>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
+    );
+  }
+  if (employeesError) {
+    return (
+      <>
+        <span>Error...</span>
+      </>
+    );
+  }
+
+  const deleteEmployee = (idEmployee) => {
+    try {
+      deleteEmployee(idEmployee);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const showDeleteAlert = (idEmployee, idUser) => {
+    console.log("Id employee: " + idEmployee + ", Id user: " + idUser);
     swal({
       title: "Eliminar",
-      text: "¿Está seguro de que desea eliminar este usuario?",
+      text: "Esta seguro que desea eliminar este empleado?",
       icon: "warning",
       buttons: ["Cancelar", "Aceptar"],
     }).then((answer) => {
       if (answer) {
-        deleteEmployee(id);
         swal({
-          title: 'Eliminado',
-          text: 'El usuario ha sido eliminado',
-          icon: 'success',
-        }).then(function () { window.location.reload() });
-
+          title: "Eliminado!",
+          text: `El empleado ha sido eliminado`,
+          icon: "success",
+        });
+        setTimeout(function () {
+          deleteEmployee(idEmployee);
+          deleteUser(idUser);
+          window.location.reload();
+        }, 2000);
       }
     });
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getEmployees();
-        setData(response);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  const { isError: isLoadingError, isFetching: isFetching, isLoading: isLoading } = getEmployees();
-
-  const columns = useMemo(() => [
-    {
-      accessorKey: 'cedula',
-      header: 'Cédula',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'name',
-      header: 'Nombre',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'lastName1',
-      header: 'Primer Apellido',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'lastName2',
-      header: 'Segundo Apellido',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'department',
-      header: 'Departamento',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'email',
-      header: 'Correo',
-      enableClickToCopy: true,
-      Cell: ({ row }) => { 
-        return <td>{row.original.user.email}</td>;
-      }
-    },
-    {
-      accessorKey: 'role',
-      header: 'Rol',
-      enableClickToCopy: true,
-      Cell: ({ row }) => { 
-        return <td>{row.original.user.role.name}</td>;
-      }
-    },
-  ], []);
-
-  const handleExportRows = (rows) => {
-    const doc = new jsPDF();
-    const tableData = rows.map((row) => 
-    Object.values(row.original));
-    const tableHeaders = columns.map((c) => c.header);
-
-    autoTable(doc, {
-      head: [tableHeaders],
-      body: tableData,
-    });
-
-    const currentDate = new Date();
-    const formattedDate = format(currentDate, "yyyy-MM-dd");
-    doc.save(`Reporte Empleados ${formattedDate}.pdf`);
-  };
-
-  const table = useCustomMaterialTable({
-    columns,
-    data: data,
-    isLoading,
-    isLoadingError,
-    isFetching,
-    showAlert,
-
-    renderRowActions: ({row}) => (
-      <Box sx={{ display: 'flex', gap: '1rem' }}>
-        <Tooltip title="Actualizar datos del empleado">
-
-          <UpdateEmployee props={row.original} />
-
-        </Tooltip>
-        <Tooltip title="Actualizar Usuario">
-
-          <UpdateEmployeeUser props={row.original.user} />
-
-        </Tooltip>
-        <Tooltip title="Eliminar">
-
-          <Button className="BtnRed" onClick={() => showAlert(row.original.id)}><MdDelete /></Button>
-
-        </Tooltip>
-      </Box>
-    ),
-
-    renderTopToolbarCustomActions: ({ table }) =>(
-    <>
-    <AddEmployee/>
-
-    <Button
-      disabled={table.getPrePaginationRowModel().rows.length === 0}
-      onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
-      startIcon={<FileDownloadIcon />}
-    >
-      Exportar
-    </Button></>),
+  const filteredBySearch = employees.filter((employee) => {
+    const matchesSearchTerm =
+    employee.cedula.toString().toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
+    employee.name.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "").toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
+    employee.lastName1.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "").toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
+    employee.lastName2.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "").toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
+    employee.department.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "").toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase());
+    return matchesSearchTerm;
   });
 
-  return <MaterialReactTable table={table}
-  />;
+  const recordsPerPage = 10;
+
+  const offset = currentPage * recordsPerPage;
+  const paginatedEmployess = filteredBySearch.slice(offset, offset + recordsPerPage);
+
+  const pageCount = Math.ceil(filteredBySearch.length / recordsPerPage);
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
+
+  return (
+    <Container>
+      <div className="table-container">
+        <h2 className="table-titles">Empleados</h2>
+        <hr className="divider" />
+        <br />
+        <Row>
+          <Col>
+            <AddEmployee />
+          </Col>
+
+          <Col xs={4} md={3}>
+              <Form.Control
+                type="text"
+                placeholder="Buscar coincidencias"
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="filter-input"
+              />
+            </Col>
+        </Row>
+        <br />
+        <Col xs={12} md={2} lg={12}>
+          {employees ? (
+            <Row>
+              <Table className="Table" responsive>
+                <thead>
+                  <tr>
+                    <th>Cédula</th>
+                    <th>Nombre</th>
+                    <th>Primer Apellido</th>
+                    <th>Segundo Apellido</th>
+                    <th>Departamento</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {employees != null
+                    ? filteredBySearch.map((employee) => (
+                        <tr key={employee.id}>
+                          <td>{employee.cedula}</td>
+                          <td>{employee.name}</td>
+                          <td>{employee.lastName1}</td>
+                          <td>{employee.lastName2}</td>
+                          <td>{employee.department}</td>
+                          <td>{employee.user.role.name}</td>
+                          <td>
+                            <div className="BtnContainer">
+                              <UpdateEmployee props={employee} />
+                              <Button
+                                size="sm"
+                                className="BtnRed"
+                                variant="danger"
+                                onClick={() =>
+                                  showDeleteAlert(employee.id, employee.user.id)
+                                }
+                              >
+                                <MdDelete />
+                              </Button>
+                              <UpdateEmployeeUser props={employee.user} />
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    : "Cargando"}
+                </tbody>
+              </Table>
+              <div className="Pagination-Container">
+                <ReactPaginate
+                  previousLabel="<"
+                  nextLabel=">"
+                  breakLabel="..."
+                  pageCount={pageCount}
+                  marginPagesDisplayed={2}
+                  pageRangeDisplayed={5}
+                  onPageChange={handlePageClick}
+                  containerClassName="pagination"
+                  subContainerClassName="pages pagination"
+                  activeClassName="active"
+                />
+              </div>
+            </Row>
+          ) : (
+            "Cargando"
+          )}
+        </Col>
+      </div>
+    </Container>
+  );
 };
 
-const queryClient = new QueryClient();
-
-const listEmployee
-= () => (
-  <Container>
-    <div className="table-container">
-      <h2 className="table-title">Empleados</h2>
-      <hr className="divider" />
-      <QueryClientProvider client={queryClient}>
-        <MaterialTable />
-      </QueryClientProvider>
-    </div>
-  </Container>
-
-);
-
-export default listEmployee
-;
+export default listEmployee;

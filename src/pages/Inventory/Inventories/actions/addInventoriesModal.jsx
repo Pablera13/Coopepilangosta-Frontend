@@ -117,7 +117,7 @@ const addInventoriesModal = (props) => {
                             <Col md={6}>
                                 <Form.Group controlId="phoneNumber">
                                     <Form.Label>Motivo</Form.Label>
-                                    <Form.Select value={selectedMotive}
+                                    <select value={selectedMotive}
                                         placeholder="Seleccionar motivo"
                                         required
                                         onChange={(e) => {setSelectedMotive(e.target.value)}} ref={motive}>
@@ -128,14 +128,14 @@ const addInventoriesModal = (props) => {
                                         <option value="Ingreso">Aumento de Existencias</option>
                                         <option value="Prueba de mercado">Prueba de mercado</option>
                                         <option value="Otro">Otro</option>
-                                    </Form.Select>
+                                    </select>
                                 </Form.Group>
                             </Col>
 
                             <Col md={6}>
                                 <Form.Group controlId="name">
                                     <Form.Label>Fecha del movimiento</Form.Label>
-                                    <Form.Control
+                                    <input
                                         type="datetime-local"
                                         required
                                         value={cambioFecha}

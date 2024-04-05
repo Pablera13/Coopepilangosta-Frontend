@@ -3,7 +3,6 @@ import { Modal, Col, Row, Container, Button, Form } from "react-bootstrap";
 import { useMutation } from "react-query";
 import { editEmployee } from "../../../../services/employeeService";
 import swal from "sweetalert";
-import { QueryClient } from 'react-query';
 
 import { TiEdit } from "react-icons/ti";
 
@@ -11,7 +10,6 @@ const updateEmployee = (props) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const queryClient = new QueryClient();
 
   const [validated, setValidated] = useState(false);
 
@@ -30,29 +28,11 @@ const updateEmployee = (props) => {
   const updateEmployeeMutation = useMutation("employee", editEmployee, {
     onSettled: () => queryClient.invalidateQueries("employee"),
     mutationKey: "employee",
-    onSuccess: () => {
-      swal({
-          title: 'Actualizado!',
-          text: 'Inicie sesión nuevamente para percibir los cambios',
-          icon: 'success',
-      });
-      setTimeout(() => {
-          window.location.reload();
-      }, 2000);
-  },
-  onError: () => {
-      swal({
-          title: 'Error!',
-          text: 'Ocurrió un error al actualizar la información',
-          icon: 'error',
-      });
-  }
+    onSuccess: () => window.location.reload(),
   });
 
-  const handleUpdate = async (event) => {
-
-    console.log(employee)
-    const form = event.currentTarget;
+  const handleUpdate = (event) => {
+    const form = document.getElementById("form-updateuser");
 
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -67,8 +47,7 @@ const updateEmployee = (props) => {
         lastName1: lastName1.current.value,
         lastName2: lastName2.current.value,
         department: department.current.value,
-        idUser: employee.idUser,
-
+        idUser: employee.user.id,
       };
       console.log(toUpdateEmployee);
       updateEmployeeMutation.mutateAsync(toUpdateEmployee);
@@ -96,7 +75,7 @@ const updateEmployee = (props) => {
         </Modal.Header>
         <Modal.Body>
           {employee != null ? (
-            <Form validated={validated} onSubmit={handleUpdate}>
+            <Form validated={validated}>
               <Row>
                 <Col>
                   <Form.Label>Nombre</Form.Label>

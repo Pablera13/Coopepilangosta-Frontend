@@ -1,164 +1,186 @@
-import { useState, useEffect, useMemo } from "react";
-import { Box, Button, Tooltip} from '@mui/material';
-import { MaterialReactTable} from 'material-react-table';
-import useCustomMaterialTable from '../../../utils/materialTableConfig.js'; 
-import autoTable from 'jspdf-autotable';
-import { jsPDF } from 'jspdf'; 
+import React from "react";
+import {
+  Table,
+  Container,
+  Col,
+  Row,
+  Button,
+  Card,
+  ListGroup,
+} from "react-bootstrap";
+import { NavLink, Navigate, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { format } from "date-fns";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import { Container } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { BsBox2 } from "react-icons/bs";
+import { Form } from "react-bootstrap";
+
+import { getCostumerOrder } from "../../../services/costumerorderService";
+
+import { getUserById } from "../../../services/userService";
 import { getCostumerOrderByCostumer } from "../../../services/costumerorderService";
 import PrintCustomerOrder from "../../Maintenance/CustomerOrder/actions/printCustomerOrder.jsx";
+import ReactPaginate from "react-paginate";
 import "../../../css/StylesBtn.css";
+import { IoMdSearch } from "react-icons/io";
 
-const MaterialTable = () => {
-
-  const [data, setData] = useState([]);
-
+const myCostumerOrder = () => {
+  const userStorage = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
+  const [customerorderData, setcustomerorderData] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userStorage = JSON.parse(localStorage.getItem("user"));
-        const response = await getCostumerOrderByCostumer(userStorage.costumer.id, setData);
-        setData(response);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
-  }, []);
+    async function settingOrders() {
+      getCostumerOrderByCostumer(userStorage.costumer.id, setcustomerorderData);
+    }
+    settingOrders();
+  }, [userStorage]);
 
-  const { isError: isLoadingError, isFetching: isFetching, isLoading: isLoading } = getCostumerOrderByCostumer();
+  const [currentPage, setCurrentPage] = useState(0);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedStage, setSelectedStage] = useState("");
 
-  const columns = useMemo(() => [
-    {
-      accessorKey: 'id',
-      header: '#',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'confirmedDate',
-      header: 'Recibido',
-      enableClickToCopy: true,
-      Cell: ({ row }) => { 
-        return (<span>{row.original.confirmedDate === "0001-01-01T00:00:00" ? "" : format(new Date(row.original.confirmedDate), "yyyy-MM-dd")}</span>);
-      }
-    },
-    {
-      accessorKey: 'paidDate',
-      header: 'Pago',
-      enableClickToCopy: true,
-      Cell: ({ row }) => { 
-        return (
-          <span>
-            {row.original.paidDate === "0001-01-01T00:00:00" ? "Sin pagar" : format(new Date(row.original.paidDate), "yyyy-MM-dd")}
-          </span>
-        );
-      }
-    },
-    {
-      accessorKey: 'deliveredDate',
-      header: 'Estado Entrega',
-      enableClickToCopy: true,
-      Cell: ({ row }) => { 
-        return (
-          <span>
-            {row.original.deliveredDate === "0001-01-01T00:00:00" ? "No entregado" : format(new Date(row.original.deliveredDate), "yyyy-MM-dd")}
-          </span>
-        );
-      }
-    },
-    {
-      accessorKey: 'total',
-      header: 'Total',
-      enableClickToCopy: true,
-      Cell: ({ row }) => { 
-        return (
-          <span>
-            {row.original.total === 0 ? "Por cotizar" : `₡${row.original.total.toFixed(2)}`}
-          </span>
-        );
-      }
-    },
-    {
-      accessorKey: 'stage',
-      header: 'Estado',
-      enableClickToCopy: true,
-    },
-  ], []);
+  const filteredByDate = customerorderData
+    ? customerorderData.filter((miPedido) => {
+        if (selectedDate) {
+          const pedidoDate = new Date(miPedido.confirmedDate);
+          const selected = new Date(selectedDate);
+          return pedidoDate.toDateString() === selected.toDateString();
+        }
+        const matchesState =
+          miPedido.stage === "Sin confirmar" ||
+          miPedido.stage === "En preparación" ||
+          miPedido.stage === "Confirmado";
+        return true && matchesState;
+      })
+    : [];
 
-  const handleExportRows = (rows) => {
-    const doc = new jsPDF();
-    const tableData = rows.map((row) => 
-    Object.values(row.original));
-    const tableHeaders = columns.map((c) => c.header);
+  const recordsPerPage = 10;
+  const offset = currentPage * recordsPerPage;
+  const paginatedOrders = filteredByDate.slice(offset, offset + recordsPerPage);
 
-    autoTable(doc, {
-      head: [tableHeaders],
-      body: tableData,
-    });
+  const pageCount = Math.ceil(filteredByDate.length / recordsPerPage);
 
-    const currentDate = new Date();
-    const formattedDate = format(currentDate, "yyyy-MM-dd");
-    doc.save(`Reporte Pedidos Recibidos ${formattedDate}.pdf`);
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
   };
 
-  const table = useCustomMaterialTable({
-    columns,
-    data: data,
-    isLoading,
-    isLoadingError,
-    isFetching,
+  return (
+    <Container>
+      <div className="table-container">
+        <h2 className="table-title">Mis Pedidos</h2>
 
-    renderRowActions: ({row}) => (
-      <Box sx={{ display: 'flex', gap: '1rem' }}>
-        <Tooltip title="Seguimiento">
-          <Button className="BtnBrown" onClick={() => navigate(`/userOrder/${row.original.id}`)}>
-            <BsBox2 />
-          </Button>
-        </Tooltip>
-        <Tooltip title="Editar">
+        <hr className="divider" />
 
-          <PrintCustomerOrder props={row.original.id} />
+        <br />
 
-        </Tooltip>
-      </Box>
-    ),
+        <Form>
+          <Row className="mb-3 filters-container">
+            <Col xs={5.5} md={5.5}></Col>
 
-    renderTopToolbarCustomActions: ({ table }) =>(
-    <>
+            <Col xs={3} md={3}>
+              <Form.Control
+                type="datetime-local"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+              />
+            </Col>
+          </Row>
+        </Form>
 
-    <Button
-      disabled={table.getPrePaginationRowModel().rows.length === 0}
-      onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
-      startIcon={<FileDownloadIcon />}
-    >
-      Exportar
-    </Button></>),
-  });
+        <br></br>
 
-  return <MaterialReactTable table={table}
-  />;
+        <Col xs={12} md={12} lg={12}>
+          {customerorderData != null ? (
+            <>
+              <Row>
+                {customerorderData ? (
+                  <Table className="Table" hover responsive>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Fecha</th>
+                        <th>Pago</th>
+                        <th>Entrega</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {paginatedOrders.map((order) => (
+                        <tr key={order.id}>
+                          <td>{order.id}</td>
+                          <td>
+                            {format(
+                              new Date(order.confirmedDate),
+                              "yyyy-MM-dd"
+                            )}
+                          </td>
+                          <td>
+                            {order.paidDate != "0001-01-01T00:00:00"
+                              ? format(new Date(order.paidDate), "yyyy-MM-dd")
+                              : "Sin pagar"}
+                          </td>
+                          <td>
+                            {order.deliveredDate != "0001-01-01T00:00:00"
+                              ? format(
+                                  new Date(order.deliveredDate),
+                                  "yyyy-MM-dd"
+                                )
+                              : "No entregado"}
+                          </td>
+
+                          {/* <td>₡{order.total.toFixed(2)}</td> */}
+                          <td>
+                            {order.total.toFixed(2) == 0
+                              ? "Por cotizar"
+                              : `₡${order.total.toFixed(2)}`}
+                          </td>
+                          <td>{order.stage}</td>
+                          <td>
+                            <div className="BtnContainer">
+                              <Button
+                                className="BtnBrown"
+                                onClick={() =>
+                                  navigate(`/userOrder/${order.id}`)
+                                }
+                              >
+                                <IoMdSearch />
+                              </Button>
+
+                              <PrintCustomerOrder props={order.id} />
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                ) : (
+                  "Cargando"
+                )}
+                <div className="Pagination-Container">
+                  <ReactPaginate
+                    previousLabel="<"
+                    nextLabel=">"
+                    breakLabel="..."
+                    pageCount={pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={handlePageClick}
+                    containerClassName="pagination"
+                    subContainerClassName="pages pagination"
+                    activeClassName="active"
+                  />
+                </div>
+              </Row>
+            </>
+          ) : (
+            <div className="text-center">Cargando...</div>
+          )}
+        </Col>
+      </div>
+    </Container>
+  );
 };
-
-const queryClient = new QueryClient();
-
-const myCostumerOrder = () => (
-  <Container>
-    <div className="table-container">
-      <h2 className="table-title">Pedidos Recibidos</h2>
-      <hr className="divider" />
-      <QueryClientProvider client={queryClient}>
-        <MaterialTable />
-      </QueryClientProvider>
-    </div>
-  </Container>
-
-);
 
 export default myCostumerOrder;

@@ -1,23 +1,73 @@
-import { useMemo, useState, useEffect } from 'react';
-import { MaterialReactTable} from 'material-react-table';
-import { Box, Button, Tooltip} from '@mui/material';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Container } from "react-bootstrap";
-import { MdDelete } from "react-icons/md";
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import { jsPDF } from 'jspdf'; 
-import autoTable from 'jspdf-autotable';
-import { format } from "date-fns";
-import useCustomMaterialTable from '../../../utils/materialTableConfig.js'; 
-import "../../../css/StylesBtn.css";
+import React, { useState, useEffect, useRef } from "react";
+import { useQuery } from "react-query";
+import { getProducts } from "../../../services/productService";
+import { NavLink } from "react-router-dom";
 import { deleteProduct } from "../../../services/productService";
-import EditProductModal from "./operations/editProductModal.jsx";
+import { Table, Container, Col, Row, Button } from "react-bootstrap";
 import AddProductModal from "./operations/addProductModal.jsx";
-import { getProducts } from '../../../services/productService';
+import { Form } from "react-bootstrap";
+import EditProductModal from "./operations/editProductModal.jsx";
+import ReactPaginate from "react-paginate";
+import { useNavigate } from "react-router-dom";
+import { MdDelete } from "react-icons/md";
+import "../../../css/StylesBtn.css";
+import "../../../css/Pagination.css";
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess.js";
+const listProducts = () => {
 
-const MaterialTable = () => {
+  useEffect(() => {
+    validateAllowedPageAccess()
+  }, [])
+  
 
-  const [data, setData] = useState([]);
+  const {
+    data: Products,
+    isLoading: ProductsLoading,
+    isError: ProductsError,
+  } = useQuery("product", getProducts);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterState, setFilterState] = useState(null);
+
+  const navigate = useNavigate();
+
+  const recordsPerPage = 6;
+  const [currentPage, setCurrentPage] = useState(0);
+
+  if (ProductsLoading)
+    return (
+      <div className="Loading">
+        <ul>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
+    );
+  if (ProductsError) return <div>Error</div>;
+
+  const filteredBySearch = Products.filter((product) => {
+    const matchesSearchTerm =
+      product.code.toString().toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
+      product.name.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "").toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase()) ||
+      product.unit.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "").toLowerCase().includes(searchTerm.replace(/\s/g, "").toLowerCase());
+    const matchesState = filterState === null || product.state === filterState;
+    return matchesSearchTerm && matchesState;
+  });
+
+  const offset = currentPage * recordsPerPage;
+  const paginatedProducts = filteredBySearch.slice(
+    offset,
+    offset + recordsPerPage
+  );
+
+  const pageCount = Math.ceil(Products.length / recordsPerPage);
+
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+    console.log("paginatedProducts = " + paginatedProducts.length);
+  };
 
   const showAlert = (id) => {
     swal({
@@ -32,132 +82,118 @@ const MaterialTable = () => {
           title: 'Eliminado',
           text: 'El producto ha sido eliminado',
           icon: 'success',
-        }).then(function () { window.location.reload() });
-
+        }).then(function(){window.location.reload()});
+        
       }
     });
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getProducts();
-        setData(response);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
-  }, []);
+  return (
+    <Container>
+      <div className="table-container">
+        <h2 className="table-title">Productos</h2>
+        <hr className="divider" />
 
-  const { isError: isLoadingError, isFetching: isFetching, isLoading: isLoading } = getProducts();
+        <br></br>
 
-  const columns = useMemo(() => [
-    {
-      accessorKey: 'code',
-      header: 'Código',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'name',
-      header: 'Nombre',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'unit',
-      header: 'Unidad',
-      enableClickToCopy: true,
-    },
-    {
-      accessorKey: 'iva',
-      header: 'IVA (%)',
-      enableClickToCopy: true,
-      Cell: ({ row }) => { return (<span>{`${row.original.iva}%`}</span>); }
-    },
-    {
-      accessorKey: 'margin',
-      header: 'Margen de Ganancia',
-      enableClickToCopy: true,
-      Cell: ({ row }) => { return (<span>{`${row.original.margin}%`}</span>); }
-    },
-    {
-      accessorKey: 'state',
-      header: 'Estado',
-      enableClickToCopy: true,
-      Cell: ({ row }) => { return (row.original.state == true ? <span>{`Activo`}</span> : <span>{`De baja`}</span>);
-      }
-    },
-  ], []);
+        <Form>
+          <Row className="mb-3 filters-container">
+            <Col xs={4} md={6}>
+              <AddProductModal />
+            </Col>
+            <Col xs={4} md={3}>
+              <Form.Control
+                type="text"
+                placeholder="Buscar coincidencias"
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="filter-input"
+              />
+            </Col>
+            <Col xs={4} md={3}>
+              <Form.Select
+                onChange={(e) =>
+                  setFilterState(
+                    e.target.value === "true"
+                      ? true
+                      : e.target.value === "false"
+                      ? false
+                      : null
+                  )
+                }
+                className="filter-input"
+                placeholder="Filtrar por estado"
+              >
+                <option value="">Todos</option>
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
+              </Form.Select>
+            </Col>
+          </Row>
+        </Form>
 
-  const handleExportRows = (rows) => {
-    const doc = new jsPDF();
-    const tableData = rows.map((row) => 
-    Object.values(row.original));
-    const tableHeaders = columns.map((c) => c.header);
-
-    autoTable(doc, {
-      head: [tableHeaders],
-      body: tableData,
-    });
-
-    const currentDate = new Date();
-    const formattedDate = format(currentDate, "yyyy-MM-dd");
-    doc.save(`Reporte Productos ${formattedDate}.pdf`);
-  };
-
-  const table = useCustomMaterialTable({
-    columns,
-    data: data,
-    isLoading,
-    isLoadingError,
-    isFetching,
-    showAlert,
-
-    renderRowActions: ({row}) => (
-      <Box sx={{ display: 'flex', gap: '1rem' }}>
-        <Tooltip title="Editar">
-
-          <EditProductModal props={row.original} />
-
-        </Tooltip>
-        <Tooltip title="Eliminar">
-
-          <Button className="BtnRed" onClick={() => showAlert(row.original.id)}><MdDelete /></Button>
-
-        </Tooltip>
-      </Box>
-    ),
-
-    renderTopToolbarCustomActions: ({ table }) =>(
-    <>
-    <AddProductModal/>
-
-    <Button
-      disabled={table.getPrePaginationRowModel().rows.length === 0}
-      onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
-      startIcon={<FileDownloadIcon />}
-    >
-      Exportar
-    </Button></>),
-  });
-
-  return <MaterialReactTable table={table}
-  />;
+        <Col xs={12} md={2} lg={12}>
+          {Products ? (
+            <Row>
+              <Table className="Table" responsive>
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Unidad</th>
+                    <th>IVA</th>
+                    <th>Margen ganancia</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {" "}
+                  {paginatedProducts.map((product) => (
+                    <tr key={product.id}>
+                      <td>{product.code}</td>
+                      <td>{product.name}</td>
+                      <td>{product.unit}</td>
+                      <td>{product.iva}%</td>
+                      <td>{product.margin}%</td>
+                      <td>{product.state === true ? "Activo" : "De baja"}</td>
+                      <td>
+                        <div className="BtnContainer">
+                          {" "}
+                          <EditProductModal props={product} />
+                          <Button
+                            className="BtnRed"
+                            onClick={() => showAlert(product.id)}
+                          >
+                            <MdDelete />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}{" "}
+                </tbody>
+              </Table>
+              <div className="Pagination-Container">
+                <ReactPaginate
+                  previousLabel={"<"}
+                  nextLabel={">"}
+                  breakLabel={"..."}
+                  pageCount={pageCount}
+                  marginPagesDisplayed={2}
+                  pageRangeDisplayed={5}
+                  onPageChange={handlePageClick}
+                  containerClassName={"pagination"}
+                  subContainerClassName={"pages pagination"}
+                  activeClassName={"active"}
+                />
+              </div>
+            </Row>
+          ) : (
+            "Cargando"
+          )}
+        </Col>
+      </div>
+    </Container>
+  );
 };
-
-const queryClient = new QueryClient();
-
-const listProducts = () => (
-  <Container>
-    <div className="table-container">
-      <h2 className="table-title">Productos</h2>
-      <hr className="divider" />
-      <QueryClientProvider client={queryClient}>
-        <MaterialTable />
-      </QueryClientProvider>
-    </div>
-  </Container>
-
-);
 
 export default listProducts;

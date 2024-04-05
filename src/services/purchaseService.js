@@ -6,6 +6,7 @@ export const getPurchase = async () => {
         const data = response.data; 
   
         if (data) {
+            //console.log("Datos del servicio:", data);
             return data;
         }
     } catch (error) {

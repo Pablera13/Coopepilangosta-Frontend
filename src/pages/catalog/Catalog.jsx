@@ -29,6 +29,10 @@ const catalog = () => {
     setCurrentPage(0);
   }, []);
 
+  const resetFilter = useCallback(() => {
+    setSelectedCategory(null);
+    setCurrentPage(0);
+  }, []);
 
   const filteredProducts = useMemo(() => {
     let filteredProducts = data || [];

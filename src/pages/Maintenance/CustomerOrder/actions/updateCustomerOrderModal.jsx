@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { QueryClient, useMutation, useQuery } from "react-query";
+import { useParams } from 'react-router-dom'
 import { format } from 'date-fns';
 import Select from 'react-select';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
@@ -27,7 +28,7 @@ const updateCustomerOrderModal = (props) => {
             onSettled: () => queryClient.invalidateQueries("producerorder"),
             mutationKey: "producerorder",
             onSuccess: () => {
-                swal('Actualizado exitosamente!', 'El pedido fue actualizado correctamente', 'success').then(function(){window.location.reload()});
+                swal('Actualizado exitosamente!', 'El pedido fue actualizado de correctamente', 'success').then(function(){window.location.reload()});
                 
             },
             onError:()=>{

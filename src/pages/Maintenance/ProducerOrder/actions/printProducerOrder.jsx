@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
+import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Button } from 'react-bootstrap';
+import { Table, Container, Col, Row, Button } from 'react-bootstrap';
+import { getProducerOrder } from '../../../../services/producerorderService';
 import { getProducerOrderById } from '../../../../services/producerorderService';
 import { getProducerById } from '../../../../services/producerService';
 import { getPurchase } from '../../../../services/purchaseService';
@@ -20,6 +22,7 @@ const printProducerOrder = (props) => {
 
     const { data: purchases } = useQuery('purchase', getPurchase);
 
+    const [ProductProducer, setProduct] = useState(null)
     var [MyPurchases, setMyPurchases] = useState([])
     const [MyOrders, setMyOrders] = useState([]);
     const [producerorderRequest, setProducerorder] = useState(null)

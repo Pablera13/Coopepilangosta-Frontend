@@ -56,6 +56,8 @@ export const exportProductCostumer = (props) => {
             const filteredList = checkedList.filter((costumer) => costumer.id !== costumer.id);
             setCheckedList(filteredList);
         }
+
+        console.log("checkedList :" + checkedList)
     };
 
 
@@ -64,8 +66,8 @@ export const exportProductCostumer = (props) => {
         mutationKey: 'productcostumer',
         onSuccess: () => {
             swal({
-                title: 'Exportado!',
-                text: 'La cotización ha sido exportada',
+                title: 'Agregado!',
+                text: 'Gracias por su tiempo',
                 icon: 'success',
             }).then(function(){window.location.reload()});
 

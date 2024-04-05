@@ -2,6 +2,7 @@ import api from "../Api/apiAxios";
 
 export const getCostumers = async () => { 
     let data = await api.get('costumer').then(result => result.data);
+    //console.log(data)
     return data;
 };
 
@@ -19,7 +20,9 @@ export const getCostumerByIdNoState = async(id) => {
 }
 
 export const checkCedula = async(id) => {
+    console.log(id)
     let data = await api.get(`costumer/checkCedula?id=${id}`).then(result => result.data);
+    console.log(data)
     return data;
 }
 

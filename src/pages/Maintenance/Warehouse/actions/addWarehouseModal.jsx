@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
+import "./AddWarehouseModal.css";
 import { QueryClient, useMutation } from "react-query";
 import { Modal, Button, Form } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 import swal from "sweetalert";
 import {
   createWarehouse,
