@@ -17,7 +17,6 @@ import { checkEmailAvailability } from '../../../services/userService'
 import { locations } from '../../../utils/provinces'
 import Select from 'react-select'
 import { checkPasswordFormat } from '../../../utils/validatePasswordFormat'
-import { checkCedulaFormat } from '../../../utils/validateCedulaFormat';
 
 const costumerRegister = () => {
   const queryClient = new QueryClient();
@@ -96,9 +95,8 @@ const costumerRegister = () => {
 
       const cedulaAvailability = await checkCedula(cedulaJuridica.current.value);
       const costumerEmailAvailability = await checkEmailAvailability(costumerEmail.current.value);
-      const validCedulaFormat = checkCedulaFormat(cedulaJuridica.current.value)
 
-      if (cedulaAvailability && costumerEmailAvailability && validCedulaFormat) {
+      if (cedulaAvailability && costumerEmailAvailability) {
         if (
           cedulaJuridica.current.value &&
           name.current.value &&
@@ -137,10 +135,6 @@ const costumerRegister = () => {
         if (!costumerEmailAvailability) {
           swal("Correo se encuentra registrada", "Ya existe un usuario con este correo ingresado", "warning");
         }
-
-        if (!validCedulaFormat) {
-          swal("Formato de cedula invaldo", "La cedula ingresada no se encuentra en el formato correcto.", "warning");
-        }
       }
     }
   };
@@ -169,7 +163,6 @@ const costumerRegister = () => {
 
       if (emailAvailability == true && validPasswordFormat == true &&
         password.current.value == confirmPassword.current.value
-        
       ) {
         const createdUser = await addUserMutation.mutateAsync(newCostumerUser)
         let newCostumer = {
@@ -200,7 +193,6 @@ const costumerRegister = () => {
         if (password.current.value != confirmPassword.current.value) {
           swal('Contraseña invalida!', 'Las contraseñas ingresadas no coinciden', 'warning')
         }
-        
       }
     }
   };
@@ -269,8 +261,8 @@ const costumerRegister = () => {
               <h3>Registro de Empresa</h3>
               <br></br>
               <Form noValidate validated={validated} onSubmit={handleCompanyRegistrationSubmit}>
-                <Row className="mb-3 p-2">
-                  <Col xs={6} md={4} lg={6}>
+                <Row className="mb-3 p-1">
+                  <Col xs={6} md={4} lg={4}>
                     <Form.Group md="4" controlId="validationCustom01">
                       <Form.Label className="labelLogin">Cédula</Form.Label>
                       <Form.Control
@@ -283,7 +275,7 @@ const costumerRegister = () => {
                       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                     </Form.Group>
                   </Col>
-                  <Col xs={6} md={4} lg={6}>
+                  <Col xs={6} md={4} lg={4}>
 
                     <Form.Group md="4" controlId="validationCustom02">
                       <Form.Label className="labelLogin">Nombre</Form.Label>
@@ -297,7 +289,18 @@ const costumerRegister = () => {
                     </Form.Group>
                   </Col>
 
-                  
+                  <Col xs={12} md={4} lg={4}>
+                    <Form.Group md="4" controlId="validationCustom01">
+                      <Form.Label className="labelLogin">Correo</Form.Label>
+                      <Form.Control
+                        required
+                        type="string"
+                        placeholder="Ingrese su correo corporativo"
+                        ref={costumerEmail}
+                      />
+                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                    </Form.Group>
+                  </Col>
                 </Row>
                 <Row className="mb-3 p-2">
                   <Col xs={4} md={4} lg={4}>
