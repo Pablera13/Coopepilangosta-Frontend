@@ -151,7 +151,7 @@ const queryClient = new QueryClient();
 const myCostumerOrder = () => (
   <Container>
     <div className="table-container">
-      <h2 className="table-title">Pedidos Recibidos</h2>
+      <h2 className="table-title">Mis pedidos</h2>
       <hr className="divider" />
       <QueryClientProvider client={queryClient}>
         <MaterialTable />

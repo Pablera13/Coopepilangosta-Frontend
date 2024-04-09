@@ -1,3 +1,16 @@
+
+.infoReview {
+    color: #8B4513; 
+    text-align: center; 
+    top: 50%; 
+    left: 50%; 
+    font-size: 20px; 
+    font-weight: bold; 
+    padding-top: 2%;
+    padding-bottom: 2%;
+  }
+  
+
 .card-inner{
     margin-left: 4rem;
 }

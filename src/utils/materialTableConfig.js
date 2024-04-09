@@ -113,7 +113,7 @@ const useCustomMaterialTable = ({ columns, data, isLoading, isLoadingError, isFe
     initialState: {
       showColumnFilters: false,
       showGlobalFilter: true,
-      columnPinning: { right: ['mrt-row-actions']},
+      // columnPinning: { right: ['mrt-row-actions']},
     },
     paginationDisplayMode: 'pages',
     positionToolbarAlertBanner: 'bottom',

@@ -10,7 +10,15 @@ import { MdDelete } from "react-icons/md";
 const editProductModal = (props) => {
   const [productRequest, setProduct] = useState(null);
   const [newImages, setNewImages] = useState([]);
-
+  const [customUnit, setCustomUnit] = useState(false);
+    
+  const handleUnitChange = (event) => {
+      if (event.target.value === "custom") {
+          setCustomUnit(true);
+      } else {
+          setCustomUnit(false);
+      }
+  };
   useEffect(() => {
     const product = props.props;
     if (product && typeof product.image === "string") {
@@ -24,7 +32,7 @@ const editProductModal = (props) => {
   const queryClient = new QueryClient();
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {setShow(false), setCustomUnit(false)};
   const handleShow = () => setShow(true);
   const { data: Categories } = useQuery("category", getCategories);
 
@@ -191,31 +199,43 @@ const editProductModal = (props) => {
                       ></textarea>
                     </Form.Group>
                   </Col>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Unidad Comercial</Form.Label>
-                      <div className="custom-select-container">
-                        <select
-                          className="custom-select"
-                          id="unitOptions"
-                          ref={unit}
-                          defaultValue={productRequest.unit}
-                        >
-                          <option value="Kilogramo">Kilogramo</option>
-                          <option value="Rollo">Rollo</option>
-                          <option value="Unidad">Unidad</option>
-                          <option value="Paquete 200g">Paquete 200g</option>
-                          <option value="Paquete 250g">Paquete 250g</option>
-                          <option value="Paquete 270g">Paquete 270g</option>
-                          <option value="Paquete 340g">Paquete 340g</option>
-                          <option value="Barra">Barra</option>
-                          <option value="Litro">Litro</option>
-                          <option value="Galón">Galón</option>
-                          <option value="Botella 750ml">Botella 750ml</option>
-                        </select>
-                      </div>
-                    </Form.Group>
-                  </Col>
+
+                  <Col xs={4} md={6} lg={6}>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Unidad Comercial</Form.Label><br />
+                                    <div className="custom-select-container">
+                                        {customUnit ? (
+                                            <Form.Control
+                                                required
+                                                type="text"
+                                                placeholder="Ingrese la unidad"
+                                                ref={unit}
+                                            />
+                                        ) : (
+                                            <Form.Select defaultValue={productRequest.unit} className="custom-select" id="unitOptions" ref={unit} onChange={handleUnitChange}>
+                                            <option value="Kilogramo">Kilogramo</option>
+                                            <option value="Rollo">Rollo</option>
+                                            <option value="Unidad">Unidad</option>
+                                            <option value="Paquete 200g">Paquete 200g</option>
+                                            <option value="Paquete 250g">Paquete 250g</option>
+                                            <option value="Paquete 270g">Paquete 270g</option>
+                                            <option value="Paquete 340g">Paquete 340g</option>
+                                            <option value="Barra">Barra</option>
+                                            <option value="Litro">Litro</option>
+                                            <option value="Galón">Galón</option>
+                                            <option value="Botella 750ml">Botella 750ml</option>
+                                            <option value="custom">Ingresar manualmente</option>
+                                            </Form.Select>
+                                        )}
+                                    </div>
+                                </Form.Group>
+                            </Col>
+
+
+
+                            
+
+
                 </Row>
                 <Row>
                   <Col md={6}>

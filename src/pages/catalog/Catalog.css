@@ -23,7 +23,7 @@
 /* Prueba zona de carga */
 .Loading{
 margin: 100px;
-
+padding-bottom: 50%;
 }
 @keyframes loading {
   0% {
@@ -34,12 +34,14 @@ margin: 100px;
     transform: rotate(360deg);
   }
 }
-.accordion{
+.accordion {
   --bs-accordion-active-bg: #ebe4d9d2;
-  --bs-accordion-border-color: #bdaa89d2;
+  --bs-accordion-border-color: hsl(30, 53%, 90%);
   --bs-accordion-btn-focus-box-shadow: #ebdec7d2;
   --bs-accordion-btn-focus-border-color: #ebdec7d2;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 
 .Loading ul {
   position: relative;

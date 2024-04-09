@@ -32,7 +32,13 @@ export const UserProfile = () => {
         ) : isEmployee ? (
           <EmployeeProfile />
         ) : (
-          ""
+          <div className="Loading">
+          <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+        </div>
         )}
       </Container>
     </>

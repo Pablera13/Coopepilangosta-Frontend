@@ -61,25 +61,22 @@ const userOrder = () => {
                             <br />
                             <Row className="mb-3">
                                 <Col xs={4} md={4} lg={4}>
-                                    <label className="datesStrong">Fecha de pedido</label>
-                                    <br />
+                                    <label className="datesStrong">Fecha de pedido: </label>
                                     {customerorderRequest.confirmedDate === '0001-01-01T00:00:00'
-                                        ? 'Sin pagar'
-                                        : format(new Date(customerorderRequest.confirmedDate), 'yyyy-MM-dd')}
+                                        ? ' ' +' Sin pagar'
+                                        : ' ' + format(new Date(customerorderRequest.confirmedDate), 'yyyy-MM-dd')}
                                 </Col>
                                 <Col xs={4} md={4} lg={4}>
-                                    <label className="datesStrong">Fecha de pago</label>
-                                    <br />
+                                    <label className="datesStrong">Fecha de pago: </label>
                                     {customerorderRequest.paidDate === '0001-01-01T00:00:00'
-                                        ? 'Sin pagar'
-                                        : format(new Date(customerorderRequest.paidDate), 'yyyy-MM-dd')}
+                                        ? ' ' + 'Sin pagar'
+                                        : ' ' +format(new Date(customerorderRequest.paidDate), 'yyyy-MM-dd')}
                                 </Col>
                                 <Col xs={4} md={4} lg={4}>
-                                    <label className="datesStrong">Fecha de entrega</label>
-                                    <br />
+                                    <label className="datesStrong">Fecha de entrega: </label>
                                     {customerorderRequest.deliveredDate === '0001-01-01T00:00:00'
-                                        ? 'Sin entregar'
-                                        : format(new Date(customerorderRequest.deliveredDate), 'yyyy-MM-dd')}
+                                        ? ' ' + 'Sin entregar'
+                                        : ' ' +format(new Date(customerorderRequest.deliveredDate), 'yyyy-MM-dd')}
                                 </Col>
                             </Row>
                         </header>
@@ -87,7 +84,7 @@ const userOrder = () => {
                         <div className="card-body">
                             <Table responsive className="table table-borderless table-shopping-cart">
                                 <thead>
-                                    <tr>
+                                    <tr className="text-center"> 
                                         <th>Imagen</th>
                                         <th>Producto</th>
                                         <th>Cantidad</th>
@@ -100,7 +97,7 @@ const userOrder = () => {
                                 </thead>
                                 <tbody>
                                     {myOrders.map((order, index) => (
-                                        <tr key={index}>
+                                        <tr className="text-center" key={index}>
                                             <td>
                                                 <img src={order.ProductImage} className="img-sm" alt={order.ProductName} />
                                             </td>
@@ -119,20 +116,19 @@ const userOrder = () => {
                                 <Row>
                                     <Col xs={6} md={6} lg={6}></Col>
                                     <Col xs={3} md={3} lg={3}>
-                                        <strong className="datesStrong">Subtotal</strong>
+                                    
                                     </Col>
                                     <Col xs={3} md={3} lg={3}>
-                                        {subTotal == 0 ? 'Por cotizar' : '₡' + subTotal.toFixed(2)}
+                                    <strong className="datesStrong">Subtotal: </strong>{subTotal == 0 ? '   ' + 'Por cotizar' : '   ' + '₡' + subTotal.toFixed(2)}
                                     </Col>
                                 </Row>
 
                                 <Row>
                                 <Col xs={6} md={6} lg={6}></Col>
                                     <Col xs={3} md={3} lg={3}>
-                                        <strong className="datesStrong">Total</strong>
                                     </Col>
                                     <Col xs={3} md={3} lg={3}>
-                                        {customerorderRequest.total == 0 ? 'Por cotizar' : '₡' + customerorderRequest.total}
+                                    <strong className="datesStrong">Total: </strong> {customerorderRequest.total == 0 ? '   ' + 'Por cotizar' : '   ' + '₡' + customerorderRequest.total}
                                     </Col>
                                 </Row>
                             </div>
@@ -207,7 +203,13 @@ const userOrder = () => {
                     </article>
                 </>
             ) : (
-                'Cargando...'
+                <div className="Loading">
+        <ul>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
             )}
         </Container>
     );

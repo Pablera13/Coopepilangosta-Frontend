@@ -84,8 +84,6 @@ const costumerProfile = () => {
     });
   };
 
-  
-
   return (
     <Container>
       {user != null && customerorderData != null ? (
@@ -324,7 +322,13 @@ const costumerProfile = () => {
           </Row>
         </>
       ) : (
-        <div className="text-center">Cargando...</div>
+        <div className="Loading">
+        <ul>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
       )}
     </Container>
   );

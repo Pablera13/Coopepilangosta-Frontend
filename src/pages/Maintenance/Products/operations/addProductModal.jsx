@@ -4,15 +4,22 @@ import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import { createProduct, checkCodeAvailability } from '../../../../services/productService';
 import { getCategories } from '../../../../services/categoryService';
 import swal from 'sweetalert';
-import './addProductModal.css';
-import { MdAdd } from "react-icons/md";
 import { GrAddCircle } from "react-icons/gr";
 const addProductModal = () => {
     const [validated, setValidated] = useState(false);
     const queryClient = new QueryClient();
     const [show, setShow] = useState(false);
+    const [customUnit, setCustomUnit] = useState(false);
+    
+    const handleUnitChange = (event) => {
+        if (event.target.value === "custom") {
+            setCustomUnit(true);
+        } else {
+            setCustomUnit(false);
+        }
+    };
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {setShow(false), setCustomUnit(false)};
     const handleShow = () => setShow(true);
     const { data: Categories, isLoading: CategoriesLoading, isError: CategoriesError } = useQuery('category', getCategories);
 
@@ -161,11 +168,20 @@ const addProductModal = () => {
                                     ></textarea>
                                 </Form.Group>
                             </Col>
-                            <Col xs={4} md={6} lg={6}> 
-                                <Form.Group>
-                                    <Form.Label>Unidad Comercial</Form.Label><br/>
+
+                            <Col xs={4} md={6} lg={6}>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Unidad Comercial</Form.Label><br />
                                     <div className="custom-select-container">
-                                        <Form.Select className="custom-select" id="unitOptions" ref={unit}>
+                                        {customUnit ? (
+                                            <Form.Control
+                                                required
+                                                type="text"
+                                                placeholder="Ingrese la unidad"
+                                                ref={unit}
+                                            />
+                                        ) : (
+                                            <Form.Select className="custom-select" id="unitOptions" ref={unit} onChange={handleUnitChange}>
                                             <option value="Kilogramo">Kilogramo</option>
                                             <option value="Rollo">Rollo</option>
                                             <option value="Unidad">Unidad</option>
@@ -177,10 +193,15 @@ const addProductModal = () => {
                                             <option value="Litro">Litro</option>
                                             <option value="Galón">Galón</option>
                                             <option value="Botella 750ml">Botella 750ml</option>
-                                        </Form.Select >
+                                            <option value="custom">Ingresar manualmente</option>
+                                            </Form.Select>
+                                        )}
                                     </div>
                                 </Form.Group>
                             </Col>
+
+
+
                         </Row>
                         <Row>
                             <Col xs={6} md={6}>
@@ -238,8 +259,8 @@ const addProductModal = () => {
                     <Form.Group className="mb-3">
                       <Form.Label>Inventario</Form.Label>
                       <Form.Select required ref={stockable}>
-                        <option value="true">Si</option>
                         <option value="false">No</option>
+                        <option value="true">Si</option>
                       </Form.Select>
                     </Form.Group>
                   </Col>

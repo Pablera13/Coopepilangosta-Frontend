@@ -177,7 +177,7 @@ const showAlert = (id) => {
             </Form.Group>
                              
 
-            <Button className='BtnBrown' variant="primary"  type="submit" 
+            <Button className='BtnBrown' variant="primary" style={{fontSize:"120%", marginTop:"2%"}} type="submit" 
             >
               Publicar
 
@@ -187,7 +187,7 @@ const showAlert = (id) => {
         </Card.Body>
       </Card>
                   : (     
-                    <p className="verify warning">Verifica tu usuario para valorar este producto</p>
+                    <p className="infoReview">Verifica tu usuario para valorar este producto</p>
                   )}
 
 
@@ -244,7 +244,7 @@ const showAlert = (id) => {
         ))
       ) : (
        
-        <p className="warning text-center">No hay valoraciones. Se el primero en valorar este producto</p>
+        <p className="infoReview">No hay valoraciones. Se el primero en valorar este producto</p>
         )}
     </Container>
   );

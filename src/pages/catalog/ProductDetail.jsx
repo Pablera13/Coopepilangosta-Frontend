@@ -255,17 +255,25 @@ const ProductDetail = () => {
                     </Col>
                     <Col md={6}>
 
-                      <h4 className="pro-d-title" >
+                    <Row>
+                    <h4 className="pro-d-title text-center" >
                         <a className="TitleProducts" style={{ marginRight: '5%' }}>
                           {productRequest.name}
                         </a>
+                    </h4>
+                    
+                    </Row>
 
+                    <Row>
+                      <h4 className="pro-d-title text-center" >
+                      <br />
                         {Array.from({ length: StarsAverage }, () => (
                           <span className="Rating">
                             ★
                           </span>
                         ))}
                       </h4>
+                      </Row>
 
                       <br />
 
@@ -273,7 +281,7 @@ const ProductDetail = () => {
                         {productRequest.description}
                       </p>
 
-                      <div className="product_meta">
+                      <div className="product_meta text-center">
                         <span className="posted_in">
                           <strong>Categoría: </strong> <a className='CategoryName' rel="tag" href="#">
                             {categoryRequest.name}
@@ -282,7 +290,7 @@ const ProductDetail = () => {
 
                         </span>
 
-                        <span className="tagged_as">
+                        <span className="tagged_as text-center">
                           <strong>Unidad: </strong> <a className='ProductName' rel="tag" href="#">
                             {productRequest.unit}
                           </a>
