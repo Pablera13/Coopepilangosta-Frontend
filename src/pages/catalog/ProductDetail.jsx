@@ -371,7 +371,7 @@ const ProductDetail = () => {
                                   </>
                                 ) : (
 
-                                  <><br /><p className="verify warning">Sin Existencias</p></>
+                                  <><br /><p className="infoReview Josefin">Sin Existencias</p></>
                                 )
 
                             ) : (
