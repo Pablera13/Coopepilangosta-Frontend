@@ -12,6 +12,7 @@ import { createSale } from "../../services/saleService";
 import { Form, Row, Col, Button, Container, Collapse, Table, Card, } from "react-bootstrap";
 import Select from "react-select";
 import { MdDelete } from "react-icons/md";
+import { RiArrowGoBackFill } from 'react-icons/ri';
 
 import "./ShoppingCart.css";
 import { IoWarning } from "react-icons/io5";
@@ -255,7 +256,7 @@ const ShoppingCart = () => {
         localStorage.getItem("ShoppingCar") != null ? (
         <>
 
-          <Container>
+          <Container className="Josefin">
 
             <Row>
               <Col xs={12} md={12} lg={12}>
@@ -475,7 +476,7 @@ const ShoppingCart = () => {
             </Row>
           </Container>
 
-          <Container id="AdeContai">
+          <Container id="AdeContai" className="Josefin">
             <Row className="mb-3">
               <div className="card-body">
                 <div className="row">
@@ -483,6 +484,7 @@ const ShoppingCart = () => {
                     <Card>
                       <Card.Body>
                         <h5 className="card-title ">Dirección de Envío</h5>
+                        <br/>
                         <div className="row">
                           <div className="col-lg-4">
                             <Form.Group controlId="validationCustom03">
@@ -504,7 +506,7 @@ const ShoppingCart = () => {
 
                           <div className="col-md-4">
                             <Form.Group md="4" controlId="validationCustom04">
-                              <Form.Label>Canton</Form.Label>
+                              <Form.Label>Cantón</Form.Label>
                               <Select
                                 placeholder={user.costumer.canton}
                                 options={cantonesOptions}
@@ -514,7 +516,7 @@ const ShoppingCart = () => {
                                 }}
                               ></Select>
                               <Form.Control.Feedback type="invalid">
-                                Por favor indique el canton
+                                Por favor indique el cantón
                               </Form.Control.Feedback>
                             </Form.Group>
                           </div>
@@ -538,6 +540,7 @@ const ShoppingCart = () => {
                           <div className="row">
                             <div className="col-md-12">
                               <Form.Group md="4" controlId="validationCustom05">
+                                <br/>
                                 <Form.Label>Dirección de Envío</Form.Label>
                                 <Form.Control
                                   type="text"
@@ -554,6 +557,19 @@ const ShoppingCart = () => {
                         </div>
 
                         <div className="row">
+
+                          
+
+                          <div className="col-md-8">
+                            <Button
+                             style={{fontSize:'160%'}}
+                              className="BtnRed"
+                              onClick={() => navigate(`/home`)}
+                            >
+                                                              <RiArrowGoBackFill />
+                            </Button>
+                          </div>
+
                           <div className="col-md-4">
                             <Button
                               className="BtnBrown"
@@ -564,15 +580,6 @@ const ShoppingCart = () => {
                             </Button>
                           </div>
 
-                          <div className="col-md-8">
-                            <Button
-                             style={{fontSize:'110%'}}
-                              className="BtnRed"
-                              onClick={() => navigate(`/home`)}
-                            >
-                              Seguir Comprando
-                            </Button>{" "}
-                          </div>
                         </div>
                       </Card.Body>
                     </Card>
@@ -607,7 +614,7 @@ const ShoppingCart = () => {
         <Container>
           <Row className="mb-3">
             <Card>
-              <Card.Body className="text-center">
+              <Card.Body className="text-center Josefin">
                 <h5 className="card-title">¡Tu carrito de compras está vacío!</h5>
 
                 <div className="empty-cart-message">

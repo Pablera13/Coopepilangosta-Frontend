@@ -26,7 +26,7 @@ export const UserProfile = () => {
 
   return (
     <>
-      <Container>
+      <Container className=''>
         {isCostumer ? (
           <CostumerProfile />
         ) : isEmployee ? (

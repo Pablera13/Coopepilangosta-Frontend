@@ -141,7 +141,7 @@ const showAlert = (id) => {
     <Container className="mt-3">
 
 {verified == true? 
-<Card className="mb-3">                   
+<Card className="mb-3 Josefin">                   
 <Card.Body>
           <Form validated={validated} onSubmit={saveReview}>
             <Form.Group controlId="reviewTextArea">
@@ -152,7 +152,7 @@ const showAlert = (id) => {
               <br>
               </br>
               <form>
-                                <p className="clasificacion">
+                                <p className="clasificacion text-center">
                                   <input id="radio11" type="radio" name="estrellas" value="5" onChange={star5Checked} />
                                   <label className='Star' htmlFor="radio11">★</label>
                                   <input id="radio12" type="radio" name="estrellas" value="4" onChange={star4Checked}/>
@@ -187,7 +187,7 @@ const showAlert = (id) => {
         </Card.Body>
       </Card>
                   : (     
-                    <p className="infoReview">Verifica tu usuario para valorar este producto</p>
+                    <p className="infoReview Josefin">Verifica tu usuario para valorar este producto</p>
                   )}
 
 
@@ -203,7 +203,7 @@ const showAlert = (id) => {
                     className="img img-rounded img-fluid" 
                     alt="User Avatar" 
                     width={'100px'}/>
-                  <p className="text-secondary text-center">{review.reviewDate}</p>
+                  <p className="text-secondary text-center ">{review.reviewDate}</p>
                   <div className="stars-container">
                     {Array.from({ length: review.stars }, (_, i) => (
                       <span key={i} className="StarReviewed">
@@ -214,9 +214,9 @@ const showAlert = (id) => {
                 </Col>
                 <Col md={10}>
                   <p>
-                    <strong>{review.customername}</strong>
+                    <strong className='Josefin'>{review.customername}</strong>
                   </p>
-                  <div className="clearfix"></div>
+                  <div className="clearfix Josefin"></div>
                   <p>{review.description}</p>
 
                    {costumerId == review.customerid? 
@@ -244,7 +244,7 @@ const showAlert = (id) => {
         ))
       ) : (
        
-        <p className="infoReview">No hay valoraciones. Se el primero en valorar este producto</p>
+        <p className="infoReview Josefin">No hay valoraciones. Se el primero en valorar este producto</p>
         )}
     </Container>
   );

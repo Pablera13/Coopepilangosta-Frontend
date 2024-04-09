@@ -66,6 +66,7 @@ input[type="radio"] {
     unicode-bidi: bidi-override;
     display: flex;
     align-items: center; 
+    font-size: larger;
 }
 
 .StarR:hover,

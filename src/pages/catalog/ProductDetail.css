@@ -4,15 +4,23 @@
 
 }
 
+.Josefin{
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.Playfair{
+  font-family: 'Playfair Display', serif;
+}
+
 .oval-button {
   display: flex;
   align-items: center;
-  justify-content: center; /* Agregar esta línea para centrar horizontalmente */
+  justify-content: center; 
   border-radius: 20px;
   overflow: hidden;
+  
 }
 
-/* Si deseas centrar el texto verticalmente dentro del botón */
 .oval-button > * {
   margin: auto;
 }
@@ -147,6 +155,8 @@ strong {
   color: #3c3019;
   font-style: none;
   text-decoration: none;
+  font-family: 'Playfair Display', serif;
+
 }
 
 .form-group label {

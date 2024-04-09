@@ -84,7 +84,7 @@ const catalog = () => {
   return (
     <>
       <Container>
-        <Accordion defaultActiveKey="0">
+        <Accordion defaultActiveKey="0" className="Josefin">
           <Accordion.Item eventKey="0">
             <Accordion.Header>Filtrar</Accordion.Header>
             <Accordion.Body>
@@ -132,14 +132,14 @@ const catalog = () => {
                 <Card className="Customcard">
                   <Card.Img variant="top" src={product.image} className="custom-card-img" />
                   <Card.Body>
-                    <Card.Title>{product.name}</Card.Title>
-                    <Card.Text>
-                      <strong style={{ fontSize: "100%" }}>{product.unit}</strong>
+                    <Card.Title className="Playfair">{product.name}</Card.Title>
+                    <Card.Text className="Josefin">
+                      <strong className='Josefin' style={{ fontSize: "100%" }}>{product.unit}</strong>
                     </Card.Text>
-                    <Card.Text>{product.description.slice(0, 50)}...</Card.Text>
+                    <Card.Text className="Josefin">{product.description.slice(0, 50)}...</Card.Text>
                   </Card.Body>
                   <Card.Footer className="cardfooter">
-                    <div className="BtnContainer">
+                    <div className="BtnContainer ">
                       <Button className="BtnDetail" href={`/ProductDetail/${product.categoryId}/${product.id}`}>
                         Detalle
                       </Button>

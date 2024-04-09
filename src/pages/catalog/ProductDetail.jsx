@@ -277,12 +277,12 @@ const ProductDetail = () => {
 
                       <br />
 
-                      <p>
+                      <p className='Josefin'>
                         {productRequest.description}
                       </p>
 
                       <div className="product_meta text-center">
-                        <span className="posted_in">
+                        <span className="posted_in Playfair">
                           <strong>Categoría: </strong> <a className='CategoryName' rel="tag" href="#">
                             {categoryRequest.name}
                           </a>
@@ -290,7 +290,7 @@ const ProductDetail = () => {
 
                         </span>
 
-                        <span className="tagged_as text-center">
+                        <span className="tagged_as text-center Playfair">
                           <strong>Unidad: </strong> <a className='ProductName' rel="tag" href="#">
                             {productRequest.unit}
                           </a>
@@ -305,8 +305,8 @@ const ProductDetail = () => {
                             {cotizacionRequest != null && cotizacionRequest.length > 0 ? (
                               <>
                                 <Col>
-                                  <span className="tagged_as">
-                                    <strong>Mis cotizaciones</strong> <a className='ProductName' rel="tag" href="#">
+                                  <span className="tagged_as Josefin">
+                                    <strong >Mis cotizaciones</strong> <a className='ProductName' rel="tag" href="#">
                                     </a>
                                   </span>
                                   <Select
@@ -320,7 +320,7 @@ const ProductDetail = () => {
                                 {FixedCotizacion != null ? (
                                   <>
                                     <Col>
-                                      <span className="posted_in">
+                                      <span className="posted_in Josefin">
                                         <strong>Precio unitario: ₡{FixedCotizacion.finalPrice}</strong> <a className='CategoryName' rel="tag" href="#">
                                         </a>
                                       </span>
@@ -333,7 +333,7 @@ const ProductDetail = () => {
                               </>
                             ) : (
                               <>
-                                <span className="posted_in">
+                                <span className="posted_in Josefin">
                                   <strong>Consulta por nuestras cotizaciones</strong> <a className='CategoryName' rel="tag" href="#">
                                   </a>
                                 </span>
@@ -349,7 +349,7 @@ const ProductDetail = () => {
                                     <br />
                                     <div className="form-group text-center" >
                                     <div className="oval-button text-center">
-                                      <Row>
+                                      <Row className="text-center">
                                         <Col xs={4} className="d-flex">
                                           <input
                                             type="number"
@@ -381,7 +381,7 @@ const ProductDetail = () => {
 
                                   <Row>
                                   <div className="oval-button text-center">
-                                      <Row>
+                                      <Row className="text-center">
                                         <Col xs={4} className="d-flex">
                                           <input
                                             type="number"
