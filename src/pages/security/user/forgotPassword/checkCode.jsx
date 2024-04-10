@@ -3,7 +3,6 @@ import { useRef } from 'react'
 import { Container, Form, Button, InputGroup,Row,Col} from 'react-bootstrap'
 import ChangePassword from './changePassword'
 import swal from 'sweetalert'
-import './forgotPassword.css'
 
 
 
@@ -24,29 +23,24 @@ const checkCode = (props) => {
             setChecked(true)          
         }
         else {
-            return swal('El codigo no coincide.','El codigo ingresado no coincide con el codigo enviado.','error')
+            return swal('El código no coincide.','El código ingresado no coincide con el código enviado.','error')
         }
     }
     return (
         <>
-            <br />
-            <Container style={{top: "50%"}} >
-                <Row>
-                    <Form>
-                        <Row className="mb-3">
-                        <Col className="justify-content-md-center">
-
-                            <Form.Group as={Col} controlId="formGridEmail">
-                                <Form.Label className='labelPass' style={{color:'white'}}>Ingrese el código que recibio</Form.Label>
+            <Container >
+                    <Row className="justify-content-md-center">
+                            <Col>
+                            <Form.Label className='labelPass'>Ingrese el código que recibió</Form.Label>
+                            <Form.Group controlId="formGridEmail">
                                 <Form.Control type="text" placeholder="Ingrese el código" ref={code} disabled={isChecked}/>
                             </Form.Group>
                             </Col>
                         </Row>
+                        <br></br>
                         <Button onClick={verifyCode} className='BtnStar' disabled={isChecked}>
                             Verificar
                         </Button>
-                    </Form>
-                </Row>
 
                 <Row>
                     {

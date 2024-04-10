@@ -170,7 +170,7 @@ const MaterialTable = () => {
         </Tooltip>
         <Tooltip title="Exportar cotización">
 
-          <ExportProductCostumer props={row.original.id} />
+          <ExportProductCostumer props={row.original} />
 
         </Tooltip>
       </Box>

@@ -16,7 +16,7 @@ export const Layout = () => {
 
   const location = useLocation();
   useEffect(() => {
-    if (location.pathname == '/login' || location.pathname == '/registerCostumer' || location.pathname == '/forgotPassword' || location.pathname == '/productReport/:productId') {
+    if (location.pathname == '/login' || location.pathname == '/productReport/:productId') {
       document.body.classList.add('login-body');
       document.body.classList.add('header');
     }

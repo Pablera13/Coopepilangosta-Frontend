@@ -3,7 +3,6 @@ import { Container, Row, Col, Form, Button, InputGroup } from 'react-bootstrap'
 import { getChangePasswordT, changePasswordT } from '../../../../services/loginService';
 import { useQuery, useMutation, QueryClient } from 'react-query';
 import swal from 'sweetalert';
-import './forgotPassword.css'
 
 const changePassword = (props) => {
     const queryClient = new QueryClient()
@@ -65,25 +64,29 @@ const changePassword = (props) => {
 
     return (
         <>
-            <Row>
+        
+                    <Row className="justify-content-md-center">
                 <Form>
                     <Row className="mb-3">
-                        <Form.Group as={Col} controlId="formGridEmail">
-                            <Form.Label className='labelPass'
-                            style={{color:'white'}}
-                            >Nueva contraseña: </Form.Label>
+                        <Form.Group controlId="formGridEmail">
+                            <Form.Label 
+                            >Nueva contraseña</Form.Label>
+                            <br/>
                             <Form.Control required type="password" placeholder="Ingrese su nueva contraseña" onChange={(text) => setPassword(text.target.value)} />
+                            <br/>
                         </Form.Group>
-                        <Form.Group as={Col} controlId="formGridEmail">
-                            <Form.Label className='labelPass'
-                            style={{color:'white'}}
-                            >Confirmar contraseña: </Form.Label>
+                        <Form.Group controlId="formGridEmail">
+                            <Form.Label 
+                            >Confirmar contraseña</Form.Label>
+                            <br/>
                             <Form.Control required type="password" placeholder="Confirme su nueva contraseña" onChange={(text) => setPasswordConfirm(text.target.value)} />
                         </Form.Group>
                     </Row>
+
                     <Button onClick={confirmChange} className='BtnStar'>
-                        Confirmar
+                        Restablecer
                     </Button>
+
                 </Form>
             </Row>
         </>

@@ -71,7 +71,7 @@ const login = () => {
   return (
     <>
       <div className="imagen-de-fondo"></div>
-      <Container className="loginContainer" fluid>
+      <Container className="loginContainer Josefin" fluid>
         <Row>
           <Col>
             <br />

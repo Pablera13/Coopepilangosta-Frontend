@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import { Button, Row, Col, Form, InputGroup, Container, Alert, Card } from 'react-bootstrap';
 import emailjs from 'emailjs-com';
 import CheckCode from './checkCode';
-import './forgotPassword.css';
 
 const forgotPassword = () => {
     const [isSending, setIsSending] = useState(false);
@@ -47,46 +46,44 @@ const forgotPassword = () => {
 
     return (
         <>
-            <div class="imagen-de-fondo"></div>
+            <Container>
+                <Row className="justify-content-center Josefin">
+                    <Col md={6}>
+                        <Card>
+                            <Card.Body className='cardContainerPass text-center'>
+                                <h3>Restablecer contraseña</h3>
+                                <br></br>
 
-            <Container className="passContainer">
-                <Card>
-                    <Card.Body className='cardContainerPass'>
-                        <h3>Restablecer contraseña</h3>
-                        <br></br>
+                                <Row className="justify-content-center">
+                                    <Col>
+                                        <Form className='text-center'>
+                                            <Form.Group controlId="formGridEmail" className='text-center'>
+                                                <Form.Label className='labelPass'>Correo electrónico</Form.Label>
+                                                <Form.Control className='text-center' type="email" placeholder="Ingrese su correo" ref={email} disabled={isSuccess} />
+                                            </Form.Group>
+                                            <br></br>
 
-                        <Row className="justify-content-md-center">
-                            <Col xs={12} md={12} lg={12}>
-                                <Form>
-                                    <Form.Group controlId="formGridEmail">
-                                        <Form.Label className='labelPass'>Correo electrónico</Form.Label>
-
-
-                                        <div>
-                                        </div>
-                                        <Form.Control type="email" placeholder="Ingrese su correo" ref={email} disabled={isSuccess} />
-
-                                    </Form.Group>
-                                    <br></br>
-
-                                    <Button onClick={handleSubmit} variant="primary" className="BtnStar" disabled={isSuccess}>
-                                        {isSending ? "Enviando correo..." : "Recibir código"}
-                                    </Button>
-                                </Form>
-                            </Col>
-                        </Row>
-                        <Row className="justify-content-md-center">
-                            <Col md={12}>
-                                {isError && <Alert variant="danger">Ocurrió un error al enviar el correo, inténtelo de nuevo más tarde.</Alert>}
-                                {isSuccess && <Alert variant="success">El correo ha sido enviado con el código para restablecer su contraseña.</Alert>}
-                            </Col>
-                        </Row>
-                        <Row className="justify-content-md-center">
-                            {isSuccess && <CheckCode props={toCheck} />}
-                        </Row>
-                    </Card.Body>
-                </Card>
-            </Container></>
+                                            <Button onClick={handleSubmit} variant="primary" className="BtnStar" disabled={isSuccess}>
+                                                {isSending ? "Enviando correo..." : "Recibir código"}
+                                            </Button>
+                                        </Form>
+                                    </Col>
+                                </Row>
+                                <Row className="justify-content-center">
+                                    <Col>
+                                        {isError && <Alert variant="danger">Ocurrió un error al enviar el correo, inténtelo de nuevo más tarde.</Alert>}
+                                        {isSuccess && <Alert variant="success">El correo ha sido enviado con el código para restablecer su contraseña.</Alert>}
+                                    </Col>
+                                </Row>
+                                <Row className="justify-content-center">
+                                    {isSuccess && <CheckCode props={toCheck} />}
+                                </Row>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
+            </Container>
+        </>
     );
 };
 
