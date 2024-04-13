@@ -281,7 +281,7 @@ const addProductModal = () => {
                                         <label className="custom-file-label" htmlFor="customFile">
                                         </label>
                                     </div>
-                                    {imageUrl && <img src={imageUrl} alt="Imagen subida" className="uploadedImg" />}
+                                    {imageUrl && <img src={imageUrl} style={{width:'100px',height:'65px'}} alt="Imagen subida" className="uploadedImg" />}
                                 </Form.Group>
                             </Col>
                         </Row>

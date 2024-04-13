@@ -32,7 +32,7 @@ const addForesight = () => {
 
   const { data: products, isLoading: productsLoading, isError: productsError } = useQuery('product', getProducts);
   let optionsProduct = []
-  const [selectedProduct, setSelectedProduct] = useState();
+  const [selectedProduct, setSelectedProduct] = useState("");
   if (products != null && producers != null) {
     optionsProduct = products.map((product) => ({
       value: product.id,
@@ -45,7 +45,7 @@ const addForesight = () => {
   }
 
   
-  const [isProductDisabled, setIsProductDisabled] = useState()
+  const [isProductDisabled, setIsProductDisabled] = useState(false)
   useEffect(() => {
     if (selectedProduct) {
       setIsProductDisabled(true)
@@ -140,7 +140,7 @@ const addForesight = () => {
       </Button>
 
       <Modal show={show} onHide={handleClose} size='lg' scrollable backdrop="static">
-        <Modal.Header closeButton>
+        <Modal.Header className='HeaderModal' closeButton>
           <Modal.Title>Agregar nueva prevision</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -149,8 +149,10 @@ const addForesight = () => {
               <Row>
                 <Col xs={12} md={8} lg={12}>
                   <h3 className="text-center">Seleccione un producto</h3><hr />
-                  <Select options={optionsProduct} onChange=
-                    {(selectedOption) => setSelectedProduct(selectedOption)} placeholder='Seleccione un producto'>
+                  <Select options={optionsProduct} 
+                  onChange={(selectedOption) => setSelectedProduct(selectedOption)} 
+                  isDisabled={selectedProduct == ""?(false):(true)}
+                  placeholder='Seleccione un producto'>
                   </Select>
            
                 </Col>

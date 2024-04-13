@@ -15,7 +15,7 @@ const catalog = () => {
   const { data: categories, isLoading: categoriesLoading, isError: categoriesError } = useQuery("category", getCategories);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [productsPerPage, setProductsPerPage] = useState(10);
+  const [productsPerPage, setProductsPerPage] = useState(12);
   const [currentPage, setCurrentPage] = useState(0);
   const searchValue = useRef();
 
@@ -38,18 +38,22 @@ const catalog = () => {
 
     if (selectedCategory && selectedCategory.value !== 0) {
       filteredProducts = filteredProducts.filter(product => product.categoryId === selectedCategory.value);
+      setCurrentPage(0)
+
     }
     if (search) {
       filteredProducts = filteredProducts.filter(product =>
         product.name.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "").toLowerCase().includes(search.replace(/\s/g, "").toLowerCase())
       );
     }
+
     return filteredProducts;
   }, [data, search, selectedCategory]);
 
   const pageCount = Math.ceil(filteredProducts.length / productsPerPage);
 
   const handlePageChange = ({ selected }) => {
+    window.scroll({top})
     setCurrentPage(selected);
   };
 
@@ -78,7 +82,7 @@ const catalog = () => {
 
     let categoriesMapped = categories.map(category => ({ value: category.id, label: category.name }))
     categoriesOptions = categoriesOptions.concat(categoriesMapped)
-
+    
   }
 
   return (
@@ -113,9 +117,9 @@ const catalog = () => {
 
                   <label style={{ marginRight: "2%" }}>Productos por página</label>
                   <select className="products-per-page" value={productsPerPage} onChange={handleProductsPerPageChange}>
-                    <option value={10}>10</option>
-                    <option value={30}>30</option>
-                    <option value={50}>50</option>
+                    <option value={12}>12</option>
+                    <option value={34}>34</option>
+                    <option value={56}>56</option>
                   </select>
 
                 </Col>
@@ -138,7 +142,7 @@ const catalog = () => {
                     </Card.Text>
                     <Card.Text className="Josefin">{product.description.slice(0, 50)}...</Card.Text>
                   </Card.Body>
-                  <Card.Footer className="cardfooter">
+                  <Card.Footer className="cardfooter bg-white">
                     <div className="BtnContainer ">
                       <Button className="BtnDetail" href={`/ProductDetail/${product.categoryId}/${product.id}`}>
                         Detalle

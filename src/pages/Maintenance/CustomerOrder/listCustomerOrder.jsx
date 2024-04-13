@@ -15,8 +15,10 @@ import UpdateCustomerOrderModal from "./actions/updateCustomerOrderModal.jsx";
 import { MdDelete } from "react-icons/md";
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess.js";
 
 const MaterialTable = () => {
+  validateAllowedPageAccess()
 
   const [data, setData] = useState([]);
 

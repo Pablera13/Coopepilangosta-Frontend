@@ -27,7 +27,7 @@ const addWarehouseModal = () => {
         title: "Agregado!",
         text: "Se agregó la bodega",
         icon: "success",
-      });
+      }).then(function(){window.location.reload()});
     },
   });
 
@@ -43,6 +43,7 @@ const addWarehouseModal = () => {
       event.preventDefault();
       event.stopPropagation();
     } else {
+      event.preventDefault();
       setValidated(true);
       let newWarehouse = {
         code: code.current.value,
@@ -55,7 +56,7 @@ const addWarehouseModal = () => {
         code.current.value
       )
         .then((data) => data)
-        .then(function(){window.location.reload()});
+        
 
 
       if (codeAvailability == true) {

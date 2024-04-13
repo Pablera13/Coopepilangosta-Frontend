@@ -5,7 +5,7 @@ export function validateAllowedPageAccess(){
     
     if (user) {
         if (user.costumer) {
-            
+           
             swal('No  autorizado.','El usuario no cuenta con autorizacion para acceder a este recurso.','error').then(function(){window.location = '/'})
 
         }

@@ -283,7 +283,7 @@ const addProducerOrderModal = () => {
             </Button>
 
             <Modal show={show} onHide={handleClose} size='lg'>
-                <Modal.Header className='HdNewOrder' closeButton>
+                <Modal.Header className='HeaderModal' closeButton>
                     <Modal.Title>Agregar nuevo pedido</Modal.Title>
                 </Modal.Header>
 
@@ -383,10 +383,11 @@ const addProducerOrderModal = () => {
                                 <br />
                                 <Button
                                     size='sm'
-                                    className='BtnAddOrder'
+                                    className='BtnBrown'
                                     type="submit"
+                                    style={{width:'100px',height:'40px'}}
                                 >
-                                    Agregar orden
+                                    Agregar
                                 </Button>
                             </Col>
                         </Row>
@@ -455,7 +456,7 @@ const addProducerOrderModal = () => {
                     <Button className='BtnSave' variant="primary" size="sm" onClick={saveProducerOrder} >
                         Guardar Pedido
                     </Button>
-                    <Button className='BtnReturn' variant="secondary" size="sm" onClick={handleClose}
+                    <Button className='BtnClose' variant="secondary" size="sm" onClick={handleClose}
                     >
                         Cerrar
                     </Button>
