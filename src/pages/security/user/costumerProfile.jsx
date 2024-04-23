@@ -224,7 +224,7 @@ const costumerProfile = () => {
 
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                       <div className="CostumerLabel">
-                        <h5 htmlFor="website">Número de Cuenta</h5>
+                        <h5 htmlFor="website">Cuenta IBAN</h5>
                         <input
                           type="text"
                           className="form-control"

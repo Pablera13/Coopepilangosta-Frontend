@@ -14,19 +14,35 @@ const YearlyQuantityChart = ({ chartData }) => {
           datasets: [
             {
               label: 'Unidades comercializadas',
-              data: chartData.map((data) => data[1]),
-              borderColor: 'blue',
+              data: chartData.map((data) => data[2]),
+              borderColor: '#B38C6D', 
+              backgroundColor: 'rgba(179, 140, 109, 0.1)', 
+              borderWidth: 3,
+              pointBackgroundColor: '#B38C6D', 
+              pointRadius: 5,
+              pointHoverRadius: 7,
               fill: false,
             },
           ],
         },
         options: {
+          animation: {
+            duration: 1000,
+          },
           scales: {
             x: {
               display: true,
               title: {
                 display: true,
                 text: 'Año',
+                color: '#333',
+                font: {
+                  size: 16,
+                  weight: 'bold',
+                },
+              },
+              ticks: {
+                color: '#333',
               },
             },
             y: {
@@ -34,9 +50,29 @@ const YearlyQuantityChart = ({ chartData }) => {
               title: {
                 display: true,
                 text: 'Cantidad de unidades vendidas',
+                color: '#333',
+                font: {
+                  size: 16,
+                  weight: 'bold',
+                },
+              },
+              ticks: {
+                color: '#333',
               },
             },
           },
+          plugins: {
+            legend: {
+              labels: {
+                color: '#333',
+                font: {
+                  size: 14,
+                  weight: 'bold',
+                },
+              },
+            },
+          },
+          maintainAspectRatio: false,
         },
       });
     });
@@ -44,7 +80,8 @@ const YearlyQuantityChart = ({ chartData }) => {
 
   return (
     <div>
- <canvas ref={chartRef} style={{ width: '700px', height: '200px' }} /> </div>
+      <canvas ref={chartRef} style={{ width: '700px', height: '400px' }} />
+    </div>
   );
 };
 

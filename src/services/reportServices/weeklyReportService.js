@@ -1,20 +1,5 @@
 export const ObtainWeeklyData = async (ProductSales) => {
-  
-  //   export const ObtainWeeklyData = async (xd) => {
-  
-  //   let ProductSales = [
-  //   {Quantity:1,PurchaseTotal:100,Date:"2023-09-05"},//Last1
-  //   {Quantity:2,PurchaseTotal:200,Date:"2023-09-13"},//Last2
-  //   {Quantity:3,PurchaseTotal:300,Date:"2023-09-21"},//Last3
-  //   {Quantity:4,PurchaseTotal:400,Date:"2023-09-27"},//Last4
-  //   {Quantity:5,PurchaseTotal:500,Date:"2023-10-07"},//This1
-  //   {Quantity:6,PurchaseTotal:600,Date:"2023-10-13"},//This2
-  //   {Quantity:7,PurchaseTotal:700,Date:"2023-10-19"},//This3
-  //   {Quantity:8,PurchaseTotal:800,Date:"2023-10-25"} //This4
-  // ]
-  
-    console.log("ProductSales " + JSON.stringify(ProductSales))
-  
+    
     const today = new Date();
   
     let PurchaseData = [];
@@ -115,50 +100,6 @@ export const ObtainWeeklyData = async (ProductSales) => {
     })}
   
     WeeklyData = QuantityData.concat(PurchaseData);
-    //   console.log(WeeklyData)
-    //   WeeklyData = 
-    //   [
-    //     [
-    //         "Semana 1",
-    //         Math.floor(Math.random() * (99 - 1 + 1) + 1),
-    //         Math.floor(Math.random() * (99 - 1 + 1) + 1)
-    //     ],
-    //     [
-    //         "Semana 2",
-    //         Math.floor(Math.random() * (99 - 1 + 1) + 1),
-    //         Math.floor(Math.random() * (99 - 1 + 1) + 1)
-    //     ],
-    //     [
-    //         "Semana 3",
-    //         Math.floor(Math.random() * (99 - 1 + 1) + 1),
-    //         Math.floor(Math.random() * (99 - 1 + 1) + 1)
-    //     ],
-    //     [
-    //         "Semana 4",
-    //         Math.floor(Math.random() * (99 - 1 + 1) + 1),
-    //         Math.floor(Math.random() * (99 - 1 + 1) + 1)
-    //     ],
-    //     [
-    //         "Semana 1",
-    //         Math.floor(Math.random() * (99 - 1 + 1) + 1),
-    //         Math.floor(Math.random() * (99 - 1 + 1) + 1)
-    //     ],
-    //     [
-    //         "Semana 2",
-    //         Math.floor(Math.random() * (99 - 1 + 1) + 1),
-    //         Math.floor(Math.random() * (99 - 1 + 1) + 1)
-    //     ],
-    //     [
-    //         "Semana 3",
-    //         Math.floor(Math.random() * (99 - 1 + 1) + 1),
-    //         Math.floor(Math.random() * (99 - 1 + 1) + 1)
-    //     ],
-    //     [
-    //         "Semana 4",
-    //         Math.floor(Math.random() * (99 - 1 + 1) + 1),
-    //         Math.floor(Math.random() * (99 - 1 + 1) + 1)
-    //     ]
-    // ]
   
       return WeeklyData;
   }

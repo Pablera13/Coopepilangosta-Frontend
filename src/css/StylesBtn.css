@@ -1,10 +1,13 @@
-/* Form labes */
+/* Forms */
 
-/* Form.Label {
-  padding: 50px;
-} */
+form label {
+  padding-top: 10px;
+}
 
-
+.react-select__menu .react-select__option:hover {
+  background-color: #9b7122d2; 
+  color: #495057; 
+}
 
 /* Form de la tabla */
 

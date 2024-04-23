@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { QueryClient, useMutation } from "react-query";
 import swal from "sweetalert";
@@ -159,7 +160,7 @@ const ShoppingCart = () => {
       DeliveredDate: "0001-01-01T00:00:00",
       Detail: Detail.current.value,
       Stage: "Sin confirmar",
-      Address: `${Address.current.value}, ${selectedDistrito}, ${selectedCanton}, ${selectedProvincia}`,
+      Address: `${Address.current.value}, ${selectedDistrito.label}, ${selectedCanton.label}, ${selectedProvincia.label}`,
     };
 
     const costumerOrder = await mutationCostumerOrder

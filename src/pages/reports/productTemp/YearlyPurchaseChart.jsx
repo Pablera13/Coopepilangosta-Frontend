@@ -15,18 +15,34 @@ const YearlyPurchaseChart = ({ chartData }) => {
             {
               label: 'Total de ventas',
               data: chartData.map((data) => data[1]),
-              borderColor: 'blue',
+              borderColor: '#4E3629', 
+              backgroundColor: 'rgba(78, 54, 41, 0.1)', 
+              borderWidth: 3,
+              pointBackgroundColor: '#4E3629', 
+              pointRadius: 5,
+              pointHoverRadius: 7,
               fill: false,
             },
           ],
         },
         options: {
+          animation: {
+            duration: 1000,
+          },
           scales: {
             x: {
               display: true,
               title: {
                 display: true,
                 text: 'Año',
+                color: '#333',
+                font: {
+                  size: 16,
+                  weight: 'bold',
+                },
+              },
+              ticks: {
+                color: '#333',
               },
             },
             y: {
@@ -34,9 +50,29 @@ const YearlyPurchaseChart = ({ chartData }) => {
               title: {
                 display: true,
                 text: 'Total de ventas',
+                color: '#333',
+                font: {
+                  size: 16,
+                  weight: 'bold',
+                },
+              },
+              ticks: {
+                color: '#333',
               },
             },
           },
+          plugins: {
+            legend: {
+              labels: {
+                color: '#333',
+                font: {
+                  size: 14,
+                  weight: 'bold',
+                },
+              },
+            },
+          },
+          maintainAspectRatio: false,
         },
       });
     });
@@ -44,7 +80,7 @@ const YearlyPurchaseChart = ({ chartData }) => {
 
   return (
     <div>
-       <canvas ref={chartRef} style={{ width: '700px', height: '200px' }} /> 
+      <canvas ref={chartRef} style={{ width: '700px', height: '400px' }} />
     </div>
   );
 };

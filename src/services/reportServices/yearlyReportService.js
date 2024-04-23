@@ -1,18 +1,5 @@
 export const ObtainYearlyData = async (ProductSales) => {
 
-  // export const ObtainYearlyData = async (xd) => {
-
-  //     let ProductSales = [
-  //     {Quantity:1,PurchaseTotal:100,Date:"2020-09-05"},//Last1
-  //     {Quantity:2,PurchaseTotal:200,Date:"2020-09-13"},//Last2
-  //     {Quantity:3,PurchaseTotal:300,Date:"2021-09-21"},//Last3
-  //     {Quantity:4,PurchaseTotal:400,Date:"2021-09-27"},//Last4
-  //     {Quantity:5,PurchaseTotal:500,Date:"2022-10-07"},//This1
-  //     {Quantity:6,PurchaseTotal:600,Date:"2022-10-13"},//This2
-  //     {Quantity:7,PurchaseTotal:700,Date:"2023-10-19"},//This3
-  //     {Quantity:8,PurchaseTotal:800,Date:"2023-10-25"} //This4
-  //   ]
-
           let Years = []
           let QuantityData = [];
           let PurchaseData = [];
@@ -55,28 +42,8 @@ export const ObtainYearlyData = async (ProductSales) => {
             PurchaseData.push([yearArray[0],PurchaseTotal])
           })
 
-          // YearlyData = QuantityData.concat(PurchaseData);
-          // console.log(YearlyData)
-          YearlyData =
-          [
-            [
-              2020,
-              Math.floor(Math.random() * (99 - 1 + 1) + 1)
-          ],
-            [
-              2021,
-              Math.floor(Math.random() * (99 - 1 + 1) + 1)
-          ],
-            [
-                2022,
-                Math.floor(Math.random() * (99 - 1 + 1) + 1)
-            ],
-            [
-                2023,
-                Math.floor(Math.random() * (99 - 1 + 1) + 1)
-            ]
-        ]
-
+          YearlyData = QuantityData.concat(PurchaseData);
+          
           return YearlyData;
 
   };

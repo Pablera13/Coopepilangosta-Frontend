@@ -18,4 +18,3 @@ export const getStockReporttById = async(id,state) => {
     return data;
 }
 
-//Hacer la logica para asignar el producto.stock cambiado al oldstock y el nuevo al newstock cuando cambie

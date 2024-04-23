@@ -6,24 +6,16 @@ import { Table, Container, Col, Row, Button, Card, Form } from 'react-bootstrap'
 import Select from 'react-select';
 import { getProducts } from '../../services/productService';
 import {getProductSales} from '../../services/saleService';
-
 import {ObtainDailyData} from '../../services/reportServices/dailyReportService';
-
 import DailyQuantityChart from './productTemp/DailyQuantityChart'; 
 import DailyPurchaseChart from './productTemp/DailyPurchaseChart'; 
-
 import {ObtainWeeklyData} from '../../services/reportServices/weeklyReportService';
-
 import WeeklyQuantityChart from './productTemp/WeeklyQuantityChart'; 
 import WeeklyPurchaseChart from './productTemp/WeeklyPurchaseChart';
-
 import {ObtainMonthlyData} from '../../services/reportServices/monthlyReportService';
-
 import MonthlyQuantityChart from './productTemp/MonthlyQuantityChart'; 
 import MonthlyPurchaseChart from './productTemp/MonthlyPurchaseChart';
-
 import {ObtainYearlyData} from '../../services/reportServices/yearlyReportService';
-
 import YearlyQuantityChart from './productTemp/YearlyQuantityChart'; 
 import YearlyPurchaseChart from './productTemp/YearlyPurchaseChart';
 
@@ -33,7 +25,7 @@ import "./productReport.css";
 import "../../css/Pagination.css";
 import "../../css/StylesBtn.css";
 import { validateAllowedPageAccess } from '../../utils/validatePageAccess';
-
+import { RiFileExcelLine } from "react-icons/ri";
 const productReport = () => {
 
   useEffect(() => {
@@ -266,6 +258,7 @@ const productReport = () => {
     return (
 
     <Container>
+      <Card  xs={12} md={12} lg={12} className='text-center'>
 
         {ProductOptions != null ? (
 
@@ -284,6 +277,7 @@ const productReport = () => {
                     <Col xs={4} md={4} lg={4}>
                       <Form.Label>Seleccione el producto</Form.Label>
                       <Select
+                      placeholder="Seleccione el producto"
                         onChange={(selected) => setSelectedProduct(selected)} options={ProductOptions}>
                       </Select>
                     </Col>
@@ -296,6 +290,7 @@ const productReport = () => {
                     <Col xs={4} md={4} lg={4}>
                     <Form.Label>Seleccione la temporalidad</Form.Label>
                       <Select
+                      placeholder="Seleccione la temporalidad"
                     onChange={(selected) => setSelectedTemp(selected)} options={TempOptions}>
                     </Select>
                     </Col>
@@ -306,7 +301,9 @@ const productReport = () => {
                   <Row className="mb-3">
                     <Col xs={4} md={4} lg={4}></Col>
                     <Col xs={4} md={4} lg={4}>
-                    <Button className='BtnBrown'
+                    <Button className='BtnStar'
+        style={{ zIndex: 0 }}
+
                   onClick={() => generateReport()}
                 >
                   Generar
@@ -315,9 +312,6 @@ const productReport = () => {
                   </Row>
                 </Form.Group>
                 <br></br>
-
-
-               
 
               </Card.Body>
 
@@ -370,11 +364,11 @@ const productReport = () => {
                     sheet={reportName}
                     currentTableRef={ChartTable.current}
                   >
-                    <button className='excelImg'>
-                      <img src="https://i.ibb.co/br98Dfx/to-excel.png" alt="Icono de Excel" width="20%" height="10%"></img>
-                    </button> </DownloadTableExcel>
-
-                  {/* <td></td> */}
+                    <Button className='BtnBrown' style={{fontSize:"150%"}}> <RiFileExcelLine/>
+                      {/* <img src="https://i.ibb.co/br98Dfx/to-excel.png" alt="Icono de Excel" width="20%" height="10%"></img> */}
+                    </Button> 
+                    
+                    </DownloadTableExcel>
 
                   {selectedTempName != 'Anual' ? (
 
@@ -512,6 +506,8 @@ const productReport = () => {
       ) : (
         'Cargando'
       )}
+            </Card>
+
     </Container>
   );
       }

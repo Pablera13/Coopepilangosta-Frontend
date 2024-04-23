@@ -231,6 +231,7 @@ input[type="radio"]:checked ~ .Star {
 
 .BtnStar {
   font-weight: 500;
+  z-index: 0;
   font-size: 13px;
   text-transform: uppercase !important;
   letter-spacing: 2px;

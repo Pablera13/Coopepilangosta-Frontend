@@ -334,7 +334,7 @@ const ProductDetail = () => {
                             ) : (
                               <>
                                 <span className="posted_in Josefin">
-                                  <strong>Consulta por nuestras cotizaciones</strong> <a className='CategoryName' rel="tag" href="#">
+                                  <strong>No tienes cotizaciones</strong> <a className='CategoryName' rel="tag" href="#">
                                   </a>
                                 </span>
                                 <br />
