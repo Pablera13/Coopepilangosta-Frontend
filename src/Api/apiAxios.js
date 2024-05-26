@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://coopepilangostarl.azurewebsites.net/api/',
+  baseURL: 'https://coopeapi.azurewebsites.net/api/',
   headers: {
     Authorization:`Bearer ${localStorage.getItem('bearer')}`
   }
