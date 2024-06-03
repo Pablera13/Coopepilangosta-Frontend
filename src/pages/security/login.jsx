@@ -24,7 +24,8 @@ const login = () => {
 
   let token = "";
 
-  const handleLogin = async () => {
+  const handleLogin = async (event) => {
+    event.preventDefault()
     let userLogin = {
       email: email.current.value,
       password: password.current.value,
@@ -82,7 +83,7 @@ const login = () => {
         <Row xs={12}>
 
           <Card.Body className="cardContainer">
-            <Form>
+            <Form onSubmit={handleLogin}>
               <Row>
                 <Col xs={12} sm={12} lg={12}>
                 <h3>Bienvenido</h3>
@@ -115,7 +116,7 @@ const login = () => {
                 <Col xs={12} lg={12}>
                 <br></br>
 
-                  <Button className="BtnStar" onClick={handleLogin} disabled={loginLoading}>
+                  <Button className="BtnStar" type="submit" disabled={loginLoading}>
                     {loginLoading ? (
                       <Spinner animation="border" variant="light" size="sm" />
                     ) : (

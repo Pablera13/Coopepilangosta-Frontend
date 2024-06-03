@@ -128,8 +128,8 @@ const listForesight = () => {
                                         <ListGroup.Item key={fproducer.id}>
                                           {fproducer.producer.name +
                                             " " +
-                                            fproducer.producer.lastname1 +
-                                            ", Telefono: " +
+                                            fproducer.producer.lastname1 + " " +
+                                            fproducer.producer.lastname2+", Telefono: " +
                                             fproducer.producer.phoneNumber}
                                         </ListGroup.Item>
                                       </Card.Body>

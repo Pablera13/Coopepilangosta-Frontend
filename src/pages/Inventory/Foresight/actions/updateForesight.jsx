@@ -34,17 +34,17 @@ const updateForesight = (props) => {
     const [selectedProducer, setSelectedProducer] = useState()
     const { data: producers, isLoading: producersLoading, isError: producersError } = useQuery('producer', getProducers);
 
-    let optionsProducer = [] 
+    let optionsProducer = []
 
-    let optionsSelect = [] 
+    let optionsSelect = []
 
     if (producers) {
         optionsProducer = producers.map((producers) => ({
             value: producers.id,
-            label: producers.name + " " + producers.lastname1,
+            label: producers.name + " " + producers.lastname1 + " " + producers.lastname2,
         }))
     };
-   
+
     if (producersInList.length == 0) {
         optionsSelect = optionsProducer
     } else if (producersInList.length != 0) {
@@ -54,7 +54,7 @@ const updateForesight = (props) => {
         )
     }
 
-  
+
     const [newProducers, setnewProducers] = useState([])
 
     const handleNewProducer = () => {
@@ -75,7 +75,7 @@ const updateForesight = (props) => {
             }
             setnewProducers((prevProducers) => [...prevProducers, newProducer])
 
-         
+
         }
     }
 
@@ -89,7 +89,7 @@ const updateForesight = (props) => {
                     text: `Se elimino el productor de la lista`,
                     icon: "success"
                 })
-                
+
             },
             onError: () => {
                 swal('Error', 'No se pudo eliminar el producto', 'error')
@@ -117,7 +117,7 @@ const updateForesight = (props) => {
                     text: `Se agrego la prevision`,
                     icon: "success"
                 })
-                .then(function(){window.location.reload()});
+                    .then(function () { window.location.reload() });
             },
             onError: () => {
                 swal('Error', 'No se guardaron los cambios', 'error')
@@ -140,7 +140,7 @@ const updateForesight = (props) => {
     return (
         <>
             <Button className='BtnBrown' onClick={handleShow} size='sm'>
-            <TiEdit />
+                <TiEdit />
             </Button>
 
             <Modal
@@ -148,14 +148,15 @@ const updateForesight = (props) => {
                 onHide={handleClose}
                 backdrop="static"
                 keyboard={false}
+                size='lg'
             >
-                <Modal.Header closeButton>
+                <Modal.Header closeButton className='HeaderModal'>
                     <Modal.Title>Editar prevision</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                         <Row>
-                            <h3>Productores en lista: </h3>
+                            <h3>Productores en lista para el plazo: </h3>
                             <Col>
                                 <Table striped bordered hover variant="light" size='sm'>
                                     <thead>
@@ -169,12 +170,12 @@ const updateForesight = (props) => {
                                             producersInList != null ? (
                                                 producersInList.map((producs) =>
                                                     <tr key={producs.id}>
-                                                        <td>{producs.name + " "+producs.lastname1   }</td>
+                                                        <td>{producs.name + " " + producs.lastname1 + " " + producs.lastname2}</td>
                                                         <td>
                                                             <Button size='sm' variant='outline-danger' onClick={() => handleDeleteProducer(producs.id)}>
                                                                 Eliminar
                                                             </Button>
-                                                            </td>
+                                                        </td>
                                                     </tr>
                                                 )
                                             )
@@ -185,13 +186,16 @@ const updateForesight = (props) => {
                                 </Table>
                             </Col>
                         </Row>
-                        
-                        <h3 className="text-center">Seleccione al nuevo productor</h3><hr />
-                        <Select options={optionsSelect} onChange=
-                            {(selectedOption) => setSelectedProducer(selectedOption)} placeholder='Busqueda'>
-                        </Select>
-                        <Button className='BtnAdd' size='sm' onClick={handleNewProducer}>Agregar agregar a la lista</Button>
-
+                        <hr />
+                        <Row className='g-3'>
+                            <Col>
+                            <h3 className="text-center">Seleccione al nuevo productor</h3>
+                            </Col>
+                            <Select options={optionsSelect} onChange=
+                                {(selectedOption) => setSelectedProducer(selectedOption)} placeholder='Busqueda'>
+                            </Select>
+                            <Button className='BtnAdd text-center' size='sm' onClick={handleNewProducer}>Agregar agregar a la lista</Button>
+                        </Row>
                         <Row>
                             <h3>Productores que serán agregados: </h3>
                             <Col>
@@ -207,12 +211,12 @@ const updateForesight = (props) => {
                                             newProducers != null ? (
                                                 newProducers.map((newProducer) =>
                                                     <tr key={newProducer.id}>
-                                                        <td>{newProducer.name }</td>
+                                                        <td>{newProducer.name}</td>
                                                         <td>
                                                             <Button size='sm' variant='outline-danger' onClick={() => handleRemoveProducer(newProducer.id)}>
                                                                 Remover
                                                             </Button>
-                                                            </td>
+                                                        </td>
                                                     </tr>
                                                 )
                                             )
@@ -227,10 +231,10 @@ const updateForesight = (props) => {
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='BtnAdd' onClick={clear}>
+                    <Button className='BtnClose' onClick={clear}>
                         Cancelar
                     </Button>
-                    <Button className='BtnAdd' onClick={saveChanges}>Guardar cambios</Button>
+                    <Button className='BtnSave' onClick={saveChanges}>Guardar cambios</Button>
                 </Modal.Footer>
             </Modal>
         </>
