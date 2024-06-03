@@ -4,13 +4,15 @@ import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import { createProduct, checkCodeAvailability } from '../../../../services/productService';
 import { getCategories } from '../../../../services/categoryService';
 import swal from 'sweetalert';
+import {LettersOnly, NumbersOnly} from '../../../../utils/validateFields'
+
 import { GrAddCircle } from "react-icons/gr";
 const addProductModal = () => {
     const [validated, setValidated] = useState(false);
     const queryClient = new QueryClient();
     const [show, setShow] = useState(false);
     const [customUnit, setCustomUnit] = useState(false);
-    
+
     const handleUnitChange = (event) => {
         if (event.target.value === "custom") {
             setCustomUnit(true);
@@ -83,36 +85,44 @@ const addProductModal = () => {
 
 
     const save = async (event) => {
-        const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        } else {
+        event.preventDefault();
+        const formFields = [code, name, description, unit, margin, iva, state, categoryId, stockable];
+        let fieldsValid = true;
+    
+        formFields.forEach((fieldRef) => {
+            if (!fieldRef.current.value) {
+                fieldsValid = false;}
+        });
+    
+        if (!fieldsValid) {
             setValidated(true);
+            return;
+        } else {
+            setValidated(false);
         }
-        if (form.checkValidity() === true) {
-            let newProduct = {
-                code: code.current.value,
-                name: name.current.value,
-                description: description.current.value,
-                unit: unit.current.value,
-                margin: margin.current.value,
-                iva: iva.current.value,
-                state: state.current.value,
-                stockable: stockable.current.value,
-                categoryId: categoryId.current.value,
-                image: imageUrl,
-            };
-            let CodeAvailability = await checkCodeAvailability(code.current.value).then(data => data);
-            console.log(CodeAvailability)
-            if (CodeAvailability == true) {
-                mutation.mutateAsync(newProduct);
-            } else {
-                swal('Advertencia', 'El código se encuentra en uso, no es posible guardar un registro con el código duplicado.', 'warning')
-            }
-
+    
+        let newProduct = {
+            code: code.current.value,
+            name: name.current.value,
+            description: description.current.value,
+            unit: unit.current.value,
+            margin: margin.current.value,
+            iva: iva.current.value,
+            state: state.current.value,
+            stockable: stockable.current.value,
+            categoryId: categoryId.current.value,
+            image: imageUrl,
+        };
+    
+        let CodeAvailability = await checkCodeAvailability(code.current.value).then(data => data);
+        console.log(CodeAvailability)
+        if (CodeAvailability == true) {
+            mutation.mutateAsync(newProduct);
+        } else {
+            swal('Advertencia', 'El código se encuentra en uso, no es posible guardar un registro con el código duplicado.', 'warning')
         }
     };
+    
 
     return (
         <>
@@ -140,6 +150,8 @@ const addProductModal = () => {
                                         placeholder="Ingrese el código"
                                         autoFocus
                                         ref={code}
+                                        min={1}
+                                        onKeyDown={NumbersOnly}                                  
                                     />
                                 </Form.Group>
                             </Col>
@@ -151,6 +163,7 @@ const addProductModal = () => {
                                         type="text"
                                         placeholder="Ingrese el nombre"
                                         ref={name}
+                                        onKeyDown={LettersOnly}                                  
                                     />
                                 </Form.Group>
                             </Col>
@@ -212,6 +225,9 @@ const addProductModal = () => {
                                         type="number"
                                         placeholder="Ingrese el margen de ganancia"
                                         ref={margin}
+                                        onKeyDown={NumbersOnly}                                  
+                                        min={1}
+
                                     />
                                 </Form.Group>
                             </Col>
@@ -223,6 +239,8 @@ const addProductModal = () => {
                                         type="number"
                                         placeholder="Ingrese el IVA"
                                         ref={iva}
+                                        onKeyDown={NumbersOnly}                                  
+                                        min={1}
                                     />
                                 </Form.Group>
                             </Col>

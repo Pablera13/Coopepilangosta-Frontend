@@ -7,6 +7,7 @@ import { locations } from '../../../../utils/provinces'
 import Select from 'react-select'
 import { TiEdit } from "react-icons/ti";
 import '../../../../css/StylesBtn.css'
+import { Tooltip} from '@mui/material';
 
 const editProducerModal = (props) => {
     const [show, setShow] = useState(false);
@@ -138,9 +139,12 @@ const editProducerModal = (props) => {
 
     return (
         <>
-            <Button className='BtnBrown' onClick={handleShow} size='sm'>
+
+<Tooltip title="Editar">
+<Button className='BtnBrown' onClick={handleShow} size='sm'>
                  <TiEdit />
             </Button>
+</Tooltip>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header className='HeaderModal' closeButton>

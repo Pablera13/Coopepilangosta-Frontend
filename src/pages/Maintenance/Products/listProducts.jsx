@@ -1,14 +1,14 @@
 import { useMemo, useState, useEffect } from 'react';
-import { MaterialReactTable} from 'material-react-table';
-import { Box, Button, Tooltip} from '@mui/material';
+import { MaterialReactTable } from 'material-react-table';
+import { Box, Button, Tooltip } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Container } from "react-bootstrap";
 import { MdDelete } from "react-icons/md";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import { jsPDF } from 'jspdf'; 
+import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { format } from "date-fns";
-import useCustomMaterialTable from '../../../utils/materialTableConfig.js'; 
+import useCustomMaterialTable from '../../../utils/materialTableConfig.js';
 import "../../../css/StylesBtn.css";
 import { deleteProduct } from "../../../services/productService";
 import EditProductModal from "./operations/editProductModal.jsx";
@@ -84,15 +84,16 @@ const MaterialTable = () => {
       accessorKey: 'state',
       header: 'Estado',
       enableClickToCopy: true,
-      Cell: ({ row }) => { return (row.original.state == true ? <span>{`Activo`}</span> : <span>{`De baja`}</span>);
+      Cell: ({ row }) => {
+        return (row.original.state == true ? <span>{`Activo`}</span> : <span>{`De baja`}</span>);
       }
     },
   ], []);
 
   const handleExportRows = (rows) => {
     const doc = new jsPDF();
-    const tableData = rows.map((row) => 
-    Object.values(row.original));
+    const tableData = rows.map((row) =>
+      Object.values(row.original));
     const tableHeaders = columns.map((c) => c.header);
 
     autoTable(doc, {
@@ -113,32 +114,29 @@ const MaterialTable = () => {
     isFetching,
     showAlert,
 
-    renderRowActions: ({row}) => (
+    renderRowActions: ({ row }) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
-        <Tooltip title="Editar">
 
-          <EditProductModal props={row.original} />
+        <EditProductModal props={row.original} />
 
-        </Tooltip>
         <Tooltip title="Eliminar">
-
           <Button className="BtnRed" onClick={() => showAlert(row.original.id)}><MdDelete /></Button>
-
         </Tooltip>
+
       </Box>
     ),
 
-    renderTopToolbarCustomActions: ({ table }) =>(
-    <>
-    <AddProductModal/>
+    renderTopToolbarCustomActions: ({ table }) => (
+      <>
+        <AddProductModal />
 
-    <Button
-      disabled={table.getPrePaginationRowModel().rows.length === 0}
-      onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
-      startIcon={<FileDownloadIcon />}
-    >
-      Exportar
-    </Button></>),
+        <Button
+          disabled={table.getPrePaginationRowModel().rows.length === 0}
+          onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
+          startIcon={<FileDownloadIcon />}
+        >
+          Exportar
+        </Button></>),
   });
 
   return <MaterialReactTable table={table}

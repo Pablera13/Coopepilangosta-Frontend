@@ -1,14 +1,11 @@
-import { React, useState } from "react";
+import React, { useState, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { Col, Row } from "react-bootstrap";
 import { QueryClient, useMutation } from "react-query";
 import { createCategory } from "../../../../services/categoryService";
-import { useRef } from "react";
 import swal from "sweetalert";
-import "../../../../css/Pagination.css";
-import "../../../../css/StylesBtn.css";
 import { GrAddCircle } from "react-icons/gr";
 
 const addCategoryModal = () => {
@@ -28,30 +25,43 @@ const addCategoryModal = () => {
         title: "Agregado!",
         text: "Se agregó la categoría",
         icon: "success",
-      }).then(function(){window.location.reload()});
-      
+      }).then(function () {
+        window.location.reload();
+      });
+    },
+    onError: () => {
+      swal("Error", "Algo salió mal...", "error");
     },
   });
 
-  const categoryName = useRef();
+  const categoryNameRef = useRef();
 
   const save = (event) => {
-    const form = event.currentTarget;
     event.preventDefault();
-    event.stopPropagation();
+        const formFields = [categoryNameRef];
+        let fieldsValid = true;
+    
+        formFields.forEach((fieldRef) => {
+            if (!fieldRef.current.value) {
+                fieldsValid = false;}
+        });
+    
+        if (!fieldsValid) {
+            setValidated(true);
+            return;
+        } else {
+            setValidated(false);
+        }
 
-    setValidated(true);
-
-    if (form.checkValidity() === true) {
       let newCategory = {
-        name: categoryName.current.value,
+        name: categoryNameRef.current.value,
       };
+
       setIsSaving(true);
       mutation.mutateAsync(newCategory).then(() => {
         setIsSaving(false);
       });
     }
-  };
 
   return (
     <>
@@ -64,8 +74,8 @@ const addCategoryModal = () => {
           <Modal.Title>Agregar nueva categoría</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form validated={validated} onSubmit={save}>
-            <Form.Group className="mb-3" controlId="validationCustom01">
+          <Form noValidate validated={validated} onSubmit={save}>
+            <Form.Group className="mb-3" controlId="categoryName">
               <Row>
                 <Col>
                   <Form.Label>Nombre</Form.Label>
@@ -79,11 +89,8 @@ const addCategoryModal = () => {
                     type="text"
                     placeholder="Ingrese el nombre de la categoría"
                     autoFocus
-                    ref={categoryName}
+                    ref={categoryNameRef}
                   />
-                  <Form.Control.Feedback>
-                    Ingrese el nombre de la categoría
-                  </Form.Control.Feedback>
                 </Col>
               </Row>
             </Form.Group>
@@ -95,14 +102,16 @@ const addCategoryModal = () => {
             variant="primary"
             size="sm"
             onClick={save}
+            disabled={isSaving}
           >
-            Guardar categoría
+            {isSaving ? "Guardando..." : "Guardar categoría"}
           </Button>
           <Button
             className="BtnClose"
             variant="secondary"
             size="sm"
             onClick={handleClose}
+            disabled={isSaving}
           >
             Cerrar
           </Button>

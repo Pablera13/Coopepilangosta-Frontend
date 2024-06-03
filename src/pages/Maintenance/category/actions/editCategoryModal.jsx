@@ -10,6 +10,7 @@ import swal from "sweetalert";
 import "../../../../css/Pagination.css";
 import "../../../../css/StylesBtn.css";
 import { TiEdit } from "react-icons/ti";
+import {Tooltip} from '@mui/material';
 
 const editCategoryModal = (props) => {
   const category = props.props;
@@ -37,13 +38,23 @@ const editCategoryModal = (props) => {
   const categoryName = useRef();
 
   const save = (event) => {
-    const form = event.currentTarget;
     event.preventDefault();
-    event.stopPropagation();
+        const formFields = [categoryName];
+        let fieldsValid = true;
+    
+        formFields.forEach((fieldRef) => {
+            if (!fieldRef.current.value) {
+                fieldsValid = false;}
+        });
+    
+        if (!fieldsValid) {
+            setValidated(true);
+            return;
+        } else {
+            setValidated(false);
+        }
 
-    setValidated(true);
 
-    if (form.checkValidity() === true) {
       let newCategory = {
         id: category.id,
         name: categoryName.current.value,
@@ -53,13 +64,16 @@ const editCategoryModal = (props) => {
         setIsSaving(false);
       });
     }
-  };
 
   return (
     <>
-      <Button className="BtnBrown" onClick={handleShow} size="sm">
+
+<Tooltip title="Editar">
+<Button className="BtnBrown" onClick={handleShow} size="sm">
          <TiEdit />
       </Button>
+</Tooltip>
+      
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header className="HeaderModal" closeButton>

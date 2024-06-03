@@ -6,6 +6,8 @@ import { getCategories } from "../../../../services/categoryService";
 import swal from "sweetalert";
 import { TiEdit } from "react-icons/ti";
 import { MdDelete } from "react-icons/md";
+import { Tooltip } from '@mui/material';
+import {LettersOnly, NumbersOnly} from '../../../../utils/validateFields'
 
 const editProductModal = (props) => {
   const [productRequest, setProduct] = useState(null);
@@ -107,19 +109,25 @@ const editProductModal = (props) => {
 
 
   const save = async (event) => {
-    const form = event.currentTarget;
+
+    event.preventDefault();
+        const formFields = [code, name, description, unit, margin, iva, state, categoryId, stockable];
+        let fieldsValid = true;
     
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    } else {
-      setValidated(true);
-    }
-    if (form.checkValidity() === true) {
+        formFields.forEach((fieldRef) => {
+            if (!fieldRef.current.value) {
+                fieldsValid = false;}
+        });
+    
+        if (!fieldsValid) {
+            setValidated(true);
+            return;
+        } else {
+            setValidated(false);
+        }
+
       const updatedImages = [...productRequest.image, ...newImages];
       const serializedImages = updatedImages.join(",");
-
-      console.log("Category value = " + categoryId.current.value)
 
       let newProduct = {
         id: productRequest.id,
@@ -134,19 +142,19 @@ const editProductModal = (props) => {
         categoryId: categoryId.current.value,
         image: serializedImages,
       };
-      console.log(newProduct)
-
       mutation.mutateAsync(newProduct);
-    }
+  
   };
 
-  
 
   return (
     <>
+    
+    <Tooltip title="Eliminar">
       <Button className="BtnBrown" onClick={handleShow} size="sm">
-         <TiEdit />
+        <TiEdit />
       </Button>
+    </Tooltip>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header className="HeaderModal" closeButton>
@@ -169,6 +177,8 @@ const editProductModal = (props) => {
                         placeholder="Ingrese el código"
                         autoFocus
                         ref={code}
+                        min={1}
+                        onKeyDown={NumbersOnly}
                       />
                     </Form.Group>
                   </Col>
@@ -181,6 +191,7 @@ const editProductModal = (props) => {
                         defaultValue={productRequest.name}
                         placeholder="Ingrese el nombre"
                         ref={name}
+                        onKeyDown={LettersOnly}
                       />
                     </Form.Group>
                   </Col>
@@ -247,6 +258,8 @@ const editProductModal = (props) => {
                         defaultValue={productRequest.margin}
                         placeholder="Ingrese el margen de ganancia"
                         ref={margin}
+                        min={1}
+                        onKeyDown={NumbersOnly}
                       />
                     </Form.Group>
                   </Col>
@@ -259,6 +272,8 @@ const editProductModal = (props) => {
                         defaultValue={productRequest.iva}
                         placeholder="Ingrese el IVA"
                         ref={iva}
+                        min={1}
+                        onKeyDown={NumbersOnly}
                       />
                     </Form.Group>
                   </Col>
