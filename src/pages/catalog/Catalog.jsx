@@ -118,7 +118,7 @@ const catalog = () => {
                   <label style={{ marginRight: "2%" }}>Productos por página</label>
                   <select className="products-per-page" value={productsPerPage} onChange={handleProductsPerPageChange}>
                     <option value={12}>12</option>
-                    <option value={34}>34</option>
+                    <option value={36}>36</option>
                     <option value={56}>56</option>
                   </select>
 
@@ -129,25 +129,23 @@ const catalog = () => {
 
         </Accordion>
 
-        <Row xs={4} md={4} lg={8} xl={12}>
+        <Row xs={4} md={4} lg={8} xl={12} className="custom-card-catalog-row">
           {currentProducts.length > 0 ? (
             currentProducts.map(product => (
-              <Col xs={11} md={6} lg={3} key={product.id}>
-                <Card className="Customcard">
+              <Col xs={11} md={6} lg={3} key={product.id} className="custom-card-catalog-col text-center">
+                <Card className="Customcard shadow">
                   <Card.Img variant="top" src={product.image} className="custom-card-img" />
-                  <Card.Body>
+                  <Card.Body className="mt-2 p-2">
                     <Card.Title className="Playfair">{product.name}</Card.Title>
                     <Card.Text className="Josefin">
                       <strong className='Josefin' style={{ fontSize: "100%" }}>{product.unit}</strong>
                     </Card.Text>
-                    <Card.Text className="Josefin">{product.description.slice(0, 50)}...</Card.Text>
+                    <Card.Text className="Josefin">{product.description.slice(0, 45)}...</Card.Text>
                   </Card.Body>
-                  <Card.Footer className="cardfooter bg-white">
-                    <div className="BtnContainer ">
+                  <Card.Footer className="bg-white text-center">
                       <Button className="BtnDetail" href={`/ProductDetail/${product.categoryId}/${product.id}`}>
                         Detalle
                       </Button>
-                    </div>
                   </Card.Footer>
                 </Card>
               </Col>
@@ -158,7 +156,7 @@ const catalog = () => {
           <br></br>
 
         </Row>
-        <Row>
+        <Row className="mt-3">
           <Col>
             <div className="Pagination-Container">
               <ReactPaginate
