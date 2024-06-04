@@ -4,6 +4,7 @@ import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import swal from 'sweetalert';
 import { createStockReport } from '../../../../services/reportServices/stockreportService';
 import { updateStock } from '../../../../services/productService';
+import { NumbersOnly } from '../../../../utils/validateFields'
 import { TiEdit } from "react-icons/ti";
 
 const addInventoriesModal = (props) => {
@@ -29,8 +30,8 @@ const addInventoriesModal = (props) => {
                 title: 'Editado!',
                 text: 'Las existencias han sido modificadas',
                 icon: 'success',
-            }).then(function(){window.location.reload()})
-            
+            }).then(function () { window.location.reload() })
+
         },
     });
 
@@ -75,11 +76,11 @@ const addInventoriesModal = (props) => {
                 className='BtnBrown
 '
             >
-                 <TiEdit />
+                <TiEdit />
             </Button>
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header className='HeaderModal'closeButton>
+                <Modal.Header className='HeaderModal' closeButton>
                     <Modal.Title>Movimiento de inventario</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -95,8 +96,8 @@ const addInventoriesModal = (props) => {
                                         readOnly
                                     />
                                 </Form.Group>
-                                </Col>
-                                <Col md={6}>
+                            </Col>
+                            <Col md={6}>
 
                                 <Form.Group controlId="cedula">
                                     <Form.Label>Nuevo Stock</Form.Label>
@@ -107,6 +108,7 @@ const addInventoriesModal = (props) => {
                                         defaultValue={product.stock}
                                         min={0}
                                         ref={stock}
+                                        onKeyDown={NumbersOnly}
                                     />
                                 </Form.Group>
                             </Col>
@@ -120,7 +122,7 @@ const addInventoriesModal = (props) => {
                                     <Form.Select value={selectedMotive}
                                         placeholder="Seleccionar motivo"
                                         required
-                                        onChange={(e) => {setSelectedMotive(e.target.value)}} ref={motive}>
+                                        onChange={(e) => { setSelectedMotive(e.target.value) }} ref={motive}>
                                         <option value="Venta">Venta</option>
                                         <option value="Regalía">Regalía</option>
                                         <option value="Devolución">Devolución</option>

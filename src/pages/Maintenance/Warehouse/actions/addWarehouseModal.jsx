@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { QueryClient, useMutation } from "react-query";
 import { Modal, Button, Form } from "react-bootstrap";
+import { NumbersOnly } from '../../../../utils/validateFields'
 import swal from "sweetalert";
 import {
   createWarehouse,
@@ -27,7 +28,7 @@ const addWarehouseModal = () => {
         title: "Agregado!",
         text: "Se agregó la bodega",
         icon: "success",
-      }).then(function(){window.location.reload()});
+      }).then(function () { window.location.reload() });
     },
   });
 
@@ -56,7 +57,7 @@ const addWarehouseModal = () => {
         code.current.value
       )
         .then((data) => data)
-        
+
 
 
       if (codeAvailability == true) {
@@ -98,6 +99,7 @@ const addWarehouseModal = () => {
                 type="number"
                 placeholder="Ingrese el código"
                 ref={code}
+                onKeyDown={NumbersOnly}
               />
             </Form.Group>
             <Form.Group className="mb-3">

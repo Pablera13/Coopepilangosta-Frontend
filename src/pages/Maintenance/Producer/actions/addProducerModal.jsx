@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { QueryClient, useMutation } from "react-query";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
+import { LettersOnly, NumbersOnly } from '../../../../utils/validateFields'
 import swal from "sweetalert";
 import {
   createProducer,
@@ -109,7 +110,7 @@ const addProducerModal = () => {
   });
 
   const [cantonesOptions, setCantonesOptions] = useState();
-  
+
   const handleProvinciasSelectChange = (provinceIndex) => {
     let cantones = locations.provincias[provinceIndex].cantones;
 
@@ -166,6 +167,7 @@ const addProducerModal = () => {
                     type="number"
                     placeholder="Ingrese la cédula"
                     ref={cedula}
+                    onKeyDown={NumbersOnly}
                   />
                 </Form.Group>
               </Col>
@@ -178,6 +180,7 @@ const addProducerModal = () => {
                     placeholder="Ingrese el teléfono"
                     ref={phoneNumber}
                     onChange={handlePhoneChange}
+                    onKeyDown={NumbersOnly}
                   />
                 </Form.Group>
               </Col>
@@ -192,6 +195,7 @@ const addProducerModal = () => {
                     placeholder="Ingrese el nombre"
                     ref={name}
                     onChange={handleNameChange}
+                    onKeyDown={LettersOnly}
                   />
                 </Form.Group>
               </Col>
@@ -204,6 +208,7 @@ const addProducerModal = () => {
                     placeholder="Ingrese el primer apellido"
                     ref={lastname1}
                     onChange={handleLastNameChange}
+                    onKeyDown={LettersOnly}
                   />
                 </Form.Group>
               </Col>
@@ -218,6 +223,7 @@ const addProducerModal = () => {
                     placeholder="Ingrese el segundo apellido"
                     ref={lastname2}
                     onChange={handleLastNameChange}
+                    onKeyDown={LettersOnly}
                   />
                 </Form.Group>
               </Col>

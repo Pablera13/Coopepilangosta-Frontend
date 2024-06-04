@@ -11,6 +11,7 @@ import {
 import { useMutation, useQuery } from "react-query";
 import { getRoles } from "../../../../services/rolesService";
 import Select from "react-select";
+import { LettersOnly, NumbersOnly } from '../../../../utils/validateFields'
 import { QueryClient } from "react-query";
 import { checkCedulaFormat } from "../../../../utils/validateCedulaFormat";
 
@@ -180,6 +181,7 @@ export const AddEmployee = () => {
                   ref={cedula}
                   autoFocus
                   type="number"
+                  onKeyDown={NumbersOnly}
                 />
               </Col>
               <Col>
@@ -188,6 +190,7 @@ export const AddEmployee = () => {
                   required
                   placeholder="Ingrese el nombre"
                   ref={name}
+                  onKeyDown={LettersOnly}
                 />
               </Col>
             </Row>
@@ -198,6 +201,7 @@ export const AddEmployee = () => {
                   required
                   placeholder="Ingrese el apellido"
                   ref={lastName1}
+                  onKeyDown={LettersOnly}
                 />
               </Col>
               <Col>
@@ -206,6 +210,7 @@ export const AddEmployee = () => {
                   required
                   placeholder="Ingrese el segundo apellido"
                   ref={lastName2}
+                  onKeyDown={LettersOnly}
                 />
               </Col>
             </Row>
@@ -216,6 +221,7 @@ export const AddEmployee = () => {
                   required
                   placeholder="Ingrese el departamento"
                   ref={department}
+                  onKeyDown={LettersOnly}
                 />
               </Col>
             </Row>

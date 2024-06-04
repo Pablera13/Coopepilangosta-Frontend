@@ -3,11 +3,12 @@ import { QueryClient, useMutation } from 'react-query';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import swal from 'sweetalert';
 import { updateProducer } from '../../../../services/producerService';
+import { LettersOnly, NumbersOnly } from '../../../../utils/validateFields'
 import { locations } from '../../../../utils/provinces'
 import Select from 'react-select'
 import { TiEdit } from "react-icons/ti";
 import '../../../../css/StylesBtn.css'
-import { Tooltip} from '@mui/material';
+import { Tooltip } from '@mui/material';
 
 const editProducerModal = (props) => {
     const [show, setShow] = useState(false);
@@ -27,8 +28,8 @@ const editProducerModal = (props) => {
                 title: 'Editado!',
                 text: 'Se editó el productor',
                 icon: 'success',
-            }).then(function(){window.location.reload()});
-            
+            }).then(function () { window.location.reload() });
+
         }
     });
 
@@ -50,7 +51,7 @@ const editProducerModal = (props) => {
             event.stopPropagation();
         } else {
             setValidated(true);
-            
+
             let newProducer = {
                 id: producer.id,
                 cedula: cedula.current.value,
@@ -140,11 +141,11 @@ const editProducerModal = (props) => {
     return (
         <>
 
-<Tooltip title="Editar">
-<Button className='BtnBrown' onClick={handleShow} size='sm'>
-                 <TiEdit />
-            </Button>
-</Tooltip>
+            <Tooltip title="Editar">
+                <Button className='BtnBrown' onClick={handleShow} size='sm'>
+                    <TiEdit />
+                </Button>
+            </Tooltip>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header className='HeaderModal' closeButton>
@@ -163,6 +164,7 @@ const editProducerModal = (props) => {
                                         defaultValue={producer.cedula}
                                         placeholder="Ingrese la cédula"
                                         ref={cedula}
+                                        onKeyDown={NumbersOnly}
                                     />
                                 </Form.Group>
                             </Col>
@@ -176,6 +178,7 @@ const editProducerModal = (props) => {
                                         placeholder="Ingrese el teléfono"
                                         ref={phoneNumber}
                                         onChange={handlePhoneChange}
+                                        onKeyDown={NumbersOnly}
                                     />
                                 </Form.Group>
                             </Col>
@@ -191,6 +194,7 @@ const editProducerModal = (props) => {
                                         placeholder="Ingrese el nombre"
                                         ref={name}
                                         onChange={handleNameChange}
+                                        onKeyDown={LettersOnly}
                                     />
                                 </Form.Group>
                             </Col>
@@ -204,6 +208,7 @@ const editProducerModal = (props) => {
                                         placeholder="Ingrese el primer apellido"
                                         ref={lastname1}
                                         onChange={handleLastNameChange}
+                                        onKeyDown={LettersOnly}
                                     />
                                 </Form.Group>
                             </Col>
@@ -219,6 +224,7 @@ const editProducerModal = (props) => {
                                         placeholder="Ingrese el segundo apellido"
                                         ref={lastname2}
                                         onChange={handleLastNameChange}
+                                        onKeyDown={LettersOnly}
                                     />
                                 </Form.Group>
                             </Col>
@@ -295,9 +301,9 @@ const editProducerModal = (props) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                <Button className='BtnSave' variant="primary" size="sm" onClick={saveProducer}>
-                            Actualizar productor
-                        </Button>
+                    <Button className='BtnSave' variant="primary" size="sm" onClick={saveProducer}>
+                        Actualizar productor
+                    </Button>
                     <Button className='BtnClose' variant="secondary" size="sm" onClick={handleClose}>
                         Cerrar
                     </Button>

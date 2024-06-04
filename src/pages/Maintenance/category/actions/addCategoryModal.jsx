@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import { LettersOnly } from '../../../../utils/validateFields'
 import { Col, Row } from "react-bootstrap";
 import { QueryClient, useMutation } from "react-query";
 import { createCategory } from "../../../../services/categoryService";
@@ -38,30 +39,31 @@ const addCategoryModal = () => {
 
   const save = (event) => {
     event.preventDefault();
-        const formFields = [categoryNameRef];
-        let fieldsValid = true;
-    
-        formFields.forEach((fieldRef) => {
-            if (!fieldRef.current.value) {
-                fieldsValid = false;}
-        });
-    
-        if (!fieldsValid) {
-            setValidated(true);
-            return;
-        } else {
-            setValidated(false);
-        }
+    const formFields = [categoryNameRef];
+    let fieldsValid = true;
 
-      let newCategory = {
-        name: categoryNameRef.current.value,
-      };
+    formFields.forEach((fieldRef) => {
+      if (!fieldRef.current.value) {
+        fieldsValid = false;
+      }
+    });
 
-      setIsSaving(true);
-      mutation.mutateAsync(newCategory).then(() => {
-        setIsSaving(false);
-      });
+    if (!fieldsValid) {
+      setValidated(true);
+      return;
+    } else {
+      setValidated(false);
     }
+
+    let newCategory = {
+      name: categoryNameRef.current.value,
+    };
+
+    setIsSaving(true);
+    mutation.mutateAsync(newCategory).then(() => {
+      setIsSaving(false);
+    });
+  }
 
   return (
     <>
@@ -90,6 +92,7 @@ const addCategoryModal = () => {
                     placeholder="Ingrese el nombre de la categoría"
                     autoFocus
                     ref={categoryNameRef}
+                    onKeyDown={LettersOnly}
                   />
                 </Col>
               </Row>

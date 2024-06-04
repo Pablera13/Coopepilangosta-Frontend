@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Modal, Col, Row, Container, Button, Form } from "react-bootstrap";
 import { useMutation } from "react-query";
 import { editEmployee } from "../../../../services/employeeService";
+import { LettersOnly } from '../../../../utils/validateFields'
 import swal from "sweetalert";
 import { QueryClient } from 'react-query';
 
@@ -32,21 +33,21 @@ const updateEmployee = (props) => {
     mutationKey: "employee",
     onSuccess: () => {
       swal({
-          title: 'Actualizado!',
-          text: 'Inicie sesión nuevamente para percibir los cambios',
-          icon: 'success',
+        title: 'Actualizado!',
+        text: 'Inicie sesión nuevamente para percibir los cambios',
+        icon: 'success',
       });
       setTimeout(() => {
-          window.location.reload();
+        window.location.reload();
       }, 2000);
-  },
-  onError: () => {
+    },
+    onError: () => {
       swal({
-          title: 'Error!',
-          text: 'Ocurrió un error al actualizar la información',
-          icon: 'error',
+        title: 'Error!',
+        text: 'Ocurrió un error al actualizar la información',
+        icon: 'error',
       });
-  }
+    }
   });
 
   const handleUpdate = async (event) => {
@@ -105,6 +106,7 @@ const updateEmployee = (props) => {
                     placeholder="Ingrese su nombre"
                     defaultValue={employee.name}
                     ref={name}
+                    onKeyDown={LettersOnly}
                   />
                 </Col>
               </Row>
@@ -115,6 +117,7 @@ const updateEmployee = (props) => {
                     required
                     defaultValue={employee.lastName1}
                     ref={lastName1}
+                    onKeyDown={LettersOnly}
                   />
                 </Col>
               </Row>
@@ -125,6 +128,7 @@ const updateEmployee = (props) => {
                     required
                     defaultValue={employee.lastName2}
                     ref={lastName2}
+                    onKeyDown={LettersOnly}
                   />
                 </Col>
               </Row>
@@ -135,6 +139,7 @@ const updateEmployee = (props) => {
                     required
                     defaultValue={employee.department}
                     ref={department}
+                    onKeyDown={LettersOnly}
                   />
                 </Col>
               </Row>
