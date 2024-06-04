@@ -36,16 +36,6 @@ const MaterialTable = () => {
 
   const columns = useMemo(() => [
     {
-      accessorKey: 'image',
-      header: 'Imagen',
-      enableClickToCopy: true,
-      Cell: ({ row }) => { 
-        return (
-          <img src={row.original.image} alt="Imagen" style={{ maxWidth: "100px", maxHeight: "100px" }} />
-        );
-      }
-    },
-    {
       accessorKey: 'code',
       header: 'Código',
       enableClickToCopy: true,
@@ -69,13 +59,24 @@ const MaterialTable = () => {
 
   const handleExportRows = (rows) => {
     const doc = new jsPDF();
-    const tableData = rows.map((row) => 
-    Object.values(row.original));
+
+    const title = "Reporte de Existencias";
+    doc.setFontSize(22);
+    doc.text(title, 20, 25);
+
+    // Espacio para el título
+    const tableStartY = 30;
+
+    const tableData = rows.map((row) =>
+      columns.map((column) => row.original[column.accessorKey])
+    );ListInventories
     const tableHeaders = columns.map((c) => c.header);
+   
 
     autoTable(doc, {
       head: [tableHeaders],
-      body: tableData,
+      body: tableData, 
+      startY: tableStartY, 
     });
 
     const currentDate = new Date();
@@ -92,11 +93,9 @@ const MaterialTable = () => {
 
     renderRowActions: ({row}) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
-        <Tooltip title="Añadir Existencias">
 
           <AddInventoryModal props={row.original} />
 
-        </Tooltip>
       </Box>
     ),
 

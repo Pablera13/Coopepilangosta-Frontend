@@ -5,6 +5,7 @@ import { editCostumer } from '../../../../services/costumerService';
 import { useRef } from 'react';
 import Select from 'react-select';
 import { RiPassValidLine } from "react-icons/ri";
+import { Tooltip } from '@mui/material';
 
 
 const verifyCostumer = (props) => {
@@ -30,14 +31,14 @@ const verifyCostumer = (props) => {
         mutationKey: 'Costumer',
         onSuccess: () => {
             swal({
-              title: "Editado!",
-              text: "Se editó el estado del cliente",
-              icon: "success",
-            }).then(function(){window.location.reload()});
-          },
-          onError: () => {
+                title: "Editado!",
+                text: "Se editó el estado del cliente",
+                icon: "success",
+            }).then(function () { window.location.reload() });
+        },
+        onError: () => {
             swal("Error", "Algo salio mal...", "error");
-          },
+        },
     });
 
 
@@ -71,9 +72,13 @@ const verifyCostumer = (props) => {
 
     return (
         <>
-            <Button className='BtnBrown' variant="primary" onClick={handleShow}>
-            <RiPassValidLine />
-            </Button>
+
+            <Tooltip title="Verificar">
+                <Button className='BtnBrown' variant="primary" onClick={handleShow}>
+                    <RiPassValidLine />
+                </Button>
+            </Tooltip>
+
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header className="HeaderModal" closeButton>
@@ -88,26 +93,25 @@ const verifyCostumer = (props) => {
                                     <Select
                                         required
                                         options={options}
-                                        placeholder={costumer.verified==true? "Verificado": "No verificado"}
+                                        placeholder={costumer.verified == true ? "Verificado" : "No verificado"}
                                         defaultValue={costumer.verified}
                                         name="state"
                                         ref={verification}
                                         onChange={(selectedOption) => setSelectedState(selectedOption)}
                                     />
-                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                         </Row>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                <Button className="BtnSave" onClick={handleSubmit}
+                    <Button className="BtnSave" onClick={handleSubmit}
                         type="submit">Guardar</Button>
                     <Button className="BtnClose"
                         variant="secondary" onClick={handleClose}>
                         Cerrar
                     </Button>
-                    
+
 
                 </Modal.Footer>
             </Modal>

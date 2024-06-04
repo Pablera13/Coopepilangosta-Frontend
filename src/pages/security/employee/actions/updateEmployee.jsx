@@ -5,6 +5,7 @@ import { editEmployee } from "../../../../services/employeeService";
 import { LettersOnly } from '../../../../utils/validateFields'
 import swal from "sweetalert";
 import { QueryClient } from 'react-query';
+import { Tooltip } from '@mui/material';
 
 import { TiEdit } from "react-icons/ti";
 
@@ -52,14 +53,21 @@ const updateEmployee = (props) => {
 
   const handleUpdate = async (event) => {
 
-    console.log(employee)
-    const form = event.currentTarget;
-
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    } else {
-      setValidated(true);
+    event.preventDefault();
+        const formFields = [name, lastName1, lastName2, department];
+        let fieldsValid = true;
+    
+        formFields.forEach((fieldRef) => {
+            if (!fieldRef.current.value) {
+                fieldsValid = false;}
+        });
+    
+        if (!fieldsValid) {
+            setValidated(true);
+            return;
+        } else {
+            setValidated(false);
+        }
 
       let toUpdateEmployee = {
         id: employee.id,
@@ -71,20 +79,22 @@ const updateEmployee = (props) => {
         idUser: employee.idUser,
 
       };
-      console.log(toUpdateEmployee);
       updateEmployeeMutation.mutateAsync(toUpdateEmployee);
-    }
   };
+
   return (
     <>
-      <Button
-        className="BtnBrown"
-        variant="primary"
-        onClick={handleOpen}
-        size="sm"
-      >
-        <TiEdit />
-      </Button>
+
+      <Tooltip title="Editar empleado">
+        <Button
+          className="BtnBrown"
+          variant="primary"
+          onClick={handleOpen}
+          size="sm"
+        >
+          <TiEdit />
+        </Button>
+      </Tooltip>
 
       <Modal
         show={show}

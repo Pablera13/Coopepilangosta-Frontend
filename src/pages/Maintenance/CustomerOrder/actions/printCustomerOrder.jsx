@@ -8,6 +8,7 @@ import { IoMdPrint } from "react-icons/io";
 import { getProducerOrderSales } from '../../../../services/saleService';
 import jsPDF from 'jspdf';
 import { getProductById } from '../../../../services/productService';
+import { Tooltip } from '@mui/material';
 
 const printCustomerOrder = (props) => {
 
@@ -170,7 +171,7 @@ const printCustomerOrder = (props) => {
 
 
 
-            //Impresion
+   
             const currentDate = new Date();
             const formattedDate = format(currentDate, 'yyyy-MM-dd');
             const fileName = `Factura_${customerorder.id}_${customer.name}_${formattedDate}.pdf`;
@@ -186,13 +187,19 @@ const printCustomerOrder = (props) => {
 
     }
     return (
-        <Button className='BtnPrint'
-            onClick={() => generatePDF(props.props)}
-            size='sm'
-        >
-            <IoMdPrint />
 
-        </Button>
+
+        <Tooltip title="Imprimir">
+
+            <Button className='BtnPrint'
+                onClick={() => generatePDF(props.props)}
+                size='sm'
+            >
+                <IoMdPrint />
+
+            </Button>
+        </Tooltip>
+
     );
 };
 

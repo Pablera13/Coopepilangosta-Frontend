@@ -8,6 +8,7 @@ import './exportProductCostumer.css';
 import { LuListChecks } from 'react-icons/lu';
 import '../../../../css/Pagination.css';
 import '../../../../css/StylesBtn.css';
+import { Tooltip } from '@mui/material';
 
 export const exportProductCostumer = (props) => {
     const queryClient = new QueryClient();
@@ -95,9 +96,13 @@ export const exportProductCostumer = (props) => {
 
     return (
         <>
+            
+
+            <Tooltip title="Exportar">
             <Button className="BtnBrown" onClick={handleShow} size="sm">
                 <LuListChecks />
             </Button>
+            </Tooltip>
 
             <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
                 <Modal.Header className="HeaderModal" closeButton>

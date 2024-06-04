@@ -1,7 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Row, Col, Container, Form, Button } from 'react-bootstrap';
-import ListProducerOrder from '../../Maintenance/ProducerOrder/listProducerOrder';
-import ListEntries from '../Entries/listEntries';
 import Select from 'react-select';
 import { NavLink, Navigate, useNavigate   } from 'react-router-dom';
 
@@ -25,7 +23,6 @@ const ListOrders = () => {
 
             navigate(`/listProducerOrder/${selectedOption.value}`)
 
-            console.log("Entro al effect")
         }
     }, [selectedOption]);
 

@@ -6,6 +6,7 @@ import { createStockReport } from '../../../../services/reportServices/stockrepo
 import { updateStock } from '../../../../services/productService';
 import { NumbersOnly } from '../../../../utils/validateFields'
 import { TiEdit } from "react-icons/ti";
+import { Tooltip} from '@mui/material';
 
 const addInventoriesModal = (props) => {
 
@@ -44,6 +45,24 @@ const addInventoriesModal = (props) => {
     const motive = useRef()
 
     const saveEdit = async (event) => {
+
+        event.preventDefault();
+        const formFields = [stock, name, description, unit, margin, iva, state, categoryId, stockable];
+        let fieldsValid = true;
+    
+        formFields.forEach((fieldRef) => {
+            if (!fieldRef.current.value) {
+                fieldsValid = false;}
+        });
+    
+        if (!fieldsValid) {
+            setValidated(true);
+            return;
+        } else {
+            setValidated(false);
+        }
+
+
         const form = event.currentTarget;
         event.preventDefault();
         if (form.checkValidity() === false) {
@@ -70,14 +89,18 @@ const addInventoriesModal = (props) => {
 
     return (
         <>
-            <Button
-                onClick={handleShow}
-                size='sm'
-                className='BtnBrown
-'
-            >
-                <TiEdit />
-            </Button>
+
+            <Tooltip title="Editar existencias">
+
+                <Button
+                    onClick={handleShow}
+                    size='sm'
+                    className='BtnBrown
+
+                >
+                    <TiEdit />
+                </Button>
+            </Tooltip>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header className='HeaderModal' closeButton>
@@ -122,12 +145,13 @@ const addInventoriesModal = (props) => {
                                     <Form.Select value={selectedMotive}
                                         placeholder="Seleccionar motivo"
                                         required
+                                        defaultValue="Ingreso"
                                         onChange={(e) => { setSelectedMotive(e.target.value) }} ref={motive}>
+                                        <option value="Ingreso">Aumento de Existencias</option>
                                         <option value="Venta">Venta</option>
                                         <option value="Regalía">Regalía</option>
                                         <option value="Devolución">Devolución</option>
                                         <option value="Producto Dañado">Producto Dañado</option>
-                                        <option value="Ingreso">Aumento de Existencias</option>
                                         <option value="Prueba de mercado">Prueba de mercado</option>
                                         <option value="Otro">Otro</option>
                                     </Form.Select>

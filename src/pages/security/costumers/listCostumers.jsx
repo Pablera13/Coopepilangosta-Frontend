@@ -98,16 +98,12 @@ const MaterialTable = () => {
 
     renderRowActions: ({ row }) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
-        <Tooltip title="Información del cliente">
 
           <DetailsCostumer props={row.original} />
 
-        </Tooltip>
-        <Tooltip title="Verificación">
 
           <VerifyCostumer props={row.original} />
 
-        </Tooltip>
 
         <Tooltip title="Cotizaciones">
           <Button className="BtnBrown" onClick={() => navigate(`/listProductCostumer/${row.original.name}/${row.original.id}`)}>

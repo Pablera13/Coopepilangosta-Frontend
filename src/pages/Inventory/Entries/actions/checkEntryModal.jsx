@@ -7,6 +7,7 @@ import './checkEntry.css'
 import AddToWarehouse from './addToWarehouse'
 import { TiArchive } from 'react-icons/ti'
 import { FaWarehouse } from "react-icons/fa";
+import { Tooltip } from '@mui/material';
 
 const checkEntryModal = (props) => {
     const [show, setShow] = useState(false);
@@ -47,9 +48,14 @@ const checkEntryModal = (props) => {
 
     return (
         <>
-            <Button className="BtnAdd" variant="primary" onClick={open}>
-                <FaWarehouse/>
-            </Button>
+
+            <Tooltip title="Ingresar">
+                <Button className="BtnAdd" variant="primary" onClick={open}>
+                    <FaWarehouse />
+                </Button>
+            </Tooltip>
+
+
             <Modal
                 show={show}
                 onHide={handleClose}
@@ -86,7 +92,7 @@ const checkEntryModal = (props) => {
 
                                     <Col xs={6}>
                                         <Card>
-                                           
+
                                             <Card.Body>
                                                 <Card.Title className='card-info-title'>Productor</Card.Title>
                                                 <Card.Text>

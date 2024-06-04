@@ -101,6 +101,15 @@ const MaterialTable = () => {
 
   const handleExportRows = (rows) => {
     const doc = new jsPDF();
+
+    // Título del PDF
+    const title = "Reporte de Empleado";
+    doc.setFontSize(22);
+    doc.text(title, 20, 25);
+
+    // Espacio para el título
+    const tableStartY = 30;
+
     const tableData = rows.map((row) => 
     Object.values(row.original));
     const tableHeaders = columns.map((c) => c.header);
@@ -108,6 +117,7 @@ const MaterialTable = () => {
     autoTable(doc, {
       head: [tableHeaders],
       body: tableData,
+      startY: tableStartY,
     });
 
     const currentDate = new Date();
@@ -125,16 +135,12 @@ const MaterialTable = () => {
 
     renderRowActions: ({row}) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
-        <Tooltip title="Actualizar datos del empleado">
 
           <UpdateEmployee props={row.original} />
 
-        </Tooltip>
-        <Tooltip title="Actualizar Usuario">
 
           <UpdateEmployeeUser props={row.original.user} />
 
-        </Tooltip>
         <Tooltip title="Eliminar">
 
           <Button className="BtnRed" onClick={() => showAlert(row.original.id)}><MdDelete /></Button>

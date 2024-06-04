@@ -3,6 +3,7 @@ import { Modal, Col, Row, Container, Button, Form } from "react-bootstrap";
 import { QueryClient, useMutation, useQuery } from "react-query";
 import { editProductCostumerById } from "../../../../services/productCostumerService";
 import { TiEdit } from "react-icons/ti";
+import { Tooltip } from '@mui/material';
 
 const updateProductCostumer = (cotizacion) => {
   const queryClient = new QueryClient();
@@ -10,12 +11,13 @@ const updateProductCostumer = (cotizacion) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [validated, setValidated] = useState(false);
 
   const [Cotizacion, setCotizacion] = useState(null);
   const handleOpen = () => {
     handleShow();
     setCotizacion(cotizacion.props);
-    
+
   };
 
   const PurchasePrice = useRef();
@@ -34,12 +36,30 @@ const updateProductCostumer = (cotizacion) => {
           title: "Editado!",
           text: "Se editó la cotización",
           icon: "success",
-        }).then(function(){window.location.reload()});
+        }).then(function () { window.location.reload() });
       },
     }
   );
 
-  const handleUpdate = () => {
+  const handleUpdate = async (event) => {
+
+    event.preventDefault();
+    const formFields = [PurchasePrice, Description, Margin, Unit];
+    let fieldsValid = true;
+
+    formFields.forEach((fieldRef) => {
+      if (!fieldRef.current.value) {
+        fieldsValid = false;
+      }
+    });
+
+    if (!fieldsValid) {
+      setValidated(true);
+      return;
+    } else {
+      setValidated(false);
+    }
+
     let ProductCostumerEdit = {
       id: Cotizacion.id,
       productId: Cotizacion.productId,
@@ -49,15 +69,19 @@ const updateProductCostumer = (cotizacion) => {
       margin: Margin.current.value,
       unit: Unit.current.value,
     };
-    console.log(ProductCostumerEdit);
 
     updateProductCostumer.mutateAsync(ProductCostumerEdit);
   };
+
+
   return (
     <>
-      <Button className="BtnBrown" onClick={handleOpen}>
-        <TiEdit />
-      </Button>
+
+      <Tooltip title="Editar">
+        <Button className="BtnBrown" onClick={handleOpen}>
+          <TiEdit />
+        </Button>
+      </Tooltip>
 
       <Modal
         show={show}
@@ -70,7 +94,7 @@ const updateProductCostumer = (cotizacion) => {
         </Modal.Header>
         <Modal.Body>
           {Cotizacion != null ? (
-            <Form>
+            <Form validated={validated} onSubmit={handleUpdate}>
               <Row>
                 <Col>
                   <Form.Label>Precio inicial</Form.Label>

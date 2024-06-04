@@ -6,6 +6,7 @@ import { getProducerOrderById } from '../../../../services/producerorderService'
 import { getProducerById } from '../../../../services/producerService';
 import { getPurchase } from '../../../../services/purchaseService';
 import logoCope from '../../../../assets/logoCoopepilangosta.png'
+import {Tooltip} from '@mui/material';
 
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -203,14 +204,17 @@ const printProducerOrder = (props) => {
 
 
     return (
+
+        <Tooltip title="Imprimir">
         <Button
             className='BtnPrint'
             onClick={() => generatePDF(props.props)}
             size='sm'
         >
             <IoMdPrint />
-
         </Button>
+</Tooltip>
+
     );
 };
 

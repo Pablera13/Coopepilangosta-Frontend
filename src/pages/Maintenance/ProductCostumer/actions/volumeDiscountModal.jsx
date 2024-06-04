@@ -4,6 +4,7 @@ import { Modal, Button, Form, Row, Col, Table } from 'react-bootstrap';
 import { getVolumeDiscount } from '../../../../services/volumeDiscount';
 import { createVolumeDiscount } from '../../../../services/volumeDiscount';
 import {deleteVolumeDiscount} from '../../../../services/volumeDiscount';
+import { Tooltip } from '@mui/material';
 
 import swal from 'sweetalert';
 
@@ -48,14 +49,22 @@ const volumeDiscountModal = (props) => {
     const volume = useRef();
 
     const save = async (event) => {
-        const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        } else {
+
+        event.preventDefault();
+        const formFields = [price, volume];
+        let fieldsValid = true;
+    
+        formFields.forEach((fieldRef) => {
+            if (!fieldRef.current.value) {
+                fieldsValid = false;}
+        });
+    
+        if (!fieldsValid) {
             setValidated(true);
+            return;
+        } else {
+            setValidated(false);
         }
-        if (form.checkValidity() === true) {
 
             let newvolumediscount = {
                 price: price.current.value,
@@ -64,7 +73,6 @@ const volumeDiscountModal = (props) => {
             };
 
             mutation.mutateAsync(newvolumediscount);
-        }
     };
 
     const showAlert = (id) => {
@@ -87,9 +95,13 @@ const volumeDiscountModal = (props) => {
 
     return (
         <>
+           
+
+            <Tooltip title="Descuentos">
             <Button className='BtnAdd' onClick={handleShow} size='sm'>
             <MdPercent />
             </Button>
+      </Tooltip>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header className='HeaderModal' closeButton>

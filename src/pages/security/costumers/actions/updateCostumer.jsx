@@ -4,6 +4,7 @@ import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import { editCostumer } from '../../../../services/costumerService';
 import { useRef } from 'react';
 import { TiEdit } from "react-icons/ti";
+import { Tooltip } from '@mui/material';
 
 import { locations } from '../../../../utils/provinces';
 import Select from 'react-select';
@@ -45,40 +46,49 @@ const updateCostumer = (props) => {
     });
 
     const handleSubmit = async (event) => {
-        const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
+
+        event.preventDefault();
+        const formFields = [name, address, postalCode, bankAccount, phoneNumber, email];
+        let fieldsValid = true;
+
+        formFields.forEach((fieldRef) => {
+            if (!fieldRef.current.value) {
+                fieldsValid = false;
+            }
+        });
+
+        if (!fieldsValid) {
+            setValidated(true);
+            return;
         } else {
-
-            event.preventDefault();
-            const editCostumer = {
-                id: costumer.id,
-                cedulaJuridica: costumer.cedulaJuridica,
-                name: name.current.value,
-                province: selectedProvincia ? (selectedProvincia.label) : (costumer.province),
-                canton: selectedCanton ? (selectedCanton.label) : (costumer.canton),
-                district: selectedDistrito ? (selectedDistrito.label) : (costumer.district),
-                address: address.current.value,
-                postalCode: postalCode.current.value,
-                bankAccount: bankAccount.current.value,
-                verified: costumer.verified,
-                phoneNumber: phoneNumber.current.value,
-                email: email.current.value,
-                userId: costumer.userId,
-            };
-
-            console.log(editCostumer)
-
-
-
-            editCostumerMutation.mutateAsync(editCostumer).then(() => {
-                setValidated(true);
-                handleClose();
-            });
+            setValidated(false);
         }
-    };
 
+        const editCostumer = {
+            id: costumer.id,
+            cedulaJuridica: costumer.cedulaJuridica,
+            name: name.current.value,
+            province: selectedProvincia ? (selectedProvincia.label) : (costumer.province),
+            canton: selectedCanton ? (selectedCanton.label) : (costumer.canton),
+            district: selectedDistrito ? (selectedDistrito.label) : (costumer.district),
+            address: address.current.value,
+            postalCode: postalCode.current.value,
+            bankAccount: bankAccount.current.value,
+            verified: costumer.verified,
+            phoneNumber: phoneNumber.current.value,
+            email: email.current.value,
+            userId: costumer.userId,
+        };
+
+        console.log(editCostumer)
+
+
+
+        editCostumerMutation.mutateAsync(editCostumer).then(() => {
+            setValidated(true);
+            handleClose();
+        });
+    }
 
 
     const provinciasArray = Object.keys(locations.provincias).map((index) => {
@@ -129,17 +139,20 @@ const updateCostumer = (props) => {
 
     return (
         <>
-            <Button className="BtnBrown" onClick={handleShow} size="sm">
-                <TiEdit />
-            </Button>
+
+            <Tooltip title="Editar perfil">
+                <Button className="BtnBrown" onClick={handleShow} size="sm">
+                    <TiEdit />
+                </Button>
+            </Tooltip>
 
             <Modal show={show} onHide={handleClose} size='lg'>
-            <Form validated={validated} onSubmit={handleSubmit}>
+                <Form validated={validated} onSubmit={handleSubmit}>
 
-                <Modal.Header className="HeaderModal" closeButton>
-                    <Modal.Title>Editar</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
+                    <Modal.Header className="HeaderModal" closeButton>
+                        <Modal.Title>Editar</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
                         <Row>
                             <Col lg={6}>
                                 <Form.Group controlId="validationCustom01">
@@ -150,7 +163,6 @@ const updateCostumer = (props) => {
                                         defaultValue={costumer.cedulaJuridica}
                                         disabled
                                     />
-                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                             <Col lg={6}>
@@ -163,7 +175,6 @@ const updateCostumer = (props) => {
                                         ref={name}
                                         defaultValue={costumer.name}
                                     />
-                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -179,7 +190,6 @@ const updateCostumer = (props) => {
                                         defaultValue={costumer.phoneNumber}
                                         ref={phoneNumber}
                                     />
-                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                             <Col lg={6}>
@@ -192,7 +202,6 @@ const updateCostumer = (props) => {
                                         ref={email}
                                         defaultValue={costumer.email}
                                     />
-                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -205,9 +214,6 @@ const updateCostumer = (props) => {
                                         onChange={(selected) => { handleProvinciasSelectChange(selected.value); setSelectedProvincia(selected); }}
                                         on
                                     ></Select>
-                                    <Form.Control.Feedback type="invalid">
-                                        Ingrese su provincia
-                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
 
@@ -217,9 +223,6 @@ const updateCostumer = (props) => {
                                     <Select placeholder={costumer.canton} defaultValue={costumer.canton} options={cantonesOptions}
                                         onChange={(selected) => { setSelectedCanton(selected); handlecantonesSelectChange(selected.value); }}
                                     ></Select>
-                                    <Form.Control.Feedback type="invalid">
-                                        Por favor indique el canton
-                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
 
@@ -229,9 +232,6 @@ const updateCostumer = (props) => {
                                     <Select placeholder={costumer.district} defaultValue={costumer.district} options={distritosOptions}
                                         onChange={(selected) => setSelectedDistrito(selected)}
                                     ></Select>
-                                    <Form.Control.Feedback type="invalid">
-                                        Indique su distrito!.
-                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -239,10 +239,7 @@ const updateCostumer = (props) => {
                             <Col lg={12}>
                                 <Form.Group controlId="validationCustom06">
                                     <Form.Label>Dirección</Form.Label>
-                                    <Form.Control type="text-area" placeholder="Indique la dirección" ref={address} defaultValue={costumer.address} />
-                                    <Form.Control.Feedback type="invalid">
-                                        Indique su dirección
-                                    </Form.Control.Feedback>
+                                    <Form.Control required type="text-area" placeholder="Indique la dirección" ref={address} defaultValue={costumer.address} />
                                 </Form.Group>
                             </Col>
                             <Col>
@@ -250,9 +247,6 @@ const updateCostumer = (props) => {
                                     <Form.Label>Código postal</Form.Label>
                                     <Form.Control type="number" placeholder="Ingrese el código postal"
                                         required ref={postalCode} defaultValue={costumer.postalCode} />
-                                    <Form.Control.Feedback type="invalid">
-                                        Indique su código postal
-                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -262,22 +256,19 @@ const updateCostumer = (props) => {
                                     <Form.Label>Cuenta bancaria (IBAN)</Form.Label>
                                     <Form.Control type="number" placeholder="Ingrese una cuenta bancaria" required ref={bankAccount}
                                         defaultValue={costumer.bankAccount} />
-                                    <Form.Control.Feedback type="invalid">
-                                        Indique su código postal
-                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                         </Row>
 
-                    
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button className="BtnSave" type="submit" onClick={handleSubmit}>Guardar</Button>
 
-                    <Button className="BtnClose" variant="secondary" onClick={handleClose}>
-                        Cerrar
-                    </Button>
-                </Modal.Footer>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button className="BtnSave" type="submit" onClick={handleSubmit}>Guardar</Button>
+
+                        <Button className="BtnClose" variant="secondary" onClick={handleClose}>
+                            Cerrar
+                        </Button>
+                    </Modal.Footer>
                 </Form>
             </Modal>
         </>

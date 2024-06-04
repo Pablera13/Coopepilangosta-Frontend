@@ -11,6 +11,8 @@ import { locations } from "../../../../utils/provinces";
 import Select from "react-select";
 import "../../../../css/StylesBtn.css";
 import { GrAddCircle } from "react-icons/gr";
+import { Tooltip } from '@mui/material';
+
 
 const addProducerModal = () => {
   const [show, setShow] = useState(false);
@@ -45,13 +47,23 @@ const addProducerModal = () => {
   const bankAccount = useRef();
 
   const saveProducer = async (event) => {
-    const form = event.currentTarget;
     event.preventDefault();
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    } else {
-      setValidated(true);
+        const formFields = [cedula, name, lastname1, lastname2, phoneNumber, email, address, bankAccount];
+        let fieldsValid = true;
+    
+        formFields.forEach((fieldRef) => {
+            if (!fieldRef.current.value) {
+                fieldsValid = false;}
+        });
+    
+        if (!fieldsValid) {
+            setValidated(true);
+            return;
+        } else {
+            setValidated(false);
+        }
+
+
       let newProducer = {
         cedula: cedula.current.value,
         name: name.current.value,
@@ -69,7 +81,6 @@ const addProducerModal = () => {
       let cedulaAvailability = await CheckCedulaProducerAvailability(
         cedula.current.value
       ).then((data) => data);
-      console.log(cedulaAvailability);
 
       if (cedulaAvailability == true) {
         mutation.mutateAsync(newProducer);
@@ -81,7 +92,6 @@ const addProducerModal = () => {
           "warning"
         );
       }
-    }
   };
 
   const handleNameChange = (event) => {
@@ -148,9 +158,12 @@ const addProducerModal = () => {
 
   return (
     <>
-      <Button onClick={handleShow} className="BtnAdd">
+
+<Tooltip title="Agregar">
+<Button onClick={handleShow} className="BtnAdd">
         <GrAddCircle />
       </Button>
+            </Tooltip>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header className="HeaderModal" closeButton>

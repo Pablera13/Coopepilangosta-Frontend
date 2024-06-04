@@ -4,6 +4,9 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { useMutation, QueryClient } from "react-query";
 import { editCostumerContact } from "../../../../services/CostumerContactService";
 import { TiEdit } from "react-icons/ti";
+import { Tooltip } from '@mui/material';
+
+
 const updateContact = (props) => {
   const queryClient = new QueryClient();
   const [show, setShow] = useState(false);
@@ -38,32 +41,48 @@ const updateContact = (props) => {
   );
 
   const handleSubmit = async (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
+
+    event.preventDefault();
+    const formFields = [name, department, contact];
+    let fieldsValid = true;
+
+    formFields.forEach((fieldRef) => {
+      if (!fieldRef.current.value) {
+        fieldsValid = false;
+      }
+    });
+
+    if (!fieldsValid) {
+      setValidated(true);
+      return;
     } else {
-      let editContact = {
-        id: contactCostumer.id,
-        name: name.current.value,
-        department: department.current.value,
-        contact: contact.current.value,
-        costumerId: contactCostumer.costumerId,
-      };
-      editContactMutation.mutateAsync(editContact).then(setValidated(true));
+      setValidated(false);
     }
-  };
+
+
+    let editContact = {
+      id: contactCostumer.id,
+      name: name.current.value,
+      department: department.current.value,
+      contact: contact.current.value,
+      costumerId: contactCostumer.costumerId,
+    };
+    editContactMutation.mutateAsync(editContact).then(setValidated(true));
+  }
 
   return (
     <>
-      <Button
-        className="BtnBrown"
-        variant="primary"
-        onClick={handleShow}
-        size="sm"
-      >
-        <TiEdit />
-      </Button>
+
+      <Tooltip title="Editar contacto">
+        <Button
+          className="BtnBrown"
+          variant="primary"
+          onClick={handleShow}
+          size="sm"
+        >
+          <TiEdit />
+        </Button>
+      </Tooltip>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header className="HeaderModal" closeButton>
@@ -72,7 +91,7 @@ const updateContact = (props) => {
         <Modal.Body>
           <Form validated={validated} onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Nombre: </Form.Label>
+              <Form.Label>Nombre</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Ingrese nombre y apellido del contacto"
@@ -83,7 +102,7 @@ const updateContact = (props) => {
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Departamento: </Form.Label>
+              <Form.Label>Departamento</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Ingrese el departamento"
@@ -93,7 +112,7 @@ const updateContact = (props) => {
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Medio de contacto: : </Form.Label>
+              <Form.Label>Medio de contacto</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Puede ser correo o teléfono"

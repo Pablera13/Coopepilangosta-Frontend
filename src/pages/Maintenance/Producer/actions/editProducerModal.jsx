@@ -44,14 +44,22 @@ const editProducerModal = (props) => {
 
     const saveProducer = async (event) => {
 
-        const form = event.currentTarget;
         event.preventDefault();
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        } else {
+        const formFields = [cedula, name, lastname1, lastname2, phoneNumber, email, address, bankAccount];
+        let fieldsValid = true;
+    
+        formFields.forEach((fieldRef) => {
+            if (!fieldRef.current.value) {
+                fieldsValid = false;}
+        });
+    
+        if (!fieldsValid) {
             setValidated(true);
-
+            return;
+        } else {
+            setValidated(false);
+        }
+            
             let newProducer = {
                 id: producer.id,
                 cedula: cedula.current.value,
@@ -69,9 +77,6 @@ const editProducerModal = (props) => {
 
 
             mutation.mutateAsync(newProducer);
-
-
-        }
     };
 
     const handleNameChange = (event) => {
@@ -159,6 +164,7 @@ const editProducerModal = (props) => {
                                     <Form.Label>Cédula</Form.Label>
                                     <Form.Control
                                         required
+                                        min={1}
                                         readOnly={true}
                                         type="number"
                                         defaultValue={producer.cedula}
@@ -174,6 +180,7 @@ const editProducerModal = (props) => {
                                     <Form.Control
                                         required
                                         type="number"
+                                        min={1}
                                         defaultValue={producer.phoneNumber}
                                         placeholder="Ingrese el teléfono"
                                         ref={phoneNumber}
@@ -291,6 +298,7 @@ const editProducerModal = (props) => {
                             <Form.Label>Cuenta Bancaria</Form.Label>
                             <Form.Control
                                 required
+                                min={1}
                                 type="number"
                                 defaultValue={producer.bankAccount}
                                 placeholder="Ingrese la cuenta bancaria"

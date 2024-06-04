@@ -68,6 +68,9 @@ const MaterialTable = () => {
       accessorKey: 'total',
       header: 'Total',
       enableClickToCopy: true,
+      Cell: ({ row }) => { 
+        return (<span>₡{row.original.total}</span>);
+      }
     },
     {
       accessorKey: 'paidDate',
@@ -91,13 +94,36 @@ const MaterialTable = () => {
 
   const handleExportRows = (rows) => {
     const doc = new jsPDF();
-    const tableData = rows.map((row) => 
-    Object.values(row.original));
-    const tableHeaders = columns.map((c) => c.header);
+    const title = "Reporte de Pedidos";
+    doc.setFontSize(22);
+    doc.text(title, 20, 25);
+
+    const tableStartY = 30;
+
+const tableData = rows.map((row) => {
+  return columns.map((column) => {
+    if (column.accessorKey === 'confirmedDate') {
+      return row.original.confirmedDate === "0001-01-01T00:00:00" ? "" : format(new Date(row.original.confirmedDate), "yyyy-MM-dd");
+    }
+    if (column.accessorKey === 'paidDate') {
+      const paidDate = row.original.paidDate === "0001-01-01T00:00:00" ? "Sin pagar" : format(new Date(row.original.paidDate), "yyyy-MM-dd");
+      return paidDate;
+    }
+    if (column.accessorKey === 'deliveredDate') {
+      const deliveredDate = row.original.deliveredDate === "0001-01-01T00:00:00" ? "No recibido" : format(new Date(row.original.deliveredDate), "yyyy-MM-dd");
+      return deliveredDate;
+    }
+    return row.original[column.accessorKey];
+  });
+});
+
+const tableHeaders = columns.map((c) => c.header);
+
 
     autoTable(doc, {
       head: [tableHeaders],
       body: tableData,
+      startY: tableStartY, 
     });
 
     const currentDate = new Date();
@@ -115,21 +141,13 @@ const MaterialTable = () => {
 
     renderRowActions: ({row}) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
-        <Tooltip title="Editar">
 
           <UpdateProducerOrderModal props={row.original} />
 
-        </Tooltip>
-        <Tooltip title="Editar">
-
           <CheckEntryModal props={row.original} />
-
-        </Tooltip>
-        <Tooltip title="Editar">
 
           <PrintProducerOrder props={row.original.id} />
 
-        </Tooltip>
         <Tooltip title="Eliminar">
 
           <Button className="BtnRed" onClick={() => showAlert(row.original.id)}><MdDelete /></Button>

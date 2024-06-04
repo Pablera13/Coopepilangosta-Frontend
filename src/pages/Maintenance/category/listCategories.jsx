@@ -54,6 +54,11 @@ const MaterialTable = () => {
 
   const columns = useMemo(() => [
     {
+      accessorKey: 'code',
+      header: 'Código',
+      enableClickToCopy: true,
+    },
+    {
       accessorKey: 'name',
       header: 'Nombre',
       enableClickToCopy: true,
@@ -62,6 +67,12 @@ const MaterialTable = () => {
 
   const handleExportRows = (rows) => {
     const doc = new jsPDF();
+
+    const title = "Reporte de Categorías";
+    doc.setFontSize(22);
+    doc.text(title, 20, 25);
+    const tableStartY = 30;
+
     const tableData = rows.map((row) => 
     Object.values(row.original));
     const tableHeaders = columns.map((c) => c.header);
@@ -69,6 +80,7 @@ const MaterialTable = () => {
     autoTable(doc, {
       head: [tableHeaders],
       body: tableData,
+      startY: tableStartY,
     });
 
     const currentDate = new Date();
