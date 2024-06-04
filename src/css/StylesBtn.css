@@ -5,7 +5,7 @@ form label {
 }
 
 .react-select__menu .react-select__option:hover {
-  background-color: #9b7122d2; 
+  background-color: rgba(155, 113, 34, 0.824); 
   color: #495057; 
 }
 

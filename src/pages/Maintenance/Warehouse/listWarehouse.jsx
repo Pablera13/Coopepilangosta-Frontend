@@ -75,20 +75,37 @@ const MaterialTable = () => {
       accessorKey: 'state',
       header: 'Estado',
       enableClickToCopy: true,
-      Cell: ({ row }) => { return (row.original.state == true ? <span>{`Activo`}</span> : <span>{`Inactivo`}</span>);
+      Cell: ({ row }) => {
+        return (row.original.state == true ? <span>{`Activo`}</span> : <span>{`De baja`}</span>);
       }
     },
   ], []);
 
   const handleExportRows = (rows) => {
     const doc = new jsPDF();
-    const tableData = rows.map((row) => 
-    Object.values(row.original));
+    const title = "Reporte de Bodegas";
+    doc.setFontSize(22);
+    doc.text(title, 20, 25);
+
+    const tableStartY = 30;
+
+    // Preparar los datos de la tabla
+    const tableData = rows.map((row) => {
+      return columns.map((column) => {
+        if (column.accessorKey === 'state') {
+          return row.original[column.accessorKey] ? 'Activo' : 'De baja';
+        }
+     
+        return row.original[column.accessorKey];
+      });
+    });
+
     const tableHeaders = columns.map((c) => c.header);
 
     autoTable(doc, {
       head: [tableHeaders],
       body: tableData,
+      startY: tableStartY, 
     });
 
     const currentDate = new Date();

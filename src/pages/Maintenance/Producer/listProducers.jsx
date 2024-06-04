@@ -85,22 +85,31 @@ const MaterialTable = () => {
       header: 'Correo',
       enableClickToCopy: true,
     },
-    {
-      accessorKey: 'bankAccount',
-      header: 'Cuenta Bancaria',
-      enableClickToCopy: true,
-    },
   ], []);
 
   const handleExportRows = (rows) => {
     const doc = new jsPDF();
-    const tableData = rows.map((row) => 
-    Object.values(row.original));
+  // Título del PDF
+  const title = "Reporte de Productores";
+  doc.setFontSize(22);
+  doc.text(title, 20, 25);
+
+  // Espacio para el título
+  const tableStartY = 30;
+    
+    // Preparar los datos de la tabla
+  
+    const tableData = rows.map((row) =>
+      columns.map((column) => row.original[column.accessorKey])
+    );
+
     const tableHeaders = columns.map((c) => c.header);
+
 
     autoTable(doc, {
       head: [tableHeaders],
       body: tableData,
+      startY: tableStartY, 
     });
 
     const currentDate = new Date();

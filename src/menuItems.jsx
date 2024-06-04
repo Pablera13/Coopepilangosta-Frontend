@@ -61,7 +61,7 @@ export const menuItemsEmployee = [
                 url: '/listProducts'
             },
             {
-                title: 'Proveedores',
+                title: 'Productores',
                 url: '/listProducers',
             },
             {
@@ -136,7 +136,7 @@ export const menuItems = [
                 url: '/listProducts'
             },
             {
-                title: 'Proveedores',
+                title: 'Productores',
                 url: '/listProducers',
             },
             {

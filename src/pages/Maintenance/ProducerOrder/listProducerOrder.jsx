@@ -91,13 +91,37 @@ const MaterialTable = () => {
 
   const handleExportRows = (rows) => {
     const doc = new jsPDF();
-    const tableData = rows.map((row) => 
-    Object.values(row.original));
-    const tableHeaders = columns.map((c) => c.header);
+    const title = "Reporte de Pedidos";
+    doc.setFontSize(22);
+    doc.text(title, 20, 25);
+
+    const tableStartY = 30;
+// Preparar los datos de la tabla
+const tableData = rows.map((row) => {
+  return columns.map((column) => {
+    if (column.accessorKey === 'confirmedDate') {
+      return row.original.confirmedDate === "0001-01-01T00:00:00" ? "" : format(new Date(row.original.confirmedDate), "yyyy-MM-dd");
+    }
+    if (column.accessorKey === 'paidDate') {
+      const paidDate = row.original.paidDate === "0001-01-01T00:00:00" ? "Sin pagar" : format(new Date(row.original.paidDate), "yyyy-MM-dd");
+      return paidDate;
+    }
+    if (column.accessorKey === 'deliveredDate') {
+      const deliveredDate = row.original.deliveredDate === "0001-01-01T00:00:00" ? "No recibido" : format(new Date(row.original.deliveredDate), "yyyy-MM-dd");
+      return deliveredDate;
+    }
+    return row.original[column.accessorKey];
+  });
+});
+
+// Preparar los encabezados de la tabla
+const tableHeaders = columns.map((c) => c.header);
+
 
     autoTable(doc, {
       head: [tableHeaders],
       body: tableData,
+      startY: tableStartY, 
     });
 
     const currentDate = new Date();
