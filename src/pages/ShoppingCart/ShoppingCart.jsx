@@ -142,22 +142,22 @@ const ShoppingCart = () => {
 
   const saveProducerOrder = async () => {
 
-        let fieldsValid = true;
+        // let fieldsValid = true;
     
-        if (!Address.current.value) {
-                fieldsValid = false;}
-                swal({
-                  title: 'Error',
-                  text: 'Por favor ingrese una dirección válida',
-                  icon: 'error',
-              });        
+        // if (!Address.current.value) {
+        //         fieldsValid = false;}
+        //         swal({
+        //           title: 'Error',
+        //           text: 'Por favor ingrese una dirección válida',
+        //           icon: 'error',
+        //       });        
 
-        if (!fieldsValid) {
-            setValidated(true);
-            return;
-        } else {
-            setValidated(false);
-        }
+        // if (!fieldsValid) {
+        //     setValidated(true);
+        //     return;
+        // } else {
+        //     setValidated(false);
+        // }
 
 
     const currentDate = new Date();
@@ -565,7 +565,7 @@ const ShoppingCart = () => {
                                   type="text"
                                   defaultValue={user.costumer.address}
                                   ref={Address}
-                                  required
+                                  
                                 />
                                 <Form.Control.Feedback type="invalid">
                                   Indique su dirección!.
