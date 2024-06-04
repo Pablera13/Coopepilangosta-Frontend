@@ -133,7 +133,7 @@ const catalog = () => {
           {currentProducts.length > 0 ? (
             currentProducts.map(product => (
               <Col xs={11} md={6} lg={3} key={product.id} className="custom-card-catalog-col text-center">
-                <Card className="Customcard shadow">
+                <Card className="Customcard shadow rounded-2">
                   <Card.Img variant="top" src={product.image} className="custom-card-img" />
                   <Card.Body className="mt-2 p-2">
                     <Card.Title className="Playfair">{product.name}</Card.Title>
@@ -142,7 +142,7 @@ const catalog = () => {
                     </Card.Text>
                     <Card.Text className="Josefin">{product.description.slice(0, 45)}...</Card.Text>
                   </Card.Body>
-                  <Card.Footer className="bg-white text-center">
+                  <Card.Footer className="bg-white text-center pt-4" pb-3>
                       <Button className="BtnDetail" href={`/ProductDetail/${product.categoryId}/${product.id}`}>
                         Detalle
                       </Button>
