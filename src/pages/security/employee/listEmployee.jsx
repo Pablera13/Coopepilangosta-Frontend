@@ -101,6 +101,15 @@ const MaterialTable = () => {
 
   const handleExportRows = (rows) => {
     const doc = new jsPDF();
+
+    // Título del PDF
+    const title = "Reporte de Empleado";
+    doc.setFontSize(22);
+    doc.text(title, 20, 25);
+
+    // Espacio para el título
+    const tableStartY = 30;
+
     const tableData = rows.map((row) => 
     Object.values(row.original));
     const tableHeaders = columns.map((c) => c.header);
@@ -108,6 +117,7 @@ const MaterialTable = () => {
     autoTable(doc, {
       head: [tableHeaders],
       body: tableData,
+      startY: tableStartY,
     });
 
     const currentDate = new Date();

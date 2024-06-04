@@ -99,7 +99,7 @@ const MaterialTable = () => {
     doc.text(title, 20, 25);
 
     const tableStartY = 30;
-// Preparar los datos de la tabla
+
 const tableData = rows.map((row) => {
   return columns.map((column) => {
     if (column.accessorKey === 'confirmedDate') {
@@ -117,7 +117,6 @@ const tableData = rows.map((row) => {
   });
 });
 
-// Preparar los encabezados de la tabla
 const tableHeaders = columns.map((c) => c.header);
 
 

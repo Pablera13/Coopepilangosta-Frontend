@@ -171,7 +171,7 @@ const printCustomerOrder = (props) => {
 
 
 
-            //Impresion
+   
             const currentDate = new Date();
             const formattedDate = format(currentDate, 'yyyy-MM-dd');
             const fileName = `Factura_${customerorder.id}_${customer.name}_${formattedDate}.pdf`;

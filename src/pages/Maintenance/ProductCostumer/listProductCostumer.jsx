@@ -144,14 +144,14 @@ const MaterialTable = () => {
     doc.setFontSize(22);
     doc.text(title, 20, 25);
   
-    // Espacio para el título
+   
     const tableStartY = 30;
   
-    // Preparar los datos de la tabla
+ 
     const tableData = rows.map((row) => {
       return columns.map((column) => {
         if (column.accessorKey === 'purchasePrice' || column.accessorKey === 'finalPrice') {
-          return row.original[column.accessorKey]; // Unicode para el signo de colón (₡)
+          return row.original[column.accessorKey]; 
         }
         if (
           column.accessorKey === "margin" ||
@@ -163,7 +163,6 @@ const MaterialTable = () => {
       });
     });
   
-    // Preparar los encabezados de la tabla
     const tableHeaders = columns.map((c) => c.header);
   
     autoTable(doc, {

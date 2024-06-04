@@ -108,16 +108,12 @@ const MaterialTable = () => {
 
   const handleExportRows = (rows) => {
     const doc = new jsPDF();
-
-    // Título del PDF
     const title = "Reporte de Productos";
     doc.setFontSize(22);
     doc.text(title, 20, 25);
 
-   
     const tableStartY = 30;
 
-   
     const tableData = rows.map((row) => {
       return columns.map((column) => {
         if (column.accessorKey === "state") {
@@ -132,18 +128,15 @@ const MaterialTable = () => {
 
     const tableHeaders = columns.map((c) => c.header);
 
-    
     autoTable(doc, {
       head: [tableHeaders],
       body: tableData,
-      startY: tableStartY, 
+      startY: tableStartY,
     });
 
-    // Obtener la fecha actual y formatearla
     const currentDate = new Date();
     const formattedDate = format(currentDate, "yyyy-MM-dd");
 
-    // Guardar el PDF
     doc.save(`Reporte_Productos_${formattedDate}.pdf`);
   };
 
