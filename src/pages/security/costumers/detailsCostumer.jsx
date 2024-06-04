@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Modal, Row, Col, Table, Button, Form } from "react-bootstrap";
 import { LuListChecks } from "react-icons/lu";
+import { Tooltip } from '@mui/material';
+
 const detailsCostumer = (props) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -15,41 +17,44 @@ const detailsCostumer = (props) => {
 
   return (
     <>
-      <Button
-        className="BtnBrown"
-        variant="outline-primary"
-        onClick={handleOpen}
-        size="sm"
-      >
-        <LuListChecks />
-      </Button>
+
+      <Tooltip title="Detalles">
+        <Button
+          className="BtnBrown"
+          variant="outline-primary"
+          onClick={handleOpen}
+          size="sm"
+        >
+          <LuListChecks />
+        </Button>
+      </Tooltip>
 
       <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header className="HeaderModal" closeButton>
           <Modal.Title>Información del cliente</Modal.Title>
         </Modal.Header>
 
-                <Modal.Body>
-                    {costumerProps ? (
-                        <>
+        <Modal.Body>
+          {costumerProps ? (
+            <>
 
-                            <Row>
-                            <Col xl={4} lg={4} md={4} sm={4} xs={4}>
-                                <Form.Group md="4">
-                                    <Form.Label>Usuario</Form.Label>
-                                    <Form.Control type="textarea" readOnly 
-                                    defaultValue= {costumerProps.user.userName} />
-                                </Form.Group>
-                            </Col>
-                            <Col xl={4} lg={4} md={4} sm={4} xs={4}>
-                                <Form.Group md="4">
-                                    <Form.Label>Correo</Form.Label>
-                                    <Form.Control type="textarea" readOnly 
-                                    defaultValue= {costumerProps.user.email} />
-                                </Form.Group>
-                            </Col>
-                            </Row>
-                            <br/>
+              <Row>
+                <Col xl={4} lg={4} md={4} sm={4} xs={4}>
+                  <Form.Group md="4">
+                    <Form.Label>Usuario</Form.Label>
+                    <Form.Control type="textarea" readOnly
+                      defaultValue={costumerProps.user.userName} />
+                  </Form.Group>
+                </Col>
+                <Col xl={4} lg={4} md={4} sm={4} xs={4}>
+                  <Form.Group md="4">
+                    <Form.Label>Correo</Form.Label>
+                    <Form.Control type="textarea" readOnly
+                      defaultValue={costumerProps.user.email} />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <br />
 
               <Row>
                 <Col xl={4} lg={4} md={4} sm={4} xs={4}>

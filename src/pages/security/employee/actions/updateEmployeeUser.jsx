@@ -6,6 +6,7 @@ import { editUser } from '../../../../services/userService';
 import { QueryClient } from 'react-query';
 import swal from 'sweetalert';
 import { FaUserLock } from "react-icons/fa";
+import { Tooltip } from '@mui/material';
 
 const updateEmployeeUser = (props) => {
     const queryClient = new QueryClient();
@@ -67,41 +68,52 @@ const updateEmployeeUser = (props) => {
         })
 
     const save = async (event) => {
-        
-        const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    } else {
-      setValidated(true);
-    }
-    if (form.checkValidity() === true) {
-        let toUpdateUser = {
-            id: user.id,
-            email: email.current.value,
-            userName: userName.current.value,
-            password: password.current.value,
-            idRole: selectRole.current.value
-        }
 
-        let emailAvailability = await checkEmailAvailability(email.current.value).then(data => data)
-        if (email.current.value != user.email) {
-            if (emailAvailability) {
-                editUserEmployeeMutation.mutateAsync(toUpdateUser)
-            } else {
-                swal('Advertencia', 'El correo se encuentra en uso', 'warning')
-            }
+        event.preventDefault();
+        const formFields = [email, userName, password, selectRole];
+        let fieldsValid = true;
+    
+        formFields.forEach((fieldRef) => {
+            if (!fieldRef.current.value) {
+                fieldsValid = false;}
+        });
+    
+        if (!fieldsValid) {
+            setValidated(true);
+            return;
         } else {
-            editUserEmployeeMutation.mutateAsync(toUpdateUser)
+            setValidated(false);
         }
 
-    }}
+            let toUpdateUser = {
+                id: user.id,
+                email: email.current.value,
+                userName: userName.current.value,
+                password: password.current.value,
+                idRole: selectRole.current.value
+            }
+
+            let emailAvailability = await checkEmailAvailability(email.current.value).then(data => data)
+            if (email.current.value != user.email) {
+                if (emailAvailability) {
+                    editUserEmployeeMutation.mutateAsync(toUpdateUser)
+                } else {
+                    swal('Advertencia', 'El correo se encuentra en uso', 'warning')
+                }
+            } else {
+                editUserEmployeeMutation.mutateAsync(toUpdateUser)
+            }
+
+        }
 
     return (
         <>
-            <Button className="BtnPrint"  onClick={handleOpen} size='sm'>
-            <FaUserLock />
-            </Button>
+
+            <Tooltip title="Editar usuario">
+                <Button className="BtnPrint" onClick={handleOpen} size='sm'>
+                    <FaUserLock />
+                </Button>
+            </Tooltip>
 
             <Modal
                 show={show}
@@ -112,10 +124,10 @@ const updateEmployeeUser = (props) => {
                 <Modal.Header className="HeaderModal" closeButton>
                     <Modal.Title>Actualizar usuario</Modal.Title>
                 </Modal.Header>
-                
-                    {
-                        user != null ? (
-                            <><Modal.Body>
+
+                {
+                    user != null ? (
+                        <><Modal.Body>
                             <Form validated={validated} onSubmit={save}>
                                 <Row>
                                     <Col>
@@ -154,9 +166,9 @@ const updateEmployeeUser = (props) => {
 
                             </Modal.Footer></>
 
-                        ) : ("")
-                    }
-                
+                    ) : ("")
+                }
+
             </Modal>
         </>
     )

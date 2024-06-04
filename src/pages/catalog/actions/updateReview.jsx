@@ -16,6 +16,7 @@ const updateReview = (props) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [validated, setValidated] = useState(false);
 
   const [review, setReview] = useState(null);
   const description = useRef();
@@ -36,7 +37,25 @@ const updateReview = (props) => {
     setStarsChecked(value);
   };
 
-  const handleUpdate = () => {
+    const handleUpdate = async(event) => {
+
+    event.preventDefault();
+        const formFields = [description];
+        let fieldsValid = true;
+    
+        formFields.forEach((fieldRef) => {
+            if (!fieldRef.current.value) {
+                fieldsValid = false;}
+        });
+    
+        if (!fieldsValid) {
+            setValidated(true);
+            return;
+        } else {
+            setValidated(false);
+        }
+
+
     const today = new Date();
     const formattedDate = format(today, 'yyyy-MM-dd');
 
@@ -69,7 +88,7 @@ const updateReview = (props) => {
         </Modal.Header>
         <Modal.Body>
           {review && (
-            <Form>
+                        <Form validated={validated} onSubmit={handleUpdate}>
               <Form.Label>Valoración</Form.Label>
               <p className="clasificación">
                 {[...Array(5)].map((_, index) => (
@@ -95,6 +114,7 @@ const updateReview = (props) => {
                     placeholder="Ingrese su nombre"
                     defaultValue={review.description}
                     ref={description}
+                    required
                   />
                 </Col>
               </Row>

@@ -3,6 +3,9 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { useMutation, QueryClient } from "react-query";
 import { createContactCostumer } from "../../../../services/CostumerContactService";
 import { FaAddressBook } from "react-icons/fa";
+import { Tooltip } from '@mui/material';
+
+
 const addContact = (props) => {
   const queryClient = new QueryClient();
   const [show, setShow] = useState(false);
@@ -39,26 +42,42 @@ const addContact = (props) => {
   );
 
   const handleSubmit = async (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
+
+    event.preventDefault();
+    const formFields = [name, department, contact];
+    let fieldsValid = true;
+
+    formFields.forEach((fieldRef) => {
+      if (!fieldRef.current.value) {
+        fieldsValid = false;
+      }
+    });
+
+    if (!fieldsValid) {
+      setValidated(true);
+      return;
     } else {
-      let newContact = {
-        name: name.current.value,
-        department: department.current.value,
-        contact: contact.current.value,
-        costumerId: idCostumer,
-      };
-      addContactMutation.mutateAsync(newContact).then(setValidated(true));
+      setValidated(false);
     }
-  };
+
+    let newContact = {
+      name: name.current.value,
+      department: department.current.value,
+      contact: contact.current.value,
+      costumerId: idCostumer,
+    };
+    addContactMutation.mutateAsync(newContact).then(setValidated(true));
+  }
 
   return (
     <>
-      <Button className="BtnBrown" onClick={handleShow}>
-        <FaAddressBook />
-      </Button>
+
+
+      <Tooltip title="Agregar contacto">
+        <Button className="BtnBrown" onClick={handleShow}>
+          <FaAddressBook />
+        </Button>
+      </Tooltip>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header className="HeaderModal" closeButton>
@@ -67,7 +86,7 @@ const addContact = (props) => {
         <Modal.Body>
           <Form validated={validated} onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Nombre: </Form.Label>
+              <Form.Label>Nombre</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Ingrese nombre y apellido del contacto"
@@ -77,7 +96,7 @@ const addContact = (props) => {
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Departamento: </Form.Label>
+              <Form.Label>Departamento</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Ingrese el departamento"
@@ -86,7 +105,7 @@ const addContact = (props) => {
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Medio de contacto: : </Form.Label>
+              <Form.Label>Medio de contacto</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Puede ser correo o teléfono"

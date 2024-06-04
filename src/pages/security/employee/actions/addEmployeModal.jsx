@@ -13,6 +13,7 @@ import { getRoles } from "../../../../services/rolesService";
 import Select from "react-select";
 import { QueryClient } from "react-query";
 import { checkCedulaFormat } from "../../../../utils/validateCedulaFormat";
+import { Tooltip } from '@mui/material';
 
 import { GrAddCircle } from "react-icons/gr";
 
@@ -83,21 +84,24 @@ export const AddEmployee = () => {
     },
   });
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-      setValidated(false)
-    } else {
-      event.preventDefault();
-      handleSave();
-      setValidated(true);
-    }
+  const handleSubmit = async (event) => {
 
-  };
+    event.preventDefault();
+        const formFields = [cedula, name, lastName1, lastName2, department, email, userName, password];
+        let fieldsValid = true;
+    
+        formFields.forEach((fieldRef) => {
+            if (!fieldRef.current.value) {
+                fieldsValid = false;}
+        });
+    
+        if (!fieldsValid) {
+            setValidated(true);
+            return;
+        } else {
+            setValidated(false);
+        }
 
-  const handleSave = async () => {
     let newUser = {
       email: email.current.value,
       userName: userName.current.value,
@@ -155,9 +159,13 @@ export const AddEmployee = () => {
 
   return (
     <>
-      <Button className="BtnAdd" onClick={handleShow} size="sm">
-        <GrAddCircle />
-      </Button>
+
+
+      <Tooltip title="Agregar">
+        <Button className="BtnAdd" onClick={handleShow} size="sm">
+          <GrAddCircle />
+        </Button>
+      </Tooltip>
 
       <Modal
         show={show}

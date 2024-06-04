@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
-import { Box, Button, Tooltip} from '@mui/material';
-import { MaterialReactTable} from 'material-react-table';
-import useCustomMaterialTable from '../../../utils/materialTableConfig.js'; 
+import { Box, Button, Tooltip } from '@mui/material';
+import { MaterialReactTable } from 'material-react-table';
+import useCustomMaterialTable from '../../../utils/materialTableConfig.js';
 import autoTable from 'jspdf-autotable';
-import { jsPDF } from 'jspdf'; 
+import { jsPDF } from 'jspdf';
 import { format } from "date-fns";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -59,35 +59,35 @@ const MaterialTable = () => {
 
   const ObtainCotizaciones = async (cotizacionesData) => {
 
-      let cotizaciones = [];
-      for (const productcostumer of cotizacionesData) {
+    let cotizaciones = [];
+    for (const productcostumer of cotizacionesData) {
 
-        const product = await getProductById2(productcostumer.productId);
+      const product = await getProductById2(productcostumer.productId);
 
-        const MargenGanancia =
-          productcostumer.purchasePrice * (productcostumer.margin / 100);
-        const PrecioConMargen = productcostumer.purchasePrice + MargenGanancia;
-        const IVA = PrecioConMargen * (product.iva / 100);
-        const PrecioFinal = PrecioConMargen + IVA;
+      const MargenGanancia =
+        productcostumer.purchasePrice * (productcostumer.margin / 100);
+      const PrecioConMargen = productcostumer.purchasePrice + MargenGanancia;
+      const IVA = PrecioConMargen * (product.iva / 100);
+      const PrecioFinal = PrecioConMargen + IVA;
 
-        let cotizacion = {
-          id: productcostumer.id,
-          productId: product.id,
-          productName: product.name,
-          productUnit: productcostumer.unit,
-          productIva: product.iva,
-          finalPrice: PrecioFinal.toFixed(0),
-          costumerId: Params.costumerid,
-          purchasePrice: productcostumer.purchasePrice,
-          description: productcostumer.description,
-          margin: productcostumer.margin,
-        };
-        cotizaciones.push(cotizacion);
-      }
-      setData(cotizaciones);
-    
+      let cotizacion = {
+        id: productcostumer.id,
+        productId: product.id,
+        productName: product.name,
+        productUnit: productcostumer.unit,
+        productIva: product.iva,
+        finalPrice: PrecioFinal.toFixed(0),
+        costumerId: Params.costumerid,
+        purchasePrice: productcostumer.purchasePrice,
+        description: productcostumer.description,
+        margin: productcostumer.margin,
+      };
+      cotizaciones.push(cotizacion);
+    }
+    setData(cotizaciones);
+
   };
-  
+
   const columns = useMemo(() => [
     {
       accessorKey: 'productName',
@@ -132,8 +132,8 @@ const MaterialTable = () => {
 
   const handleExportRows = (rows) => {
     const doc = new jsPDF();
-    const tableData = rows.map((row) => 
-    Object.values(row.original));
+    const tableData = rows.map((row) =>
+      Object.values(row.original));
     const tableHeaders = columns.map((c) => c.header);
 
     autoTable(doc, {
@@ -151,42 +151,34 @@ const MaterialTable = () => {
     data: data,
     showAlert,
 
-    renderRowActions: ({row}) => (
+    renderRowActions: ({ row }) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
-        <Tooltip title="Actualizar cotización">
 
-          <UpdateProductCostumer props={row.original} />
+        <UpdateProductCostumer props={row.original} />
 
-        </Tooltip>
         <Tooltip title="Eliminar">
 
           <Button className="BtnRed" onClick={() => showAlert(row.original.id)}><MdDelete /></Button>
 
         </Tooltip>
-        <Tooltip title="Descuentos por volumen">
 
-          <VolumeDiscountModal props={row.original.id} />
+        <VolumeDiscountModal props={row.original.id} />
 
-        </Tooltip>
-        <Tooltip title="Exportar cotización">
-
-          <ExportProductCostumer props={row.original} />
-
-        </Tooltip>
+        <ExportProductCostumer props={row.original} />
       </Box>
     ),
 
-    renderTopToolbarCustomActions: ({ table }) =>(
-    <>
-    <AddProductCostumer/>
+    renderTopToolbarCustomActions: ({ table }) => (
+      <>
+        <AddProductCostumer />
 
-    <Button
-      disabled={table.getPrePaginationRowModel().rows.length === 0}
-      onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
-      startIcon={<FileDownloadIcon />}
-    >
-      Exportar
-    </Button></>),
+        <Button
+          disabled={table.getPrePaginationRowModel().rows.length === 0}
+          onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
+          startIcon={<FileDownloadIcon />}
+        >
+          Exportar
+        </Button></>),
   });
 
   return <MaterialReactTable table={table}

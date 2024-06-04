@@ -106,11 +106,9 @@ const MaterialTable = () => {
 
     renderRowActions: ({row}) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
-        <Tooltip title="Editar">
 
           <EditWarehouseModal props={row.original} />
 
-        </Tooltip>
         <Tooltip title="Eliminar">
 
           <Button className="BtnRed" onClick={() => showAlert(row.original.id)}><MdDelete /></Button>

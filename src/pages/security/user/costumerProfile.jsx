@@ -5,10 +5,11 @@ import {
   Row,
   Button,
   Card,
-  
+
 } from "react-bootstrap";
 import AddContact from "../costumers/actions/addContact";
 import UpdateContact from "../costumers/actions/updateContact";
+import { Tooltip } from '@mui/material';
 
 import { MdDelete } from "react-icons/md";
 import { useEffect, useState } from "react";
@@ -275,9 +276,15 @@ const costumerProfile = () => {
                           <AddContact props={user.costumer.id} />
                         </Col>
                         <Col md={1} sm={1} lg={1}>
-                          <Button onClick={handleLogout} className="BtnRed">
-                            <MdLogout />
-                          </Button>
+
+
+
+                          <Tooltip title="Cerrar sesión">
+                            <Button onClick={handleLogout} className="BtnRed">
+                              <MdLogout />
+                            </Button>
+                          </Tooltip>
+
                         </Col>
                       </Row>
                     </Card.Body>
@@ -300,6 +307,8 @@ const costumerProfile = () => {
                         <div className="d-flex justify-content-between">
                           <UpdateContact props={contact} />
 
+
+                          <Tooltip title="Eliminar contacto">
                           <Button
                             className="BtnRed"
                             onClick={() => showAlert(contact.id)}
@@ -307,6 +316,10 @@ const costumerProfile = () => {
                           >
                             <MdDelete />
                           </Button>
+                          </Tooltip>
+
+
+                          
                         </div>
                         <hr />
                       </Card.Body>
@@ -323,12 +336,12 @@ const costumerProfile = () => {
         </>
       ) : (
         <div className="Loading">
-        <ul>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-      </div>
+          <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+        </div>
       )}
     </Container>
   );

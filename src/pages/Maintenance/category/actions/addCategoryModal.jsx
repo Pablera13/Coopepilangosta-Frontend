@@ -7,6 +7,7 @@ import { QueryClient, useMutation } from "react-query";
 import { createCategory } from "../../../../services/categoryService";
 import swal from "sweetalert";
 import { GrAddCircle } from "react-icons/gr";
+import { Tooltip } from '@mui/material';
 
 const addCategoryModal = () => {
   const [validated, setValidated] = useState(false);
@@ -65,9 +66,14 @@ const addCategoryModal = () => {
 
   return (
     <>
-      <Button onClick={handleShow} className="BtnAdd">
+
+<Tooltip title="Agregar">
+
+<Button onClick={handleShow} className="BtnAdd">
         <GrAddCircle />
       </Button>
+</Tooltip>
+
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header className="HeaderModal" closeButton>

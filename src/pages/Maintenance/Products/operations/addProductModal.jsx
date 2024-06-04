@@ -5,6 +5,7 @@ import { createProduct, checkCodeAvailability } from '../../../../services/produ
 import { getCategories } from '../../../../services/categoryService';
 import swal from 'sweetalert';
 import {LettersOnly, NumbersOnly} from '../../../../utils/validateFields'
+import { Tooltip } from '@mui/material';
 
 import { GrAddCircle } from "react-icons/gr";
 const addProductModal = () => {
@@ -126,6 +127,8 @@ const addProductModal = () => {
 
     return (
         <>
+           
+            <Tooltip title="Agregar">
             <Button
                 onClick={handleShow}
                 className="BtnAdd"
@@ -133,6 +136,8 @@ const addProductModal = () => {
                 <GrAddCircle />
 
             </Button>
+            </Tooltip>
+
 
             <Modal show={show} onHide={handleClose} >
                 <Modal.Header className='HeaderModal' closeButton>

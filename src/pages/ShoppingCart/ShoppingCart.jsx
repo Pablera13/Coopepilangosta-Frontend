@@ -141,6 +141,25 @@ const ShoppingCart = () => {
   };
 
   const saveProducerOrder = async () => {
+
+        let fieldsValid = true;
+    
+        if (!Address.current.value) {
+                fieldsValid = false;}
+                swal({
+                  title: 'Error',
+                  text: 'Por favor ingrese una dirección válida',
+                  icon: 'error',
+              });        
+
+        if (!fieldsValid) {
+            setValidated(true);
+            return;
+        } else {
+            setValidated(false);
+        }
+
+
     const currentDate = new Date();
     const formattedDate = format(currentDate, "yyyy-MM-dd");
 
@@ -247,7 +266,6 @@ const ShoppingCart = () => {
         label: distritos[index].toString(),
       };
     });
-    console.log(distritosOpt);
     setDistritosOptions(distritosOpt);
   };
 
@@ -547,6 +565,7 @@ const ShoppingCart = () => {
                                   type="text"
                                   defaultValue={user.costumer.address}
                                   ref={Address}
+                                  required
                                 />
                                 <Form.Control.Feedback type="invalid">
                                   Indique su dirección!.

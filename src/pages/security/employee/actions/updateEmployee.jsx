@@ -4,6 +4,7 @@ import { useMutation } from "react-query";
 import { editEmployee } from "../../../../services/employeeService";
 import swal from "sweetalert";
 import { QueryClient } from 'react-query';
+import { Tooltip } from '@mui/material';
 
 import { TiEdit } from "react-icons/ti";
 
@@ -32,33 +33,40 @@ const updateEmployee = (props) => {
     mutationKey: "employee",
     onSuccess: () => {
       swal({
-          title: 'Actualizado!',
-          text: 'Inicie sesión nuevamente para percibir los cambios',
-          icon: 'success',
+        title: 'Actualizado!',
+        text: 'Inicie sesión nuevamente para percibir los cambios',
+        icon: 'success',
       });
       setTimeout(() => {
-          window.location.reload();
+        window.location.reload();
       }, 2000);
-  },
-  onError: () => {
+    },
+    onError: () => {
       swal({
-          title: 'Error!',
-          text: 'Ocurrió un error al actualizar la información',
-          icon: 'error',
+        title: 'Error!',
+        text: 'Ocurrió un error al actualizar la información',
+        icon: 'error',
       });
-  }
+    }
   });
 
   const handleUpdate = async (event) => {
 
-    console.log(employee)
-    const form = event.currentTarget;
-
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    } else {
-      setValidated(true);
+    event.preventDefault();
+        const formFields = [name, lastName1, lastName2, department];
+        let fieldsValid = true;
+    
+        formFields.forEach((fieldRef) => {
+            if (!fieldRef.current.value) {
+                fieldsValid = false;}
+        });
+    
+        if (!fieldsValid) {
+            setValidated(true);
+            return;
+        } else {
+            setValidated(false);
+        }
 
       let toUpdateEmployee = {
         id: employee.id,
@@ -70,20 +78,22 @@ const updateEmployee = (props) => {
         idUser: employee.idUser,
 
       };
-      console.log(toUpdateEmployee);
       updateEmployeeMutation.mutateAsync(toUpdateEmployee);
-    }
   };
+
   return (
     <>
-      <Button
-        className="BtnBrown"
-        variant="primary"
-        onClick={handleOpen}
-        size="sm"
-      >
-        <TiEdit />
-      </Button>
+
+      <Tooltip title="Editar empleado">
+        <Button
+          className="BtnBrown"
+          variant="primary"
+          onClick={handleOpen}
+          size="sm"
+        >
+          <TiEdit />
+        </Button>
+      </Tooltip>
 
       <Modal
         show={show}

@@ -3,6 +3,8 @@ import { QueryClient, useMutation } from "react-query";
 import { Modal, Button, Form } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import swal from "sweetalert";
+import {Tooltip} from '@mui/material';
+
 import {
   updateWarehouse,
   checkWarehouseCodeAvailability,
@@ -37,13 +39,24 @@ const editWarehouseModal = (props) => {
   const state = useRef();
 
   const saveWarehouse = async (event) => {
+
     event.preventDefault();
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    } else {
-      setValidated(true);
+        const formFields = [code, description, address, state];
+        let fieldsValid = true;
+    
+        formFields.forEach((fieldRef) => {
+            if (!fieldRef.current.value) {
+                fieldsValid = false;}
+        });
+    
+        if (!fieldsValid) {
+            setValidated(true);
+            return;
+        } else {
+            setValidated(false);
+        }
+
+
       let newWarehouse = {
         id: warehouse.id,
         code: code.current.value,
@@ -51,20 +64,18 @@ const editWarehouseModal = (props) => {
         address: address.current.value,
         state: state.current.value,
       };
-
-
-
       mutation.mutateAsync(newWarehouse);
-
-    }
   };
 
 
   return (
     <>
+
+<Tooltip title="Editar">
       <Button className="BtnBrown" onClick={handleShow} size="sm">
          <TiEdit />
       </Button>
+      </Tooltip>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header className="HeaderModal" closeButton>
@@ -77,6 +88,7 @@ const editWarehouseModal = (props) => {
               <Form.Control
                 required
                 type="number"
+                min={1}
                 readOnly={true}
                 defaultValue={warehouse.code}
                 placeholder="Ingrese el código"

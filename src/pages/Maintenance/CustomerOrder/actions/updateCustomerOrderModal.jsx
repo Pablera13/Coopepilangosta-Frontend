@@ -5,6 +5,7 @@ import Select from 'react-select';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import { editCostumerOrder } from '../../../../services/costumerorderService';
 import { TiEdit } from "react-icons/ti";
+import { Tooltip } from '@mui/material';
 
 import swal from 'sweetalert';
 
@@ -77,7 +78,6 @@ const updateCustomerOrderModal = (props) => {
             const isDelivered = customerorder.paidDelivered !== "0001-01-01T00:00:00";
             setSelectedDelivered(optionsDelivered.find(option => option.value === isDelivered));
 
-            //Filter stages
             const findCurrentStage = optionsStage.find(optionsStage => optionsStage.label == customerorder.stage)
             setSelectedStage(findCurrentStage.label);
 
@@ -120,10 +120,12 @@ const updateCustomerOrderModal = (props) => {
 
     return (
         <>
-            <Button className='BtnBrown' onClick={handleOpen} size='sm' >
+        <Tooltip title="Editar">
+
+        <Button className='BtnBrown' onClick={handleOpen} size='sm' >
                  <TiEdit />
             </Button>
-            
+</Tooltip>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header className='HeaderModal' closeButton>

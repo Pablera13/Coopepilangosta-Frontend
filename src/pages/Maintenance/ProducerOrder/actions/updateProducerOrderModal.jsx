@@ -7,7 +7,7 @@ import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import { editProducerOrder } from '../../../../services/producerorderService';
 import swal from 'sweetalert';
 import { TiEdit } from 'react-icons/ti';
-
+import {Tooltip} from '@mui/material';
 
 const updateProducerOrderModal = (props) => {
 
@@ -96,9 +96,13 @@ const updateProducerOrderModal = (props) => {
     return (
 <>
         
-        <Button className='BtnBrown' onClick={handleOpen} size='sm' >
+<Tooltip title="Editar">
+
+    <Button className='BtnBrown' onClick={handleOpen} size='sm' >
         <TiEdit />
    </Button>
+
+</Tooltip>
    
 
    <Modal show={show} onHide={handleClose}>

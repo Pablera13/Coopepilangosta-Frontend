@@ -9,6 +9,7 @@ import {
 import "../../../../css/Pagination.css";
 import "../../../../css/StylesBtn.css";
 import { GrAddCircle } from "react-icons/gr";
+import { Tooltip } from '@mui/material';
 
 const addWarehouseModal = () => {
   const queryClient = new QueryClient();
@@ -37,14 +38,23 @@ const addWarehouseModal = () => {
   const state = useRef();
 
   const saveWarehouse = async (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
+
       event.preventDefault();
-      event.stopPropagation();
-    } else {
-      event.preventDefault();
-      setValidated(true);
+      const formFields = [code, description, address, state];
+      let fieldsValid = true;
+    
+        formFields.forEach((fieldRef) => {
+            if (!fieldRef.current.value) {
+                fieldsValid = false;}
+        });
+    
+        if (!fieldsValid) {
+            setValidated(true);
+            return;
+        } else {
+            setValidated(false);
+        }
+
       let newWarehouse = {
         code: code.current.value,
         description: description.current.value,
@@ -69,21 +79,17 @@ const addWarehouseModal = () => {
           "warning"
         );
       }
-    }
   };
 
-  const limpiarInput = () => {
-    code.current.value = "";
-    description.current.value = "";
-    address.current.value = "";
-    state.current.value = "";
-  };
 
   return (
     <>
+      
+      <Tooltip title="Agregar">
       <Button onClick={handleShow} className="BtnAdd">
         <GrAddCircle />
       </Button>
+            </Tooltip>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header className="HeaderModal" closeButton>
