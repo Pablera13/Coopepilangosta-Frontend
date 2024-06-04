@@ -91,6 +91,7 @@ const login = () => {
                   <Form.Group className="mb-3" controlId="formPlaintextEmail" style={{ marginTop: '4%' }}>
                     <Form.Label className="labelLogin ">Correo</Form.Label>
                     <Form.Control
+                      required
                       type="text"
                       placeholder="Ingrese su correo"
                       ref={email}

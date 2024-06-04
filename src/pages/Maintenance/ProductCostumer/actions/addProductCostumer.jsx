@@ -10,6 +10,7 @@ import { getProductById2 } from "../../../../services/productService";
 import "../../../../css/Pagination.css";
 import "../../../../css/StylesBtn.css";
 import { GrAddCircle } from "react-icons/gr";
+import { Tooltip } from '@mui/material';
 
 export const addProductCostumer = () => {
   const queryClient = new QueryClient();
@@ -74,7 +75,7 @@ export const addProductCostumer = () => {
         title: "Agregado!",
         text: "La cotización ha sido agregada",
         icon: "success",
-      }).then(function(){window.location.reload()});
+      }).then(function () { window.location.reload() });
 
     },
   });
@@ -102,9 +103,13 @@ export const addProductCostumer = () => {
 
   return (
     <>
-      <Button className="BtnAdd" variant="info" onClick={handleShow} size="sm">
-        <GrAddCircle />
-      </Button>
+
+      <Tooltip title="Agregar">
+        <Button className="BtnAdd" variant="info" onClick={handleShow} size="sm">
+          <GrAddCircle />
+        </Button>
+      </Tooltip>
+
       <Modal
         show={show}
         onHide={handleClose}

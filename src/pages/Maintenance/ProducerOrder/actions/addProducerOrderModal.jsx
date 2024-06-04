@@ -13,6 +13,7 @@ import { getProducts } from '../../../../services/productService';
 import { getProductProducer } from '../../../../services/productProducerService';
 import { createProductProducer } from '../../../../services/productProducerService';
 import { editProductProducer } from '../../../../services/productProducerService';
+import {Tooltip} from '@mui/material';
 
 import { getProductById } from '../../../../services/productService';
 import { GrAddCircle } from "react-icons/gr";
@@ -157,7 +158,7 @@ const addProducerOrderModal = () => {
                 PurchaseInitial: PurchasePrice.current.value * Quantity.current.value,
                 Iva: IVA.current.value,
                 PurchaseTotal: PurchaseTotalDouble,
-                
+
             };
 
             setPurchases((prevPurchases) => [...prevPurchases, Purchase]);
@@ -186,9 +187,9 @@ const addProducerOrderModal = () => {
         }
 
         Quantity.current.value = ""
-            PurchasePrice.current.value = ""
-            IVA.current.value = ""
-            PurchaseTotal.current.value = ""
+        PurchasePrice.current.value = ""
+        IVA.current.value = ""
+        PurchaseTotal.current.value = ""
     };
 
     const mutationProducerOrder = useMutation('proproducerorderduct', createProducerOrder, {
@@ -199,8 +200,8 @@ const addProducerOrderModal = () => {
                 title: 'Agregado!',
                 text: 'El pedido ha sido agregado',
                 icon: 'success',
-            }).then(function(){window.location.reload()});
-            
+            }).then(function () { window.location.reload() });
+
         },
         onError: () => {
             swal('Error', 'Algo salio mal...', 'error')
@@ -211,43 +212,44 @@ const addProducerOrderModal = () => {
 
         if (purchases.length > 0) {
 
-        let PricesSummatory = 0
-        purchases.map((purchase) => {
-            PricesSummatory = PricesSummatory + purchase.PurchaseTotal
-        })
+            let PricesSummatory = 0
+            purchases.map((purchase) => {
+                PricesSummatory = PricesSummatory + purchase.PurchaseTotal
+            })
 
-        const currentDate = new Date();
-        const formattedDate = format(currentDate, 'yyyy-MM-dd');
+            const currentDate = new Date();
+            const formattedDate = format(currentDate, 'yyyy-MM-dd');
 
-        let newProducerOrder = {
-            ProducerId: selectedProducer.value,
-            Total: PricesSummatory,
-            ConfirmedDate: formattedDate,
-            PaidDate: "0001-01-01T00:00:00",
-            DeliveredDate: "0001-01-01T00:00:00",
-            Detail: Detail.current.value,
-        };
-
-        const producerOrder = await mutationProducerOrder.mutateAsync(newProducerOrder).finally(data => data)
-
-        producerOrder != null ? (console.log(producerOrder)) : (console.log("Empty"))
-
-        purchases.map((purchase) => {
-
-            let NewPurchase = {
-                ProductId: purchase.ProductId,
-                Quantity: purchase.Quantity,
-                PurchaseTotal: purchase.PurchaseTotal,
-                ProducerOrderId: producerOrder.id,
+            let newProducerOrder = {
+                ProducerId: selectedProducer.value,
+                Total: PricesSummatory,
+                ConfirmedDate: formattedDate,
+                PaidDate: "0001-01-01T00:00:00",
+                DeliveredDate: "0001-01-01T00:00:00",
+                Detail: Detail.current.value,
             };
 
-            mutationPurchase.mutateAsync(NewPurchase);
-        })
+            const producerOrder = await mutationProducerOrder.mutateAsync(newProducerOrder).finally(data => data)
 
-        setSelectedProducer(null);
-        setPurchases([]);
+            producerOrder != null ? (console.log(producerOrder)) : (console.log("Empty"))
 
-    } handleClose();}
+            purchases.map((purchase) => {
+
+                let NewPurchase = {
+                    ProductId: purchase.ProductId,
+                    Quantity: purchase.Quantity,
+                    PurchaseTotal: purchase.PurchaseTotal,
+                    ProducerOrderId: producerOrder.id,
+                };
+
+                mutationPurchase.mutateAsync(NewPurchase);
+            })
+
+            setSelectedProducer(null);
+            setPurchases([]);
+
+        } handleClose();
+    }
 
     const RemoveOrder = (productId) => {
 
@@ -274,13 +276,17 @@ const addProducerOrderModal = () => {
     return (
         <>
 
-            <Button
-                onClick={handleShow}
-                className="BtnAdd"
-            >
-                     <GrAddCircle />
+            <Tooltip title="Agregar">
 
-            </Button>
+                <Button
+                    onClick={handleShow}
+                    className="BtnAdd"
+                >
+                    <GrAddCircle />
+
+                </Button>
+            </Tooltip>
+
 
             <Modal show={show} onHide={handleClose} size='lg'>
                 <Modal.Header className='HeaderModal' closeButton>
@@ -385,71 +391,71 @@ const addProducerOrderModal = () => {
                                     size='sm'
                                     className='BtnBrown'
                                     type="submit"
-                                    style={{width:'100px',height:'40px'}}
+                                    style={{ width: '100px', height: '40px' }}
                                 >
                                     Agregar
                                 </Button>
                             </Col>
                         </Row>
-                        </Form>
-                        <br />
+                    </Form>
+                    <br />
 
-                        <Row>
-                            <Col md={10}>
-                                <Form.Group>
-                                    <Form.Label>Resumen del pedido</Form.Label>
-                                    {purchases.length > 0 ? (
-                                        <Table responsive striped bordered hover size='lg'>
-                                            <thead>
-                                                <tr>
-                                                    <th>Producto</th>
-                                                    <th>Unidad</th>
-                                                    <th>Cantidad</th>
-                                                    <th>Precio</th>
-                                                    <th>IVA</th>
-                                                    <th>Total</th>
-                                                    <th>Acciones</th>
+                    <Row>
+                        <Col md={10}>
+                            <Form.Group>
+                                <Form.Label>Resumen del pedido</Form.Label>
+                                {purchases.length > 0 ? (
+                                    <Table responsive striped bordered hover size='lg'>
+                                        <thead>
+                                            <tr>
+                                                <th>Producto</th>
+                                                <th>Unidad</th>
+                                                <th>Cantidad</th>
+                                                <th>Precio</th>
+                                                <th>IVA</th>
+                                                <th>Total</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {purchases.map((purchase, index) => (
+                                                <tr key={index}>
+                                                    <td>{purchase.ProductName}</td>
+                                                    <td>{purchase.ProductUnit}</td>
+                                                    <td>{purchase.Quantity}</td>
+                                                    <td>₡{purchase.PurchaseInitial}</td>
+                                                    <td>{purchase.Iva}%</td>
+                                                    <td>₡{purchase.PurchaseTotal}</td>
+                                                    <td>
+                                                        <Button className='BtnDeleteOrder' variant='danger' onClick={() => RemoveOrder(purchase.ProductId)}>
+                                                            Eliminar
+                                                        </Button>
+                                                    </td>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                                {purchases.map((purchase, index) => (
-                                                    <tr key={index}>
-                                                        <td>{purchase.ProductName}</td>
-                                                        <td>{purchase.ProductUnit}</td>
-                                                        <td>{purchase.Quantity}</td>
-                                                        <td>₡{purchase.PurchaseInitial}</td>
-                                                        <td>{purchase.Iva}%</td>
-                                                        <td>₡{purchase.PurchaseTotal}</td>
-                                                        <td>
-                                                            <Button className='BtnDeleteOrder' variant='danger' onClick={() => RemoveOrder(purchase.ProductId)}>
-                                                                Eliminar
-                                                            </Button>
-                                                        </td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </Table>
+                                            ))}
+                                        </tbody>
+                                    </Table>
 
-                                    ) : (
-                                        ": No hay productos agregados"
-                                    )}
-                                </Form.Group>
-                            </Col>
-                        </Row>
+                                ) : (
+                                    ": No hay productos agregados"
+                                )}
+                            </Form.Group>
+                        </Col>
+                    </Row>
 
-                        <Row>
-                            <Col md={6}>
-                                <Form.Group>
-                                    <Form.Label>Detalle del pedido</Form.Label>
-                                    <Form.Control
-                                        placeholder='Detalle'
-                                        ref={Detail}
-                                        size='lg'
-                                        type='text area'
-                                    />
-                                </Form.Group>
-                            </Col>
-                        </Row>
+                    <Row>
+                        <Col md={6}>
+                            <Form.Group>
+                                <Form.Label>Detalle del pedido</Form.Label>
+                                <Form.Control
+                                    placeholder='Detalle'
+                                    ref={Detail}
+                                    size='lg'
+                                    type='text area'
+                                />
+                            </Form.Group>
+                        </Col>
+                    </Row>
 
                 </Modal.Body>
                 <Modal.Footer>

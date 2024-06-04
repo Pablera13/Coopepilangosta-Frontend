@@ -5,6 +5,7 @@ import swal from 'sweetalert';
 import { createStockReport } from '../../../../services/reportServices/stockreportService';
 import { updateStock } from '../../../../services/productService';
 import { TiEdit } from "react-icons/ti";
+import { Tooltip} from '@mui/material';
 
 const addInventoriesModal = (props) => {
 
@@ -29,8 +30,8 @@ const addInventoriesModal = (props) => {
                 title: 'Editado!',
                 text: 'Las existencias han sido modificadas',
                 icon: 'success',
-            }).then(function(){window.location.reload()})
-            
+            }).then(function () { window.location.reload() })
+
         },
     });
 
@@ -43,6 +44,24 @@ const addInventoriesModal = (props) => {
     const motive = useRef()
 
     const saveEdit = async (event) => {
+
+        event.preventDefault();
+        const formFields = [stock, name, description, unit, margin, iva, state, categoryId, stockable];
+        let fieldsValid = true;
+    
+        formFields.forEach((fieldRef) => {
+            if (!fieldRef.current.value) {
+                fieldsValid = false;}
+        });
+    
+        if (!fieldsValid) {
+            setValidated(true);
+            return;
+        } else {
+            setValidated(false);
+        }
+
+
         const form = event.currentTarget;
         event.preventDefault();
         if (form.checkValidity() === false) {
@@ -69,17 +88,22 @@ const addInventoriesModal = (props) => {
 
     return (
         <>
-            <Button
-                onClick={handleShow}
-                size='sm'
-                className='BtnBrown
+
+            <Tooltip title="Editar existencias">
+
+                <Button
+                    onClick={handleShow}
+                    size='sm'
+                    className='BtnBrown
 '
-            >
-                 <TiEdit />
-            </Button>
+                >
+                    <TiEdit />
+                </Button>
+            </Tooltip>
+
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header className='HeaderModal'closeButton>
+                <Modal.Header className='HeaderModal' closeButton>
                     <Modal.Title>Movimiento de inventario</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -95,8 +119,8 @@ const addInventoriesModal = (props) => {
                                         readOnly
                                     />
                                 </Form.Group>
-                                </Col>
-                                <Col md={6}>
+                            </Col>
+                            <Col md={6}>
 
                                 <Form.Group controlId="cedula">
                                     <Form.Label>Nuevo Stock</Form.Label>
@@ -120,12 +144,13 @@ const addInventoriesModal = (props) => {
                                     <Form.Select value={selectedMotive}
                                         placeholder="Seleccionar motivo"
                                         required
-                                        onChange={(e) => {setSelectedMotive(e.target.value)}} ref={motive}>
+                                        defaultValue="Ingreso"
+                                        onChange={(e) => { setSelectedMotive(e.target.value) }} ref={motive}>
+                                        <option value="Ingreso">Aumento de Existencias</option>
                                         <option value="Venta">Venta</option>
                                         <option value="Regalía">Regalía</option>
                                         <option value="Devolución">Devolución</option>
                                         <option value="Producto Dañado">Producto Dañado</option>
-                                        <option value="Ingreso">Aumento de Existencias</option>
                                         <option value="Prueba de mercado">Prueba de mercado</option>
                                         <option value="Otro">Otro</option>
                                     </Form.Select>

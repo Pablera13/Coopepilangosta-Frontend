@@ -100,7 +100,11 @@ const costumerRegister = () => {
           address.current.value &&
           postalCode.current.value &&
           costumerEmail.current.value &&
-          phone.current.value
+          phone.current.value &&
+          email.current.value &&
+          userName.current.value &&
+          confirmPassword.current.value &&
+          password.current.value
         ) {
 
           handleUserRegistrationSubmit()

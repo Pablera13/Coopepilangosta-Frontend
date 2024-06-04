@@ -93,11 +93,9 @@ const MaterialTable = () => {
 
     renderRowActions: ({row}) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
-        <Tooltip title="Añadir Existencias">
 
           <AddInventoryModal props={row.original} />
 
-        </Tooltip>
       </Box>
     ),
 

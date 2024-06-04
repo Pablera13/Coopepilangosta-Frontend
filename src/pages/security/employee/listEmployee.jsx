@@ -125,16 +125,12 @@ const MaterialTable = () => {
 
     renderRowActions: ({row}) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
-        <Tooltip title="Actualizar datos del empleado">
 
           <UpdateEmployee props={row.original} />
 
-        </Tooltip>
-        <Tooltip title="Actualizar Usuario">
 
           <UpdateEmployeeUser props={row.original.user} />
 
-        </Tooltip>
         <Tooltip title="Eliminar">
 
           <Button className="BtnRed" onClick={() => showAlert(row.original.id)}><MdDelete /></Button>

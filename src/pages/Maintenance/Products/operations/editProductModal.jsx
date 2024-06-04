@@ -150,7 +150,7 @@ const editProductModal = (props) => {
   return (
     <>
     
-    <Tooltip title="Eliminar">
+    <Tooltip title="Editar">
       <Button className="BtnBrown" onClick={handleShow} size="sm">
         <TiEdit />
       </Button>

@@ -3,6 +3,7 @@ import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import UpdateEmployee from "../employee/actions/updateEmployee";
 import "./employeeProfile.css";
 import { MdLogout } from "react-icons/md";
+import { Tooltip } from '@mui/material';
 
 const employeeProfile = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -169,9 +170,14 @@ const employeeProfile = () => {
                     <UpdateEmployee props={user.employee} />
                   </Col>
                   <Col md={1} sm={1} lg={1}>
-                    <Button onClick={handleLogout} className="BtnRed">
-                      <MdLogout />
-                    </Button>
+
+                    <Tooltip title="Eliminar">
+
+                      <Button onClick={handleLogout} className="BtnRed">
+                        <MdLogout />
+                      </Button>
+                    </Tooltip>
+
                   </Col>
                 </Row>
               </Row>

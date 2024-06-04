@@ -61,11 +61,11 @@ const MaterialTable = () => {
     for (const productcostumer of cotizacionesData) {
       const product = await getProductById2(productcostumer.productId);
 
-      const MargenGanancia =
-        productcostumer.purchasePrice * (productcostumer.margin / 100);
-      const PrecioConMargen = productcostumer.purchasePrice + MargenGanancia;
-      const IVA = PrecioConMargen * (product.iva / 100);
-      const PrecioFinal = PrecioConMargen + IVA;
+        const MargenGanancia =
+          productcostumer.purchasePrice * (productcostumer.margin / 100);
+        const PrecioConMargen = productcostumer.purchasePrice + MargenGanancia;
+        const IVA = PrecioConMargen * (product.iva / 100);
+        const PrecioFinal = PrecioConMargen + IVA;
 
       let cotizacion = {
         id: productcostumer.id,

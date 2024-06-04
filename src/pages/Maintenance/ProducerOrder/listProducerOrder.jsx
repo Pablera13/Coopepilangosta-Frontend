@@ -68,6 +68,9 @@ const MaterialTable = () => {
       accessorKey: 'total',
       header: 'Total',
       enableClickToCopy: true,
+      Cell: ({ row }) => { 
+        return (<span>₡{row.original.total}</span>);
+      }
     },
     {
       accessorKey: 'paidDate',
@@ -139,21 +142,13 @@ const tableHeaders = columns.map((c) => c.header);
 
     renderRowActions: ({row}) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
-        <Tooltip title="Editar">
 
           <UpdateProducerOrderModal props={row.original} />
 
-        </Tooltip>
-        <Tooltip title="Editar">
-
           <CheckEntryModal props={row.original} />
-
-        </Tooltip>
-        <Tooltip title="Editar">
 
           <PrintProducerOrder props={row.original.id} />
 
-        </Tooltip>
         <Tooltip title="Eliminar">
 
           <Button className="BtnRed" onClick={() => showAlert(row.original.id)}><MdDelete /></Button>
