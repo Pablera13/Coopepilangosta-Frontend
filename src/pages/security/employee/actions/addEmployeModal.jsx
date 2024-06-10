@@ -10,6 +10,7 @@ import {
 } from "../../../../services/userService";
 import { useMutation, useQuery } from "react-query";
 import { getRoles } from "../../../../services/rolesService";
+import { LettersOnly, NumbersOnly } from '../../../../utils/validateFields'
 import Select from "react-select";
 import { QueryClient } from "react-query";
 import { checkCedulaFormat } from "../../../../utils/validateCedulaFormat";
@@ -87,20 +88,21 @@ export const AddEmployee = () => {
   const handleSubmit = async (event) => {
 
     event.preventDefault();
-        const formFields = [cedula, name, lastName1, lastName2, department, email, userName, password];
-        let fieldsValid = true;
-    
-        formFields.forEach((fieldRef) => {
-            if (!fieldRef.current.value) {
-                fieldsValid = false;}
-        });
-    
-        if (!fieldsValid) {
-            setValidated(true);
-            return;
-        } else {
-            setValidated(false);
-        }
+    const formFields = [cedula, name, lastName1, lastName2, department, email, userName, password];
+    let fieldsValid = true;
+
+    formFields.forEach((fieldRef) => {
+      if (!fieldRef.current.value) {
+        fieldsValid = false;
+      }
+    });
+
+    if (!fieldsValid) {
+      setValidated(true);
+      return;
+    } else {
+      setValidated(false);
+    }
 
     let newUser = {
       email: email.current.value,
@@ -188,6 +190,7 @@ export const AddEmployee = () => {
                   ref={cedula}
                   autoFocus
                   type="number"
+                  onKeyDown={NumbersOnly}
                 />
               </Col>
               <Col>
@@ -196,6 +199,7 @@ export const AddEmployee = () => {
                   required
                   placeholder="Ingrese el nombre"
                   ref={name}
+                  onKeyDown={LettersOnly}
                 />
               </Col>
             </Row>
@@ -206,6 +210,7 @@ export const AddEmployee = () => {
                   required
                   placeholder="Ingrese el apellido"
                   ref={lastName1}
+                  onKeyDown={LettersOnly}
                 />
               </Col>
               <Col>
@@ -214,6 +219,7 @@ export const AddEmployee = () => {
                   required
                   placeholder="Ingrese el segundo apellido"
                   ref={lastName2}
+                  onKeyDown={LettersOnly}
                 />
               </Col>
             </Row>
@@ -224,6 +230,7 @@ export const AddEmployee = () => {
                   required
                   placeholder="Ingrese el departamento"
                   ref={department}
+                  onKeyDown={LettersOnly}
                 />
               </Col>
             </Row>

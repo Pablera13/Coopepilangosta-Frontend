@@ -1,9 +1,10 @@
 import React, { useRef, useState } from "react";
 import { QueryClient, useMutation } from "react-query";
 import { Modal, Button, Form } from "react-bootstrap";
+import { LettersOnly, NumbersOnly } from '../../../../utils/validateFields'
 import { NavLink } from "react-router-dom";
 import swal from "sweetalert";
-import {Tooltip} from '@mui/material';
+import { Tooltip } from '@mui/material';
 
 import {
   updateWarehouse,
@@ -29,7 +30,7 @@ const editWarehouseModal = (props) => {
         title: "Editado!",
         text: "Se editó la bodega",
         icon: "success",
-      }).then(function(){window.location.reload()});
+      }).then(function () { window.location.reload() });
     },
   });
 
@@ -41,40 +42,41 @@ const editWarehouseModal = (props) => {
   const saveWarehouse = async (event) => {
 
     event.preventDefault();
-        const formFields = [code, description, address, state];
-        let fieldsValid = true;
-    
-        formFields.forEach((fieldRef) => {
-            if (!fieldRef.current.value) {
-                fieldsValid = false;}
-        });
-    
-        if (!fieldsValid) {
-            setValidated(true);
-            return;
-        } else {
-            setValidated(false);
-        }
+    const formFields = [code, description, address, state];
+    let fieldsValid = true;
+
+    formFields.forEach((fieldRef) => {
+      if (!fieldRef.current.value) {
+        fieldsValid = false;
+      }
+    });
+
+    if (!fieldsValid) {
+      setValidated(true);
+      return;
+    } else {
+      setValidated(false);
+    }
 
 
-      let newWarehouse = {
-        id: warehouse.id,
-        code: code.current.value,
-        description: description.current.value,
-        address: address.current.value,
-        state: state.current.value,
-      };
-      mutation.mutateAsync(newWarehouse);
+    let newWarehouse = {
+      id: warehouse.id,
+      code: code.current.value,
+      description: description.current.value,
+      address: address.current.value,
+      state: state.current.value,
+    };
+    mutation.mutateAsync(newWarehouse);
   };
 
 
   return (
     <>
 
-<Tooltip title="Editar">
-      <Button className="BtnBrown" onClick={handleShow} size="sm">
-         <TiEdit />
-      </Button>
+      <Tooltip title="Editar">
+        <Button className="BtnBrown" onClick={handleShow} size="sm">
+          <TiEdit />
+        </Button>
       </Tooltip>
 
       <Modal show={show} onHide={handleClose}>
@@ -93,6 +95,7 @@ const editWarehouseModal = (props) => {
                 defaultValue={warehouse.code}
                 placeholder="Ingrese el código"
                 ref={code}
+                onKeyDown={NumbersOnly}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -103,6 +106,7 @@ const editWarehouseModal = (props) => {
                 defaultValue={warehouse.description}
                 placeholder="Ingrese la descripción"
                 ref={description}
+                onKeyDown={LettersOnly}
               />
             </Form.Group>
             <Form.Group className="mb-3">

@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Modal, Col, Row, Container, Button, Form } from "react-bootstrap";
 import { useMutation } from "react-query";
 import { editEmployee } from "../../../../services/employeeService";
+import { LettersOnly } from '../../../../utils/validateFields'
 import swal from "sweetalert";
 import { QueryClient } from 'react-query';
 import { Tooltip } from '@mui/material';
@@ -53,32 +54,33 @@ const updateEmployee = (props) => {
   const handleUpdate = async (event) => {
 
     event.preventDefault();
-        const formFields = [name, lastName1, lastName2, department];
-        let fieldsValid = true;
-    
-        formFields.forEach((fieldRef) => {
-            if (!fieldRef.current.value) {
-                fieldsValid = false;}
-        });
-    
-        if (!fieldsValid) {
-            setValidated(true);
-            return;
-        } else {
-            setValidated(false);
-        }
+    const formFields = [name, lastName1, lastName2, department];
+    let fieldsValid = true;
 
-      let toUpdateEmployee = {
-        id: employee.id,
-        cedula: employee.cedula,
-        name: name.current.value,
-        lastName1: lastName1.current.value,
-        lastName2: lastName2.current.value,
-        department: department.current.value,
-        idUser: employee.idUser,
+    formFields.forEach((fieldRef) => {
+      if (!fieldRef.current.value) {
+        fieldsValid = false;
+      }
+    });
 
-      };
-      updateEmployeeMutation.mutateAsync(toUpdateEmployee);
+    if (!fieldsValid) {
+      setValidated(true);
+      return;
+    } else {
+      setValidated(false);
+    }
+
+    let toUpdateEmployee = {
+      id: employee.id,
+      cedula: employee.cedula,
+      name: name.current.value,
+      lastName1: lastName1.current.value,
+      lastName2: lastName2.current.value,
+      department: department.current.value,
+      idUser: employee.idUser,
+
+    };
+    updateEmployeeMutation.mutateAsync(toUpdateEmployee);
   };
 
   return (
@@ -115,6 +117,7 @@ const updateEmployee = (props) => {
                     placeholder="Ingrese su nombre"
                     defaultValue={employee.name}
                     ref={name}
+                    onKeyDown={LettersOnly}
                   />
                 </Col>
               </Row>
@@ -125,6 +128,7 @@ const updateEmployee = (props) => {
                     required
                     defaultValue={employee.lastName1}
                     ref={lastName1}
+                    onKeyDown={LettersOnly}
                   />
                 </Col>
               </Row>
@@ -135,6 +139,7 @@ const updateEmployee = (props) => {
                     required
                     defaultValue={employee.lastName2}
                     ref={lastName2}
+                    onKeyDown={LettersOnly}
                   />
                 </Col>
               </Row>
@@ -145,6 +150,7 @@ const updateEmployee = (props) => {
                     required
                     defaultValue={employee.department}
                     ref={department}
+                    onKeyDown={LettersOnly}
                   />
                 </Col>
               </Row>
