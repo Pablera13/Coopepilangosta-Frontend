@@ -5,6 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import { Col, Row } from "react-bootstrap";
 import { QueryClient, useMutation } from "react-query";
 import { createCategory } from "../../../../services/categoryService";
+import { LettersOnly } from '../../../../utils/validateFields'
 import swal from "sweetalert";
 import { GrAddCircle } from "react-icons/gr";
 import { Tooltip } from '@mui/material';
@@ -39,40 +40,41 @@ const addCategoryModal = () => {
 
   const save = (event) => {
     event.preventDefault();
-        const formFields = [categoryNameRef];
-        let fieldsValid = true;
-    
-        formFields.forEach((fieldRef) => {
-            if (!fieldRef.current.value) {
-                fieldsValid = false;}
-        });
-    
-        if (!fieldsValid) {
-            setValidated(true);
-            return;
-        } else {
-            setValidated(false);
-        }
+    const formFields = [categoryNameRef];
+    let fieldsValid = true;
 
-      let newCategory = {
-        name: categoryNameRef.current.value,
-      };
+    formFields.forEach((fieldRef) => {
+      if (!fieldRef.current.value) {
+        fieldsValid = false;
+      }
+    });
 
-      setIsSaving(true);
-      mutation.mutateAsync(newCategory).then(() => {
-        setIsSaving(false);
-      });
+    if (!fieldsValid) {
+      setValidated(true);
+      return;
+    } else {
+      setValidated(false);
     }
+
+    let newCategory = {
+      name: categoryNameRef.current.value,
+    };
+
+    setIsSaving(true);
+    mutation.mutateAsync(newCategory).then(() => {
+      setIsSaving(false);
+    });
+  }
 
   return (
     <>
 
-<Tooltip title="Agregar">
+      <Tooltip title="Agregar">
 
-<Button onClick={handleShow} className="BtnAdd">
-        <GrAddCircle />
-      </Button>
-</Tooltip>
+        <Button onClick={handleShow} className="BtnAdd">
+          <GrAddCircle />
+        </Button>
+      </Tooltip>
 
 
       <Modal show={show} onHide={handleClose}>
@@ -96,6 +98,7 @@ const addCategoryModal = () => {
                     placeholder="Ingrese el nombre de la categoría"
                     autoFocus
                     ref={categoryNameRef}
+                    onKeyDown={LettersOnly}
                   />
                 </Col>
               </Row>

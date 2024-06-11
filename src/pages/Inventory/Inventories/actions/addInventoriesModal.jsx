@@ -4,8 +4,9 @@ import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import swal from 'sweetalert';
 import { createStockReport } from '../../../../services/reportServices/stockreportService';
 import { updateStock } from '../../../../services/productService';
+import { NumbersOnly } from '../../../../utils/validateFields'
 import { TiEdit } from "react-icons/ti";
-import { Tooltip} from '@mui/material';
+import { Tooltip } from '@mui/material';
 
 const addInventoriesModal = (props) => {
 
@@ -46,14 +47,15 @@ const addInventoriesModal = (props) => {
     const saveEdit = async (event) => {
 
         event.preventDefault();
-        const formFields = [stock, name, description, unit, margin, iva, state, categoryId, stockable];
+        const formFields = [stock];
         let fieldsValid = true;
-    
+
         formFields.forEach((fieldRef) => {
             if (!fieldRef.current.value) {
-                fieldsValid = false;}
+                fieldsValid = false;
+            }
         });
-    
+
         if (!fieldsValid) {
             setValidated(true);
             return;
@@ -131,6 +133,7 @@ const addInventoriesModal = (props) => {
                                         defaultValue={product.stock}
                                         min={0}
                                         ref={stock}
+                                        onKeyDown={NumbersOnly}
                                     />
                                 </Form.Group>
                             </Col>

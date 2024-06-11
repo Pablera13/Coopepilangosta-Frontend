@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { QueryClient, useMutation } from "react-query";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
+import { LettersOnly, NumbersOnly } from '../../../../utils/validateFields'
 import swal from "sweetalert";
 import {
   createProducer,
@@ -47,50 +48,51 @@ const addProducerModal = () => {
 
   const saveProducer = async (event) => {
     event.preventDefault();
-        const formFields = [cedula, name, lastname1, lastname2, phoneNumber, email, address, bankAccount];
-        let fieldsValid = true;
-    
-        formFields.forEach((fieldRef) => {
-            if (!fieldRef.current.value) {
-                fieldsValid = false;}
-        });
-    
-        if (!fieldsValid) {
-            setValidated(true);
-            return;
-        } else {
-            setValidated(false);
-        }
+    const formFields = [cedula, name, lastname1, lastname2, phoneNumber, email, address, bankAccount];
+    let fieldsValid = true;
 
-
-      let newProducer = {
-        cedula: cedula.current.value,
-        name: name.current.value,
-        lastname1: lastname1.current.value,
-        lastname2: lastname2.current.value,
-        phoneNumber: phoneNumber.current.value,
-        email: email.current.value,
-        province: selectedProvincia.label,
-        canton: selectedCanton.label,
-        district: selectedDistrito.label,
-        address: address.current.value,
-        bankAccount: bankAccount.current.value,
-      };
-
-      let cedulaAvailability = await CheckCedulaProducerAvailability(
-        cedula.current.value
-      ).then((data) => data);
-
-      if (cedulaAvailability == true) {
-        mutation.mutateAsync(newProducer);
-      } else {
-        event.preventDefault();
-        swal(
-          "Advertencia",
-          "Ya existe un productor con el número de cédula ingresado.",
-          "warning"
-        );
+    formFields.forEach((fieldRef) => {
+      if (!fieldRef.current.value) {
+        fieldsValid = false;
       }
+    });
+
+    if (!fieldsValid) {
+      setValidated(true);
+      return;
+    } else {
+      setValidated(false);
+    }
+
+
+    let newProducer = {
+      cedula: cedula.current.value,
+      name: name.current.value,
+      lastname1: lastname1.current.value,
+      lastname2: lastname2.current.value,
+      phoneNumber: phoneNumber.current.value,
+      email: email.current.value,
+      province: selectedProvincia.label,
+      canton: selectedCanton.label,
+      district: selectedDistrito.label,
+      address: address.current.value,
+      bankAccount: bankAccount.current.value,
+    };
+
+    let cedulaAvailability = await CheckCedulaProducerAvailability(
+      cedula.current.value
+    ).then((data) => data);
+
+    if (cedulaAvailability == true) {
+      mutation.mutateAsync(newProducer);
+    } else {
+      event.preventDefault();
+      swal(
+        "Advertencia",
+        "Ya existe un productor con el número de cédula ingresado.",
+        "warning"
+      );
+    }
   };
 
   const handleNameChange = (event) => {
@@ -119,7 +121,7 @@ const addProducerModal = () => {
   });
 
   const [cantonesOptions, setCantonesOptions] = useState();
-  
+
   const handleProvinciasSelectChange = (provinceIndex) => {
     let cantones = locations.provincias[provinceIndex].cantones;
 
@@ -158,11 +160,11 @@ const addProducerModal = () => {
   return (
     <>
 
-<Tooltip title="Agregar">
-<Button onClick={handleShow} className="BtnAdd">
-        <GrAddCircle />
-      </Button>
-            </Tooltip>
+      <Tooltip title="Agregar">
+        <Button onClick={handleShow} className="BtnAdd">
+          <GrAddCircle />
+        </Button>
+      </Tooltip>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header className="HeaderModal" closeButton>
@@ -179,6 +181,7 @@ const addProducerModal = () => {
                     type="number"
                     placeholder="Ingrese la cédula"
                     ref={cedula}
+                    onKeyDown={NumbersOnly}
                   />
                 </Form.Group>
               </Col>
@@ -191,6 +194,7 @@ const addProducerModal = () => {
                     placeholder="Ingrese el teléfono"
                     ref={phoneNumber}
                     onChange={handlePhoneChange}
+                    onKeyDown={NumbersOnly}
                   />
                 </Form.Group>
               </Col>
@@ -205,6 +209,7 @@ const addProducerModal = () => {
                     placeholder="Ingrese el nombre"
                     ref={name}
                     onChange={handleNameChange}
+                    onKeyDown={LettersOnly}
                   />
                 </Form.Group>
               </Col>
@@ -217,6 +222,7 @@ const addProducerModal = () => {
                     placeholder="Ingrese el primer apellido"
                     ref={lastname1}
                     onChange={handleLastNameChange}
+                    onKeyDown={LettersOnly}
                   />
                 </Form.Group>
               </Col>
@@ -231,6 +237,7 @@ const addProducerModal = () => {
                     placeholder="Ingrese el segundo apellido"
                     ref={lastname2}
                     onChange={handleLastNameChange}
+                    onKeyDown={LettersOnly}
                   />
                 </Form.Group>
               </Col>
