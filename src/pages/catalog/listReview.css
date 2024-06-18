@@ -99,3 +99,80 @@ button.BtnTrash {
   }
 
 
+  .review-card .stars-container {
+    /* Estilos para las estrellas dentro de review-card */
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+  }
+
+
+  .review-container {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+  }
+  
+  .review-card {
+    margin-bottom: 20px;
+    border: 1px solid #999; 
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+
+
+
+  }
+  
+  .review-card-body {
+    padding: 15px;
+  }
+  
+  .review-stars {
+    color: #3c3019;
+  }
+  
+  .review-actions {
+    margin-top: 10px;
+  }
+  
+  .review-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd; /* Línea divisoria debajo del encabezado */
+  }
+  
+  .review-header img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  
+  .review-header-info {
+    margin-left: 10px;
+  }
+  
+  .review-header-info .customer-name {
+    font-weight: bold;
+  }
+  
+  .review-header-info .review-date {
+    color: #888;
+  }
+  

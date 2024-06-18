@@ -40,3 +40,42 @@
   margin-left: 10px; 
   
 }
+
+
+.product-container {
+  display: flex;
+  align-items: center; 
+}
+
+.product-details {
+  margin-left: 10px; 
+}
+
+.product-name {
+  font-weight: bold; 
+}
+
+.product-unit {
+  margin-top: 5px; 
+  color: #666; 
+}
+
+
+.table-shopping-cart {
+  border-collapse: separate;
+  border-spacing: 0 10px; 
+}
+
+.table-shopping-cart th,
+.table-shopping-cart td {
+  border-bottom: 1px solid #ddd; 
+  padding: 10px; 
+}
+
+.table-shopping-cart tbody tr:last-child td {
+  border-bottom: none; 
+}
+
+.table-shopping-cart tbody tr:hover {
+  background-color: #f5f5f5; 
+}

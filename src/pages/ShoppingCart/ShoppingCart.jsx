@@ -14,7 +14,7 @@ import { Form, Row, Col, Button, Container, Collapse, Table, Card, } from "react
 import Select from "react-select";
 import { MdDelete } from "react-icons/md";
 import { RiArrowGoBackFill } from 'react-icons/ri';
-import {NumbersOnly} from '../../utils/validateFields.js'
+import { NumbersOnly } from '../../utils/validateFields.js'
 import { getUserLocalStorage } from '../../utils/getLocalStorageUser'
 
 import "./ShoppingCart.css";
@@ -233,17 +233,17 @@ const ShoppingCart = () => {
     value: 0,
     label: user.costumer.province
   });
-  
+
   const [selectedCanton, setSelectedCanton] = useState({
     value: 0,
     label: user.costumer.canton
   });
-  
+
   const [selectedDistrito, setSelectedDistrito] = useState({
     value: 0,
     label: user.costumer.district
   });
-  
+
 
   const provinciasArray = Object.keys(locations.provincias).map((index) => {
     const indexNumber = parseInt(index, 10);
@@ -293,391 +293,269 @@ const ShoppingCart = () => {
 
   return (
     <>
-      {LocalShopping.length >= 1 &&
-        localStorage.getItem("ShoppingCar") != null ? (
-        <>
+      {LocalShopping.length >= 1 && localStorage.getItem("ShoppingCar") !== null ? (
+        <Container className="Josefin">
+          <Row>
+            <Col md={8}>
+              <Card className="mb-3">
+                <Card.Body>
+                  <h5 className="card-title">Productos en el Carrito</h5>
+                  <Table responsive className="table table-borderless table-shopping-cart">
+                    <thead>
+                      <tr className='text-center'>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Subtotal</th>
+                        <th>IVA</th>
+                        <th>Final</th>
+                        <th>Acciones</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {LocalShopping.map((Sale, index) => (
 
-          <Container className="Josefin">
 
-            <Row>
-              <Col xs={12} md={12} lg={12}>
-                <div className="warning">
-                  <div className="TxtWarning">
-                    Los precios indicados en este catálogo son referenciales y
-                    pueden estar sujetos a variaciones en el precio final.
-                    Por favor consulte con nuestro equipo para conocer precios especiales y descuentos disponibles
-                  </div>
-                  <div className="IconWarning">
-                    <IoWarning />
-                  </div>
-                </div>
-              </Col>
-            </Row>
-
-
-            <Row className="mb-3">
-              <div className="card">
-
-                <br></br>
-                <div>
-                  <Col xs={12} md={12} lg={12}>
-                    <Row>
-                      <Table
-                        responsive
-                        className="table table-borderless table-shopping-cart"
-                      >
-                        <br></br>
-
-                        <thead>
-                          <tr className='text-center'>
-                            <th>Imagen</th>
-                            <th>Descripción</th>
-                            <th>Cantidad</th>
-                            <th>Unidad</th>
-                            <th>Precio</th>
-                            <th>Subtotal</th>
-                            <th>IVA</th>
-                            <th>Final</th>
-                            <th>Acciones</th>
-                          </tr>
-                        </thead>
-
-                        <tbody className='text-center'>
-                          {LocalShopping.map((Sale, index) => (
-                            <tr key={Sale.ProductId}>
-                              <td>
+                        <tr key={Sale.ProductId} className='text-center'>
+                          <td className="ProductDetail">
+                            <div className="product-description">
+                              <div className="product-info">
                                 <img
                                   src={Sale.ProductImage}
                                   className="img-sm"
                                   alt={Sale.ProductName}
                                 />
-                              </td>
-
-                              <td>{Sale.ProductName}</td>
-
-                              <td style={{ width: "10%" }}>
-                                <input
-                                  className="form-control text-center"
-                                  defaultValue={Sale.Quantity}
-                                  onKeyDown={NumbersOnly}
-
-
-                                  max={
-                                    Sale.Stockable == true ? Sale.Stock : false
-                                  }
-                                  type="number"
-                                  min={1}
-                                  onChange={(e) => {
-                                    const updatedShopping = [...LocalShopping];
-                                    updatedShopping[index].Quantity = parseInt(
-                                      e.target.value
-                                    );
-
-                                    if (Sale.CotizacionId != 0) {
-                                      var volumesArray = [];
-                                      volumesArray = Sale.Volumes;
-
-                                      const initialVolume = {
-                                        id: 0,
-                                        price:
-                                          updatedShopping[index].PrecioInicial,
-                                        volume: 1,
-                                        productCostumerId: 1,
-                                        productCostumer: null,
-                                      };
-
-                                      volumesArray.push(initialVolume);
-
-                                      function compararPorVolume(a, b) {
-                                        return a.volume - b.volume;
-                                      }
-                                      volumesArray.sort(compararPorVolume);
-
-                                      for (let object of volumesArray) {
-                                        if (e.target.value >= object.volume) {
-                                          updatedShopping[
-                                            index
-                                          ].PrecioConMargen = object.price;
-                                        }
-
-                                        updatedShopping[index].TotalVenta =
-                                          updatedShopping[index].PrecioFinal *
-                                          parseInt(e.target.value);
-                                        updatedShopping[index].SubTotal =
-                                          updatedShopping[index]
-                                            .PrecioConMargen *
-                                          parseInt(e.target.value);
-
-                                        let newTotal = 0;
-                                        updatedShopping.map(
-                                          (sale) =>
-                                          (newTotal =
-                                            newTotal + sale.TotalVenta)
-                                        );
-                                        setTotalOrder(newTotal);
-
-                                        let newSubTotal = 0;
-                                        updatedShopping.map(
-                                          (sale) =>
-                                          (newSubTotal =
-                                            newSubTotal + sale.SubTotal)
-                                        );
-                                        setSubTotal(newSubTotal.toFixed(0));
-                                      }
-
-                                      setLocalShopping(updatedShopping);
-                                    }
-                                  }}
-                                />
-                              </td>
-                              <td>{Sale.ProductUnit}</td>
-
-                              <td>
-                                {Sale.PrecioConMargen == 0
-                                  ? "Por cotizar"
-                                  : "₡" + Sale.PrecioConMargen}
-                              </td>
-
-                              <td>
-                                {Sale.SubTotal == 0
-                                  ? "Por cotizar"
-                                  : "₡" + Sale.SubTotal}
-                              </td>
-                              <td>{Sale.iva}%</td>
-                              <td>
-                                {Sale.TotalVenta == 0
-                                  ? "Por cotizar"
-                                  : "₡" + Sale.TotalVenta}
-                              </td>
-
-                              <td>
-                                <button
-                                  variant="danger"
-                                  className="btn btn-light"
-                                  size="sm"
-                                  onClick={() => {
-                                    Sale.CotizacionId != 0
-                                      ? DeleteCotizacion(Sale.CotizacionId)
-                                      : DeleteProduct(Sale.ProductId);
-                                  }}
-                                >
-                                  <MdDelete />
-                                </button>
-                              </td>
-                            </tr>
-                          ))}
-
-                          <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                              <b>SubTotal</b>
-                            </td>
-                            <td>
-                              {SubTotal == 0 ? "Por cotizar" : "₡" + SubTotal}
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                              <b>Total</b>
-                            </td>
-                            <td>
-                              {TotalOrder == 0
-                                ? "Por cotizar"
-                                : "₡" + TotalOrder}
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                          </tr>
-                        </tbody>
-                      </Table>
-                    </Row>
-                  </Col>
-                </div>
-              </div>
-            </Row>
-          </Container>
-
-          <Container id="AdeContai" className="Josefin">
-            <Row className="mb-3">
-              <div className="card-body">
-                <div className="row">
-                  <div className="col-md-6">
-                    <Card>
-                      <Card.Body>
-                        <h5 className="card-title ">Dirección de Envío</h5>
-                        <br />
-                        <div className="row">
-                          <div className="col-lg-4">
-                            <Form.Group controlId="validationCustom03">
-                              <Form.Label>Provincia</Form.Label>
-                              <Select
-                                placeholder={user.costumer.province}
-                                options={provinciasArray}
-                                onChange={(selected) => {
-                                  handleProvinciasSelectChange(selected.value);
-                                  setSelectedProvincia(selected);
-                                }}
-                                on
-                              ></Select>
-                              <Form.Control.Feedback type="invalid">
-                                Ingrese su provincia
-                              </Form.Control.Feedback>
-                            </Form.Group>
-                          </div>
-
-                          <div className="col-md-4">
-                            <Form.Group md="4" controlId="validationCustom04">
-                              <Form.Label>Cantón</Form.Label>
-                              <Select
-                                placeholder={user.costumer.canton}
-                                options={cantonesOptions}
-                                onChange={(selected) => {
-                                  setSelectedCanton(selected);
-                                  handlecantonesSelectChange(selected.value);
-                                }}
-                              ></Select>
-                              <Form.Control.Feedback type="invalid">
-                                Por favor indique el cantón
-                              </Form.Control.Feedback>
-                            </Form.Group>
-                          </div>
-
-                          <div className="col-md-4">
-                            <Form.Group md="4" controlId="validationCustom05">
-                              <Form.Label>Distrito</Form.Label>
-                              <Select
-                                placeholder={user.costumer.district}
-                                options={distritosOptions}
-                                onChange={(selected) =>
-                                  setSelectedDistrito(selected)
-                                }
-                              ></Select>
-                              <Form.Control.Feedback type="invalid">
-                                Indique su distrito!.
-                              </Form.Control.Feedback>
-                            </Form.Group>
-                          </div>
-
-                          <div className="row">
-                            <div className="col-md-12">
-                              <Form.Group md="4" controlId="validationCustom05">
-                                <br />
-                                <Form.Label>Dirección de Envío</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  required
-                                  defaultValue={user.costumer.address}
-                                  ref={Address}
-
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                  Indique su dirección!.
-                                </Form.Control.Feedback>
-                              </Form.Group>
-                              <br />
+                                <div className="product-name">{Sale.ProductName}</div>
+                              </div>
+                              <div className="product-unit">
+                                <span className="unit-label"></span> {Sale.ProductUnit}
+                              </div>
                             </div>
-                          </div>
-                        </div>
+                          </td>
 
-                        <div className="row">
+                          <td className="ProductDetail" style={{ width: "10%" }}>
+                            <input
+                              className="form-control text-center"
+                              defaultValue={Sale.Quantity}
+                              onKeyDown={NumbersOnly}
+                              max={
+                                Sale.Stockable == true ? Sale.Stock : false
+                              }
+                              type="number"
+                              min={1}
+                              onChange={(e) => {
+                                const updatedShopping = [...LocalShopping];
+                                updatedShopping[index].Quantity = parseInt(
+                                  e.target.value
+                                );
 
+                                if (Sale.CotizacionId != 0) {
+                                  var volumesArray = [];
+                                  volumesArray = Sale.Volumes;
 
+                                  const initialVolume = {
+                                    id: 0,
+                                    price:
+                                      updatedShopping[index].PrecioInicial,
+                                    volume: 1,
+                                    productCostumerId: 1,
+                                    productCostumer: null,
+                                  };
 
-                          <div className="col-md-8">
-                            <Button
-                              style={{ fontSize: '160%' }}
-                              className="BtnRed"
-                              onClick={() => navigate(`/home`)}
-                            >
-                              <RiArrowGoBackFill />
-                            </Button>
-                          </div>
+                                  volumesArray.push(initialVolume);
 
-                          <div className="col-md-4">
-                            <Button
-                              className="BtnBrown"
-                              style={{ fontSize: '110%' }}
-                              onClick={checkStockAvailability}
-                            >
-                              Realizar Pedido
-                            </Button>
-                          </div>
+                                  function compararPorVolume(a, b) {
+                                    return a.volume - b.volume;
+                                  }
+                                  volumesArray.sort(compararPorVolume);
 
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </div>
+                                  for (let object of volumesArray) {
+                                    if (e.target.value >= object.volume) {
+                                      updatedShopping[
+                                        index
+                                      ].PrecioConMargen = object.price;
+                                    }
 
-                  <div className="col-md-6">
-                    <Card>
-                      <Card.Body>
-                        <h5 className="card-title">Detalle de Envío</h5>
-                        <div className="row">
-                          <Form.Group>
-                            <Form.Label></Form.Label>
-                            <Form.Control
-                              as="textarea"
-                              placeholder="Ingrese el detalle del envío"
-                              rows={5}
-                              ref={Detail}
+                                    updatedShopping[index].TotalVenta =
+                                      updatedShopping[index].PrecioFinal *
+                                      parseInt(e.target.value);
+                                    updatedShopping[index].SubTotal =
+                                      updatedShopping[index]
+                                        .PrecioConMargen *
+                                      parseInt(e.target.value);
+
+                                    let newTotal = 0;
+                                    updatedShopping.map(
+                                      (sale) =>
+                                      (newTotal =
+                                        newTotal + sale.TotalVenta)
+                                    );
+                                    setTotalOrder(newTotal);
+
+                                    let newSubTotal = 0;
+                                    updatedShopping.map(
+                                      (sale) =>
+                                      (newSubTotal =
+                                        newSubTotal + sale.SubTotal)
+                                    );
+                                    setSubTotal(newSubTotal.toFixed(0));
+                                  }
+
+                                  setLocalShopping(updatedShopping);
+                                }
+                              }}
                             />
-                          </Form.Group>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </div>
-                </div>
-              </div>
-            </Row>
-          </Container>
-        </>
-      ) : (
+                          </td>
+
+                          <td className="ProductDetail">
+                            {Sale.PrecioConMargen == 0
+                              ? "Por cotizar"
+                              : "₡" + Sale.PrecioConMargen}
+                          </td>
+
+                          <td className="ProductDetail">
+                            {Sale.SubTotal == 0
+                              ? "Por cotizar"
+                              : "₡" + Sale.SubTotal}
+                          </td>
+                          <td className="ProductDetail">{Sale.iva}%</td>
+                          <td className="ProductDetail">
+                            {Sale.TotalVenta == 0
+                              ? "Por cotizar"
+                              : "₡" + Sale.TotalVenta}
+                          </td>
 
 
+                          <td className="ProductDetail">
+                            <button
+                              variant="danger"
+                              className="btn btn-light"
+                              size="sm"
+                              onClick={() => {
+                                Sale.CotizacionId != 0
+                                  ? DeleteCotizacion(Sale.CotizacionId)
+                                  : DeleteProduct(Sale.ProductId);
+                              }}
+                            >
+                              <MdDelete />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </Card.Body>
+              </Card>
+            </Col>
+
+            <Col md={4}>
+            
+            <Card className="mb-3">
+      <Card.Body>
+      <h5 className="card-title mb-4">Resumen del Pedido</h5>
         <Container>
-          <Row className="mb-3">
-            <Card>
-              <Card.Body className="text-center Josefin">
-                <h5 className="card-title">¡Tu carrito de compras está vacío!</h5>
+          <Row>
+            <Col>
+              <Row className="mb-3">
+                <Col>
+                  <h6 className="text-muted">SubTotal:</h6>
+                  <p>{SubTotal === 0 ? "Por cotizar" : `₡${SubTotal}`}</p>
+                </Col>
+                <Col>
+                  <h6 className="text-muted">Total:</h6>
+                  <p>{TotalOrder === 0 ? "Por cotizar" : `₡${TotalOrder}`}</p>
+                </Col>
+              </Row>
+              <hr />
+              <h6 className="text-muted">Detalle del Pedido</h6>
+              <Form.Group>
+                <Form.Control
+                  as="textarea"
+                  placeholder="Ingrese el detalle del envío"
+                  rows={3}
+                  ref={Detail}
+                />
+                <Form.Control.Feedback type="invalid">
+                  Este campo es obligatorio.
+                </Form.Control.Feedback>
+              </Form.Group>
+              <hr />
+              <h6 className="text-muted">Dirección de Envío</h6>
+              <Form.Group>
+                <Form.Control
+                  type="text"
+                  required
+                  placeholder="Dirección de Envío"
+                  defaultValue={user.costumer.address}
+                  ref={Address}
+                />
+                <Form.Control.Feedback type="invalid">
+                  Este campo es obligatorio.
+                </Form.Control.Feedback>
+              </Form.Group>
+              <hr />
+              <h6 className="text-muted">Provincia</h6>
+              <Form.Group>
+                <Select
+                  placeholder={user.costumer.province}
+                  options={provinciasArray}
+                  onChange={(selected) => {
+                    handleProvinciasSelectChange(selected.value);
+                    setSelectedProvincia(selected);
+                  }}
+                />
+              </Form.Group>
+              <hr />
+              <h6 className="text-muted">Cantón</h6>
+              <Form.Group>
+                <Select
+                  placeholder={user.costumer.canton}
+                  options={cantonesOptions}
+                  onChange={(selected) => {
+                    setSelectedCanton(selected);
+                    handlecantonesSelectChange(selected.value);
+                  }}
+                />
+              </Form.Group>
+              <hr />
+              <h6 className="text-muted">Distrito</h6>
+              <Form.Group>
+                <Select
+                  placeholder={user.costumer.district}
+                  options={distritosOptions}
+                  onChange={(selected) => setSelectedDistrito(selected)}
+                />
+              </Form.Group>
+              <hr />
+              <Form.Group className="text-center">
+                <Button
+                  className="BtnSave "
+                  variant="primary"
+                  onClick={checkStockAvailability}
+                >
+                  Realizar Pedido
+                </Button>
+              </Form.Group>
+            </Col>
+          </Row>
+        </Container>
+      </Card.Body>
+    </Card>
 
-                <div className="empty-cart-message">
-                  <p>Agrega productos para continuar</p>
-                  <Button
-                    className="BtnStar"
-                    style={{ alignContent: "center" }}
-                    onClick={() => navigate(`/home`)}
-                  >
-                    Ir a comprar{" "}
-                  </Button>{" "}
-                </div>
-
-              </Card.Body>
-            </Card>
+            </Col>
           </Row>
         </Container>
 
-
+      ) : (
+        <div className='text-center'>
+          <br></br>
+          <IoWarning className='text-warning' size={60} />
+          <h4>Su carrito de compras está vacío</h4>
+          <Button onClick={() => navigate(`/home`)} className="BtnSave" variant='primary' size='sm'>
+            <RiArrowGoBackFill size={20} /> Regresar
+          </Button>
+        </div>
       )}
     </>
   );

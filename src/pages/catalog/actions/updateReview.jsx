@@ -5,6 +5,7 @@ import { QueryClient, useMutation } from 'react-query';
 import { format } from 'date-fns';
 import { TiEdit } from "react-icons/ti";
 import './updateReview.css';
+import { Tooltip } from '@mui/material';
 
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
@@ -37,23 +38,24 @@ const updateReview = (props) => {
     setStarsChecked(value);
   };
 
-    const handleUpdate = async(event) => {
+  const handleUpdate = async (event) => {
 
     event.preventDefault();
-        const formFields = [description];
-        let fieldsValid = true;
-    
-        formFields.forEach((fieldRef) => {
-            if (!fieldRef.current.value) {
-                fieldsValid = false;}
-        });
-    
-        if (!fieldsValid) {
-            setValidated(true);
-            return;
-        } else {
-            setValidated(false);
-        }
+    const formFields = [description];
+    let fieldsValid = true;
+
+    formFields.forEach((fieldRef) => {
+      if (!fieldRef.current.value) {
+        fieldsValid = false;
+      }
+    });
+
+    if (!fieldsValid) {
+      setValidated(true);
+      return;
+    } else {
+      setValidated(false);
+    }
 
 
     const today = new Date();
@@ -73,9 +75,12 @@ const updateReview = (props) => {
 
   return (
     <>
-      <Button onClick={handleOpen} className="BtnBrown">
-        <TiEdit/>
-      </Button>
+
+      <Tooltip title="Editar">
+        <Button onClick={handleOpen} className="BtnBrown">
+          <TiEdit />
+        </Button>
+      </Tooltip>
 
       <Modal
         show={show}
@@ -88,7 +93,7 @@ const updateReview = (props) => {
         </Modal.Header>
         <Modal.Body>
           {review && (
-                        <Form validated={validated} onSubmit={handleUpdate}>
+            <Form validated={validated} onSubmit={handleUpdate}>
               <Form.Label>Valoración</Form.Label>
               <p className="clasificación">
                 {[...Array(5)].map((_, index) => (

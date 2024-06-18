@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import { useMutation } from 'react-query';
 import { getReviewById } from '../../services/reviewService';
 import { getCostumerByIdNoState } from '../../services/costumerService';
+import { Tooltip } from '@mui/material';
 
 import { createReview } from '../../services/reviewService';
 import { deleteReview } from '../../services/reviewService';
@@ -26,8 +27,8 @@ const listReview = (productid) => {
 
   const description = useRef();
   const [starsChecked, setStarsChecked] = useState(false);
-  const [reviewsToShow, setReviewsToShow] = useState(3); 
-  const [reviewsIncrement, setReviewsIncrement] = useState(3); 
+  const [reviewsToShow, setReviewsToShow] = useState(3);
+  const [reviewsIncrement, setReviewsIncrement] = useState(3);
 
   const loadMoreReviews = () => {
     setReviewsToShow(reviewsToShow + reviewsIncrement);
@@ -153,10 +154,10 @@ const listReview = (productid) => {
   };
 
   return (
-    <Container className="mt-3">
+    <Container className="mt-3 ">
 
 
-{verified == true ?
+      {verified == true ?
         <Card className="mb-3 Josefin">
           <Card.Body>
             <Form validated={validated} onSubmit={saveReview}>
@@ -207,66 +208,85 @@ const listReview = (productid) => {
         )}
 
 
-      {reviews != null && reviews.length > 0 ? (
-        reviews.slice(0, reviewsToShow).map((review) => (
-          <div key={review.id} className="card mb-3">
 
-            <div className="card-body">
-              <Row>
-                <Col md={2}>
-                  <img src='https://image.ibb.co/jw55Ex/def_face.jpg'
-                    className="img img-rounded img-fluid"
-                    alt="User Avatar"
-                    width={'100px'} />
-                  <p className="text-secondary text-center ">{review.reviewDate}</p>
-                  <div className="stars-container">
-                    {Array.from({ length: review.stars }, (_, i) => (
-                      <span key={i} className="StarReviewed">
-                        ★
-                      </span>
-                    ))}
-                  </div>
-                </Col>
-                <Col md={10}>
-                  <p>
-                    <strong className='Josefin'>{review.customername}</strong>
-                  </p>
-                  <div className="clearfix Josefin"></div>
-                  <p>{review.description}</p>
+      <div className="review-container">
+        {reviews != null && reviews.length > 0 ? (
+          reviews.slice(0, reviewsToShow).map((review) => (
+            <div key={review.id} className="review-card" >
 
-                  {costumerId == review.customerid ?
-                    <Row>
-                      <Col md={10}>
-                      </Col>
-                      <Col md={1}>
-                        <ReviewEdit props={review} />
-                      </Col>
-                      <Col md={1}>
-                        <Button className="BtnRed"
-                          onClick={() => showAlert(review.id)}>
-                          <MdDelete />
-                        </Button>
-                      </Col>
-                    </Row>
-                    : (
-                      ''
-                    )}
+              <div className="review-card-body">
+                <Row>
+                  <Col md={2}>
+                    <img src='https://image.ibb.co/jw55Ex/def_face.jpg'
+                      className="img img-rounded img-fluid"
+                      alt="User Avatar"
+                      width={'100px'} 
+                      />
+                    <p className="text-secondary text-center ">{review.reviewDate}</p>
+                    <div className="stars-container">
+                      {Array.from({ length: review.stars }, (_, i) => (
+                        <span key={i} className="StarReviewed">
+                          ★
+                        </span>
+                      ))}
+                    </div>
+                  </Col>
+                  <Col md={10}>
+                    <p>
+                      <strong className='Josefin'>{review.customername}</strong>
+                    </p>
+                    <div className="clearfix Josefin"></div>
+                    <p>{review.description}</p>
 
-                </Col>
-              </Row>
+
+
+
+
+
+
+
+
+
+                    {costumerId == review.customerid ?
+                      <Row>
+                        <Col md={10}>
+                        </Col>
+                        <Col md={1}>
+                          <ReviewEdit props={review} />
+                        </Col>
+                        <Col md={1}>
+
+                          <Tooltip title="Eliminar">
+                            <Button className="BtnRed"
+                              onClick={() => showAlert(review.id)}>
+                              <MdDelete />
+                            </Button>
+                          </Tooltip>
+
+                        </Col>
+                      </Row>
+                      : (
+                        ''
+                      )}
+
+                  </Col>
+                </Row>
+              </div>
+
             </div>
+          ))
+        ) : (
+          <p >No hay valoraciones. Se el primero en valorar este producto</p>
+        )}
 
+        {reviewsToShow < reviews.length && (
+          <div className="text-center">
+            <Button onClick={loadMoreReviews} className="BtnSave" >
+              Más valoraciones
+            </Button>
           </div>
-        ))
-      ) : (
-        <p className="infoReview Josefin">No hay valoraciones. Se el primero en valorar este producto</p>
-      )}
-
-      {reviewsToShow < reviews.length && (
-        <Button onClick={loadMoreReviews} className="BtnBrown" variant="primary" style={{ fontSize: "120%", marginTop: "2%" }}>
-          Cargar más valoraciones
-        </Button>
-      )}
+        )}
+        </div>
     </Container>
   );
 };

@@ -157,7 +157,7 @@ const costumerProfile = () => {
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                       <div className='CostumerLabel'>
                         <h5 htmlFor='eMail'>Línea Telefónica</h5>
-                        <input type='text' className='form-control' id='eMail' placeholder={user.costumer.phoneNumber} readOnly />
+                        <input type='text' className='form-control' id='eMail' placeholder={`+506 ${user.costumer.phoneNumber}`} readOnly />
                       </div>
                     </Col>
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
@@ -231,7 +231,7 @@ const costumerProfile = () => {
                           type="text"
                           className="form-control"
                           id="website"
-                          placeholder={`CR${user.costumer.bankAccount}`}
+                          placeholder={`CR ${user.costumer.bankAccount}`}
                           readOnly
                         />
                       </div>
