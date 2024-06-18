@@ -15,6 +15,7 @@ import EditProductModal from "./operations/editProductModal.jsx";
 import AddProductModal from "./operations/addProductModal.jsx";
 import { getProducts } from "../../../services/productService";
 import swal from "sweetalert";
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess.js";
 
 const MaterialTable = () => {
   const [data, setData] = useState([]);
@@ -40,6 +41,8 @@ const MaterialTable = () => {
   };
 
   useEffect(() => {
+
+    validateAllowedPageAccess()
     const fetchData = async () => {
       try {
         const response = await getProducts();

@@ -48,6 +48,51 @@ export const menuItemsCostumer = (CartValue) => {
     }
 }
 
+export const menuItemsInventoryEmployee = [
+    {
+        title: 'Catálogo',
+        url: '/home',
+    },
+    {
+        title: 'Inventario',
+        submenu: [
+            {
+                title: 'Pedidos',
+                url: '/listProducerOrder/all',
+            },
+            {
+                title: 'Previsiones',
+                url: '/listForesights',
+            },
+            {
+                title: 'Existencias',
+                url: '/listInventories',
+            },
+        ],
+    },
+    {
+        title: 'Reportes',
+        submenu: [
+            {
+                title: 'Pedidos Recibidos',
+                url: '/listCustomerOrder/all',
+            },
+            {
+                title: 'Reporte de Ventas',
+                url: '/productReport/:0',
+            },
+            {
+                title: 'Historial de Inventario',
+                url: '/stockReport/',
+            },
+        ],
+    },
+    {
+        title: 'Perfil',
+        url: '/userProfile',
+    },
+]
+
 export const menuItemsEmployee = [
     {
         title: 'Catálogo',

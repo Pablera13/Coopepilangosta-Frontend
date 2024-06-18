@@ -17,6 +17,7 @@ import swal from "sweetalert";
 import { MdDelete } from "react-icons/md";
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess.js";
 
 const MaterialTable = () => {
 
@@ -42,6 +43,7 @@ const MaterialTable = () => {
   };
 
   useEffect(() => {
+    validateAllowedPageAccess()
     const fetchData = async () => {
       try {
         const response = await getEmployees();

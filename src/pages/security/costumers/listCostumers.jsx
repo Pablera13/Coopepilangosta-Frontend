@@ -15,6 +15,7 @@ import VerifyCostumer from "../costumers/actions/verifyCostumer";
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
 import { BsBox2 } from "react-icons/bs";
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess.js";
 
 
 const MaterialTable = () => {
@@ -24,6 +25,7 @@ const MaterialTable = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    validateAllowedPageAccess()
     const fetchData = async () => {
       try {
         const response = await getCostumers();

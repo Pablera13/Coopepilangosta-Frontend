@@ -5,13 +5,10 @@ export function validateAllowedPageAccess(){
     
     if (user) {
         if (user.costumer) {
-           
-            swal('No  autorizado.','El usuario no cuenta con autorizacion para acceder a este recurso.','error').then(function(){window.location = '/'})
-
+            window.location = '/forbidden'
         }
     }else{
-        swal('No iniciaste sesion.','Inicia sesion para ver este recurso','error',{timer:1000}).then(function(){window.location = '/'})
-        
+        window.location = '/'
     }
 
 }

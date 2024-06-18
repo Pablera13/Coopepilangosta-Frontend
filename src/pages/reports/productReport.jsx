@@ -68,7 +68,7 @@ const productReport = () => {
   const { data:Products, isLoading, isError } = useQuery('product', getProducts);
 
   useEffect(() => {
-
+    validateAllowedPageAccess()
     async function MeCagoEnLasRestricciones () {
 
         let ProductSales = await getProductSales(params.productId);

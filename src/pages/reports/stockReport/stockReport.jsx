@@ -11,11 +11,13 @@ import { getstocks } from "../../../services/reportServices/stockreportService";
 import { Container } from "react-bootstrap";
 import "../../../css/StylesBtn.css";
 import "../../../css/Pagination.css";
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess.js";
 
 const MaterialTable = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    validateAllowedPageAccess()
     const fetchData = async () => {
       try {
         const response = await getstocks();
