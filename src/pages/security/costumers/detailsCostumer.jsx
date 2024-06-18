@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Row, Col, Table, Button, Form } from "react-bootstrap";
+import { Modal, Row, Col, Table, Button, Form, InputGroup } from "react-bootstrap";
 import { LuListChecks } from "react-icons/lu";
 import { Tooltip } from '@mui/material';
 
@@ -69,12 +69,15 @@ const detailsCostumer = (props) => {
                 </Col>
                 <Col xl={4} lg={4} md={4} sm={4} xs={4}>
                   <Form.Group md="4">
-                    <Form.Label>Cuenta Bancaria</Form.Label>
+                    <Form.Label>Cuenta IBAN</Form.Label>
+                    <InputGroup>
+                    <InputGroup.Text>CR</InputGroup.Text>
                     <Form.Control
                       type="textarea"
                       readOnly
                       defaultValue={costumerProps.bankAccount}
                     />
+                    </InputGroup>
                   </Form.Group>
                 </Col>
               </Row>

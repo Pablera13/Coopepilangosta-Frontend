@@ -36,6 +36,15 @@ form label {
   color: #9b7122d2;
 }
 
+.modal-header .btn-close {
+  color:white;
+  border: 1px solid #ddd; 
+  border-radius: 5px; 
+  padding: 20px; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  background-color: #fff; 
+}
+
 
 /* Botones */
 

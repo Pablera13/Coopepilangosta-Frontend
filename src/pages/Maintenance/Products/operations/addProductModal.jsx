@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { QueryClient, useMutation, useQuery } from 'react-query';
-import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
+import { Modal, Button, Form, Row, Col, InputGroup } from 'react-bootstrap';
 import { createProduct, checkCodeAvailability } from '../../../../services/productService';
 import { getCategories } from '../../../../services/categoryService';
 import swal from 'sweetalert';
@@ -225,6 +225,8 @@ const addProductModal = () => {
                             <Col xs={6} md={6}>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Margen de Ganancia</Form.Label>
+                                    <InputGroup>
+                                    <InputGroup.Text>%</InputGroup.Text>
                                     <Form.Control
                                         required
                                         type="number"
@@ -232,13 +234,15 @@ const addProductModal = () => {
                                         ref={margin}
                                         onKeyDown={NumbersOnly}                                  
                                         min={1}
-
                                     />
+                                    </InputGroup>
                                 </Form.Group>
                             </Col>
                             <Col xs={6} md={6}>
                                 <Form.Group className="mb-3">
                                     <Form.Label>IVA</Form.Label>
+                                    <InputGroup>
+                                    <InputGroup.Text>%</InputGroup.Text>
                                     <Form.Control
                                         required
                                         type="number"
@@ -247,6 +251,7 @@ const addProductModal = () => {
                                         onKeyDown={NumbersOnly}                                  
                                         min={1}
                                     />
+                                    </InputGroup>
                                 </Form.Group>
                             </Col>
                         </Row>

@@ -51,12 +51,54 @@ footer {
   box-shadow: none;
 }
 
-#btnSend {
+/* #btnSend {
   background-color: antiquewhite;
-}
+} */
+
+
 
 .socialNetworkImg {
   background-color: rgba(255, 255, 255, 0.21);
   --icon-padding: 0.6em;
   border-radius: 40%;
+}
+
+
+/* ///////////////////// */
+
+/* Estilos base para todos los botones */
+.btnSugerencia {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/* Estilos para el botón con estilo secundario y borde */
+.btnSugerencia {
+  color: white;
+  background-color: transparent;
+  border-color: white;
+}
+
+.btnSugerencia:hover {
+  color: #fff;
+  background-color:  #ba7f11d2;
+  border-color: #ba7f11d2;
+}
+
+/* Estilos para el botón grande */
+.btnSugerencia {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  border-radius: 0.3rem;
 }

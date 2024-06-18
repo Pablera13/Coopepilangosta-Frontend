@@ -14,6 +14,7 @@ import { Form, Row, Col, Button, Container, Collapse, Table, Card, } from "react
 import Select from "react-select";
 import { MdDelete } from "react-icons/md";
 import { RiArrowGoBackFill } from 'react-icons/ri';
+import {NumbersOnly} from '../../utils/validateFields.js'
 
 import "./ShoppingCart.css";
 import { IoWarning } from "react-icons/io5";
@@ -21,6 +22,7 @@ const ShoppingCart = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const [LocalShopping, setLocalShopping] = useState([]);
   const queryClient = new QueryClient();
+  const [validated, setValidated] = useState(false);
 
   let storedCar;
   const navigate = useNavigate();
@@ -142,22 +144,30 @@ const ShoppingCart = () => {
 
   const saveProducerOrder = async () => {
 
-        // let fieldsValid = true;
-    
-        // if (!Address.current.value) {
-        //         fieldsValid = false;}
-        //         swal({
-        //           title: 'Error',
-        //           text: 'Por favor ingrese una dirección válida',
-        //           icon: 'error',
-        //       });        
+    const formFields = [Address.current.value, selectedDistrito, selectedCanton, selectedProvincia];
+    let fieldsValid = true;
 
-        // if (!fieldsValid) {
-        //     setValidated(true);
-        //     return;
-        // } else {
-        //     setValidated(false);
-        // }
+    console.log("selectedDistrito = " + selectedDistrito.label)
+    console.log("selectedCanton = " + selectedCanton.label)
+    console.log("selectedProvincia = " + selectedProvincia.label)
+
+
+    formFields.forEach((fieldRef) => {
+      if (!fieldRef) {
+        fieldsValid = false;
+        swal({
+          title: 'Error',
+          text: 'Por favor ingrese una dirección válida',
+          icon: 'error',
+        });
+      }
+    });
+    if (!fieldsValid) {
+      setValidated(true);
+      return;
+    } else {
+      setValidated(false);
+    }
 
 
     const currentDate = new Date();
@@ -215,13 +225,22 @@ const ShoppingCart = () => {
     });
   };
 
-  const [selectedProvincia, setSelectedProvincia] = useState(
-    user.costumer.province
-  );
-  const [selectedCanton, setSelectedCanton] = useState(user.costumer.canton);
-  const [selectedDistrito, setSelectedDistrito] = useState(
-    user.costumer.district
-  );
+
+  const [selectedProvincia, setSelectedProvincia] = useState({
+    value: 0,
+    label: user.costumer.province
+  });
+  
+  const [selectedCanton, setSelectedCanton] = useState({
+    value: 0,
+    label: user.costumer.canton
+  });
+  
+  const [selectedDistrito, setSelectedDistrito] = useState({
+    value: 0,
+    label: user.costumer.district
+  });
+  
 
   const provinciasArray = Object.keys(locations.provincias).map((index) => {
     const indexNumber = parseInt(index, 10);
@@ -337,6 +356,7 @@ const ShoppingCart = () => {
                                 <input
                                   className="form-control text-center"
                                   defaultValue={Sale.Quantity}
+                                  onKeyDown={NumbersOnly}
 
 
                                   max={
@@ -503,7 +523,7 @@ const ShoppingCart = () => {
                     <Card>
                       <Card.Body>
                         <h5 className="card-title ">Dirección de Envío</h5>
-                        <br/>
+                        <br />
                         <div className="row">
                           <div className="col-lg-4">
                             <Form.Group controlId="validationCustom03">
@@ -559,13 +579,14 @@ const ShoppingCart = () => {
                           <div className="row">
                             <div className="col-md-12">
                               <Form.Group md="4" controlId="validationCustom05">
-                                <br/>
+                                <br />
                                 <Form.Label>Dirección de Envío</Form.Label>
                                 <Form.Control
                                   type="text"
+                                  required
                                   defaultValue={user.costumer.address}
                                   ref={Address}
-                                  
+
                                 />
                                 <Form.Control.Feedback type="invalid">
                                   Indique su dirección!.
@@ -578,22 +599,22 @@ const ShoppingCart = () => {
 
                         <div className="row">
 
-                          
+
 
                           <div className="col-md-8">
                             <Button
-                             style={{fontSize:'160%'}}
+                              style={{ fontSize: '160%' }}
                               className="BtnRed"
                               onClick={() => navigate(`/home`)}
                             >
-                                                              <RiArrowGoBackFill />
+                              <RiArrowGoBackFill />
                             </Button>
                           </div>
 
                           <div className="col-md-4">
                             <Button
                               className="BtnBrown"
-                              style={{fontSize:'110%'}}
+                              style={{ fontSize: '110%' }}
                               onClick={checkStockAvailability}
                             >
                               Realizar Pedido

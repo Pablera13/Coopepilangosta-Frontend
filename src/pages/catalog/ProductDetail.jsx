@@ -7,6 +7,8 @@ import { getProductCostumerById } from '../../services/productCostumerService.js
 import { getSingleProductCostumerById } from '../../services/productCostumerService.js';
 import { getVolumeDiscount } from '../../services/volumeDiscount.js';
 import { getStarsAverage } from '../../services/reviewService';
+import {NumbersOnly} from '../../utils/validateFields.js'
+
 
 import Select from 'react-select';
 
@@ -216,7 +218,9 @@ const ProductDetail = () => {
         title: 'Agregado!',
         text: 'El producto se añadió correctamente',
         icon: 'success',
-      }).then(function(){window.location.reload()});
+      }).then(setTimeout(() => {
+        navigate(`/home`)
+      }, 2000));
     }
   };
 
@@ -357,7 +361,9 @@ const ProductDetail = () => {
                                             min="1"
                                              defaultValue={1}
                                             ref={quantity}
-                                            max={productRequest.stock} />
+                                            max={productRequest.stock} 
+                                            onKeyDown={NumbersOnly}/>
+                                            
                                         </Col>
                                         <Col xs={8}>
                                           <Button className="add-to-cart-btn" onClick={addToCart}>

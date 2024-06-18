@@ -230,7 +230,7 @@ const costumerProfile = () => {
                           type="text"
                           className="form-control"
                           id="website"
-                          placeholder={user.costumer.bankAccount}
+                          placeholder={`CR${user.costumer.bankAccount}`}
                           readOnly
                         />
                       </div>

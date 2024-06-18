@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation, QueryClient } from 'react-query';
-import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
+import { Modal, Button, Form, Row, Col, InputGroup } from 'react-bootstrap';
 import { editCostumer } from '../../../../services/costumerService';
 import { useRef } from 'react';
 import { TiEdit } from "react-icons/ti";
@@ -183,6 +183,8 @@ const updateCostumer = (props) => {
                             <Col lg={6}>
                                 <Form.Group controlId="validationCustom01">
                                     <Form.Label>Teléfono</Form.Label>
+                                    <InputGroup>
+                                    <InputGroup.Text>+506</InputGroup.Text>
                                     <Form.Control
                                         required
                                         type="number"
@@ -190,6 +192,7 @@ const updateCostumer = (props) => {
                                         defaultValue={costumer.phoneNumber}
                                         ref={phoneNumber}
                                     />
+                                    </InputGroup>
                                 </Form.Group>
                             </Col>
                             <Col lg={6}>
@@ -253,9 +256,13 @@ const updateCostumer = (props) => {
                         <Row>
                             <Col lg={12}>
                                 <Form.Group controlId="validationCustom08">
-                                    <Form.Label>Cuenta bancaria (IBAN)</Form.Label>
-                                    <Form.Control type="number" placeholder="Ingrese una cuenta bancaria" required ref={bankAccount}
+                                    <Form.Label>Cuenta IBAN</Form.Label>
+                                    <InputGroup>
+                                    <InputGroup.Text>CR</InputGroup.Text>
+                                    <Form.Control 
+                                    type="number" placeholder="Ingrese una cuenta bancaria" required ref={bankAccount}
                                         defaultValue={costumer.bankAccount} />
+                                    </InputGroup>
                                 </Form.Group>
                             </Col>
                         </Row>

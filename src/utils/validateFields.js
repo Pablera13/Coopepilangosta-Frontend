@@ -23,6 +23,6 @@ export function LettersOnly(e) {
 
 export function NumbersOnly(e) {
     if (!allowedKeys.includes(e.key)) {
-        if (!/^[0-9]*$/.test(e.key)) {
+        if (!/^\d$/.test(e.key)) {
             e.preventDefault();
         }}}

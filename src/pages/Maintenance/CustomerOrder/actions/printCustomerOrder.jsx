@@ -157,19 +157,23 @@ const printCustomerOrder = (props) => {
                 },
             });
 
-            // Texto detalle
-            doc.setFontSize(14);
-            doc.text("Detalle:", 10, doc.autoTable.previous.finalY + 10);
-            doc.setFontSize(10);
-            doc.text(customerorder.detail, 20, doc.autoTable.previous.finalY + 25);
-            doc.text(customerorder.address, 20, doc.autoTable.previous.finalY + 32); // Ajusta la posición Y y el margen
+            // Texto de detalle de envío
+        const envioY = doc.autoTable.previous.finalY + 10;
+        doc.setFontSize(14);
+        doc.text("Envío", 10, envioY);
+        doc.setLineWidth(0.2);
+        doc.line(10, envioY + 5, 200, envioY + 5); // Línea horizontal
+        doc.setFontSize(10);
+        doc.text(customerorder.address, 10, envioY + 15);
 
-
-            //ultima linea
-            doc.setLineWidth(0.2);
-            doc.line(10, doc.autoTable.previous.finalY + 12, 200, doc.autoTable.previous.finalY + 12); // Línea horizontal
-
-
+        // Texto de detalle de customerorder
+        const detalleY = envioY + 40; 
+        doc.setFontSize(14);
+        doc.text("Detalles del pedido", 10, detalleY);
+        doc.setLineWidth(0.2);
+        doc.line(10, detalleY + 5, 200, detalleY + 5); // Línea horizontal
+        doc.setFontSize(10);
+        doc.text(customerorder.detail, 10, detalleY + 15);
 
    
             const currentDate = new Date();

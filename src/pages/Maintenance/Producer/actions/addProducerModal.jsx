@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { QueryClient, useMutation } from "react-query";
-import { Modal, Button, Form, Row, Col } from "react-bootstrap";
+import { Modal, Button, Form, Row, Col, InputGroup } from "react-bootstrap";
 import { LettersOnly, NumbersOnly } from '../../../../utils/validateFields'
 import swal from "sweetalert";
 import {
@@ -153,7 +153,6 @@ const addProducerModal = () => {
         label: distritos[index].toString(),
       };
     });
-    console.log(distritosOpt);
     setDistritosOptions(distritosOpt);
   };
 
@@ -188,6 +187,8 @@ const addProducerModal = () => {
               <Col md={6}>
                 <Form.Group controlId="phoneNumber">
                   <Form.Label>Teléfono</Form.Label>
+                  <InputGroup>
+                          <InputGroup.Text>+506</InputGroup.Text>
                   <Form.Control
                     required
                     type="number"
@@ -196,6 +197,7 @@ const addProducerModal = () => {
                     onChange={handlePhoneChange}
                     onKeyDown={NumbersOnly}
                   />
+                  </InputGroup>
                 </Form.Group>
               </Col>
             </Row>
@@ -311,13 +313,17 @@ const addProducerModal = () => {
               />
             </Form.Group>
             <Form.Group controlId="bankAccount">
-              <Form.Label>Cuenta Bancaria</Form.Label>
+              <Form.Label>Cuenta IBAN</Form.Label>
+              <InputGroup>
+              <InputGroup.Text>CR</InputGroup.Text>
               <Form.Control
                 required
                 type="number"
                 placeholder="Ingrese la cuenta bancaria"
                 ref={bankAccount}
+                onKeyDown={NumbersOnly}
               />
+              </InputGroup>
             </Form.Group>
           </Form>
         </Modal.Body>

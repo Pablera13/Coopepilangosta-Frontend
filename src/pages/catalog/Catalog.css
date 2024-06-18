@@ -1,6 +1,10 @@
 /* Estilos para las tarjetas de producto */
 
-.custom-card-catalog-row{
+
+.custom-card-catalog-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; 
   align-items: flex-end;
 }
 
@@ -9,6 +13,7 @@
   max-height: 440px;
   padding: 10px;
 }
+
 
 .custom-card-img, .card-img-top {
   image-resolution: initial;

@@ -171,7 +171,7 @@ const employeeProfile = () => {
                   </Col>
                   <Col md={1} sm={1} lg={1}>
 
-                    <Tooltip title="Eliminar">
+                    <Tooltip title="Cerrar sesión">
 
                       <Button onClick={handleLogout} className="BtnRed">
                         <MdLogout />

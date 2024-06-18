@@ -101,7 +101,7 @@ const MaterialTable = () => {
         header: "Precio inicial	",
         enableClickToCopy: true,
         Cell: ({ row }) => {
-          return <span>{` \u20A1 ${row.original.purchasePrice}`}</span>;
+          return <span>{`\u20A1${row.original.purchasePrice}`}</span>;
         },
       },
       {
@@ -125,7 +125,7 @@ const MaterialTable = () => {
         header: "Precio Final",
         enableClickToCopy: true,
         Cell: ({ row }) => {
-          return <span>{`'\u20A1' ${row.original.finalPrice}`}</span>;
+          return <span>{`\u20A1${row.original.finalPrice}`}</span>;
         },
       },
       {

@@ -53,11 +53,7 @@ const MaterialTable = () => {
   const { isError: isLoadingError, isFetching: isFetching, isLoading: isLoading } = getCategories();
 
   const columns = useMemo(() => [
-    {
-      accessorKey: 'code',
-      header: 'Código',
-      enableClickToCopy: true,
-    },
+
     {
       accessorKey: 'name',
       header: 'Nombre',

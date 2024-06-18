@@ -64,7 +64,6 @@ const MaterialTable = () => {
     doc.setFontSize(22);
     doc.text(title, 20, 25);
 
-    // Espacio para el título
     const tableStartY = 30;
 
     const tableData = rows.map((row) =>

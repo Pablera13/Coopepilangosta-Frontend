@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import { getProducts } from "../../services/productService";
 import "./Catalog.css";
 import "../../css/Pagination.css";
+import { useNavigate } from "react-router-dom";
 
 import { getCategories } from "../../services/categoryService";
 import Select from "react-select";
@@ -18,6 +19,7 @@ const catalog = () => {
   const [productsPerPage, setProductsPerPage] = useState(12);
   const [currentPage, setCurrentPage] = useState(0);
   const searchValue = useRef();
+  const navigate = useNavigate();
 
   const handleSearch = useCallback(() => {
     setSearch(searchValue.current.value);
@@ -151,7 +153,7 @@ const catalog = () => {
               </Col>
             ))
           ) : (
-            <div>Sin productos</div>
+            <p className="infoReview Josefin">Sin Productos</p>
           )}
           <br></br>
 
