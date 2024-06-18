@@ -1,4 +1,4 @@
-import React, { useRef, useState, useMemo, useCallback } from "react";
+import React, { useRef, useState, useMemo, useCallback, useEffect } from "react";
 import { Row, Col, Container, Card, Button, Accordion } from "react-bootstrap";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { useQuery } from "react-query";
@@ -9,8 +9,10 @@ import "../../css/Pagination.css";
 import { getCategories } from "../../services/categoryService";
 import Select from "react-select";
 import ReactPaginate from "react-paginate";
+import { dataDecrypt } from "../../utils/data-decrypt";
 
 const catalog = () => {
+
   const { data, isLoading, isError } = useQuery("product", getProducts);
   const { data: categories, isLoading: categoriesLoading, isError: categoriesError } = useQuery("category", getCategories);
   const [search, setSearch] = useState("");

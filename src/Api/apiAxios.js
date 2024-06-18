@@ -1,9 +1,12 @@
 import axios from 'axios';
+import { dataDecrypt } from '../utils/data-decrypt';
+
+const bearerItem = localStorage.getItem('bearer')
 
 const api = axios.create({
   baseURL: 'https://coopeapi.azurewebsites.net/api/',
   headers: {
-    Authorization:`Bearer ${localStorage.getItem('bearer')}`
+    Authorization:`Bearer ${dataDecrypt(bearerItem)}`
   }
 });
 

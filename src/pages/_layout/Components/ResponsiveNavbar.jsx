@@ -6,11 +6,12 @@ import { Container } from 'react-bootstrap';
 import { menuItems, menuItemsCostumer, menuItemsNotLogin, menuItemsEmployee, menuItemsInventoryEmployee } from '../../../menuItems';
 import navbarstyles from '../../../Styles/responsiveNavbar.css'
 import { Link } from 'react-router-dom';
+import { getUserLocalStorage } from '../../../utils/getLocalStorageUser';
 
 const ResponsiveNavbar = () => {
 
     const [menu, setMenu] = useState([])
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = getUserLocalStorage()
 
     useEffect(() => {
         if (user == null) {

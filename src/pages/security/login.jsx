@@ -9,6 +9,7 @@ import { validateLogForLogin } from "../../utils/validatePageAccess";
 
 import "../../css/Pagination.css";
 import "../../css/StylesBtn.css";
+import { dataEncrpt } from "../../utils/data-encrypt";
 
 
 const login = () => {
@@ -35,7 +36,7 @@ const login = () => {
         .then((data) => data)
         .then(setLoginLoading(true)).catch(function(){setLoginLoading(false)})
         ;
-      localStorage.setItem("bearer", token);
+      localStorage.setItem("bearer", dataEncrpt(token));
       if (token != "") {
         switch (token) {
           case "Wrong password":
@@ -54,7 +55,7 @@ const login = () => {
             try {
               let user = await getUserInformation(userLogin);
               if (user) {
-                localStorage.setItem("user", JSON.stringify(user));
+                localStorage.setItem("user", dataEncrpt(JSON.stringify(user)));
                 window.location = "/";
               }
             } catch (error) {

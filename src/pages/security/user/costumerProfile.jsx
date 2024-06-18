@@ -24,9 +24,10 @@ import UpdateCostumer from "../costumers/actions/updateCostumer";
 import { getCostumerOrder } from "../../../services/costumerorderService";
 
 import "./costumerProfile.css";
+import { getUserLocalStorage } from "../../../utils/getLocalStorageUser";
 
 const costumerProfile = () => {
-  const userStorage = JSON.parse(localStorage.getItem("user"));
+  const userStorage = getUserLocalStorage()
   const [user, setUser] = useState(null);
   const {
     data: customerorderData,

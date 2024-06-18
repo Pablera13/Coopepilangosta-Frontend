@@ -1,7 +1,8 @@
 import swal from "sweetalert";
+import { getUserLocalStorage } from "./getLocalStorageUser";
 
 export function validateAllowedPageAccess(){
-    let user = JSON.parse(localStorage.getItem('user'));
+    let user = getUserLocalStorage()
     
     if (user) {
         if (user.costumer) {
@@ -14,7 +15,7 @@ export function validateAllowedPageAccess(){
 }
 
 export function validateLogStatus(){
-    let user = JSON.parse(localStorage.getItem('user'));
+    let user = getUserLocalStorage()
 
     if (!user) {
         window.location = '/login'
@@ -22,7 +23,7 @@ export function validateLogStatus(){
 }
 
 export function validateLogForLogin(){
-    let user = JSON.parse(localStorage.getItem('user'));
+    let user = getUserLocalStorage()
 
     if (user) {
         window.location = '/userProfile'

@@ -4,9 +4,10 @@ import UpdateEmployee from "../employee/actions/updateEmployee";
 import "./employeeProfile.css";
 import { MdLogout } from "react-icons/md";
 import { Tooltip } from '@mui/material';
+import { getUserLocalStorage } from "../../../utils/getLocalStorageUser";
 
 const employeeProfile = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = getUserLocalStorage()
 
   const handleLogout = () => {
     swal({
