@@ -13,6 +13,7 @@ import { MdDelete } from "react-icons/md";
 import { es } from 'date-fns/locale';
 
 import './listReview.css';
+import { getUserLocalStorage } from '../../utils/getLocalStorageUser';
 
 const listReview = (productid) => {
 
@@ -33,9 +34,9 @@ const listReview = (productid) => {
   };
 
   useEffect(() => {
-    const User = localStorage.getItem('user');
+    const User = getUserLocalStorage()
     if (User) {
-      const UserObjet = JSON.parse(User)
+      const UserObjet = getUserLocalStorage()
       if (UserObjet.role.name == 'Cliente') {
         const UserId = UserObjet.costumer.id
         const verified = UserObjet.costumer.verified

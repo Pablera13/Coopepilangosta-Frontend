@@ -15,20 +15,21 @@ import Select from 'react-select';
 import Listreview from './listReview';
 
 import './ProductDetail.css';
+import { getUserLocalStorage } from '../../utils/getLocalStorageUser.js';
 
 const ProductDetail = () => {
 
   const productParams = useParams();
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = getUserLocalStorage()
   const navigate = useNavigate()
 
   const [UserRole, setUserRole] = useState('');
   const [StarsAverage, setStarsAverage] = useState(0);
 
   useEffect(() => {
-    const User = localStorage.getItem('user');
+    const User = getUserLocalStorage()
     if (User) {
-      const UserObjet = JSON.parse(User)
+      const UserObjet = getUserLocalStorage()
       const UserRole = UserObjet.role.name
       UserRole === 'Cliente' ? setUserRole('Cliente') : setUserRole('No Cliente')
     } else {

@@ -41,6 +41,7 @@ const MaterialTable = () => {
   };
 
   useEffect(() => {
+    validateAllowedPageAccess()
     const fetchData = async () => {
       try {
         const response = await getProducers();

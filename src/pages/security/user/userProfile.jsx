@@ -3,13 +3,14 @@ import { Container} from 'react-bootstrap'
 import CostumerProfile from './costumerProfile'
 import EmployeeProfile from './employeeProfile'
 import { validateLogStatus } from '../../../utils/validatePageAccess'
+import { getUserLocalStorage } from '../../../utils/getLocalStorageUser'
 
 
 export const UserProfile = () => {
   const [isCostumer, setIsCostumer] = useState(false);
   const [isEmployee, setIesEmployee] = useState(false);
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = getUserLocalStorage()
 
     useEffect(() => {
             validateLogStatus()

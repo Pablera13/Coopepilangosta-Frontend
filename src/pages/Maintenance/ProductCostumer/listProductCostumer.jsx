@@ -45,6 +45,7 @@ const MaterialTable = () => {
   };
 
   useEffect(() => {
+    validateAllowedPageAccess()
     const fetchData = async () => {
       try {
         const cotizacionesData = await getProductCostumer(Params.costumerid);

@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { NavLink } from "react-router-dom";
 import { format } from "date-fns";
@@ -15,8 +15,13 @@ import jsPDF from "jspdf";
 import { getProductById } from "../../../services/productService";
 import { getProductProducer } from "../../../services/productProducerService";
 import ReactPaginate from "react-paginate";
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess";
 
 const listEntries = () => {
+  useEffect(()=>{
+    validateAllowedPageAccess()
+  },[])
+
   const {
     data: producerorderData,
     isLoading,

@@ -46,13 +46,20 @@ import StockReport from "./pages/reports/stockReport/stockReport.jsx";
 import ShoppingCart from "./pages/ShoppingCart/ShoppingCart";
 
 import ListProductCostumer from "./pages/Maintenance/ProductCostumer/listProductCostumer";
+import ForbiddenPage from "./views/HTTP403-Forbidden.jsx";
+import NotFound from "./views/404-NotFound.jsx";
 
 const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <Routes>
+        {/* Single page routes */}
+        <Route path="/forbidden" element={<ForbiddenPage/>}></Route>
+
+        {/* Layout routes */}
         <Route path="/" element={<Layout />}>
+          <Route path="*" element={<NotFound />}></Route>
           <Route index element={<Catalog />} />
           <Route index element={<Catalog />} />
           <Route path="/home" element={<Catalog />}></Route>

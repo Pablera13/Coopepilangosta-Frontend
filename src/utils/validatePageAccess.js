@@ -1,23 +1,21 @@
 import swal from "sweetalert";
+import { getUserLocalStorage } from "./getLocalStorageUser";
 
 export function validateAllowedPageAccess(){
-    let user = JSON.parse(localStorage.getItem('user'));
+    let user = getUserLocalStorage()
     
     if (user) {
         if (user.costumer) {
-           
-            swal('No  autorizado.','El usuario no cuenta con autorizacion para acceder a este recurso.','error').then(function(){window.location = '/'})
-
+            window.location = '/forbidden'
         }
     }else{
-        swal('No iniciaste sesion.','Inicia sesion para ver este recurso','error',{timer:1000}).then(function(){window.location = '/'})
-        
+        window.location = '/'
     }
 
 }
 
 export function validateLogStatus(){
-    let user = JSON.parse(localStorage.getItem('user'));
+    let user = getUserLocalStorage()
 
     if (!user) {
         window.location = '/login'
@@ -25,7 +23,7 @@ export function validateLogStatus(){
 }
 
 export function validateLogForLogin(){
-    let user = JSON.parse(localStorage.getItem('user'));
+    let user = getUserLocalStorage()
 
     if (user) {
         window.location = '/userProfile'

@@ -3,14 +3,15 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Container } from 'react-bootstrap';
-import { menuItems, menuItemsCostumer, menuItemsNotLogin, menuItemsEmployee } from '../../../menuItems';
+import { menuItems, menuItemsCostumer, menuItemsNotLogin, menuItemsEmployee, menuItemsInventoryEmployee } from '../../../menuItems';
 import navbarstyles from '../../../Styles/responsiveNavbar.css'
 import { Link } from 'react-router-dom';
+import { getUserLocalStorage } from '../../../utils/getLocalStorageUser';
 
 const ResponsiveNavbar = () => {
 
     const [menu, setMenu] = useState([])
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = getUserLocalStorage()
 
     useEffect(() => {
         if (user == null) {
@@ -38,6 +39,10 @@ const ResponsiveNavbar = () => {
 
                 case "SuperAdmin":
                     setMenu(menuItems)
+                    break;
+
+                case "Inventario": 
+                    setMenu(menuItemsInventoryEmployee); 
                     break;
 
                 default:
@@ -77,7 +82,7 @@ const ResponsiveNavbar = () => {
                                     </NavDropdown>
 
                                 ) : (
-                                    <Nav.Link href={menuIt.url}>{menuIt.title}</Nav.Link>
+                                    <Nav.Link href={menuIt.url} key={menuIt.url}>{menuIt.title}</Nav.Link>
                                 )
                             )
                         }
