@@ -15,11 +15,14 @@ import Select from "react-select";
 import { MdDelete } from "react-icons/md";
 import { RiArrowGoBackFill } from 'react-icons/ri';
 import {NumbersOnly} from '../../utils/validateFields.js'
+import { getUserLocalStorage } from '../../utils/getLocalStorageUser'
 
 import "./ShoppingCart.css";
 import { IoWarning } from "react-icons/io5";
 const ShoppingCart = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
+
+  const user = getUserLocalStorage()
+
   const [LocalShopping, setLocalShopping] = useState([]);
   const queryClient = new QueryClient();
   const [validated, setValidated] = useState(false);
