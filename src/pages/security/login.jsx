@@ -118,7 +118,7 @@ const login = () => {
                 <Col xs={12} lg={12}>
                 <br></br>
 
-                  <Button className="BtnStar" type="submit" disabled={loginLoading}>
+                  <Button className="BtnSave" type="submit" disabled={loginLoading}>
                     {loginLoading ? (
                       <Spinner animation="border" variant="light" size="sm" />
                     ) : (

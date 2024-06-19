@@ -85,6 +85,7 @@ button.BtnBrown {
   display: flex;
   align-items: center;
   margin: 5px;
+  --bs-btn-active-bg: #9b7122d2;
 }
 
 button.BtnBrown:hover {
@@ -116,6 +117,8 @@ button.BtnSave {
   cursor: pointer;
   margin: 1%;
   margin-bottom: 20px;
+  --bs-btn-active-border-color: #9b7122d2;
+  --bs-btn-disabled-border-color: #9b7122d2;
 }
 
 button.BtnSave:hover {
@@ -201,6 +204,8 @@ button.BtnClose {
   cursor: pointer;
   margin: 1%;
   margin-bottom: 20px;
+  --bs-btn-active-border-color: #812915;
+  --bs-btn-disabled-border-color: #812915;
 }
 
 button.BtnClose:hover {
@@ -276,6 +281,7 @@ button.BtnAdd {
   justify-content: center;
   display: flex;
   align-items: center;
+  --bs-btn-active-bg: #91a414;
   
 }
 
@@ -299,6 +305,7 @@ button.BtnPrint {
   display: flex;
   align-items: center;
   margin: 5px;
+  --bs-btn-active-bg: #3c3019;
 }
 
 button.BtnPrint:hover {
@@ -326,6 +333,7 @@ button.BtnBuy {
   display: flex;
   align-items: center;
   margin: 5px;
+  --bs-btn-active-bg: #3c3019;
 }
 
 button.BtnBuy:hover {
