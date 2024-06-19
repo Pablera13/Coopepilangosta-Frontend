@@ -41,8 +41,7 @@ const MaterialTable = () => {
   };
 
   useEffect(() => {
-
-    validateAllowedPageAccess()
+    validateAllowedPageAccess();
     const fetchData = async () => {
       try {
         const response = await getProducts();
