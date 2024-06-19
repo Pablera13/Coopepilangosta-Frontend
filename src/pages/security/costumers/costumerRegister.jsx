@@ -4,6 +4,7 @@ import { QueryClient } from 'react-query'
 import { useNavigate } from "react-router-dom";
 import { createuser } from '../../../services/userService'
 import { createCostumer, checkCedula } from '../../../services/costumerService'
+import { LettersOnly, NumbersOnly } from '../../../utils/validateFields'
 import { useMutation } from 'react-query'
 import swal from 'sweetalert'
 import emailjs from 'emailjs-com'
@@ -252,7 +253,7 @@ const costumerRegister = () => {
             <Card className="border-primary shadow">
               <Card.Body className="p-4">
                 <h3 className="text-center mb-4">Registro de Empresa</h3>
-  
+
                 <Form noValidate validated={validated} onSubmit={validation}>
                   <div className="mb-4">
                     <Form.Group as={Row} className="mb-3">
@@ -266,15 +267,16 @@ const costumerRegister = () => {
                           min={1}
                           placeholder="Ingrese la cédula"
                           ref={cedulaJuridica}
+                          onKeyDown={NumbersOnly}
                         />
                         <Form.Control.Feedback type="invalid">
                           Por favor indique la cédula
                         </Form.Control.Feedback>
                       </Col>
                     </Form.Group>
-  
+
                     <hr className="my-4" />
-  
+
                     <Form.Group as={Row} className="mb-3">
                       <Form.Label column sm="4" className="text-end">
                         Nombre de la organización
@@ -292,11 +294,11 @@ const costumerRegister = () => {
                       </Col>
                     </Form.Group>
                   </div>
-  
+
                   <hr className="my-4" />
-  
+
                   <h4 className="text-center mb-4">Ubicación</h4>
-  
+
                   <div className="mb-4">
                     <Form.Group as={Row} className="mb-3">
                       <Form.Label column sm="4" className="text-end">
@@ -317,7 +319,7 @@ const costumerRegister = () => {
                         </Form.Control.Feedback>
                       </Col>
                     </Form.Group>
-  
+
                     <Form.Group as={Row} className="mb-3">
                       <Form.Label column sm="4" className="text-end">
                         Cantón
@@ -337,7 +339,7 @@ const costumerRegister = () => {
                         </Form.Control.Feedback>
                       </Col>
                     </Form.Group>
-  
+
                     <Form.Group as={Row} className="mb-3">
                       <Form.Label column sm="4" className="text-end">
                         Distrito
@@ -355,11 +357,11 @@ const costumerRegister = () => {
                       </Col>
                     </Form.Group>
                   </div>
-  
+
                   <hr className="my-4" />
-  
+
                   <h4 className="text-center mb-4">Dirección y Contacto</h4>
-  
+
                   <div className="mb-4">
                     <Form.Group as={Row} className="mb-3">
                       <Form.Label column sm="4" className="text-end">
@@ -377,7 +379,7 @@ const costumerRegister = () => {
                         </Form.Control.Feedback>
                       </Col>
                     </Form.Group>
-  
+
                     <Form.Group as={Row} className="mb-3">
                       <Form.Label column sm="4" className="text-end">
                         Código postal
@@ -389,13 +391,14 @@ const costumerRegister = () => {
                           placeholder="Ingrese el código postal"
                           required
                           ref={postalCode}
+                          onKeyDown={NumbersOnly}
                         />
                         <Form.Control.Feedback type="invalid">
                           Por favor indique su código postal
                         </Form.Control.Feedback>
                       </Col>
                     </Form.Group>
-  
+
                     <Form.Group as={Row} className="mb-3">
                       <Form.Label column sm="4" className="text-end">
                         Teléfono corporativo
@@ -410,6 +413,7 @@ const costumerRegister = () => {
                             placeholder="Ingrese su teléfono corporativo"
                             ref={phone}
                             maxLength="8"
+                            onKeyDown={NumbersOnly}
                           />
                           <Form.Control.Feedback type="invalid">
                             Por favor indique su teléfono corporativo
@@ -417,7 +421,7 @@ const costumerRegister = () => {
                         </InputGroup>
                       </Col>
                     </Form.Group>
-  
+
                     <Form.Group as={Row} className="mb-3">
                       <Form.Label column sm="4" className="text-end">
                         Correo corporativo
@@ -435,11 +439,11 @@ const costumerRegister = () => {
                       </Col>
                     </Form.Group>
                   </div>
-  
+
                   <hr className="my-4" />
-  
+
                   <h4 className="text-center mb-4">Registro de Usuario</h4>
-  
+
                   <div className="mb-4">
                     <Form.Group as={Row} className="mb-3">
                       <Form.Label column sm="4" className="text-end">
@@ -457,7 +461,7 @@ const costumerRegister = () => {
                         </Form.Control.Feedback>
                       </Col>
                     </Form.Group>
-  
+
                     <Form.Group as={Row} className="mb-3">
                       <Form.Label column sm="4" className="text-end">
                         Usuario
@@ -474,7 +478,7 @@ const costumerRegister = () => {
                         </Form.Control.Feedback>
                       </Col>
                     </Form.Group>
-  
+
                     <Form.Group as={Row} className="mb-3">
                       <Form.Label column sm="4" className="text-end">
                         Contraseña
@@ -488,7 +492,7 @@ const costumerRegister = () => {
                         />
                       </Col>
                     </Form.Group>
-  
+
                     <Form.Group as={Row} className="mb-3">
                       <Form.Label column sm="4" className="text-end">
                         Confirmar contraseña
@@ -503,7 +507,7 @@ const costumerRegister = () => {
                       </Col>
                     </Form.Group>
                   </div>
-  
+
                   <div className="text-center">
                     <Button className="BtnStar" onClick={validation} disabled={isLoadingPost}>
                       {
@@ -514,7 +518,7 @@ const costumerRegister = () => {
                     </Button>
                   </div>
                 </Form>
-  
+
               </Card.Body>
             </Card>
           </Col>
@@ -522,7 +526,7 @@ const costumerRegister = () => {
       </Container>
     </>
   );
-  
+
 };
 
 export default costumerRegister;
