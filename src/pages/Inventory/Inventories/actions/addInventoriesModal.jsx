@@ -7,6 +7,7 @@ import { updateStock } from '../../../../services/productService';
 import { NumbersOnly } from '../../../../utils/validateFields'
 import { TiEdit } from "react-icons/ti";
 import { Tooltip } from '@mui/material';
+import { getUserLocalStorage } from '../../../../utils/getLocalStorageUser'
 
 const addInventoriesModal = (props) => {
 
@@ -37,7 +38,8 @@ const addInventoriesModal = (props) => {
     });
 
     const stock = useRef();
-    const userEmail = JSON.parse(localStorage.getItem('user')).email;
+    const user = getUserLocalStorage()
+    const userEmail = user.email;
     const [selectedMotive, setSelectedMotive] = useState(null);
     const [initialStock, setInitialStock] = useState(0);
     const [cambioFecha, setCambioFecha] = useState('');

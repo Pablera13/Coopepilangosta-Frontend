@@ -42,12 +42,17 @@ const MaterialTable = () => {
   const columns = useMemo(() => [
     {
       accessorKey: 'cedulaJuridica',
-      header: 'Cédula',
+      header: 'Cédula jurídica',
       enableClickToCopy: true,
     },
     {
       accessorKey: 'name',
       header: 'Nombre',
+      enableClickToCopy: true,
+    },
+    {
+      accessorKey: 'email',
+      header: 'Correo',
       enableClickToCopy: true,
     },
     {

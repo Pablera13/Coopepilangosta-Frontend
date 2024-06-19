@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { QueryClient, useMutation} from 'react-query';
+import { QueryClient, useMutation } from 'react-query';
 import { Modal, Button, Form, Row, Col, Table } from 'react-bootstrap';
 import { getVolumeDiscount } from '../../../../services/volumeDiscount';
 import { createVolumeDiscount } from '../../../../services/volumeDiscount';
-import {deleteVolumeDiscount} from '../../../../services/volumeDiscount';
+import { deleteVolumeDiscount } from '../../../../services/volumeDiscount';
 import { Tooltip } from '@mui/material';
 
 import swal from 'sweetalert';
@@ -38,7 +38,7 @@ const volumeDiscountModal = (props) => {
                 title: 'Creado!',
                 text: 'Se creó el descuento de volumen',
                 icon: 'success',
-            }).then(function(){window.location.reload()});
+            }).then(function () { window.location.reload() });
         },
         onError: () => {
             swal('Error', 'Algo salio mal...', 'error')
@@ -53,12 +53,13 @@ const volumeDiscountModal = (props) => {
         event.preventDefault();
         const formFields = [price, volume];
         let fieldsValid = true;
-    
+
         formFields.forEach((fieldRef) => {
             if (!fieldRef.current.value) {
-                fieldsValid = false;}
+                fieldsValid = false;
+            }
         });
-    
+
         if (!fieldsValid) {
             setValidated(true);
             return;
@@ -66,42 +67,42 @@ const volumeDiscountModal = (props) => {
             setValidated(false);
         }
 
-            let newvolumediscount = {
-                price: price.current.value,
-                volume: volume.current.value,
-                productCostumerId: props.props,
-            };
+        let newvolumediscount = {
+            price: price.current.value,
+            volume: volume.current.value,
+            productCostumerId: props.props,
+        };
 
-            mutation.mutateAsync(newvolumediscount);
+        mutation.mutateAsync(newvolumediscount);
     };
 
     const showAlert = (id) => {
         swal({
-          title: 'Eliminar',
-          text: '¿Está seguro de que desea eliminar este volumen?',
-          icon: 'warning',
-          buttons: ['Cancelar', 'Aceptar'],
+            title: 'Eliminar',
+            text: '¿Está seguro de que desea eliminar este volumen?',
+            icon: 'warning',
+            buttons: ['Cancelar', 'Aceptar'],
         }).then((answer) => {
-          if (answer) {
-            deleteVolumeDiscount(id);
-            swal({
-              title: 'Eliminado',
-              text: 'El descuento ha sido eliminado',
-              icon: 'success',
-            }).then(function(){window.location.reload()});
-          }
+            if (answer) {
+                deleteVolumeDiscount(id);
+                swal({
+                    title: 'Eliminado',
+                    text: 'El descuento ha sido eliminado',
+                    icon: 'success',
+                }).then(function () { window.location.reload() });
+            }
         });
-      };
+    };
 
     return (
         <>
-           
+
 
             <Tooltip title="Descuentos">
-            <Button className='BtnAdd' onClick={handleShow} size='sm'>
-            <MdPercent />
-            </Button>
-      </Tooltip>
+                <Button className='BtnAdd' onClick={handleShow} size='sm'>
+                    <MdPercent />
+                </Button>
+            </Tooltip>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header className='HeaderModal' closeButton>
@@ -132,38 +133,34 @@ const volumeDiscountModal = (props) => {
                                         placeholder="Ingrese el volumen"
                                         min={1}
                                         ref={volume} />
-                                        
+
                                 </Form.Group>
                             </Col>
                         </Row>
                         <Row>
-                            
+
                         </Row>
 
-                        {cotizacionRequest != null && cotizacionRequest.length > 0? (
+                        {cotizacionRequest != null && cotizacionRequest.length > 0 ? (
                             <Row>
                                 <Col md={8}>
                                     <Form.Group className="mb-3">
                                         <Form.Label>Lista de descuentos por volúmenes</Form.Label>
 
-                                        <Table className='Table'>
+                                        <Table className='Table' striped bordered hover size='sm'>
                                             <thead>
                                                 <tr>
-                                                    <th>Precio</th>
-                                                    <th>Volumen</th>
-                                                    <th>Acciones</th>
+                                                    <th style={{ textAlign: 'center' }}>Precio</th>
+                                                    <th style={{ textAlign: 'center' }}>Volumen</th>
+                                                    <th style={{ textAlign: 'center' }}>Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {cotizacionRequest.map((object, index) => (
                                                     <tr key={index}>
-                                                        <td>
-                                                        ₡{object.price}
-                                                        </td>
-                                                        <td>
-                                                            {object.volume}
-                                                        </td>
-                                                        <td>
+                                                        <td style={{ textAlign: 'center' }}>₡{object.price}</td>
+                                                        <td style={{ textAlign: 'center' }}>{object.volume}</td>
+                                                        <td style={{ textAlign: 'center' }}>
                                                             <Button className='BtnDeleteVolume' variant='danger' onClick={() => showAlert(object.id)}>
                                                                 Eliminar
                                                             </Button>
@@ -172,6 +169,7 @@ const volumeDiscountModal = (props) => {
                                                 ))}
                                             </tbody>
                                         </Table>
+
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -182,9 +180,9 @@ const volumeDiscountModal = (props) => {
 
                 <Modal.Footer>
 
-                <Button className='BtnSave' variant="primary" size="sm" onClick={save}>
-                                Guardar
-                            </Button>
+                    <Button className='BtnSave' variant="primary" size="sm" onClick={save}>
+                        Guardar
+                    </Button>
                     <Button className='BtnClose' variant="secondary" size="sm" onClick={handleClose}>
                         Cerrar
                     </Button>

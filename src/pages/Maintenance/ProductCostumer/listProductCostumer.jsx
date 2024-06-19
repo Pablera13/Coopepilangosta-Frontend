@@ -17,6 +17,8 @@ import ExportProductCostumer from "./actions/exportProductCostumer";
 import { useParams } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import { getProductById2 } from "../../../services/productService";
+import { validateAllowedPageAccess } from "../../../utils/validatePageAccess.js";
+
 import "../../../css/Pagination.css";
 import "../../../css/StylesBtn.css";
 

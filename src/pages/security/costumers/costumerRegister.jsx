@@ -236,19 +236,20 @@ const costumerRegister = () => {
 
   return (
     <>
-      <Container>
-        <Row className="justify-content-center Josefin">
-          <Col md={6}>
-
-            <Card>
-              <Card.Body className="cardContainerRegister Josefin">
-                <h3>Registro de Empresa</h3>
-                <br></br>
+      <Container className="mt-5">
+        <Row className="justify-content-center">
+          <Col md={8}>
+            <Card className="border-primary shadow">
+              <Card.Body className="p-4">
+                <h3 className="text-center mb-4">Registro de Empresa</h3>
+  
                 <Form noValidate validated={validated} onSubmit={validation}>
-                  <Row className="mb-3 p-2">
-                    <Col xs={6} md={4} lg={6}>
-                      <Form.Group md="4" controlId="validationCustom01">
-                        <Form.Label>Cédula jurídica</Form.Label>
+                  <div className="mb-4">
+                    <Form.Group as={Row} className="mb-3">
+                      <Form.Label column sm="4" className="text-end">
+                        Cédula jurídica
+                      </Form.Label>
+                      <Col sm="8">
                         <Form.Control
                           required
                           type="number"
@@ -256,87 +257,140 @@ const costumerRegister = () => {
                           placeholder="Ingrese la cédula"
                           ref={cedulaJuridica}
                         />
-                        <Form.Control.Feedback type="invalid">Por favor indique la cédula</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                    <Col xs={6} md={4} lg={6}>
-
-                      <Form.Group md="4" controlId="validationCustom02">
-                        <Form.Label >Nombre de la organización</Form.Label>
+                        <Form.Control.Feedback type="invalid">
+                          Por favor indique la cédula
+                        </Form.Control.Feedback>
+                      </Col>
+                    </Form.Group>
+  
+                    <hr className="my-4" />
+  
+                    <Form.Group as={Row} className="mb-3">
+                      <Form.Label column sm="4" className="text-end">
+                        Nombre de la organización
+                      </Form.Label>
+                      <Col sm="8">
                         <Form.Control
                           required
-                          type="string"
+                          type="text"
                           placeholder="Ingrese el nombre de la organización"
                           ref={name}
                         />
-                        <Form.Control.Feedback type="invalid">Por favor indique la organización</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-
-
-                  </Row>
-                  <Row className="mb-3 p-2">
-                    <Col xs={4} md={4} lg={4}>
-                      <Form.Group controlId="validationCustom03">
-                        <Form.Label ><Form.Label>Provincia</Form.Label></Form.Label>
-
-                        <Select required
-                          placeholder='Provincia' options={provinciasArray}
-                          onChange={(selected) => { handleProvinciasSelectChange(selected.value); setSelectedProvincia(selected); }}
-
-                        ></Select>
-                        <Form.Control.Feedback type="invalid">Por favor indique la provincia</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                    <Col xs={4} md={4} lg={4}>
-                      <Form.Group controlId="validationCustom04">
-                        <Form.Label><Form.Label>Cantón</Form.Label></Form.Label>
-                        <Select required
-                          placeholder='Canton' options={cantonesOptions}
-                          onChange={(selected) => { setSelectedCanton(selected); handlecantonesSelectChange(selected.value); }}
-                        ></Select>
+                        <Form.Control.Feedback type="invalid">
+                          Por favor indique la organización
+                        </Form.Control.Feedback>
+                      </Col>
+                    </Form.Group>
+                  </div>
+  
+                  <hr className="my-4" />
+  
+                  <h4 className="text-center mb-4">Ubicación</h4>
+  
+                  <div className="mb-4">
+                    <Form.Group as={Row} className="mb-3">
+                      <Form.Label column sm="4" className="text-end">
+                        Provincia
+                      </Form.Label>
+                      <Col sm="8">
+                        <Select
+                          required
+                          placeholder="Provincia"
+                          options={provinciasArray}
+                          onChange={(selected) => {
+                            handleProvinciasSelectChange(selected.value);
+                            setSelectedProvincia(selected);
+                          }}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          Por favor indique la provincia
+                        </Form.Control.Feedback>
+                      </Col>
+                    </Form.Group>
+  
+                    <Form.Group as={Row} className="mb-3">
+                      <Form.Label column sm="4" className="text-end">
+                        Cantón
+                      </Form.Label>
+                      <Col sm="8">
+                        <Select
+                          required
+                          placeholder="Cantón"
+                          options={cantonesOptions}
+                          onChange={(selected) => {
+                            setSelectedCanton(selected);
+                            handlecantonesSelectChange(selected.value);
+                          }}
+                        />
                         <Form.Control.Feedback type="invalid">
                           Por favor indique el cantón
                         </Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                    <Col xs={4} md={4} lg={4}>
-                      <Form.Group controlId="validationCustom05">
-                        <Form.Label><Form.Label>Distrito</Form.Label></Form.Label>
-                        <Select required
-                          placeholder='Distrito' options={distritosOptions}
+                      </Col>
+                    </Form.Group>
+  
+                    <Form.Group as={Row} className="mb-3">
+                      <Form.Label column sm="4" className="text-end">
+                        Distrito
+                      </Form.Label>
+                      <Col sm="8">
+                        <Select
+                          required
+                          placeholder="Distrito"
+                          options={distritosOptions}
                           onChange={(selected) => setSelectedDistrito(selected)}
-                        ></Select>
+                        />
                         <Form.Control.Feedback type="invalid">
                           Por favor indique el distrito
                         </Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                  <Row className='p-2'>
-                    <Col xs={8} md={8} lg={8}>
-                      <Form.Group md="4" controlId="validationCustom06">
-                        <Form.Label>Dirección</Form.Label>
-                        <Form.Control required type="text" placeholder="Indique la dirección" ref={address} />
-                        <Form.Control.Feedback type="invalid">Por favor indique su dirección</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-
-                    <Col xs={4} md={4} lg={4}>
-                      <Form.Group controlId="validationCustom07">
-                        <Form.Label>Código postal</Form.Label>
-                        <Form.Control type="number" min={1} placeholder="Ingrese el código postal" required ref={postalCode} />
-                        <Form.Control.Feedback type="invalid">Por favor indique su código postal</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                  </Row>
-
-                  <Row className='p-2'>
-
-
-                    <Col xs={6} md={6} lg={6}>
-                      <Form.Group md="4" controlId="validationCustom08">
-                        <Form.Label>Teléfono corporativo</Form.Label>
+                      </Col>
+                    </Form.Group>
+                  </div>
+  
+                  <hr className="my-4" />
+  
+                  <h4 className="text-center mb-4">Dirección y Contacto</h4>
+  
+                  <div className="mb-4">
+                    <Form.Group as={Row} className="mb-3">
+                      <Form.Label column sm="4" className="text-end">
+                        Dirección
+                      </Form.Label>
+                      <Col sm="8">
+                        <Form.Control
+                          required
+                          type="text"
+                          placeholder="Indique la dirección"
+                          ref={address}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          Por favor indique su dirección
+                        </Form.Control.Feedback>
+                      </Col>
+                    </Form.Group>
+  
+                    <Form.Group as={Row} className="mb-3">
+                      <Form.Label column sm="4" className="text-end">
+                        Código postal
+                      </Form.Label>
+                      <Col sm="8">
+                        <Form.Control
+                          type="number"
+                          min={1}
+                          placeholder="Ingrese el código postal"
+                          required
+                          ref={postalCode}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          Por favor indique su código postal
+                        </Form.Control.Feedback>
+                      </Col>
+                    </Form.Group>
+  
+                    <Form.Group as={Row} className="mb-3">
+                      <Form.Label column sm="4" className="text-end">
+                        Teléfono corporativo
+                      </Form.Label>
+                      <Col sm="8">
                         <InputGroup>
                           <InputGroup.Text>+506</InputGroup.Text>
                           <Form.Control
@@ -347,80 +401,114 @@ const costumerRegister = () => {
                             ref={phone}
                             maxLength="8"
                           />
-                          <Form.Control.Feedback type="invalid">Por favor indique su teléfono corporativo</Form.Control.Feedback>
+                          <Form.Control.Feedback type="invalid">
+                            Por favor indique su teléfono corporativo
+                          </Form.Control.Feedback>
                         </InputGroup>
-                      </Form.Group>
-                    </Col>
-
-
-
-                    <Col xs={6} md={6} lg={6}>
-                      <Form.Group controlId="validationCustom09">
-                        <Form.Label>Correo corporativo</Form.Label>
-                        <Form.Control required type="email" placeholder="Ingrese su correo corporativo" ref={costumerEmail} />
-                        <Form.Control.Feedback type="invalid">Por favor indique su correo corporativo</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                  </Row>
-
-
-                  <br></br>
-                  <h3>Registro de Usuario</h3>
-                  <br></br>
-
-
-                  <Row className='p-2'>
-                    <Col>
-                      <Form.Group controlId="validationCustom09">
-                        <Form.Label ><Form.Label>Correo de usuario</Form.Label></Form.Label>
-                        <Form.Control type="email" placeholder="Ingrese su correo" required ref={email} />
+                      </Col>
+                    </Form.Group>
+  
+                    <Form.Group as={Row} className="mb-3">
+                      <Form.Label column sm="4" className="text-end">
+                        Correo corporativo
+                      </Form.Label>
+                      <Col sm="8">
+                        <Form.Control
+                          required
+                          type="email"
+                          placeholder="Ingrese su correo corporativo"
+                          ref={costumerEmail}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          Por favor indique su correo corporativo
+                        </Form.Control.Feedback>
+                      </Col>
+                    </Form.Group>
+                  </div>
+  
+                  <hr className="my-4" />
+  
+                  <h4 className="text-center mb-4">Registro de Usuario</h4>
+  
+                  <div className="mb-4">
+                    <Form.Group as={Row} className="mb-3">
+                      <Form.Label column sm="4" className="text-end">
+                        Correo de usuario
+                      </Form.Label>
+                      <Col sm="8">
+                        <Form.Control
+                          type="email"
+                          placeholder="Ingrese su correo"
+                          required
+                          ref={email}
+                        />
                         <Form.Control.Feedback type="invalid">
                           Por favor indique su correo de usuario
                         </Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                    <Col>
-                      <Form.Group controlId="validationCustom10">
-                        <Form.Label ><Form.Label>Usuario</Form.Label></Form.Label>
-                        <Form.Control type="text" placeholder="Ingrese nombre de usuario" required ref={userName} />
+                      </Col>
+                    </Form.Group>
+  
+                    <Form.Group as={Row} className="mb-3">
+                      <Form.Label column sm="4" className="text-end">
+                        Usuario
+                      </Form.Label>
+                      <Col sm="8">
+                        <Form.Control
+                          type="text"
+                          placeholder="Ingrese nombre de usuario"
+                          required
+                          ref={userName}
+                        />
                         <Form.Control.Feedback type="invalid">
                           Por favor indique su nombre de usuario
                         </Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                  </Row>
-
-                  <Row className='p-2'>
-                    <Col>
-                      <Form.Label ><Form.Label>Contraseña</Form.Label></Form.Label>
-
-                      <Form.Control placeholder="Ingrese la contraseña" ref={password} type='password' required />
-                    </Col>
-
-                    <Col>
-                      <Form.Label ><Form.Label>Confirmar contraseña</Form.Label></Form.Label>
-                      <Form.Control placeholder="Confirme la contraseña" ref={confirmPassword} type='password' required />
-                    </Col>
-
-                  </Row>
-
-                  <div className="justify-content-md-center">
-                    <br></br>                      <br></br>
-
+                      </Col>
+                    </Form.Group>
+  
+                    <Form.Group as={Row} className="mb-3">
+                      <Form.Label column sm="4" className="text-end">
+                        Contraseña
+                      </Form.Label>
+                      <Col sm="8">
+                        <Form.Control
+                          placeholder="Ingrese la contraseña"
+                          ref={password}
+                          type="password"
+                          required
+                        />
+                      </Col>
+                    </Form.Group>
+  
+                    <Form.Group as={Row} className="mb-3">
+                      <Form.Label column sm="4" className="text-end">
+                        Confirmar contraseña
+                      </Form.Label>
+                      <Col sm="8">
+                        <Form.Control
+                          placeholder="Confirme la contraseña"
+                          ref={confirmPassword}
+                          type="password"
+                          required
+                        />
+                      </Col>
+                    </Form.Group>
+                  </div>
+  
+                  <div className="text-center">
                     <Button className="BtnStar" onClick={validation}>
                       Registrarme
                     </Button>
                   </div>
                 </Form>
-
+  
               </Card.Body>
             </Card>
           </Col>
-
         </Row>
       </Container>
     </>
   );
+  
 };
 
 export default costumerRegister;

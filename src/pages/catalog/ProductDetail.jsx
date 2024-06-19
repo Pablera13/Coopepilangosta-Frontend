@@ -220,7 +220,7 @@ const ProductDetail = () => {
         text: 'El producto se añadió correctamente',
         icon: 'success',
       }).then(setTimeout(() => {
-        navigate(`/home`)
+        window.location.reload()
       }, 2000));
     }
   };

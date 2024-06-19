@@ -71,12 +71,12 @@ const detailsCostumer = (props) => {
                   <Form.Group md="4">
                     <Form.Label>Cuenta IBAN</Form.Label>
                     <InputGroup>
-                    <InputGroup.Text>CR</InputGroup.Text>
-                    <Form.Control
-                      type="textarea"
-                      readOnly
-                      defaultValue={costumerProps.bankAccount}
-                    />
+                      <InputGroup.Text>CR</InputGroup.Text>
+                      <Form.Control
+                        type="textarea"
+                        readOnly
+                        defaultValue={costumerProps.bankAccount}
+                      />
                     </InputGroup>
                   </Form.Group>
                 </Col>
@@ -106,22 +106,23 @@ const detailsCostumer = (props) => {
 
               <br />
               <Row>
-                <Table className="Table" size="small">
+                <Table className="Table" striped bordered hover size="sm">
                   <thead>
                     <tr>
-                      <th>Nombre de contacto</th>
-                      <th>Medio de contacto</th>
+                      <th style={{ textAlign: 'center' }}>Nombre de contacto</th>
+                      <th style={{ textAlign: 'center' }}>Medio de contacto</th>
                     </tr>
                   </thead>
                   <tbody>
                     {costumerProps.costumersContacts.map((contact, index) => (
                       <tr key={index}>
-                        <td>{contact.name}</td>
-                        <td>{contact.contact}</td>
+                        <td style={{ textAlign: 'left', paddingLeft: '10px' }}>{contact.name}</td>
+                        <td style={{ textAlign: 'left', paddingLeft: '10px' }}>{contact.contact}</td>
                       </tr>
                     ))}
                   </tbody>
                 </Table>
+
               </Row>
             </>
           ) : (
