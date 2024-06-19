@@ -11,6 +11,7 @@ import { FaWarehouse } from "react-icons/fa";
 import { createStockReport } from '../../../../services/reportServices/stockreportService';
 import { checkProductStock } from '../../../../services/productService';
 import { format } from 'date-fns';
+import { getUserLocalStorage } from '../../../../utils/getLocalStorageUser';
 
 const addToWarehouse = (props) => {
   const queryClient = new QueryClient();
@@ -69,7 +70,8 @@ const addToWarehouse = (props) => {
       } else {
 
         setValidated(true);
-        const userEmail = JSON.parse(localStorage.getItem('user')).email;
+        
+        const userEmail = getUserLocalStorage().email;
 
         let newEntry = {
               quantity: props.props.quantity,

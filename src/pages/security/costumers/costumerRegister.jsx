@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Form, Row, Col, Button, Container, Card, InputGroup } from 'react-bootstrap'
+import { Form, Row, Col, Button, Container, Card, InputGroup, Spinner } from 'react-bootstrap'
 import { QueryClient } from 'react-query'
 import { useNavigate } from "react-router-dom";
 import { createuser } from '../../../services/userService'
@@ -19,6 +19,7 @@ import { checkPhoneFormat } from '../../../utils/validatePhone';
 const costumerRegister = () => {
   const queryClient = new QueryClient();
   const [validated, setValidated] = useState(false);
+  const [isLoadingPost, setIsLoading] = useState(false)
 
   const navigate = useNavigate();
 
@@ -81,16 +82,21 @@ const costumerRegister = () => {
     const form = event.currentTarget;
     event.preventDefault();
 
+    let cedulaJuridicaWithNoSign = cedulaJuridica.current.value
+    console.log(cedulaJuridicaWithNoSign.replace(/[-]/g,''))
+
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     } else {
       setValidated(true);
 
-      const cedulaAvailability = await checkCedula(cedulaJuridica.current.value);
+      
+
+      const cedulaAvailability = await checkCedula(cedulaJuridica.current.value.replace(/[-]/g,''));
       const costumerEmailAvailability = await checkEmailAvailability(costumerEmail.current.value);
       const validCedulaFormat = checkCedulaFormat(cedulaJuridica.current.value)
-      const checkPhoneFormat = checkPhoneFormat(phone.current.value)
+      const validateFormFormat = checkPhoneFormat(phone.current.value)
 
 
       if (cedulaAvailability && costumerEmailAvailability && validCedulaFormat) {
@@ -127,7 +133,7 @@ const costumerRegister = () => {
         if (!validCedulaFormat) {
           swal("Formato de cédula jurídica inválido", "La cédula ingresada no se encuentra en el formato x-xxx-xxxxxx", "warning");
         }
-        if (!checkPhoneFormat) {
+        if (!validateFormFormat) {
           swal("Formato de teléfono inválido", "El número de teléfono debe poseeer 8 dígitos", "warning");
         }
       }
@@ -136,6 +142,7 @@ const costumerRegister = () => {
 
 
   const handleUserRegistrationSubmit = async (event) => {
+    setIsLoading(true)
 
     let newCostumerUser = {
       email: email.current.value,
@@ -151,9 +158,9 @@ const costumerRegister = () => {
       password.current.value == confirmPassword.current.value
 
     ) {
-      const createdUser = await addUserMutation.mutateAsync(newCostumerUser)
+      const createdUser = await addUserMutation.mutateAsync(newCostumerUser).then(()=>setIsLoading(false))
       let newCostumer = {
-        cedulaJuridica: cedulaJuridica.current.value,
+        cedulaJuridica: cedulaJuridica.current.value.replace(/[-]/g,''),
         name: name.current.value,
         province: selectedProvincia.label,
         canton: selectedCanton.label,
@@ -168,17 +175,20 @@ const costumerRegister = () => {
       }
 
       console.log(newCostumer)
-      await addCostumerMutation.mutateAsync(newCostumer);
+      await addCostumerMutation.mutateAsync(newCostumer).then(()=>setIsLoading(false));
 
     } else {
       if (emailAvailability == false) {
         swal("Correo se encuentra registrado", "Ya existe un usuario con el correo ingresado", "warning")
+        setIsLoading(false)
       }
       if (validPasswordFormat == false) {
         swal('Contraseña inválida!', 'La contraseña deseada, no es válida, debe contener mínimo 8 carácteres de longitud.', 'warning')
+        setIsLoading(false)
       }
       if (password.current.value != confirmPassword.current.value) {
         swal('Contraseña inválida!', 'Las contraseñas ingresadas no coinciden', 'warning')
+        setIsLoading(false)
       }
     }
   };
@@ -252,7 +262,7 @@ const costumerRegister = () => {
                       <Col sm="8">
                         <Form.Control
                           required
-                          type="number"
+                          type="text"
                           min={1}
                           placeholder="Ingrese la cédula"
                           ref={cedulaJuridica}
@@ -495,7 +505,11 @@ const costumerRegister = () => {
                   </div>
   
                   <div className="text-center">
-                    <Button className="BtnStar" onClick={validation}>
+                    <Button className="BtnStar" onClick={validation} disabled={isLoadingPost}>
+                      {
+                        isLoadingPost?(<Spinner size='sm'/>):(null)
+                      }
+                      
                       Registrarme
                     </Button>
                   </div>
