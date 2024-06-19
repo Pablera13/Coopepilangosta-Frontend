@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { QueryClient, useMutation, useQuery } from "react-query";
-import { Modal, Button, Form, Row, Col, Table } from "react-bootstrap";
+import { Modal, Button, Form, Row, Col, Table, InputGroup } from "react-bootstrap";
 import { editProduct } from "../../../../services/productService";
 import { getCategories } from "../../../../services/categoryService";
 import swal from "sweetalert";
@@ -252,6 +252,8 @@ const editProductModal = (props) => {
                   <Col md={6}>
                     <Form.Group className="mb-3">
                       <Form.Label>Margen de Ganancia</Form.Label>
+                      <InputGroup>
+                      <InputGroup.Text>%</InputGroup.Text>
                       <Form.Control
                         required
                         type="number"
@@ -261,11 +263,14 @@ const editProductModal = (props) => {
                         min={1}
                         onKeyDown={NumbersOnly}
                       />
+                     </InputGroup>
                     </Form.Group>
                   </Col>
                   <Col md={6}>
                     <Form.Group className="mb-3">
                       <Form.Label>IVA</Form.Label>
+                      <InputGroup>
+                      <InputGroup.Text>%</InputGroup.Text>
                       <Form.Control
                         required
                         type="number"
@@ -275,6 +280,7 @@ const editProductModal = (props) => {
                         min={1}
                         onKeyDown={NumbersOnly}
                       />
+                       </InputGroup>
                     </Form.Group>
                   </Col>
                 </Row>

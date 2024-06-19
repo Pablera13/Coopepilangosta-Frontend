@@ -258,7 +258,7 @@ const productReport = () => {
     return (
 
     <Container>
-      <Card  xs={12} md={12} lg={12} className='text-center'>
+      {/* <Card  xs={12} md={12} lg={12} className='text-center'> */}
 
         {ProductOptions != null ? (
 
@@ -364,8 +364,7 @@ const productReport = () => {
                     sheet={reportName}
                     currentTableRef={ChartTable.current}
                   >
-                    <Button className='BtnBrown' style={{fontSize:"150%"}}> <RiFileExcelLine/>
-                      {/* <img src="https://i.ibb.co/br98Dfx/to-excel.png" alt="Icono de Excel" width="20%" height="10%"></img> */}
+                    <Button className='BtnBrown text-center' style={{fontSize:"150%"}}> <RiFileExcelLine/>
                     </Button> 
                     
                     </DownloadTableExcel>
@@ -506,7 +505,7 @@ const productReport = () => {
       ) : (
         'Cargando'
       )}
-            </Card>
+            {/* </Card> */}
 
     </Container>
   );

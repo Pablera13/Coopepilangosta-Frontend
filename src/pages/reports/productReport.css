@@ -1,32 +1,31 @@
 .tableContainer {
-  overflow-x: auto; /* Hace que la tabla sea desplazable horizontalmente */
-  max-width: 100%; /* Ajusta el ancho máximo según sea necesario */
+  overflow-x: auto; 
+  max-width: 100%;
 }
 
 .reportTable {
-  border-collapse: collapse;
   width: 100%;
-  font-family: Arial, sans-serif;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  border-collapse: collapse;
+  margin-top: 20px;
 }
 
-.reportTable tr:nth-child(odd) {
-  background-color: #f2f2f2;
+.reportTable th, .reportTable td {
+  border: 1px solid #dddddd;
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
 }
 
 .reportTable th {
-  color: black;
-  border: 2px solid #ddd; /* Bordes más gruesos */
-  padding: 15px; /* Mayor padding */
-  text-align: left;
-  white-space: nowrap; /* Evita el salto de línea */
+  background-color: #f2f2f2;
+  color: #333;
+  font-weight: bold;
 }
 
-.reportTable td {
-  border: 2px solid #ddd; /* Bordes más gruesos */
-  padding: 15px; /* Mayor padding */
+.reportTable tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
 }
 
-.reportTable tr:hover {
-  background-color: #e0e0e0;
+.reportTable tbody tr:hover {
+  background-color: #e9e9e9;
 }

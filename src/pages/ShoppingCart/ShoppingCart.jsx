@@ -16,6 +16,7 @@ import { MdDelete } from "react-icons/md";
 import { RiArrowGoBackFill } from 'react-icons/ri';
 import { NumbersOnly } from '../../utils/validateFields.js'
 import { getUserLocalStorage } from '../../utils/getLocalStorageUser'
+import { Tooltip } from '@mui/material';
 
 import "./ShoppingCart.css";
 import { IoWarning } from "react-icons/io5";
@@ -417,17 +418,19 @@ const ShoppingCart = () => {
                           <td className="ProductDetail">
                             {Sale.SubTotal == 0
                               ? "Por cotizar"
-                              : "₡" + Sale.SubTotal}
+                              : "₡" + Sale.SubTotal.toFixed(2)}
                           </td>
                           <td className="ProductDetail">{Sale.iva}%</td>
                           <td className="ProductDetail">
                             {Sale.TotalVenta == 0
                               ? "Por cotizar"
-                              : "₡" + Sale.TotalVenta}
+                              : "₡" + Sale.TotalVenta.toFixed(2)}
                           </td>
 
 
                           <td className="ProductDetail">
+
+                          <Tooltip title="Eliminar">
                             <button
                               variant="danger"
                               className="btn btn-light"
@@ -440,6 +443,8 @@ const ShoppingCart = () => {
                             >
                               <MdDelete />
                             </button>
+                            </Tooltip>
+
                           </td>
                         </tr>
                       ))}

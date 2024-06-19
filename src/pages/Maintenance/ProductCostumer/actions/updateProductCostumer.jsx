@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Modal, Col, Row, Container, Button, Form } from "react-bootstrap";
+import { Modal, Col, Row, Container, Button, Form, InputGroup } from "react-bootstrap";
 import { QueryClient, useMutation, useQuery } from "react-query";
 import { editProductCostumerById } from "../../../../services/productCostumerService";
 import { TiEdit } from "react-icons/ti";
@@ -109,6 +109,8 @@ const updateProductCostumer = (cotizacion) => {
 
                 <Col>
                   <Form.Label>Margen de ganancia</Form.Label>
+                  <InputGroup>
+                      <InputGroup.Text>%</InputGroup.Text>
                   <Form.Control
                     required
                     type="number"
@@ -116,6 +118,7 @@ const updateProductCostumer = (cotizacion) => {
                     placeholder="Ingrese el margen de ganancia"
                     ref={Margin}
                   />
+                  </InputGroup>
                 </Col>
               </Row>
 
