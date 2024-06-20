@@ -79,16 +79,42 @@ const MaterialTable = () => {
       }
     },
   ], []);
-
   const handleExportRows = (rows) => {
     const doc = new jsPDF();
-    const tableData = rows.map((row) =>
-      Object.values(row.original));
-    const tableHeaders = columns.map((c) => c.header);
+    const title = "Reporte de Usuarios";
+    doc.setFontSize(22);
+    doc.text(title, 20, 25);
 
-    autoTable(doc, {
+    const tableStartY = 30;
+    const pdfColumns = [
+      { header: 'Cédula jurídica', accessorKey: 'cedulaJuridica' },
+      { header: 'Nombre', accessorKey: 'name' },
+      { header: 'Correo', accessorKey: 'email' },
+      { header: 'Provincia', accessorKey: 'province' },
+      { header: 'Cantón', accessorKey: 'canton' },
+      { header: 'Verificado', accessorKey: 'verified' },
+    ];
+    
+    const pdfTableData = rows.map((row) => [
+      row.original.cedulaJuridica,
+      row.original.name,
+      row.original.email,
+      row.original.province,
+      row.original.canton,
+      row.original.verified ? 'Verificado' : 'No verificado'
+    ]);
+    
+    // Encabezados de las columnas
+    const tableHeaders = pdfColumns.map(col => col.header);
+    
+    // Generar la tabla en el PDF usando jsPDF-autotable
+    doc.autoTable({
       head: [tableHeaders],
-      body: tableData,
+      body: pdfTableData,
+      startY: tableStartY,
+      didDrawCell: (data) => {
+        // Opcionalmente, puedes personalizar el dibujo de las celdas aquí
+      },
     });
 
     const currentDate = new Date();
