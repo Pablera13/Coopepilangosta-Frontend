@@ -159,7 +159,8 @@ const costumerRegister = () => {
       password.current.value == confirmPassword.current.value
 
     ) {
-      const createdUser = await addUserMutation.mutateAsync(newCostumerUser).then(()=>setIsLoading(false))
+      const createdUser = await addUserMutation.mutateAsync(newCostumerUser)
+      setIsLoading(false)
       let newCostumer = {
         cedulaJuridica: cedulaJuridica.current.value.replace(/[-]/g,''),
         name: name.current.value,
@@ -267,7 +268,6 @@ const costumerRegister = () => {
                           min={1}
                           placeholder="Ingrese la cédula"
                           ref={cedulaJuridica}
-                          onKeyDown={NumbersOnly}
                         />
                         <Form.Control.Feedback type="invalid">
                           Por favor indique la cédula
