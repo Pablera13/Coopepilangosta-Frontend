@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Col, Image, Button, Form, Card } from 'react-bootstrap';
-import {useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getProductById } from '../../services/productService';
 import { getCategoryById } from '../../services/categoryService';
 import { getProductCostumerById } from '../../services/productCostumerService.js';
 import { getSingleProductCostumerById } from '../../services/productCostumerService.js';
 import { getVolumeDiscount } from '../../services/volumeDiscount.js';
 import { getStarsAverage } from '../../services/reviewService';
-import {NumbersOnly} from '../../utils/validateFields.js'
+import { NumbersOnly } from '../../utils/validateFields.js'
 
 
 import Select from 'react-select';
@@ -41,7 +41,7 @@ const ProductDetail = () => {
   const [categoryRequest, setCategory] = useState(null);
   const [cotizacionRequest, setCotizacionRequest] = useState([]);
   const [cotizacionOptions, setCotizacionOptions] = useState([]);
-  
+
   const [MyCotizacion, setMyCotizacion] = useState([]);
   const [FixedCotizacion, setFixedCotizacion] = useState(null);
   const [Volumes, setVolumes] = useState(null);
@@ -70,7 +70,7 @@ const ProductDetail = () => {
         }
         setFixedCotizacion(FixedCotizacion)
         getVolumeDiscount(MyCotizacion.id, setVolumes)
-        
+
       }
     }
     fetchCotizacion();
@@ -79,7 +79,7 @@ const ProductDetail = () => {
   useEffect(() => {
     if (productRequest) {
       setCurrentImage(productRequest.image);
- 
+
     }
   }, [productRequest]);
 
@@ -120,9 +120,9 @@ const ProductDetail = () => {
     const storedCar = localStorage.getItem('ShoppingCar');
     if (storedCar) {
       setLocalShopping(JSON.parse(storedCar));
-      
+
     } else {
-      
+
     }
   }, []);
 
@@ -131,7 +131,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     localStorage.setItem('ShoppingCar', JSON.stringify(LocalShopping));
-    
+
   }, [LocalShopping]);
 
   const toLogin = () => {
@@ -209,7 +209,7 @@ const ProductDetail = () => {
             Stockable: productRequest.stockable,
             Stock: productRequest.stock
           };
-         
+
 
           setLocalShopping((prevProducts) => [...prevProducts, newProductToCart]);
         }
@@ -260,24 +260,24 @@ const ProductDetail = () => {
                     </Col>
                     <Col md={6}>
 
-                    <Row>
-                    <h4 className="pro-d-title text-center" >
-                        <a className="TitleProducts" style={{ marginRight: '5%' }}>
-                          {productRequest.name}
-                        </a>
-                    </h4>
-                    
-                    </Row>
+                      <Row>
+                        <h4 className="pro-d-title text-center" >
+                          <a className="TitleProducts" style={{ marginRight: '5%' }}>
+                            {productRequest.name}
+                          </a>
+                        </h4>
 
-                    <Row>
-                      <h4 className="pro-d-title text-center" >
-                      <br />
-                        {Array.from({ length: StarsAverage }, () => (
-                          <span className="Rating">
-                            ★
-                          </span>
-                        ))}
-                      </h4>
+                      </Row>
+
+                      <Row>
+                        <h4 className="pro-d-title text-center" >
+                          <br />
+                          {Array.from({ length: StarsAverage }, () => (
+                            <span className="Rating">
+                              ★
+                            </span>
+                          ))}
+                        </h4>
                       </Row>
 
                       <br />
@@ -353,26 +353,26 @@ const ProductDetail = () => {
                                   <>
                                     <br />
                                     <div className="form-group text-center" >
-                                    <div className="oval-button text-center">
-                                      <Row className="text-center">
-                                        <Col xs={4} className="d-flex">
-                                          <input
-                                            type="number"
-                                            className="quantity-input"
-                                            min="1"
-                                             defaultValue={1}
-                                            ref={quantity}
-                                            max={productRequest.stock} 
-                                            onKeyDown={NumbersOnly}/>
-                                            
-                                        </Col>
-                                        <Col xs={8}>
-                                          <Button className="add-to-cart-btn" onClick={addToCart}>
-                                            Agregar al carro
-                                          </Button>
-                                        </Col>
-                                      </Row>
-                                    </div>
+                                      <div className="oval-button text-center">
+                                        <Row className="text-center">
+                                          <Col xs={4} className="d-flex">
+                                            <input
+                                              type="number"
+                                              className="quantity-input"
+                                              min="1"
+                                              defaultValue={1}
+                                              ref={quantity}
+                                              max={productRequest.stock}
+                                              onKeyDown={NumbersOnly} />
+
+                                          </Col>
+                                          <Col xs={8}>
+                                            <Button className="add-to-cart-btn" onClick={addToCart}>
+                                              Agregar al carro
+                                            </Button>
+                                          </Col>
+                                        </Row>
+                                      </div>
                                     </div>
 
                                   </>
@@ -387,16 +387,17 @@ const ProductDetail = () => {
                                   <br />
 
                                   <Row>
-                                  <div className="oval-button text-center">
+                                    <div className="oval-button text-center">
                                       <Row className="text-center">
                                         <Col xs={4} className="d-flex">
                                           <input
                                             type="number"
                                             className="quantity-input"
                                             min="1"
-                                             defaultValue={1}
+                                            defaultValue={1}
                                             ref={quantity}
-                                            />
+                                            onKeyDown={NumbersOnly}
+                                          />
                                         </Col>
                                         <Col xs={8}>
                                           <Button className="add-to-cart-btn" onClick={addToCart}>
@@ -435,7 +436,7 @@ const ProductDetail = () => {
           {productParams != null ? (
 
             <Listreview productid={productParams.idproduct} />
-            
+
 
           ) : (
             'No hay reviews'
@@ -445,12 +446,12 @@ const ProductDetail = () => {
         </Container>
       ) : (
         <div className="Loading">
-        <ul>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-      </div>
+          <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+        </div>
       )}
     </>
   );
