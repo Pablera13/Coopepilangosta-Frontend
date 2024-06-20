@@ -5,24 +5,23 @@ form label {
 }
 
 .react-select__menu .react-select__option:hover {
-  background-color: rgba(155, 113, 34, 0.824); 
-  color: #495057; 
+  background-color: rgba(155, 113, 34, 0.824);
+  color: #495057;
 }
 
 /* Form de la tabla */
 
 .table-container {
-  border: 1px solid #ddd; 
-  border-radius: 5px; 
-  padding: 20px; 
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-  background-color: #fff; 
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
 }
 
-
 .divider {
-  border-top: 2px solid #555; 
-  margin: 20px 0; 
+  border-top: 2px solid #555;
+  margin: 20px 0;
 }
 
 /* Modal */
@@ -37,14 +36,13 @@ form label {
 }
 
 .modal-header .btn-close {
-  color:white;
-  border: 1px solid #ddd; 
-  border-radius: 5px; 
-  padding: 20px; 
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-  background-color: #fff; 
+  color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
 }
-
 
 /* Botones */
 
@@ -63,6 +61,7 @@ button.BtnRed {
   display: flex;
   align-items: center;
   margin: 5px;
+  --bs-btn-active-bg: #a43114;
 }
 
 button.BtnRed:hover {
@@ -282,7 +281,6 @@ button.BtnAdd {
   display: flex;
   align-items: center;
   --bs-btn-active-bg: #91a414;
-  
 }
 
 button.BtnAdd:hover {
@@ -313,7 +311,7 @@ button.BtnPrint:hover {
   color: #fff;
 }
 
-.BtnContainer{
+.BtnContainer {
   display: flex;
   background-color: white !important;
 }

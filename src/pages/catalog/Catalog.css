@@ -137,7 +137,8 @@ button.resetFilter {
   font-weight: bold;
   cursor: pointer;
   margin: 1%;
-  
+  --bs-btn-active-border-color: #9b7122d2;
+  --bs-btn-disabled-border-color: #9b7122d2;
 }
 
 
@@ -249,7 +250,8 @@ a.BtnDetail {
   margin-bottom: 20px;
   height: 40px;
   width: 160px;
-
+  --bs-btn-active-border-color: #9b7122d2;
+  --bs-btn-disabled-border-color: #9b7122d2;
 }
 
 
