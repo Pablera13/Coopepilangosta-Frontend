@@ -36,6 +36,15 @@ const MaterialTable = () => {
   const { isError: isLoadingError, isFetching: isFetching, isLoading: isLoading } = getCoffee();
 
   const columns = useMemo(() => [
+    
+    {
+      accessorKey: "image",
+      header: "Imagen",
+      enableClickToCopy: true,
+      Cell: ({ row }) => {
+        return <img src={row.original.image} alt="Imagen" style={{ width: 100, height: 100 }} />;
+      },
+    },
     {
       accessorKey: 'code',
       header: 'Código',
