@@ -73,7 +73,7 @@ const checkEntryModal = (props) => {
                                 <Row className='cards-order-producer'>
                                     <Col>
                                         <Card xs={6}>
-                                            <Card.Body>
+                                            <Card.Body className='text-center'>
                                                 <Card.Title className='card-info-title'>Pedido #{prodOrderById.id}</Card.Title>
                                                 <Card.Text>
 
@@ -93,7 +93,7 @@ const checkEntryModal = (props) => {
                                     <Col xs={6}>
                                         <Card>
 
-                                            <Card.Body>
+                                            <Card.Body className='text-center'>
                                                 <Card.Title className='card-info-title'>Productor</Card.Title>
                                                 <Card.Text>
 
@@ -118,51 +118,50 @@ const checkEntryModal = (props) => {
                                             </div>
                                             <br />
                                             <div className='purchaseProducts'>
-                                                <Table className='Table'>
-                                                    <thead>
+                                                <Table className='Table table-striped table-bordered table-hover table-sm'>
+                                                    <thead className='thead-dark'>
                                                         <tr>
-                                                            <th>Producto</th>
-                                                            <th>Cantidad</th>
-                                                            <th>Acciones</th>
-
+                                                            <th className='text-center'>Producto</th>
+                                                            <th className='text-center'>Cantidad</th>
+                                                            <th className='text-center'>Acciones</th>
                                                         </tr>
-                                                        {
-
-                                                            NotAdded.map((purchases) =>
-                                                                <tr key={purchases.id}>
-                                                                    <td>{purchases.product.name}</td>
-                                                                    <td>{purchases.quantity}</td>
-                                                                    <td>
-                                                                        <AddToWarehouse props={purchases} />
-                                                                    </td>
-                                                                </tr>
-                                                            )
-                                                        }
                                                     </thead>
+                                                    <tbody>
+                                                        {NotAdded.map((purchases) => (
+                                                            <tr key={purchases.id}>
+                                                                <td className='text-center'>{purchases.product.name}</td>
+                                                                <td className='text-center'>{purchases.quantity}</td>
+                                                                <td className='text-center'>
+                                                                    <AddToWarehouse props={purchases} />
+                                                                </td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
                                                 </Table>
+
                                                 <br />
                                                 <div>
                                                     <Accordion>
                                                         <Accordion.Item eventKey="0">
                                                             <Accordion.Header>Todos los productos</Accordion.Header>
                                                             <Accordion.Body>
-                                                                <Table className='Table'>                                                                    <thead>
-                                                                    <tr>
-                                                                        <th>Producto</th>
-                                                                        <th>Cantidad</th>
-                                                                    </tr>
-                                                                </thead>
+                                                                <Table className='Table table-striped table-bordered table-hover table-sm'>
+                                                                    <thead className='thead-dark'>
+                                                                        <tr>
+                                                                            <th className='text-center'>Producto</th>
+                                                                            <th className='text-center'>Cantidad</th>
+                                                                        </tr>
+                                                                    </thead>
                                                                     <tbody>
-                                                                        {
-                                                                            prodOrderById.purchases.map((purchases) =>
-                                                                                <tr key={purchases.id}>
-                                                                                    <td>{purchases.product.name}</td>
-                                                                                    <td>{purchases.quantity}</td>
-
-                                                                                </tr>)
-                                                                        }
+                                                                        {prodOrderById.purchases.map((purchases) => (
+                                                                            <tr key={purchases.id}>
+                                                                                <td className='text-center'>{purchases.product.name}</td>
+                                                                                <td className='text-center'>{purchases.quantity}</td>
+                                                                            </tr>
+                                                                        ))}
                                                                     </tbody>
                                                                 </Table>
+
                                                             </Accordion.Body>
                                                         </Accordion.Item>
                                                     </Accordion>
