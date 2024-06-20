@@ -114,20 +114,19 @@ const userOrder = () => {
                             </Table>
                             <div className="card-body row">
                                 <Row>
-                                    <Col xs={6} md={6} lg={6}></Col>
-                                    <Col xs={3} md={3} lg={3}>
+                                    <Col xs={3} md={6} lg={6}></Col>
+                                    <Col xs={2} md={3} lg={3}>
                                     
                                     </Col>
-                                    <Col xs={3} md={3} lg={3}>
+                                    <Col xs={7} md={3} lg={3}>
                                     <strong className="datesStrong">Subtotal: </strong>{subTotal == 0 ? '   ' + 'Por cotizar' : '   ' + '₡' + subTotal.toFixed(2)}
                                     </Col>
                                 </Row>
 
                                 <Row>
-                                <Col xs={6} md={6} lg={6}></Col>
-                                    <Col xs={3} md={3} lg={3}>
-                                    </Col>
-                                    <Col xs={3} md={3} lg={3}>
+                                <Col xs={6} md={9} lg={9}></Col>
+                                    
+                                    <Col xs={6} md={2} lg={2}>
                                     <strong className="datesStrong">Total: </strong> {customerorderRequest.total == 0 ? '   ' + 'Por cotizar' : '   ' + '₡' + customerorderRequest.total}
                                     </Col>
                                 </Row>
