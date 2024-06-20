@@ -42,6 +42,7 @@ const ProductDetail = () => {
   const [cotizacionRequest, setCotizacionRequest] = useState([]);
   const [cotizacionOptions, setCotizacionOptions] = useState([]);
 
+
   const [MyCotizacion, setMyCotizacion] = useState([]);
   const [FixedCotizacion, setFixedCotizacion] = useState(null);
   const [Volumes, setVolumes] = useState(null);
@@ -71,6 +72,7 @@ const ProductDetail = () => {
         setFixedCotizacion(FixedCotizacion)
         getVolumeDiscount(MyCotizacion.id, setVolumes)
 
+
       }
     }
     fetchCotizacion();
@@ -79,6 +81,7 @@ const ProductDetail = () => {
   useEffect(() => {
     if (productRequest) {
       setCurrentImage(productRequest.image);
+
 
     }
   }, [productRequest]);
@@ -121,7 +124,9 @@ const ProductDetail = () => {
     if (storedCar) {
       setLocalShopping(JSON.parse(storedCar));
 
+
     } else {
+
 
     }
   }, []);
@@ -131,6 +136,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     localStorage.setItem('ShoppingCar', JSON.stringify(LocalShopping));
+
 
   }, [LocalShopping]);
 
@@ -209,6 +215,7 @@ const ProductDetail = () => {
             Stockable: productRequest.stockable,
             Stock: productRequest.stock
           };
+
 
 
           setLocalShopping((prevProducts) => [...prevProducts, newProductToCart]);
@@ -398,7 +405,7 @@ const ProductDetail = () => {
                                             min="1"
                                             defaultValue={1}
                                             ref={quantity}
-                                          />
+                                            />
                                         </Col>
                                         <Col xs={8}>
                                           <Button className="add-to-cart-btn" onClick={addToCart}>
