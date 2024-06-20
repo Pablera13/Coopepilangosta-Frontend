@@ -11,7 +11,8 @@ import { FaWarehouse } from "react-icons/fa";
 import { createStockReport } from '../../../../services/reportServices/stockreportService';
 import { checkProductStock } from '../../../../services/productService';
 import { format } from 'date-fns';
-import { getUserLocalStorage } from '../../../../utils/getLocalStorageUser';
+import { getUserLocalStorage } from '../../../../utils/getLocalStorageUser'
+import { Tooltip } from '@mui/material';
 
 const addToWarehouse = (props) => {
   const queryClient = new QueryClient();
@@ -70,8 +71,8 @@ const addToWarehouse = (props) => {
       } else {
 
         setValidated(true);
-        
-        const userEmail = getUserLocalStorage().email;
+        const user = getUserLocalStorage()
+        const userEmail = user.email;
 
         let newEntry = {
               quantity: props.props.quantity,
@@ -108,11 +109,13 @@ const addToWarehouse = (props) => {
     <>
 
 <div className="text-center">
-<Button className='BtnBrown' onClick={open} size='sm'>
+<Tooltip title="Ingresar">
+      <Button className='BtnBrown' onClick={open} size='sm'>
       <FaWarehouse />
-      </Button> </div>
+      </Button>
+            </Tooltip>
+ </div>
 
-     
 
       <Modal
         show={show}

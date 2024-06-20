@@ -4,6 +4,25 @@
 
 }
 
+.carousel-control-next-icon, .carousel-control-prev-icon{
+  background-color: #5b5341;
+}
+
+.carousel-indicators{
+  margin-top: 200px;
+  opacity: 1;
+  align-items: center;
+
+  .active{
+    background-color: #392c13;
+  }
+
+}
+
+.carousel-indicators [data-bs-target]{
+  background-color:#a2844c;
+}
+
 .Josefin{
   font-family: 'Josefin Sans', sans-serif;
 }
@@ -109,8 +128,6 @@
   transition: transform 0.3s ease-in-out;
   height: 300px;
   width: 300px;
-  margin: 5%;
-  margin-left: 25%;
   border-radius: 22%;
 }
 
