@@ -36,6 +36,26 @@ const ShoppingCart = () => {
   const Detail = useRef();
   const Address = useRef();
 
+  const handleKeyDown = (e, index) => {
+    const currentValue = e.target.value;
+
+    if (
+      !(
+        (e.key >= '0' && e.key <= '9') ||
+        e.key === 'Backspace' ||
+        e.key === 'ArrowLeft' ||
+        e.key === 'ArrowRight' ||
+        e.key === 'Delete'
+      )
+    ) {
+      e.preventDefault();
+    }
+
+    if (currentValue.length === 1 && e.key === 'Backspace') {
+      e.preventDefault();
+    }
+  };
+
   useEffect(() => {
     storedCar = localStorage.getItem("ShoppingCar");
     if (storedCar) {
@@ -339,7 +359,7 @@ const ShoppingCart = () => {
                             <input
                               className="form-control text-center"
                               defaultValue={Sale.Quantity}
-                              onKeyDown={NumbersOnly}
+                              onKeyDown={(e) => handleKeyDown(e, index)}
                               max={
                                 Sale.Stockable == true ? Sale.Stock : false
                               }

@@ -7,8 +7,6 @@ import { getProductCostumerById } from '../../services/productCostumerService.js
 import { getSingleProductCostumerById } from '../../services/productCostumerService.js';
 import { getVolumeDiscount } from '../../services/volumeDiscount.js';
 import { getStarsAverage } from '../../services/reviewService';
-import { NumbersOnly } from '../../utils/validateFields.js'
-
 
 import Select from 'react-select';
 
@@ -35,6 +33,25 @@ const ProductDetail = () => {
     } else {
     }
   }, []);
+
+  const handleKeyDown = (e) => {
+    const currentValue = quantity.current.value;
+
+    if (
+      !(
+        (e.key >= '0' && e.key <= '9') ||
+        e.key === 'Backspace' ||
+        e.key === 'ArrowLeft' ||
+        e.key === 'ArrowRight' ||
+        e.key === 'Delete'
+      )
+    ) {
+      e.preventDefault();
+    }
+    if (currentValue.length === 1 && e.key === 'Backspace') {
+      e.preventDefault();
+    }
+  };
 
   const [LocalShopping, setLocalShopping] = useState([]);
   const [productRequest, setProduct] = useState(null);
@@ -372,7 +389,7 @@ const ProductDetail = () => {
                                               defaultValue={1}
                                               ref={quantity}
                                               max={productRequest.stock}
-                                              onKeyDown={NumbersOnly} />
+                                              onKeyDown={handleKeyDown} />
 
                                           </Col>
                                           <Col xs={8}>
@@ -405,6 +422,7 @@ const ProductDetail = () => {
                                             min="1"
                                             defaultValue={1}
                                             ref={quantity}
+                                            onKeyDown={handleKeyDown}
                                             />
                                         </Col>
                                         <Col xs={8}>
