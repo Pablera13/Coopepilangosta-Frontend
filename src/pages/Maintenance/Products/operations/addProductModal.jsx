@@ -4,10 +4,10 @@ import { Modal, Button, Form, Row, Col, InputGroup } from 'react-bootstrap';
 import { createProduct, checkCodeAvailability } from '../../../../services/productService';
 import { getCategories } from '../../../../services/categoryService';
 import swal from 'sweetalert';
-import {LettersOnly, NumbersOnly} from '../../../../utils/validateFields'
+import { LettersOnly, NumbersOnly } from '../../../../utils/validateFields';
 import { Tooltip } from '@mui/material';
-
 import { GrAddCircle } from "react-icons/gr";
+
 const addProductModal = () => {
     const [validated, setValidated] = useState(false);
     const queryClient = new QueryClient();
@@ -22,11 +22,12 @@ const addProductModal = () => {
         }
     };
 
-    const handleClose = () => {setShow(false), setCustomUnit(false)};
+    const handleClose = () => { setShow(false); setCustomUnit(false); };
     const handleShow = () => setShow(true);
     const { data: Categories, isLoading: CategoriesLoading, isError: CategoriesError } = useQuery('category', getCategories);
 
-    const [imageUrl, setImageUrl] = useState('');
+    const defaultImageUrl = "https://cdn.discordapp.com/attachments/1253466743024914432/1253466894703530026/WhatsApp_Image_2024-06-19_at_3.12.07_PM.jpeg?ex=6675f583&is=6674a403&hm=c96ed2524910669725a68852e02594983eb5c21aa725fe28294567ba3da603e5&";
+    const [imageUrl, setImageUrl] = useState(defaultImageUrl);
     const apiKey = 'c401b6d5b22b0888799f01ee6c69edca';
 
     const handleImageUpload = async (e) => {
@@ -67,10 +68,10 @@ const addProductModal = () => {
                 title: 'Agregado!',
                 text: 'Se agregó el producto',
                 icon: 'success',
-            }).then(function(){window.location.reload()});
+            }).then(() => { window.location.reload(); });
         },
         onError: () => {
-            swal('Error', 'Algo salio mal...', 'error')
+            swal('Error', 'Algo salió mal...', 'error');
         }
     });
 
@@ -82,26 +83,26 @@ const addProductModal = () => {
     const iva = useRef();
     const state = useRef();
     const categoryId = useRef();
-    const stockable= useRef();
-
+    const stockable = useRef();
 
     const save = async (event) => {
         event.preventDefault();
         const formFields = [code, name, description, unit, margin, iva, state, categoryId, stockable];
         let fieldsValid = true;
-    
+
         formFields.forEach((fieldRef) => {
             if (!fieldRef.current.value) {
-                fieldsValid = false;}
+                fieldsValid = false;
+            }
         });
-    
+
         if (!fieldsValid) {
             setValidated(true);
             return;
         } else {
             setValidated(false);
         }
-    
+
         let newProduct = {
             code: code.current.value,
             name: name.current.value,
@@ -114,32 +115,25 @@ const addProductModal = () => {
             categoryId: categoryId.current.value,
             image: imageUrl,
         };
-    
+
         let CodeAvailability = await checkCodeAvailability(code.current.value).then(data => data);
-        console.log(CodeAvailability)
-        if (CodeAvailability == true) {
+        console.log(CodeAvailability);
+        if (CodeAvailability === true) {
             mutation.mutateAsync(newProduct);
         } else {
-            swal('Advertencia', 'El código se encuentra en uso, no es posible guardar un registro con el código duplicado.', 'warning')
+            swal('Advertencia', 'El código se encuentra en uso, no es posible guardar un registro con el código duplicado.', 'warning');
         }
     };
-    
 
     return (
         <>
-           
             <Tooltip title="Agregar">
-            <Button
-                onClick={handleShow}
-                className="BtnAdd"
-            >
-                <GrAddCircle />
-
-            </Button>
+                <Button onClick={handleShow} className="BtnAdd">
+                    <GrAddCircle />
+                </Button>
             </Tooltip>
 
-
-            <Modal show={show} onHide={handleClose} >
+            <Modal show={show} onHide={handleClose}>
                 <Modal.Header className='HeaderModal' closeButton>
                     <Modal.Title>Agregar nuevo producto</Modal.Title>
                 </Modal.Header>
@@ -156,7 +150,7 @@ const addProductModal = () => {
                                         autoFocus
                                         ref={code}
                                         min={1}
-                                        onKeyDown={NumbersOnly}                                  
+                                        onKeyDown={NumbersOnly}
                                     />
                                 </Form.Group>
                             </Col>
@@ -168,7 +162,7 @@ const addProductModal = () => {
                                         type="text"
                                         placeholder="Ingrese el nombre"
                                         ref={name}
-                                        onKeyDown={LettersOnly}                                  
+                                        onKeyDown={LettersOnly}
                                     />
                                 </Form.Group>
                             </Col>
@@ -200,41 +194,38 @@ const addProductModal = () => {
                                             />
                                         ) : (
                                             <Form.Select className="custom-select" id="unitOptions" ref={unit} onChange={handleUnitChange}>
-                                            <option value="Kilogramo">Kilogramo</option>
-                                            <option value="Rollo">Rollo</option>
-                                            <option value="Unidad">Unidad</option>
-                                            <option value="Paquete 200g">Paquete 200g</option>
-                                            <option value="Paquete 250g">Paquete 250g</option>
-                                            <option value="Paquete 270g">Paquete 270g</option>
-                                            <option value="Paquete 340g">Paquete 340g</option>
-                                            <option value="Barra">Barra</option>
-                                            <option value="Litro">Litro</option>
-                                            <option value="Galón">Galón</option>
-                                            <option value="Botella 750ml">Botella 750ml</option>
-                                            <option value="custom">Ingresar manualmente</option>
+                                                <option value="Kilogramo">Kilogramo</option>
+                                                <option value="Rollo">Rollo</option>
+                                                <option value="Unidad">Unidad</option>
+                                                <option value="Paquete 200g">Paquete 200g</option>
+                                                <option value="Paquete 250g">Paquete 250g</option>
+                                                <option value="Paquete 270g">Paquete 270g</option>
+                                                <option value="Paquete 340g">Paquete 340g</option>
+                                                <option value="Barra">Barra</option>
+                                                <option value="Litro">Litro</option>
+                                                <option value="Galón">Galón</option>
+                                                <option value="Botella 750ml">Botella 750ml</option>
+                                                <option value="custom">Ingresar manualmente</option>
                                             </Form.Select>
                                         )}
                                     </div>
                                 </Form.Group>
                             </Col>
-
-
-
                         </Row>
                         <Row>
                             <Col xs={6} md={6}>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Margen de Ganancia</Form.Label>
                                     <InputGroup>
-                                    <InputGroup.Text>%</InputGroup.Text>
-                                    <Form.Control
-                                        required
-                                        type="number"
-                                        placeholder="Ingrese el margen de ganancia"
-                                        ref={margin}
-                                        onKeyDown={NumbersOnly}                                  
-                                        min={1}
-                                    />
+                                        <InputGroup.Text>%</InputGroup.Text>
+                                        <Form.Control
+                                            required
+                                            type="number"
+                                            placeholder="Ingrese el margen de ganancia"
+                                            ref={margin}
+                                            onKeyDown={NumbersOnly}
+                                            min={1}
+                                        />
                                     </InputGroup>
                                 </Form.Group>
                             </Col>
@@ -242,15 +233,15 @@ const addProductModal = () => {
                                 <Form.Group className="mb-3">
                                     <Form.Label>IVA</Form.Label>
                                     <InputGroup>
-                                    <InputGroup.Text>%</InputGroup.Text>
-                                    <Form.Control
-                                        required
-                                        type="number"
-                                        placeholder="Ingrese el IVA"
-                                        ref={iva}
-                                        onKeyDown={NumbersOnly}                                  
-                                        min={1}
-                                    />
+                                        <InputGroup.Text>%</InputGroup.Text>
+                                        <Form.Control
+                                            required
+                                            type="number"
+                                            placeholder="Ingrese el IVA"
+                                            ref={iva}
+                                            onKeyDown={NumbersOnly}
+                                            min={1}
+                                        />
                                     </InputGroup>
                                 </Form.Group>
                             </Col>
@@ -281,19 +272,17 @@ const addProductModal = () => {
                                     </Form.Select>
                                 </Form.Group>
                             </Col>
-
-                            <Row>
-                <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Inventario</Form.Label>
-                      <Form.Select required ref={stockable}>
-                        <option value="false">No</option>
-                        <option value="true">Si</option>
-                      </Form.Select>
-                    </Form.Group>
-                  </Col>
-                </Row>
-
+                        </Row>
+                        <Row>
+                            <Col md={6}>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Inventario</Form.Label>
+                                    <Form.Select required ref={stockable}>
+                                        <option value="false">No</option>
+                                        <option value="true">Si</option>
+                                    </Form.Select>
+                                </Form.Group>
+                            </Col>
                         </Row>
                         <Row>
                             <Col xs={12} md={6}>
@@ -307,9 +296,10 @@ const addProductModal = () => {
                                             onChange={handleImageUpload}
                                         />
                                         <label className="custom-file-label" htmlFor="customFile">
+                                            Seleccione la imagen
                                         </label>
                                     </div>
-                                    {imageUrl && <img src={imageUrl} style={{width:'100px',height:'65px'}} alt="Imagen subida" className="uploadedImg" />}
+                                    {imageUrl && <img src={imageUrl} style={{ width: '100px', height: '65px' }} alt="Imagen subida" className="uploadedImg" />}
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -322,7 +312,6 @@ const addProductModal = () => {
                     <Button className='BtnClose' variant="secondary" size="sm" onClick={handleClose}>
                         Cerrar
                     </Button>
-
                 </Modal.Footer>
             </Modal>
         </>
@@ -330,4 +319,3 @@ const addProductModal = () => {
 };
 
 export default addProductModal;
-
