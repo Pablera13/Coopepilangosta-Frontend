@@ -126,7 +126,7 @@ const costumerProfile = () => {
                     </Col>
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                       <div className="CostumerLabel">
-                        <h5 htmlFor="fullName">Nombre</h5>
+                        <h5 className="ProfileLabels">Nombre</h5>
                         <input
                           type="text"
                           className="form-control"
@@ -138,7 +138,7 @@ const costumerProfile = () => {
                     </Col>
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                       <div className="CostumerLabel">
-                        <h5 htmlFor="eMail">Cédula Jurídica</h5>
+                        <h5 className="ProfileLabels">Cédula Jurídica</h5>
                         <input
                           type="text"
                           className="form-control"
@@ -150,19 +150,19 @@ const costumerProfile = () => {
                     </Col>
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                       <div className='CostumerLabel'>
-                        <h5 htmlFor='fullName'>Correo Electrónico</h5>
+                        <h5 className="ProfileLabels">Correo Electrónico</h5>
                         <input type='text' className='form-control' id='fullName' placeholder={user.costumer.email} readOnly />
                       </div>
                     </Col>
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                       <div className='CostumerLabel'>
-                        <h5 htmlFor='eMail'>Línea Telefónica</h5>
+                        <h5 className="ProfileLabels">Línea Telefónica</h5>
                         <input type='text' className='form-control' id='eMail' placeholder={`+506 ${user.costumer.phoneNumber}`} readOnly />
                       </div>
                     </Col>
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                       <div className="CostumerLabel">
-                        <h5 htmlFor="phone">Provincia</h5>
+                        <h5 className="ProfileLabels">Provincia</h5>
                         <input
                           type="text"
                           className="form-control"
@@ -174,7 +174,7 @@ const costumerProfile = () => {
                     </Col>
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                       <div className="CostumerLabel">
-                        <h5 htmlFor="website">Cantón</h5>
+                        <h5 className="ProfileLabels">Cantón</h5>
                         <input
                           type="text"
                           className="form-control"
@@ -187,7 +187,7 @@ const costumerProfile = () => {
 
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                       <div className="CostumerLabel">
-                        <h5 htmlFor="website">Distrito</h5>
+                        <h5 className="ProfileLabels">Distrito</h5>
                         <input
                           type="text"
                           className="form-control"
@@ -200,7 +200,7 @@ const costumerProfile = () => {
 
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                       <div className="CostumerLabel">
-                        <h5 htmlFor="website">Dirección</h5>
+                        <h5 className="ProfileLabels">Dirección</h5>
                         <input
                           type="text"
                           className="form-control"
@@ -213,7 +213,7 @@ const costumerProfile = () => {
 
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                       <div className="CostumerLabel">
-                        <h5 htmlFor="website">Código Postal</h5>
+                        <h5 className="ProfileLabels">Código Postal</h5>
                         <input
                           type="text"
                           className="form-control"
@@ -226,13 +226,16 @@ const costumerProfile = () => {
 
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                       <div className="CostumerLabel">
-                        <h5 htmlFor="website">Cuenta IBAN</h5>
+                        <h5 className="ProfileLabels">Cuenta IBAN</h5>
                         <input
                           type="text"
                           className="form-control"
                           id="website"
-                          placeholder={`CR ${user.costumer.bankAccount}`}
-                          readOnly
+                          placeholder={
+                            user.costumer.bankAccount !== "0"
+                              ? `CR ${user.costumer.bankAccount}`
+                              : "No ingresado"
+                          }                          readOnly
                         />
                       </div>
                     </Col>
@@ -244,7 +247,7 @@ const costumerProfile = () => {
                     </Col>
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                       <div className="CostumerLabel">
-                        <h5 htmlFor="Street">Correo Electrónico</h5>
+                        <h5 className="ProfileLabels">Correo Electrónico</h5>
                         <input
                           type="text"
                           className="form-control"
@@ -256,7 +259,7 @@ const costumerProfile = () => {
                     </Col>
                     <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                       <div className="CostumerLabel">
-                        <h5 htmlFor="ciTy">Nombre de Usuario</h5>
+                        <h5 className="ProfileLabels">Nombre de Usuario</h5>
                         <input
                           type="text"
                           className="form-control"

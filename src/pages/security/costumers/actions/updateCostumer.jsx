@@ -260,8 +260,18 @@ const updateCostumer = (props) => {
                                     <InputGroup>
                                     <InputGroup.Text>CR</InputGroup.Text>
                                     <Form.Control 
-                                    type="number" placeholder="Ingrese una cuenta bancaria" required ref={bankAccount}
-                                        defaultValue={costumer.bankAccount} />
+                                    type="number" 
+                                    required 
+                                    ref={bankAccount}
+
+                                    // placeholder="Ingrese una cuenta bancaria" 
+                                    // defaultValue={costumer.bankAccount} 
+
+                                    placeholder={"Ingrese una cuenta bancaria IBAN"}
+                                    defaultValue={costumer.bankAccount === "0" ? "" : costumer.bankAccount}
+
+                                    
+                                    />
                                     </InputGroup>
                                 </Form.Group>
                             </Col>

@@ -70,7 +70,7 @@ const employeeProfile = () => {
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                   <div className="EmployeeLabel">
-                    <h5 htmlFor="fullName">Nombre</h5>
+                    <h5 className="ProfileLabels">Nombre</h5>
                     <input
                       type="text"
                       className="form-control"
@@ -82,7 +82,7 @@ const employeeProfile = () => {
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                   <div className="EmployeeLabel">
-                    <h5 htmlFor="eMail">Primer Apellido</h5>
+                    <h5 className="ProfileLabels">Primer Apellido</h5>
                     <input
                       type="email"
                       className="form-control"
@@ -94,7 +94,7 @@ const employeeProfile = () => {
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                   <div className="EmployeeLabel">
-                    <h5 htmlFor="phone">Segundo Apellido</h5>
+                    <h5 className="ProfileLabels">Segundo Apellido</h5>
                     <input
                       type="text"
                       className="form-control"
@@ -106,7 +106,7 @@ const employeeProfile = () => {
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                   <div className="EmployeeLabel">
-                    <h5 htmlFor="website">Cédula</h5>
+                    <h5 className="ProfileLabels">Cédula</h5>
                     <input
                       type="url"
                       className="form-control"
@@ -124,7 +124,7 @@ const employeeProfile = () => {
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                   <div className="EmployeeLabel">
-                    <h5 htmlFor="Street">Correo Electrónico</h5>
+                    <h5 className="ProfileLabels">Correo Electrónico</h5>
                     <input
                       type="text"
                       className="form-control"
@@ -136,7 +136,7 @@ const employeeProfile = () => {
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                   <div className="EmployeeLabel">
-                    <h5 htmlFor="ciTy">Usuario</h5>
+                    <h5 className="ProfileLabels">Usuario</h5>
                     <input
                       type="text"
                       className="form-control"
@@ -148,7 +148,7 @@ const employeeProfile = () => {
                 </Col>
                 <Col xl={6} lg={6} md={6} sm={6} xs={12}>
                   <div className="EmployeeLabel">
-                    <h5 htmlFor="sTate">Permisos</h5>
+                    <h5 className="ProfileLabels">Permisos</h5>
                     <input
                       type="text"
                       className="form-control"
