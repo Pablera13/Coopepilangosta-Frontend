@@ -259,14 +259,14 @@ const costumerRegister = () => {
                   <div className="mb-4">
                     <Form.Group as={Row} className="mb-3">
                       <Form.Label column sm="4" className="text-end">
-                        Cédula jurídica
+                        Cédula jurídica: Ej: X-XXX-XXXXXX
                       </Form.Label>
                       <Col sm="8">
                         <Form.Control
                           required
                           type="text"
                           min={1}
-                          placeholder="Ingrese la cédula"
+                          placeholder="Ingrese la cédula "
                           ref={cedulaJuridica}
                         />
                         <Form.Control.Feedback type="invalid">
