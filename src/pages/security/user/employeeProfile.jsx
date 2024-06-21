@@ -52,7 +52,7 @@ const employeeProfile = () => {
                 </div>
                 <div className="about">
                   <h5>
-                    {user.idRole == 1 ? "Administrador" : "Super Administrador"}
+                    {user.role.name}
                   </h5>
                 </div>
               </div>

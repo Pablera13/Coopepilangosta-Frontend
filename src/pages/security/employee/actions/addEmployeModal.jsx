@@ -17,6 +17,7 @@ import { checkCedulaFormat } from "../../../../utils/validateCedulaFormat";
 import { Tooltip } from '@mui/material';
 
 import { GrAddCircle } from "react-icons/gr";
+import { checkPasswordFormat } from "../../../../utils/validatePasswordFormat";
 
 export const AddEmployee = () => {
   const queryClient = new QueryClient();
@@ -118,8 +119,10 @@ export const AddEmployee = () => {
       email.current.value
     ).then((data) => data);
     let CheckFormatCedula = checkCedulaFormat(cedula.current.value);
+
+    let validatePasswordFormat = checkPasswordFormat(password.current.value)
     console.log(CheckFormatCedula);
-    if (cedulaAvailability && emailAvailability && CheckFormatCedula) {
+    if (cedulaAvailability && emailAvailability && CheckFormatCedula && validatePasswordFormat) {
       const createdUser = await addUserMutation.mutateAsync(newUser);
 
       createdUser != null ? console.log(createdUser) : console.log("E");
@@ -153,6 +156,13 @@ export const AddEmployee = () => {
         swal(
           "Advertencia",
           "La cédula no se encuentra en el formato correcto",
+          "warning"
+        );
+      }
+      if (!validatePasswordFormat) {
+        swal(
+          "Advertencia",
+          "La contraseña no se encuentra en el formato correcto",
           "warning"
         );
       }
