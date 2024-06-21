@@ -280,6 +280,7 @@ button.BtnAdd {
   justify-content: center;
   display: flex;
   align-items: center;
+  margin: 5px;
   --bs-btn-active-bg: #91a414;
 }
 
